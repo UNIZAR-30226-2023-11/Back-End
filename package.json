@@ -1,0 +1,32 @@
+{
+  "name": "back-end",
+  "version": "1.0.0",
+  "description": "Back-End del juego Monopoly Informatica realizada por el equipo Susan L. Graham para la asignatura de Proyecto Software 2022-2023.",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/UNIZAR-30226-2023-11/Back-End.git"
+  },
+  "keywords": [
+    "monopoly",
+    "node.js",
+    "express",
+    "mongodb"
+  ],
+  "author": "Equipo Susan L.Graham",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/UNIZAR-30226-2023-11/Back-End/issues"
+  },
+  "homepage": "https://github.com/UNIZAR-30226-2023-11/Back-End#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "mongodb": "^5.1.0",
+    "mongoose": "^7.0.0"
+  }
+}
