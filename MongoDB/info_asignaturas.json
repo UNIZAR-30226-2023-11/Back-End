@@ -1,0 +1,346 @@
+[
+    {
+        "nombre" : "Apertura expediente",
+        "color" : "Pago",
+        "pago" : 267
+    },
+    {
+        "nombre" : "Seguro escolar",
+        "color" : "Pago",
+        "pago" : 133
+    },
+    {
+        "nombre" : "Salida",
+        "color" : "Cobro",
+        "cobro" : 267
+    }
+]
+
+[
+    {
+        "nombre" : "Ahorro energético calefacción",
+        "color" : "Ahorro",
+        "precioCompra" : 200,
+        "precio1Ahorro" : , // Multiplicar por 4 lo que sale en los dados
+        "precio2Ahorro" : , // Multiplicar por 10 lo que sale en los dados
+        "devolucionMatricula" : 100
+    },
+    {
+        "nombre" : "Ahorro energético enchufes",
+        "color" : "Ahorro",
+        "precioCompra" : 200,
+        "precio1Ahorro" : , // Multiplicar por 4 lo que sale en los dados
+        "precio2Ahorro" : , // Multiplicar por 10 lo que sale en los dados
+        "devolucionMatricula" : 100
+    }
+]
+
+[
+    {
+        "nombre" : "San Braulio",
+        "color" : "Festividad",
+        "precioCompra" : 267,
+        "matricula" : 33,
+        "precio2matriculas" : 67,
+        "precio3matriculas" : 133,
+        "precio4matriculas" : 267,
+        "devolucionMatricula" : 133 
+    },
+    {
+        "nombre" : "Paso de Ecuador",
+        "color" : "Festividad",
+        "precioCompra" : 267,
+        "matricula" : 33,
+        "precio2matriculas" : 67,
+        "precio3matriculas" : 133,
+        "precio4matriculas" : 267,
+        "devolucionMatricula" : 133 
+    },
+    {
+        "nombre" : "San Pepe",
+        "color" : "Festividad",
+        "precioCompra" : 267,
+        "matricula" : 33,
+        "precio2matriculas" : 67,
+        "precio3matriculas" : 133,
+        "precio4matriculas" : 267,
+        "devolucionMatricula" : 133 
+    },
+    {
+        "nombre" : "Fin de Carrera",
+        "color" : "Festividad",
+        "precioCompra" : 267,
+        "matricula" : 33,
+        "precio2matriculas" : 67,
+        "precio3matriculas" : 133,
+        "precio4matriculas" : 267,
+        "devolucionMatricula" : 133 
+    }
+]
+
+[
+    {
+        "nombre": "Prog. 1",
+        "precioCompra": 80,
+        "matricula": 3,
+        "precio1Credito": 13,
+        "precio2Creditos": 40,
+        "precio3Creditos": 120,
+        "precio4Creditos": 213,
+        "precio14Creditos": 333,
+        "precioCompraCreditos": 67,
+        "devolucionMatricula": 40
+    },
+    {
+        "nombre": "IC",
+        "precioCompra": 80,
+        "matricula": 5,
+        "precio1Credito": 27,
+        "precio2Creditos": 80,
+        "precio3Creditos": 240,
+        "precio4Creditos": 427,
+        "precio14Creditos": 600,
+        "precioCompraCreditos": 67,
+        "devolucionMatricula": 40
+    },
+    {
+        "nombre": "Prog. 2",
+        "precioCompra": 133,
+        "matricula": 8,
+        "precio1Credito": 40,
+        "precio2Creditos": 120,
+        "precio3Creditos": 360,
+        "precio4Creditos": 533,
+        "precio14Creditos": 733,
+        "precioCompraCreditos": 67,
+        "devolucionMatricula": 67
+    },
+    {
+        "nombre": "Fisica y electronica",
+        "precioCompra": 133,
+        "matricula": 8,
+        "precio1Credito": 40,
+        "precio2Creditos": 120,
+        "precio3Creditos": 360,
+        "precio4Creditos": 533,
+        "precio14Creditos": 733,
+        "precioCompraCreditos": 67,
+        "devolucionMatricula": 67
+    },
+    {
+        "nombre": "AOC 1",
+        "precioCompra": 160,
+        "matricula": 11,
+        "precio1Credito": 53,
+        "precio2Creditos": 133,
+        "precio3Creditos": 400,
+        "precio4Creditos": 600,
+        "precio14Creditos": 800,
+        "precioCompraCreditos": 67,
+        "devolucionMatricula": 80
+    },
+    {
+        "nombre": "SO",
+        "precioCompra": 187,
+        "matricula": 13,
+        "precio1Credito": 67,
+        "precio2Creditos": 200,
+        "precio3Creditos": 600,
+        "precio4Creditos": 833,
+        "precio14Creditos": 1000,
+        "precioCompraCreditos": 133,
+        "devolucionMatricula": 93
+    },
+    {
+        "nombre": "EDA",
+        "precioCompra": 187,
+        "matricula": 13,
+        "precio1Credito": 67,
+        "precio2Creditos": 200,
+        "precio3Creditos": 600,
+        "precio4Creditos": 833,
+        "precio14Creditos": 1000,
+        "precioCompraCreditos": 133,
+        "devolucionMatricula": 93
+    },
+    {
+        "nombre": "Redes",
+        "precioCompra": 213,
+        "matricula": 16,
+        "precio1Credito": 80,
+        "precio2Creditos": 240,
+        "precio3Creditos": 667,
+        "precio4Creditos": 933,
+        "precio14Creditos": 1200,
+        "precioCompraCreditos": 133,
+        "devolucionMatricula": 107
+    },
+    {
+        "nombre": "Tec. Prog.",
+        "precioCompra": 240,
+        "matricula": 19,
+        "precio1Credito": 93,
+        "precio2Creditos": 267,
+        "precio3Creditos": 733,
+        "precio4Creditos": 1000,
+        "precio14Creditos": 1267,
+        "precioCompraCreditos": 133,
+        "devolucionMatricula": 120
+    },
+    {
+        "nombre": "IPO",
+        "precioCompra": 240,
+        "matricula": 19,
+        "precio1Credito": 93,
+        "precio2Creditos": 267,
+        "precio3Creditos": 733,
+        "precio4Creditos": 1000,
+        "precio14Creditos": 1267,
+        "precioCompraCreditos": 133,
+        "devolucionMatricula": 120
+    },
+    {
+        "nombre": "AOC 2",
+        "precioCompra": 267,
+        "matricula": 21,
+        "precio1Credito": 107,
+        "precio2Creditos": 293,
+        "precio3Creditos": 800,
+        "precio4Creditos": 1067,
+        "precio14Creditos": 1333,
+        "precioCompraCreditos": 133,
+        "devolucionMatricula": 133
+    },
+    {
+        "nombre": "IA",
+        "precioCompra": 293,
+        "matricula": 24,
+        "precio1Credito": 120,
+        "precio2Creditos": 333,
+        "precio3Creditos": 933,
+        "precio4Creditos": 1167,
+        "precio14Creditos": 1400,
+        "precioCompraCreditos": 200,
+        "devolucionMatricula": 147
+    },
+    {
+        "nombre": "Distribuidos",
+        "precioCompra": 293,
+        "matricula": 24,
+        "precio1Credito": 120,
+        "precio2Creditos": 333,
+        "precio3Creditos": 933,
+        "precio4Creditos": 1167,
+        "precio14Creditos": 1400,
+        "precioCompraCreditos": 200,
+        "devolucionMatricula": 147
+    },
+    {
+        "nombre": "PH",
+        "precioCompra": 320,
+        "matricula": 27,
+        "precio1Credito": 133,
+        "precio2Creditos": 400,
+        "precio3Creditos": 1000,
+        "precio4Creditos": 1233,
+        "precio14Creditos": 1467,
+        "precioCompraCreditos": 200,
+        "devolucionMatricula": 160
+    },
+    {
+        "nombre": "SiSinf 2",
+        "precioCompra": 347,
+        "matricula": 29,
+        "precio1Credito": 147,
+        "precio2Creditos": 440,
+        "precio3Creditos": 1067,
+        "precio4Creditos": 1300,
+        "precio14Creditos": 1533,
+        "precioCompraCreditos": 200,
+        "devolucionMatricula": 173
+    },
+    {
+        "nombre": "Procesadores del lenguaje",
+        "precioCompra": 347,
+        "matricula": 29,
+        "precio1Credito": 147,
+        "precio2Creditos": 440,
+        "precio3Creditos": 1067,
+        "precio4Creditos": 1300,
+        "precio14Creditos": 1533,
+        "precioCompraCreditos": 200,
+        "devolucionMatricula": 173
+    },
+    {
+        "nombre": "PS",
+        "precioCompra": 373,
+        "matricula": 32,
+        "precio1Credito": 160,
+        "precio2Creditos": 480,
+        "precio3Creditos": 1133,
+        "precio4Creditos": 1367,
+        "precio14Creditos": 1600,
+        "precioCompraCreditos": 200,
+        "devolucionMatricula": 187
+    },
+    {
+        "nombre": "Robotica",
+        "precioCompra": 400,
+        "matricula": 35,
+        "precio1Credito": 173,
+        "precio2Creditos": 520,
+        "precio3Creditos": 1200,
+        "precio4Creditos": 1467,
+        "precio14Creditos": 1700,
+        "precioCompraCreditos": 267,
+        "devolucionMatricula": 200
+    },
+    {
+        "nombre": "Sistemas y tecnologías web",
+        "precioCompra": 400,
+        "matricula": 35,
+        "precio1Credito": 173,
+        "precio2Creditos": 520,
+        "precio3Creditos": 1200,
+        "precio4Creditos": 1467,
+        "precio14Creditos": 1700,
+        "precioCompraCreditos": 267,
+        "devolucionMatricula": 200
+    },
+    {
+        "nombre": "Seguridad informática",
+        "precioCompra": 427,
+        "matricula": 37,
+        "precio1Credito": 200,
+        "precio2Creditos": 600,
+        "precio3Creditos": 1333,
+        "precio4Creditos": 1600,
+        "precio14Creditos": 1867,
+        "precioCompraCreditos": 267,
+        "devolucionMatricula": 213
+    },
+    {
+        "nombre": "Practicas de empresa",
+        "precioCompra": 467,
+        "matricula": 47,
+        "precio1Credito": 233,
+        "precio2Creditos": 667,
+        "precio3Creditos": 1467,
+        "precio4Creditos": 1733,
+        "precio14Creditos": 2000,
+        "precioCompraCreditos": 267,
+        "devolucionMatricula": 233
+    },
+    {
+        "nombre": "TFG",
+        "precioCompra": 533,
+        "matricula": 67,
+        "precio1Credito": 267,
+        "precio2Creditos": 800,
+        "precio3Creditos": 1867,
+        "precio4Creditos": 2267,
+        "precio14Creditos": 2667,
+        "precioCompraCreditos": 267,
+        "devolucionMatricula": 267
+    }
+]
