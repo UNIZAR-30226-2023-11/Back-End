@@ -1,50 +1,35 @@
-//var c = require('mongodb');
-//import { MongoClient } from "mongodb";
-var db = require('../config/config.js');
-
-
-//const MongoClient = require('mongodb').MongoClient;
-
-// Replace the uri string with your MongoDB deployment's connection string.
-
-//const client = new c.MongoClient(db.uri);
+var config = require('../config/config');
+var modeloUser = require('../models/userModel')
 const  mongoose = require("mongoose");
-
-
-//const myDB = client.db(db.database);
-//const myColl = myDB.collection(db.colUsers);
-
-    
-var conn = mongoose.connection;
 
 async function createUser(req, res, next){
     console.log("***POST METHOD Creacion de Usuario");
 
-    // if(!req.body.email || !req.body.contraseña){
-    //     res.status(400).send('Faltan datos');
-    // }else{
-        
-                // Connect MongoDB Atlas using mongoose connect method
-           
-            const doc = { name: "Neapolitan pizza", shape: "round" };
-            const result = await conn.collection(db.colUsers).insertOne(doc);
-            console.log(
-            `A document was inserted with the _id: ${result.insertedId}`,
-            );
-            res
-            .status(201)
-            .send('Nueva cancion añadidacon titulo ' + req.body.titulo);
-        
-        
-   // }
-    console.log(JSON.stringify(req.body));
-    //{"Titulo": }
+    req.params
 
-    
+    const doc = new modeloUser({
+        nombre: req.params.nombre,
+        telefono: req.params.telefono
+        // nombre: req.body.nombre,
+        // telefono: req.body.telefono
+    });
+
+    try {
+        await mongoose.connect(config.db.uri, { useNewUrlParser: true, useUnifiedTopology: true });
+        console.log("Connected to MongoDB Atlas")
+
+        await doc.save();
+        console.log('Documento guardado correctamente')
+        // res.status(201).json({message: 'Usuario creado correctamente'})
     }
+    catch (error) {
+        console.error(error);
+        res.status(500).json({error: 'Error al crear usuario'});
+    }
+}
 
+async function deleteUser(req, res, next){
+    console.log("***POST METHOD Eliminación de Usuario");
+}
 
-     
-      
-
-module.exports = {createUser};
+module.exports = {createUser, deleteUser};

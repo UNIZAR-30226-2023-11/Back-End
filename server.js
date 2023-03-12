@@ -1,8 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
-
-//const db = require('./db')
 var usersRouter = require('./app_server/routes/users');
 
 const app = express();
@@ -12,10 +10,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors());
 app.use(bodyParser.json());
 
-//db.on('error', console.error.bind(console, 'MongoDB connection error:'))
-
 app.get('/', (req, res) => {
-    res.send('Hello World!');
+    res.send('Monopoly versión informática - Susan L. Graham');
 })
 
 app.use('/users', usersRouter);
