@@ -14,10 +14,10 @@ const esquema = new schema({
     type: String,
     required: true
   },
-  contraseñaDos: {
-    type: String,
-    required: true
-  },
+  // contraseñaDos: {
+  //   type: String,
+  //   required: false
+  // },
   imagen: {
     type: String,
     required: true

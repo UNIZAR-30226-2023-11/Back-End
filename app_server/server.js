@@ -1,18 +1,24 @@
 const express = require('express');
+const path = require('path');
 const bodyParser = require('body-parser');
 const cors = require('cors');
-var usersRouter = require('./app_server/routes/users');
-
+var usersRouter = require('./routes/users');
 const app = express();
-const apiPort = 3000;
+const apiPort = 8080;
 
+app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors());
 app.use(bodyParser.json());
 
+// app.get('/', (req, res) => {
+//     res.send('Monopoly versión informática - Susan L. Graham');
+// })
+
 app.get('/', (req, res) => {
-    res.send('Monopoly versión informática - Susan L. Graham');
-})
+    res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
+
 
 app.use('/users', usersRouter);
 
