@@ -134,12 +134,13 @@ async function checkCasilla(req, res){
 
         var partidaEncontrada = ctrlPartida.findPartida(req.body.idPartida);
         
-        if(partidaEncontrada!= null){
-            await mongoose.connect(config.db.uri, { useNewUrlParser: true, useUnifiedTopology: true });
-            console.log("Connected to MongoDB Atlas")
+        if(partidaEncontrada != null){
 
             const posicion = partidaEncontrada.nombreJugadores.indexOf(req.body.username);
             partidaEncontrada.dineroJugadores[posicion] = partidaEncontrada.dineroJugadores[posicion] + 100;
+
+            await mongoose.connect(config.db.uri, { useNewUrlParser: true, useUnifiedTopology: true });
+            console.log("Connected to MongoDB Atlas")
 
             const result = await modeloPartida.updateOne({ id: req.body.idPartida},  { $set: { dineroJugadores: partidaEncontrada.dineroJugadores }})
             
