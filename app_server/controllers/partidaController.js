@@ -95,7 +95,7 @@ async function findPartida(idPartida){
         //res.status(500).json({error: 'Error al encontrar partida'});
         return null;
     }finally {
-        mongoose.disconnect();
+        //mongoose.disconnect();
     }
 }
 
