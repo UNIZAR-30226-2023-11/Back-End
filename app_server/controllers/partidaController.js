@@ -33,9 +33,9 @@ async function crearPartida(req,res){
         console.log("Connected to MongoDB Atlas")
 
         const idMax =  modeloPartida.aggregate([{$group: {_id: null, maxId: {$max: "$id"}}}]).exec()
-
+        const maxIdNumber = idMax[0].maxId;
         const doc = {
-            id: idMax, 
+            id: maxIdNumber, 
             nombreJugadores: req.body.username,
             posicionJugadores: 1010,
             dineroJugadores: 0
