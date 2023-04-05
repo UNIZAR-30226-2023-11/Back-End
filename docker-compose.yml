@@ -3,9 +3,7 @@ services:
     image: node:18
     container_name: BackEnd-docker
     restart: always
-    working_dir: /app
+    working_dir: .
     volumes:
       - ./:/app
-    ports:
-      - "8080:8080"
     command: "npm start"
