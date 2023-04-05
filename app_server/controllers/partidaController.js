@@ -29,7 +29,7 @@ async function procesarIdMax(idMax) {
 async function crearPartida(req,res){
     console.log("***POST METHOD Crear partida");
 
-    const idMax = await modeloPartida.aggregate([{$group: {_id: null, maxId: {$max: "$id"}}}])
+    const idMax = await modeloPartida.aggregate([{$group: {_id: null, maxId: {$max: "$id"}}}]).exec()
     console.log(idMax)
     const doc = {
         id: idMax, 
