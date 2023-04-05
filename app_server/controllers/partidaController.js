@@ -42,5 +42,5 @@ async function comenzarPartida(req,res){
 
 }
 
-module.exports = {};
+module.exports = {crearPartida};
  

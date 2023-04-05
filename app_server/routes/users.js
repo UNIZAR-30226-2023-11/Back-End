@@ -9,6 +9,4 @@ router.put('/updatePassword', ctrlUsers.updatePassword);
 router.put('/updateCorreo', ctrlUsers.updateCorreo);
 router.put('/updateUsername', ctrlUsers.updateUsername);
 
-
-
 module.exports = router;

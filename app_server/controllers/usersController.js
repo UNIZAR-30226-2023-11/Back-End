@@ -1,5 +1,6 @@
 var config = require('../config/config');
 var modeloUser = require('../models/userModel')
+var modeloPartida = require('../models/partidaModel')
 const  mongoose = require("mongoose");
 
 async function registerUser(req, res){
@@ -144,7 +145,7 @@ async function updateCorreo(req, res){
 
     const doc = {
         nombreUser: req.body.username, 
-        correo: req.body.correo,
+        correo: req.body.email,
     };
   
     try {
@@ -213,7 +214,7 @@ async function updateUsername(req, res){
 async function findUser(req){
     console.log("***GET METHOD Encontrar Usuario");
 
-    const doc = {nombreuser: req};
+    const doc = {id: req};
   
     try {
         await mongoose.connect(config.db.uri, { useNewUrlParser: true, useUnifiedTopology: true });

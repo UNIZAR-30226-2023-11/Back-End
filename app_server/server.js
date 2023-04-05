@@ -3,6 +3,7 @@ const path = require('path');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 var usersRouter = require('./routes/users');
+var partidaRouter = require('./routes/partida');
 const app = express();
 const apiPort = 8080;
 
@@ -21,5 +22,6 @@ app.get('/', (req, res) => {
 
 
 app.use('/users', usersRouter);
+app.use('/partida', partidaRouter)
 
 app.listen(apiPort, () => console.log(`Server running on port ${apiPort}`));
