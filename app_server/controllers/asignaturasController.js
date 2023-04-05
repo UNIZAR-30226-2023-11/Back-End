@@ -11,118 +11,118 @@ const  mongoose = require("mongoose");
 
 
 
-async function isAsignatura(coord, nombreUsr){
-    try {
-        await mongoose.connect(config.db.uri, { useNewUrlParser: true, useUnifiedTopology: true });
-        console.log("Connected to MongoDB Atlas")
+// async function isAsignatura(coord, nombreUsr){
+//     try {
+//         await mongoose.connect(config.db.uri, { useNewUrlParser: true, useUnifiedTopology: true });
+//         console.log("Connected to MongoDB Atlas")
 
-        const doc = {coordenadas: coord};
-        const result = await modeloAsignatura.find(doc).exec();;
+//         const doc = {coordenadas: coord};
+//         const result = await modeloAsignatura.find(doc).exec();;
 
-        if (result.lenght == 0){
-            return 0;
-        }else if(result.lenght == 1){
-            console.log(result[0].nombre);
+//         if (result.lenght == 0){
+//             return 0;
+//         }else if(result.lenght == 1){
+//             console.log(result[0].nombre);
 
-            res.status(200).json({message: 'Asignatura Encontrada'})
-            return 1;
-        }
-    }
-    catch (error) {
-        console.error(error);
-        //res.status(500).json({error: 'Error al encontrar Asignatura'});
-        return 0;
-    }finally {
-        mongoose.disconnect();
-    }
-}
+//             res.status(200).json({message: 'Asignatura Encontrada'})
+//             return 1;
+//         }
+//     }
+//     catch (error) {
+//         console.error(error);
+//         //res.status(500).json({error: 'Error al encontrar Asignatura'});
+//         return 0;
+//     }finally {
+//         mongoose.disconnect();
+//     }
+// }
 
-async function isFestividad(coord){
-    try {
-        await mongoose.connect(config.db.uri, { useNewUrlParser: true, useUnifiedTopology: true });
-        console.log("Connected to MongoDB Atlas")
+// async function isFestividad(coord){
+//     try {
+//         await mongoose.connect(config.db.uri, { useNewUrlParser: true, useUnifiedTopology: true });
+//         console.log("Connected to MongoDB Atlas")
 
-        const doc = {coordenadas: coord, tipo: "Festividad"};
-        const result = await modeloFestividad.find(doc).exec();;
+//         const doc = {coordenadas: coord, tipo: "Festividad"};
+//         const result = await modeloFestividad.find(doc).exec();;
 
-        if (result.lenght == 0){
-            return 0;
-        }else if(result.lenght == 1){
-            console.log(result[0].nombre)
-            res.status(200).json({message: 'Festividad Encontrada'})
-            return 1;
-        }
-    }
-    catch (error) {
-        console.error(error);
-        //res.status(500).json({error: 'Error al encontrar Asignatura'});
-        return 0;
-    }finally {
-        mongoose.disconnect();
-    }
-}
+//         if (result.lenght == 0){
+//             return 0;
+//         }else if(result.lenght == 1){
+//             console.log(result[0].nombre)
+//             res.status(200).json({message: 'Festividad Encontrada'})
+//             return 1;
+//         }
+//     }
+//     catch (error) {
+//         console.error(error);
+//         //res.status(500).json({error: 'Error al encontrar Asignatura'});
+//         return 0;
+//     }finally {
+//         mongoose.disconnect();
+//     }
+// }
 
-async function isPago(idP, coord, nombreUsr){
-    try {
-        await mongoose.connect(config.db.uri, { useNewUrlParser: true, useUnifiedTopology: true });
-        console.log("Connected to MongoDB Atlas")
+// async function isPago(idP, coord, nombreUsr){
+//     try {
+//         await mongoose.connect(config.db.uri, { useNewUrlParser: true, useUnifiedTopology: true });
+//         console.log("Connected to MongoDB Atlas")
 
-        const doc = {coordenadas: coord, tipo: "Pago"};
-        const result = await modeloPago.find(doc).exec();;
+//         const doc = {coordenadas: coord, tipo: "Pago"};
+//         const result = await modeloPago.find(doc).exec();;
 
-        if (result.lenght == 0){
-            return 0;
-        }else if(result.lenght == 1){
-            console.log(result[0].nombre);
-            console.log(result[0].pago);
+//         if (result.lenght == 0){
+//             return 0;
+//         }else if(result.lenght == 1){
+//             console.log(result[0].nombre);
+//             console.log(result[0].pago);
 
-            //Es una casilla de pago
-            //Obtenemos el dinero 
-            //Buscamos al usuario dentro de la partida
-            //Actualizamos su dinero (-)
-            res.status(200).json({message: 'Pago Encontrada'})
-            return 1;
-        }
-    }
-    catch (error) {
-        console.error(error);
-        //res.status(500).json({error: 'Error al encontrar Asignatura'});
-        return 0;
-    }finally {
-        mongoose.disconnect();
-    }
-}
+//             //Es una casilla de pago
+//             //Obtenemos el dinero 
+//             //Buscamos al usuario dentro de la partida
+//             //Actualizamos su dinero (-)
+//             res.status(200).json({message: 'Pago Encontrada'})
+//             return 1;
+//         }
+//     }
+//     catch (error) {
+//         console.error(error);
+//         //res.status(500).json({error: 'Error al encontrar Asignatura'});
+//         return 0;
+//     }finally {
+//         mongoose.disconnect();
+//     }
+// }
 
-async function isCobro(coord){
-    try {
-        await mongoose.connect(config.db.uri, { useNewUrlParser: true, useUnifiedTopology: true });
-        console.log("Connected to MongoDB Atlas")
+// async function isCobro(coord){
+//     try {
+//         await mongoose.connect(config.db.uri, { useNewUrlParser: true, useUnifiedTopology: true });
+//         console.log("Connected to MongoDB Atlas")
 
-        const doc = {coordenadas: coord, tipo: "Cobro"};
-        const result = await modeloPago.find(doc).exec();;
+//         const doc = {coordenadas: coord, tipo: "Cobro"};
+//         const result = await modeloPago.find(doc).exec();;
 
-        if (result.lenght == 0){
-            return 0;
-        }else if(result.lenght == 1){
-            console.log(result[0].nombre);
-            console.log(result[0].cobro);
+//         if (result.lenght == 0){
+//             return 0;
+//         }else if(result.lenght == 1){
+//             console.log(result[0].nombre);
+//             console.log(result[0].cobro);
 
-            //Es una casilla de cobro
-            //Obtenemos el dinero 
-            //Buscamos al usuario
-            //Actualizamos su dinero (+)
-            res.status(200).json({message: 'Cobro Encontrado'})
-            return 1;
-        }
-    }
-    catch (error) {
-        console.error(error);
-        //res.status(500).json({error: 'Error al encontrar Asignatura'});
-        return 0;
-    }finally {
-        mongoose.disconnect();
-    }
-}
+//             //Es una casilla de cobro
+//             //Obtenemos el dinero 
+//             //Buscamos al usuario
+//             //Actualizamos su dinero (+)
+//             res.status(200).json({message: 'Cobro Encontrado'})
+//             return 1;
+//         }
+//     }
+//     catch (error) {
+//         console.error(error);
+//         //res.status(500).json({error: 'Error al encontrar Asignatura'});
+//         return 0;
+//     }finally {
+//         mongoose.disconnect();
+//     }
+// }
 
 async function checkCasilla(req, res, next){
     //info asignatura son casillas
