@@ -72,7 +72,7 @@ async function findPartida(idPartida){
         const doc = {
             id: idPartida
         }
-        const partidaEncontrada = await modeloPartida.find(doc);
+        const partidaEncontrada = await modeloPartida.find(doc).exec();
         console.log(idPartida);
 
         console.log(partidaEncontrada);
