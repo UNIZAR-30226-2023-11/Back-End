@@ -62,7 +62,7 @@ async function comenzarPartida(req,res){
 }
 
 
-async function findPartida(idPartida){
+async function findPartida(req,res){
     console.log("*** METHOD Find partida");
 
     try {
@@ -70,11 +70,11 @@ async function findPartida(idPartida){
         console.log("Connected to MongoDB Atlas")
 
         
-        const partidaEncontrada = await modeloPartida.findById(idPartida).exec();
+        const partidaEncontrada = await modeloPartida.findById(req.body.idPartida).exec();
         if(partidaEncontrada){
             // Accede a los atributos de la partida utilizando la sintaxis objeto.atributo
             console.log(partidaEncontrada.nombreJugadores);
-
+            res.status(201).json({message: 'Partida encontrada correctamente', jugadores: partidaEncontrada.nombreJugadores});
             //res.send(partidaEncontrada);
         } else {
             console.log("Partida no encontrada");
