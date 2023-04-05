@@ -74,7 +74,7 @@ async function findPartida(req,res){
         if(partidaEncontrada){
             // Accede a los atributos de la partida utilizando la sintaxis objeto.atributo
             console.log(partidaEncontrada.nombreJugadores);
-            res.status(201).json({message: 'Partida encontrada correctamente', jugadores: partidaEncontrada.nombreJugadores});
+            res.status(201).json({message: 'Partida encontrada correctamente', jugadores: partidaEncontrada.nombreJugadores[0]});
             //res.send(partidaEncontrada);
         } else {
             console.log("Partida no encontrada");
