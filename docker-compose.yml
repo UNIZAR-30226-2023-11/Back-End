@@ -4,32 +4,7 @@ services:
     image: node:18
     container_name: BackEnd-docker
     working_dir: /usr/src/app
-    user: "${UID}:${GID}"
     volumes:
       - .:/usr/src/app
-        # Establece los permisos de usuario/grupo en el contenedor
-        # Cambia los valores UID y GID a los tuyos
-        # El valor 1000 es un ejemplo
-        # Puedes obtener los valores de tu usuario ejecutando 'id -u' y 'id -g'
-        # en la línea de comandos
-      - type: bind
-        source: .
-        target: /usr/src/app
-        # Aquí establecemos los permisos de usuario y grupo
-        # usando las variables de entorno UID y GID
-        # Si no están definidos, se establecerán en blanco
-        # lo que significa que los archivos compartirán los permisos del usuario raíz (0)
-        # Cambia los valores UID y GID a los tuyos
-        read_only: false
-        volume:
-          nocopy: true
-          tmpfs:
-            size: 100M
-        # Establece las variables UID y GID
-        # Para el usuario actual
-        # El valor 1000 es un ejemplo, cambialo por tu UID y GID
-        # O ejecuta 'id -u' y 'id -g' en la línea de comandos
-        environment:
-          - UID=1000
-          - GID=1000
+    command: npm start
 
