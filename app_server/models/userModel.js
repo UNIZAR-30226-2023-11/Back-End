@@ -44,7 +44,7 @@ const esquema = new schema({
   }
 }, { collection: 'usuarios' });
 
-esquema.index({ nombreUser: 1 }, { unique: true }); // Crea un índice único en el campo "nombre"
+// esquema.index({ nombreUser: 1 }, { unique: true }); // Crea un índice único en el campo "nombre"
 
 const modeloUser = mongoose.model('usuarios', esquema);
 
