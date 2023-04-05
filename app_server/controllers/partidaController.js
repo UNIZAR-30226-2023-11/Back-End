@@ -32,8 +32,10 @@ async function crearPartida(req,res){
         await mongoose.connect(config.db.uri, { useNewUrlParser: true, useUnifiedTopology: true });
         console.log("Connected to MongoDB Atlas")
 
-        const idMax =  modeloPartida.aggregate([{$group: {_id: null, maxId: {$max: "$id"}}}]).exec()
-        // //console.log(idMax);
+        //const idMax =  modeloPartida.aggregate([{$group: {_id: null, maxId: {$max: "$id"}}}]).exec()
+        const idMax = await modeloPartida.find().sort({id: -1}).limit(1).exec();
+        const maxIdNumber = idMax[0].id;
+        console.log(maxIdNumber);
         // if(idMax.length>0){
         //     const maxIdNumber = idMax[0].maxId;
         //     const doc = {
