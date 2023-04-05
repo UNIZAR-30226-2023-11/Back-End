@@ -134,24 +134,30 @@ async function checkCasilla(req, res){
 
         var partidaEncontrada = ctrlPartida.findPartida(req.body.idPartida);
         
-        await mongoose.connect(config.db.uri, { useNewUrlParser: true, useUnifiedTopology: true });
-        console.log("Connected to MongoDB Atlas")
+        if(partidaEncontrada!= null){
+            await mongoose.connect(config.db.uri, { useNewUrlParser: true, useUnifiedTopology: true });
+            console.log("Connected to MongoDB Atlas")
 
-        const posicion = partidaEncontrada.nombreJugadores.indexOf(req.body.username);
-        partidaEncontrada.dineroJugadores[posicion] = partidaEncontrada.dineroJugadores[posicion] + 100;
+            const posicion = partidaEncontrada.nombreJugadores.indexOf(req.body.username);
+            partidaEncontrada.dineroJugadores[posicion] = partidaEncontrada.dineroJugadores[posicion] + 100;
 
-        const result = await modeloPartida.updateOne({ id: req.body.idPartida},  { $set: { dineroJugadores: partidaEncontrada.dineroJugadores }})
-        
-        if(result.modifiedCount == 1) {
-            console.log(result);
-            console.log("Se ha actualizado la partida correctamente");
-            res.status(200).json("Se ha actualizado la partida correctamente"); 
-        }else {
-            //console.error(error);
-            console.log(result);
-            //TODO:Probar que si se quita este lo coge el otro
-            res.status(500).json({ error: 'Error al actualizar la partida '});
+            const result = await modeloPartida.updateOne({ id: req.body.idPartida},  { $set: { dineroJugadores: partidaEncontrada.dineroJugadores }})
+            
+            if(result.modifiedCount == 1) {
+                console.log(result);
+                console.log("Se ha actualizado la partida correctamente");
+                res.status(200).json("Se ha actualizado la partida correctamente"); 
+            }else {
+                //console.error(error);
+                console.log(result);
+                //TODO:Probar que si se quita este lo coge el otro
+                res.status(500).json({ error: 'Error al actualizar la partida '});
+            }
+        }else{
+            console.log("Partida Encontrada null");
+
         }
+        
         
         //me pasan las coordenadas
         //miro que es
