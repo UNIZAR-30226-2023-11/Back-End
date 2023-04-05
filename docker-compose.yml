@@ -6,6 +6,3 @@ services:
     # working_dir: /home/dani/Monopoly/Back-End
     volumes:
       - ./../Back-End:/app
-    command: 
-      - npm 
-      - start
