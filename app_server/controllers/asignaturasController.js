@@ -124,7 +124,7 @@ const  mongoose = require("mongoose");
 //     }
 // }
 
-async function checkCasilla(req, res, next){
+async function checkCasilla(req, res){
     //info asignatura son casillas
     console.log("***METHOD Para chequear casilla ");
 
