@@ -32,22 +32,22 @@ async function crearPartida(req,res){
         await mongoose.connect(config.db.uri, { useNewUrlParser: true, useUnifiedTopology: true });
         console.log("Connected to MongoDB Atlas")
 
-        const idMax =  modeloPartida.aggregate([{$group: {_id: null, maxId: {$max: "$id"}}}]).exec()
-        //console.log(idMax);
-        if(idMax.length>0){
-            const maxIdNumber = idMax[0].maxId;
-            const doc = {
-            id: maxIdNumber, 
-            nombreJugadores: req.body.username,
-            posicionJugadores: 1010,
-            dineroJugadores: 0
-            };
-            await doc.save();
-            console.log('Documento guardado correctamente')
-            res.status(201).json({message: 'Partida creada correctamente'})
-        }else{
-            console.log("No hay nada")
-        }
+        // const idMax =  modeloPartida.aggregate([{$group: {_id: null, maxId: {$max: "$id"}}}]).exec()
+        // //console.log(idMax);
+        // if(idMax.length>0){
+        //     const maxIdNumber = idMax[0].maxId;
+        //     const doc = {
+        //     id: maxIdNumber, 
+        //     nombreJugadores: req.body.username,
+        //     posicionJugadores: 1010,
+        //     dineroJugadores: 0
+        //     };
+        //     await doc.save();
+        //     console.log('Documento guardado correctamente')
+        //     res.status(201).json({message: 'Partida creada correctamente'})
+        // }else{
+        //     console.log("No hay nada")
+        // }
     }
     catch (error) {
         console.error(error);
