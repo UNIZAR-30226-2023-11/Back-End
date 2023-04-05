@@ -5,7 +5,7 @@ services:
     restart: always
     # working_dir: /home/dani/Monopoly/Back-End
     volumes:
-      - ./:./app
+      - ./: ./app
     command: 
       - cd app
       - npm start
