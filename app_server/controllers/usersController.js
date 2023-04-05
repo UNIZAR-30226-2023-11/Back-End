@@ -1,6 +1,5 @@
 var config = require('../config/config');
 var modeloUser = require('../models/userModel')
-var modeloPartida = require('../models/partidaModel')
 const  mongoose = require("mongoose");
 
 async function registerUser(req, res){
