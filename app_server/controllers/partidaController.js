@@ -30,7 +30,7 @@ async function crearPartida(req,res){
     console.log("***POST METHOD Crear partida");
 
     const idMax = await modeloPartida.aggregate([{$group: {_id: null, maxId: {$max: "$id"}}}])
-    
+    console.log(idMax)
     const doc = {
         id: idMax, 
         nombreJugadores: req.body.username,
