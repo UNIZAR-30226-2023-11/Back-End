@@ -36,20 +36,16 @@ async function crearPartida(req,res){
         const idMax = await modeloPartida.find().sort({id: -1}).limit(1).exec();
         const maxIdNumber = idMax[0].id;
         console.log(maxIdNumber);
-        // if(idMax.length>0){
-        //     const maxIdNumber = idMax[0].maxId;
-        //     const doc = {
-        //     id: maxIdNumber, 
-        //     nombreJugadores: req.body.username,
-        //     posicionJugadores: 1010,
-        //     dineroJugadores: 0
-        //     };
-        //     await doc.save();
-        //     console.log('Documento guardado correctamente')
-        //     res.status(201).json({message: 'Partida creada correctamente'})
-        // }else{
-        //     console.log("No hay nada")
-        // }
+        const doc = {
+            id: maxIdNumber+1, 
+            nombreJugadores: req.body.username,
+            posicionJugadores: 1010,
+            dineroJugadores: 0
+        };
+        await doc.save();
+        console.log('Documento guardado correctamente')
+        res.status(201).json({message: 'Partida creada correctamente'})
+
     }
     catch (error) {
         console.error(error);
