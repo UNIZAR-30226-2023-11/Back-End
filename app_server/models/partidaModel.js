@@ -5,7 +5,7 @@ var modeloNormas = require('../models/normasModel')
 const schema = mongoose.Schema;
 const esquema = new schema({
     id: {
-      type: String,
+      type: Number,
       required: true
     },
     nombreJugadores: {

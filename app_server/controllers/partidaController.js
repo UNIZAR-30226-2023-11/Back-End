@@ -70,7 +70,7 @@ async function findPartida(req,res){
         console.log("Connected to MongoDB Atlas")
 
         
-        const partidaEncontrada = await modeloPartida.findById(req.body.idPartida).exec();
+        const partidaEncontrada = await modeloPartida.find({id: req.body.idPartida}).exec();
         if(partidaEncontrada){
             // Accede a los atributos de la partida utilizando la sintaxis objeto.atributo
             console.log(partidaEncontrada.nombreJugadores);
@@ -83,7 +83,7 @@ async function findPartida(req,res){
     }
     catch (error) {
         console.error(error);
-        res.status(500).json({error: 'Error al crear partida',  nombreJugadores: req.body.username, posicionJugadores: 1010, dineroJugadores: 0});
+        res.status(500).json({error: 'Error al encontrar partida'});
     }finally {
         mongoose.disconnect();
     }
