@@ -19,12 +19,13 @@ const esquema = new schema({
     dineroJugadores: {
       type: [Number],
       required: true
-    },
-    normas: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'modeloNormas',
-      required: true
     }
+    // ,
+    // normas: {
+    //   type: mongoose.Schema.Types.ObjectId,
+    //   ref: 'modeloNormas',
+    //   required: true
+    // }
   }, { collection: 'partida' });
   
 //   esquema.index({ nombreUser: 1 }, { unique: true }); // Crea un índice único en el campo "nombre"

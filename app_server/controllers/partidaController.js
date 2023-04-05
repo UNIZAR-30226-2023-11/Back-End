@@ -40,8 +40,8 @@ async function crearPartida(req,res){
             id: maxIdNumber+1, 
             nombreJugadores: req.body.username,
             posicionJugadores: 1010,
-            dineroJugadores: 0,
-            normas:[]
+            dineroJugadores: 0
+            //normas:[]
         });
         await doc.save();
         console.log('Documento guardado correctamente')
