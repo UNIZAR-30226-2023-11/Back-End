@@ -1,0 +1,12 @@
+version: "3"
+
+services:
+  app:
+    image: node:18
+    name: BackEnd-docker
+    working_dir: /app
+    volumes:
+      - ./app:/app
+    ports:
+      - "3000:3000"
+    command: npm start
