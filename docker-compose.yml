@@ -7,4 +7,6 @@ services:
     volumes:
       - .:/usr/src/app
     user: "node"
-    command: sudo npm install
+    command: 
+    - npm 
+    - install
