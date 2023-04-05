@@ -1,8 +1,11 @@
+version: "3.8"
 services:
   app:
     image: node:18
     container_name: BackEnd-docker
-    restart: always
-    # working_dir: /home/dani/Monopoly/Back-End
+    working_dir: /usr/src/app
     volumes:
-      - ./../Back-End:/app
+      - ./app:/usr/src/app
+    command: npm start
+    ports:
+      - "8080:8080"
