@@ -71,6 +71,8 @@ async function findPartida(idPartida){
         console.log(idPartida);
 
         const partidaEncontrada = await modeloPartida.find({id: idPartida}).exec();
+        console.log(idPartida);
+
         console.log(partidaEncontrada);
         if(partidaEncontrada){
             // Accede a los atributos de la partida utilizando la sintaxis objeto.atributo
