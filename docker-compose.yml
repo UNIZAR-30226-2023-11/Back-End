@@ -7,7 +7,7 @@ services:
     volumes:
       - .:/usr/src/app
     command: 
-    - chmod u+x package.json
-    - chmod g+x package.json
+    - usr/bin/chmod u+x package.json
+    - usr/bin/chmod g+x package.json
     - npm start
 
