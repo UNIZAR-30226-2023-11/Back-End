@@ -4,7 +4,6 @@ services:
     image: node:18
     container_name: BackEnd-docker
     working_dir: /usr/src/app
+    user: "${UID}:${GID}"
     volumes:
       - .:/usr/src/app
-    command: npm start
-
