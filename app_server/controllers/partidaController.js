@@ -46,7 +46,7 @@ async function crearPartida(req,res){
     }
     catch (error) {
         console.error(error);
-        res.status(500).json({error: 'Error al crear partida', id: idMax, nombreJugadores: req.body.username, posicionJugadores: 1010, dineroJugadores: 0});
+        res.status(500).json({error: 'Error al crear partida',  nombreJugadores: req.body.username, posicionJugadores: 1010, dineroJugadores: 0});
     }finally {
         mongoose.disconnect();
     }
