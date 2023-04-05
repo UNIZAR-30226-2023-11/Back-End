@@ -62,28 +62,32 @@ async function comenzarPartida(req,res){
 }
 
 
-async function findPartida(req,res){
+async function findPartida(idPartida){
     console.log("*** METHOD Find partida");
 
     try {
         await mongoose.connect(config.db.uri, { useNewUrlParser: true, useUnifiedTopology: true });
         console.log("Connected to MongoDB Atlas")
 
-        const partidaEncontrada = await modeloPartida.findOne({id: req.body.idPartida}).exec();
+        const partidaEncontrada = await modeloPartida.findOne({id: idPartida}).exec();
         if(partidaEncontrada){
             // Accede a los atributos de la partida utilizando la sintaxis objeto.atributo
             console.log(partidaEncontrada.nombreJugadores);
-            res.status(201).json({message: 'Partida encontrada correctamente', jugadores: partidaEncontrada.nombreJugadores});
+            return partidaEncontrada;
+            //res.status(201).json({message: 'Partida encontrada correctamente', jugadores: partidaEncontrada.nombreJugadores});
             //res.send(partidaEncontrada);
         } else {
             console.log("Partida no encontrada");
-            res.status(404).json({error: 'No hay ninguna partida con ese id'});
+            //res.status(404).json({error: 'No hay ninguna partida con ese id'});
+            return null;
         }
         //res.status(201).json({message: 'Partida creada correctamente'})
     }
     catch (error) {
         console.error(error);
-        res.status(500).json({error: 'Error al encontrar partida'});
+        console.log('Error al encontrar partida');
+        //res.status(500).json({error: 'Error al encontrar partida'});
+        return null;
     }finally {
         mongoose.disconnect();
     }
