@@ -134,6 +134,8 @@ async function checkCasilla(req, res){
 
         var partidaEncontrada = ctrlPartida.findPartida(req.body.idPartida);
         
+        await mongoose.connect(config.db.uri, { useNewUrlParser: true, useUnifiedTopology: true });
+        console.log("Connected to MongoDB Atlas")
 
         const posicion = partidaEncontrada.nombreJugadores.indexOf(req.body.username);
         partidaEncontrada.dineroJugadores[posicion] = partidaEncontrada.dineroJugadores[posicion] + 100;
@@ -159,7 +161,7 @@ async function checkCasilla(req, res){
     }
     catch (error) {
         console.error(error);
-        res.status(500).json({error: 'Error al leer usuario'});
+        res.status(500).json({error: 'Error al checkCasilla'});
     }finally {
         mongoose.disconnect();
     }
