@@ -133,7 +133,7 @@ async function checkCasilla(req, res){
         console.log("Connected to MongoDB Atlas")
 
         var partidaEncontrada = ctrlPartida.findPartida(req.body.idPartida);
-        
+        console.log(partidaEncontrada);
         if(partidaEncontrada != null){
 
             const posicion = partidaEncontrada.nombreJugadores.indexOf(req.body.username);
