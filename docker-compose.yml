@@ -6,4 +6,5 @@ services:
     working_dir: /usr/src/app
     volumes:
       - .:/usr/src/app
+    user: "node"
     command: npm start
