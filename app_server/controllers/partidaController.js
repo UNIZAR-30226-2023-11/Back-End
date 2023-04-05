@@ -66,8 +66,8 @@ async function findPartida(idPartida){
     console.log("*** METHOD Find partida");
 
     try {
-        //await mongoose.connect(config.db.uri, { useNewUrlParser: true, useUnifiedTopology: true });
-        //console.log("Connected to MongoDB Atlas");
+        await mongoose.connect(config.db.uri, { useNewUrlParser: true, useUnifiedTopology: true });
+        console.log("Connected to MongoDB Atlas");
         console.log(idPartida);
         const doc = {
             id: idPartida
