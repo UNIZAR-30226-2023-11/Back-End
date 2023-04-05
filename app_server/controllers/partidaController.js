@@ -33,7 +33,7 @@ async function crearPartida(req,res){
         console.log("Connected to MongoDB Atlas")
 
         const idMax =  modeloPartida.aggregate([{$group: {_id: null, maxId: {$max: "$id"}}}]).exec()
-        console.log(idMax);
+        //console.log(idMax);
         if(idMax.length>0){
             const maxIdNumber = idMax[0].maxId;
             const doc = {
@@ -41,13 +41,14 @@ async function crearPartida(req,res){
             nombreJugadores: req.body.username,
             posicionJugadores: 1010,
             dineroJugadores: 0
-        };
-        await doc.save();
-        console.log('Documento guardado correctamente')
-        res.status(201).json({message: 'Partida creada correctamente'})
+            };
+            await doc.save();
+            console.log('Documento guardado correctamente')
+            res.status(201).json({message: 'Partida creada correctamente'})
+        }else{
+            console.log("No hay nada")
+        }
     }
-    }
-        
     catch (error) {
         console.error(error);
         res.status(500).json({error: 'Error al crear partida',  nombreJugadores: req.body.username, posicionJugadores: 1010, dineroJugadores: 0});
