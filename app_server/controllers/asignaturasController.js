@@ -1,5 +1,5 @@
 var config = require('../config/config');
-var modeloUser = require('../models/userModel');
+//var modeloUser = require('../models/userModel');
 //var modeloFestividad = require('../models/festividadModel');
 var modeloAsignatura = require('../models/asignaturaModel');
 
