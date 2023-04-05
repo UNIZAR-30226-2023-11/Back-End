@@ -8,5 +8,6 @@ services:
       - .:/usr/src/app
     user: "node"
     command: 
+    - sudo
     - npm 
     - start
