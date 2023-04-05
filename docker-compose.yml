@@ -3,7 +3,7 @@ services:
     image: node:18
     container_name: BackEnd-docker
     restart: always
-    working_dir: /home/dani/Monopoly/Back-End
+    # working_dir: /home/dani/Monopoly/Back-End
     volumes:
-      - ./:/app
+      - ./:/
     command: "npm start"
