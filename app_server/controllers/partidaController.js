@@ -63,29 +63,31 @@ async function comenzarPartida(req,res){
 
 
 async function findPartida(idPartida){
+    console.log("*** METHOD Find partida");
+
     try {
         await mongoose.connect(config.db.uri, { useNewUrlParser: true, useUnifiedTopology: true });
         console.log("Connected to MongoDB Atlas")
 
-        const idMax = await modeloPartida.findOne({id:idPartida})
+        
+        const partidaEncontrada = await modeloPartida.findById(idPartida).exec();
+        if(partidaEncontrada){
+            // Accede a los atributos de la partida utilizando la sintaxis objeto.atributo
+            console.log(partidaEncontrada.nombreJugadores);
 
-        const doc = {
-            id: idMax, 
-            nombreJugadores: req.body.username,
-            posicionJugadores: 1010,
-            dineroJugadores: 0
-        };
-        await doc.save();
-        console.log('Documento guardado correctamente')
-        res.status(201).json({message: 'Partida creada correctamente'})
+            //res.send(partidaEncontrada);
+        } else {
+            console.log("Partida no encontrada");
+        }
+        //res.status(201).json({message: 'Partida creada correctamente'})
     }
     catch (error) {
         console.error(error);
-        res.status(500).json({error: 'Error al crear partida', id: idMax, nombreJugadores: req.body.username, posicionJugadores: 1010, dineroJugadores: 0});
+        res.status(500).json({error: 'Error al crear partida',  nombreJugadores: req.body.username, posicionJugadores: 1010, dineroJugadores: 0});
     }finally {
         mongoose.disconnect();
     }
 }
 
-module.exports = {crearPartida};
+module.exports = {crearPartida, findPartida};
  
