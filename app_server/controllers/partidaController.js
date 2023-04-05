@@ -70,7 +70,7 @@ async function findPartida(idPartida){
         console.log("Connected to MongoDB Atlas");
         console.log(idPartida);
 
-        const partidaEncontrada = await modeloPartida.find({id: idPartida}).exec();
+        const partidaEncontrada = await modeloPartida.find({id: idPartida});
         console.log(idPartida);
 
         console.log(partidaEncontrada);
