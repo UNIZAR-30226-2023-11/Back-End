@@ -1,6 +1,6 @@
 var config = require('../config/config');
 var modeloUser = require('../models/userModel');
-var modeloFestividad = require('../models/festividadModel');
+//var modeloFestividad = require('../models/festividadModel');
 var modeloAsignatura = require('../models/asignaturaModel');
 
 var modeloPartida = require('../models/partidaModel');
