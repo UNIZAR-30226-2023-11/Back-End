@@ -5,5 +5,5 @@ services:
     container_name: BackEnd-docker
     working_dir: /usr/src/app
     volumes:
-      - ./app:/usr/src/app
+      - .:/usr/src/app
     command: npm start
