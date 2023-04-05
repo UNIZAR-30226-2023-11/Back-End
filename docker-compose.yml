@@ -9,4 +9,4 @@ services:
     user: "node"
     command: 
     - npm 
-    - install
+    - start
