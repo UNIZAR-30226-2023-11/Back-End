@@ -29,19 +29,20 @@ async function procesarIdMax(idMax) {
 async function crearPartida(req,res){
     console.log("***POST METHOD Crear partida");
 
-    const idMax = await modeloPartida.aggregate([{$group: {_id: null, maxId: {$max: "$id"}}}]).exec()
-    console.log(idMax)
-    const doc = {
-        id: idMax, 
-        nombreJugadores: req.body.username,
-        posicionJugadores: 1010,
-        dineroJugadores: 0
-    };
+
 
     try {
         await mongoose.connect(config.db.uri, { useNewUrlParser: true, useUnifiedTopology: true });
         console.log("Connected to MongoDB Atlas")
 
+        const idMax = await modeloPartida.aggregate([{$group: {_id: null, maxId: {$max: "$id"}}}]).exec()
+
+        const doc = {
+            id: idMax, 
+            nombreJugadores: req.body.username,
+            posicionJugadores: 1010,
+            dineroJugadores: 0
+        };
         await doc.save();
         console.log('Documento guardado correctamente')
         res.status(201).json({message: 'Partida creada correctamente'})
@@ -56,6 +57,11 @@ async function crearPartida(req,res){
 
 async function comenzarPartida(req,res){
     console.log("***POST METHOD Comenzar partida");
+
+}
+
+
+async function findPartida(idPartida){
 
 }
 
