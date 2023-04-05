@@ -21,7 +21,8 @@ const esquema = new schema({
       required: true
     },
     normas: {
-      type: [modeloNormas],
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'modeloNormas',
       required: true
     }
   }, { collection: 'partida' });
