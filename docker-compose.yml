@@ -7,7 +7,5 @@ services:
     volumes:
       - ./../Back-End:/app
     command: 
-      - cd 
-      - "/app"
       - npm 
       - start
