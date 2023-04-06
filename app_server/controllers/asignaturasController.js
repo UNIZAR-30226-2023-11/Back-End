@@ -152,7 +152,7 @@ async function tarjetaAleatoria(req,res){
  * @param {*} coordenadas Coordenadas de la casilla donde ha caido el jugador 
  * @param {*} res 
  */
-async function estaComprada(coordenadas){
+async function estaComprada(coordenadas,res){
     console.log("***METHOD Para saber si esta comprada");
 
     try {
@@ -193,7 +193,7 @@ async function estaComprada(coordenadas){
  * @param {*} res 
  */
 async function operativaCasilla(req, res){
-    if(estaComprada(req.body.coordenadas)){
+    if(estaComprada(req.body.coordenadas, res)){
         console.log("El jugador", req.body.username, "esta en la casilla comprada tiene que pagar");
     }else{
         console.log("El jugador", req.body.username, "no tiene que pagar");
