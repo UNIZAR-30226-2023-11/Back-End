@@ -127,13 +127,18 @@ const  mongoose = require("mongoose");
 async function checkCasilla(req, res){
     //info asignatura son casillas
     console.log("***METHOD Para chequear casilla ");
-    var partidaEncontrada = ctrlPartida.findPartida(req.body.idPartida);
+    //var partidaEncontrada = ctrlPartida.findPartida(req.body.idPartida);
+    
+    await mongoose.connect(config.db.uri, { useNewUrlParser: true, useUnifiedTopology: true });
+    console.log("Connected to MongoDB Atlas")
+    const partidaEncontrada = await modeloPartida.findOne({id: idPartida}).exec();
+    console.log(idPartida);
+    
     console.log(partidaEncontrada);
 
     try {
         if(partidaEncontrada != null){
-            //await mongoose.connect(config.db.uri, { useNewUrlParser: true, useUnifiedTopology: true });
-            //console.log("Connected to MongoDB Atlas")
+
     
             const posicion = partidaEncontrada.nombreJugadores.indexOf(req.body.username);
             partidaEncontrada.dineroJugadores[posicion] = partidaEncontrada.dineroJugadores[posicion] + 100;
