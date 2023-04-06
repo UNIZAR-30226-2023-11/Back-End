@@ -4,6 +4,7 @@ var config = require('../config/config');
 //var modeloAsignatura = require('../models/asignaturaModel');
 
 var modeloPartida = require('../models/partidaModel');
+var modeloTarjetas = require('../models/tarjetasModel');
 var ctrlPartida = require('../controllers/partidaController');
 
 
@@ -123,6 +124,22 @@ const  mongoose = require("mongoose");
 //         mongoose.disconnect();
 //     }
 // }
+/**
+ * 
+ * @param {*} req 
+ * @param {*} res 
+ */
+async function tarjetaAleatoria(req,res){
+    modeloTarjetas.aggregate([{$sample: {size: 1}}], (err, resultado) => {
+        if (err) {
+          console.log(err);
+          return res.status(500).json({mensaje: 'Error al obtener tarjeta aleatorio'});
+        }
+        res.json(resultado);
+        console.log(resultado);
+      });
+
+}
 
 async function checkCasilla(req, res){
     //info asignatura son casillas
@@ -179,4 +196,4 @@ async function checkCasilla(req, res){
 
 }
 
-module.exports = {checkCasilla};
+module.exports = {checkCasilla, tarjetaAleatoria};
