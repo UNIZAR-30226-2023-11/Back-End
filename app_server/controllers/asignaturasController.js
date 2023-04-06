@@ -161,6 +161,7 @@ async function estaComprada(coordenadas,res){
 
         const casillaComprada = await modeloAsignaturasComprada.findOne({coordenadas: coordenadas}).exec();
         console.log(coordenadas);
+        console.log(casillaComprada);
 
         if(casillaComprada != null){
             //Esa casilla esa comprada
@@ -179,11 +180,6 @@ async function estaComprada(coordenadas,res){
         mongoose.disconnect();
         console.log("DisConnected to MongoDB Atlas")
     }
-
-
-
-
-
 }
 
 /**
