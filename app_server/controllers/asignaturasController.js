@@ -130,14 +130,13 @@ const  mongoose = require("mongoose");
  * @param {*} res 
  */
 async function tarjetaAleatoria(req,res){
-    modeloTarjetas.aggregate([{$sample: {size: 1}}], (err, resultado) => {
-        if (err) {
-          console.log(err);
-          return res.status(500).json({mensaje: 'Error al obtener tarjeta aleatorio'});
-        }
+    try {
+        const resultado = await modeloTarjetas.aggregate([{$sample: {size: 1}}]).exec();
         res.json(resultado);
-        console.log(resultado);
-      });
+      } catch (error) {
+        console.log(error);
+        res.status(500).json({mensaje: 'Error al obtener tarjeta aleatoria'});
+      }
 
 }
 
