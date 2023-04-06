@@ -5,6 +5,7 @@ var config = require('../config/config');
 
 var modeloPartida = require('../models/partidaModel');
 var modeloTarjetas = require('../models/tarjetasModel');
+var modeloAsignaturasComprada = require('../models/asignaturasCompradasModel');
 var ctrlPartida = require('../controllers/partidaController');
 
 
@@ -127,24 +128,80 @@ const  mongoose = require("mongoose");
 /**
  * 
  * @param {*} req 
- * @param {*} res 
+ * @param {*} res Devuelve una tarjeta aleatoria.
  */
 async function tarjetaAleatoria(req,res){
     console.log("***METHOD GET Para obtener tarjeta aleatoria ");
     try {
         await mongoose.connect(config.db.uri, { useNewUrlParser: true, useUnifiedTopology: true });
         console.log("Connected to MongoDB Atlas")
-        
+
         const resultado = await modeloTarjetas.aggregate([{$sample: {size: 1}}]).exec();
-        res.json(resultado);
+        res.status(200).json(resultado); 
       } catch (error) {
         console.log(error);
         res.status(500).json({mensaje: 'Error al obtener tarjeta aleatoria'});
       }finally {
         mongoose.disconnect();
+        console.log("DisConnected to MongoDB Atlas")
     }
 
 }
+/**
+ * 
+ * @param {*} coordenadas Coordenadas de la casilla donde ha caido el jugador 
+ * @param {*} res 
+ */
+async function estaComprada(coordenadas){
+    console.log("***METHOD Para saber si esta comprada");
+
+    try {
+        await mongoose.connect(config.db.uri, { useNewUrlParser: true, useUnifiedTopology: true });
+        console.log("Connected to MongoDB Atlas")
+
+        const casillaComprada = await modeloAsignaturasComprada.findOne({coordenadas: coordenadas}).exec();
+        console.log(coordenadas);
+
+        if(casillaComprada != null){
+            //Esa casilla esa comprada
+            res.status(200).json(casillaComprada); 
+            return 1;
+        }else{
+            //Esa casilla no esta comprada
+            res.status(200).json("La casilla no esta comprada"); 
+            return 0;
+        }
+     
+      } catch (error) {
+        console.log(error);
+        res.status(500).json({mensaje: 'Error al saber si la casilla esta comprada o no'});
+      }finally {
+        mongoose.disconnect();
+        console.log("DisConnected to MongoDB Atlas")
+    }
+
+
+
+
+
+}
+
+/**
+ * 
+ * @param {*} req.body.username Nombre de usuario del jugador.
+ * @param {*} req.body.coordenadas Coordenadas de la casilla donde ha caido el jugador 
+ * @param {*} res 
+ */
+async function operativaCasilla(req, res){
+    if(estaComprada(req.body.coordenadas)){
+        console.log("El jugador", req.body.username, "esta en la casilla comprada tiene que pagar");
+    }else{
+        console.log("El jugador", req.body.username, "no tiene que pagar");
+    }
+
+}
+
+
 
 async function checkCasilla(req, res){
     //info asignatura son casillas
@@ -197,8 +254,9 @@ async function checkCasilla(req, res){
         res.status(500).json({error: 'Error al checkCasilla'});
     }finally {
         mongoose.disconnect();
+        console.log("DisConnected to MongoDB Atlas")
     }
 
 }
 
-module.exports = {checkCasilla, tarjetaAleatoria};
+module.exports = {checkCasilla, tarjetaAleatoria, operativaCasilla};
