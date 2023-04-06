@@ -130,13 +130,19 @@ const  mongoose = require("mongoose");
  * @param {*} res 
  */
 async function tarjetaAleatoria(req,res){
+    console.log("***METHOD GET Para obtener tarjeta aleatoria ");
     try {
+        await mongoose.connect(config.db.uri, { useNewUrlParser: true, useUnifiedTopology: true });
+        console.log("Connected to MongoDB Atlas")
+        
         const resultado = await modeloTarjetas.aggregate([{$sample: {size: 1}}]).exec();
         res.json(resultado);
       } catch (error) {
         console.log(error);
         res.status(500).json({mensaje: 'Error al obtener tarjeta aleatoria'});
-      }
+      }finally {
+        mongoose.disconnect();
+    }
 
 }
 
