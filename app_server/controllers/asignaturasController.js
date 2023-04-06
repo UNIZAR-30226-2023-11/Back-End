@@ -132,8 +132,8 @@ async function checkCasilla(req, res){
 
     try {
         if(partidaEncontrada != null){
-            await mongoose.connect(config.db.uri, { useNewUrlParser: true, useUnifiedTopology: true });
-            console.log("Connected to MongoDB Atlas")
+            //await mongoose.connect(config.db.uri, { useNewUrlParser: true, useUnifiedTopology: true });
+            //console.log("Connected to MongoDB Atlas")
     
             const posicion = partidaEncontrada.nombreJugadores.indexOf(req.body.username);
             partidaEncontrada.dineroJugadores[posicion] = partidaEncontrada.dineroJugadores[posicion] + 100;
