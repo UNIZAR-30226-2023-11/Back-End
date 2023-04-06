@@ -164,7 +164,7 @@ async function estaComprada(coordenadas,res){
 
         if(casillaComprada != null){
             //Esa casilla esa comprada
-            res.status(200).json(casillaComprada); 
+            res.status(200).json("La casilla esta comprada", casillaComprada); 
             return 1;
         }else{
             //Esa casilla no esta comprada
