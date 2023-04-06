@@ -73,11 +73,11 @@ async function unirJugador(req,res){
             const tam = partidaEncontrada.nombreJugadores.length;
 
             //Añadimos jugador a nombreJugadores
-            partidaEncontrada.nombreJugadores[tam+1] = req.body.username;
+            partidaEncontrada.nombreJugadores[tam] = req.body.username;
             //Añadimos jugador a posicionJugadores, en este caso la inicial.
-            partidaEncontrada.posicionJugadores[tam+1] = casillaInicio;
+            partidaEncontrada.posicionJugadores[tam] = casillaInicio;
             //Añadimos jugador a dineroJugadores, en este caso con el dinero inicial
-            partidaEncontrada.dineroJugadores[tam+1] =  partidaEncontrada.dineroJugadores[0];
+            partidaEncontrada.dineroJugadores[tam] =  partidaEncontrada.dineroJugadores[0];
 
             // Accede a los atributos de la partida utilizando la sintaxis objeto.atributo
             console.log(partidaEncontrada);
