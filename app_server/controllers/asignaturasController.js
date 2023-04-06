@@ -189,7 +189,7 @@ async function estaComprada(coordenadas,res){
  * @param {*} res 
  */
 async function operativaCasilla(req, res){
-    const comprada = estaComprada(req.body.coordenadas, res);
+    const comprada = await estaComprada(req.body.coordenadas, res);
     if(comprada != null){
         console.log("El jugador", req.body.username, "esta en la casilla comprada tiene que pagar");
         console.log(comprada.nombre);
