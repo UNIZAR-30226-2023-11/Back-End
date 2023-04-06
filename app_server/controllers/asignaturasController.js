@@ -193,7 +193,7 @@ async function estaComprada(coordenadas,res){
  * @param {*} res 
  */
 async function operativaCasilla(req, res){
-    var comprada = estaComprada(req.body.coordenadas, res);
+    const comprada = estaComprada(req.body.coordenadas, res);
     if(comprada != null){
         console.log("El jugador", req.body.username, "esta en la casilla comprada tiene que pagar");
         console.log(comprada);
