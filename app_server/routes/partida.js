@@ -6,7 +6,8 @@ var ctrlAsignatura = require('../controllers/asignaturasController');
 
 
 router.post('/crear', ctrlPartida.crearPartida);
-router.post('/jugadoresUpdate', ctrlAsignatura.checkCasilla);
+router.put('/unirJugador', ctrlPartida.unirJugador);
+//router.post('/jugadoresUpdate', ctrlAsignatura.checkCasilla);
 //router.get('/encontrar', ctrlPartida.findPartida);  //Esta es privada
 
 module.exports = router;

@@ -2,6 +2,9 @@ var config = require('../config/config');
 var modeloPartida = require('../models/partidaModel')
 const  mongoose = require("mongoose");
 
+
+const casillaInicio = 1010;
+
 async function procesarIdMax(idMax) {
     const doc = {
         id: idMax, 
@@ -39,8 +42,8 @@ async function crearPartida(req,res){
         const doc = new modeloPartida ({
             id: maxIdNumber+1, 
             nombreJugadores: req.body.username,
-            posicionJugadores: 1010,
-            dineroJugadores: 0
+            posicionJugadores: casillaInicio,
+            dineroJugadores: req.body.dineroInicial
             //normas:[]
         });
         await doc.save();
@@ -56,6 +59,58 @@ async function crearPartida(req,res){
     }
 }
 
+async function unirJugador(req,res){
+    console.log("***PUT METHOD Actualizar partida se añaden jugadores");
+    try {
+        await mongoose.connect(config.db.uri, { useNewUrlParser: true, useUnifiedTopology: true });
+        console.log("Connected to MongoDB Atlas");
+        
+        const partidaEncontrada = await modeloPartida.findOne({id: req.body.idPartida}).exec();
+        console.log(partidaEncontrada);
+        
+        if(partidaEncontrada ){
+            //Añadimos el jugador a nombreJugadores, posicionJugadores, y dineroJugadores
+            const tam = partidaEncontrada.nombreJugadores.length;
+
+            //Añadimos jugador a nombreJugadores
+            partidaEncontrada.nombreJugadores[tam+1] = req.body.username;
+            //Añadimos jugador a posicionJugadores, en este caso la inicial.
+            partidaEncontrada.posicionJugadores[tam+1] = casillaInicio;
+            //Añadimos jugador a dineroJugadores, en este caso con el dinero inicial
+            partidaEncontrada.dineroJugadores[tam+1] =  partidaEncontrada.dineroJugadores[0];
+
+            // Accede a los atributos de la partida utilizando la sintaxis objeto.atributo
+            console.log(partidaEncontrada);
+            
+            //Actualizamos la partida
+            const result = await modeloPartida.updateOne({ id: req.body.idPartida},  { $set: { nombreJugadores: partidaEncontrada.nombreJugadores,
+                                                                                            posicionJugadores: partidaEncontrada.posicionJugadores,
+                                                                                            dineroJugadores: partidaEncontrada.dineroJugadores }})
+            if(result.modifiedCount == 1) {
+                console.log(result);
+                console.log("Se ha actualizado la partida correctamente");
+                res.status(200).json("Se ha actualizado la partida correctamente"); 
+            }else {
+                //console.error(error);
+                console.log(result);
+                res.status(500).json({ error: 'Error al actualizar la partida '});
+            }
+        } else {
+            console.log("Partida no encontrada");
+            res.status(404).json({error: 'No hay ninguna partida con ese id'}); 
+        }
+    }
+    catch (error) {
+        console.error(error);
+        console.log('Error al encontrar partida');
+        res.status(500).json({error: 'Error al encontrar partida'});
+        
+    }finally {
+        mongoose.disconnect();
+    }
+    
+}
+
 async function comenzarPartida(req,res){
     console.log("***POST METHOD Comenzar partida");
 
@@ -68,12 +123,11 @@ async function findPartida(idPartida){
     try {
         await mongoose.connect(config.db.uri, { useNewUrlParser: true, useUnifiedTopology: true });
         console.log("Connected to MongoDB Atlas");
-        console.log("ANTES DE FIND", idPartida);
-
+        
         const partidaEncontrada = await modeloPartida.findOne({id: idPartida}).exec();
         console.log(idPartida);
-
         console.log(partidaEncontrada);
+
         if(partidaEncontrada ){
             // Accede a los atributos de la partida utilizando la sintaxis objeto.atributo
             console.log(partidaEncontrada.nombreJugadores);
@@ -97,5 +151,5 @@ async function findPartida(idPartida){
     }
 }
 
-module.exports = {crearPartida, findPartida};
+module.exports = {crearPartida, findPartida, unirJugador};
  
