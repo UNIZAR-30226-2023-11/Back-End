@@ -59,6 +59,11 @@ async function crearPartida(req,res){
     }
 }
 
+
+function estaJugador(username, vJugadores){
+    return vJugadores.includes(username);
+}
+
 async function unirJugador(req,res){
     console.log("***PUT METHOD Actualizar partida se añaden jugadores");
     try {
@@ -69,32 +74,39 @@ async function unirJugador(req,res){
         console.log(partidaEncontrada);
         
         if(partidaEncontrada ){
-            //Añadimos el jugador a nombreJugadores, posicionJugadores, y dineroJugadores
-            const tam = partidaEncontrada.nombreJugadores.length;
+            if(!estaJugador(req.body.username, partidaEncontrada.nombreJugadores)){
+                //Si no esta el jugador lo añadimos
+                //Añadimos el jugador a nombreJugadores, posicionJugadores, y dineroJugadores
+                const tam = partidaEncontrada.nombreJugadores.length;
 
-            //Añadimos jugador a nombreJugadores
-            partidaEncontrada.nombreJugadores[tam] = req.body.username;
-            //Añadimos jugador a posicionJugadores, en este caso la inicial.
-            partidaEncontrada.posicionJugadores[tam] = casillaInicio;
-            //Añadimos jugador a dineroJugadores, en este caso con el dinero inicial
-            partidaEncontrada.dineroJugadores[tam] =  partidaEncontrada.dineroJugadores[0];
+                //Añadimos jugador a nombreJugadores
+                partidaEncontrada.nombreJugadores[tam] = req.body.username;
+                //Añadimos jugador a posicionJugadores, en este caso la inicial.
+                partidaEncontrada.posicionJugadores[tam] = casillaInicio;
+                //Añadimos jugador a dineroJugadores, en este caso con el dinero inicial
+                partidaEncontrada.dineroJugadores[tam] =  partidaEncontrada.dineroJugadores[0];
 
-            // Accede a los atributos de la partida utilizando la sintaxis objeto.atributo
-            console.log(partidaEncontrada);
-            
-            //Actualizamos la partida
-            const result = await modeloPartida.updateOne({ id: req.body.idPartida},  { $set: { nombreJugadores: partidaEncontrada.nombreJugadores,
-                                                                                            posicionJugadores: partidaEncontrada.posicionJugadores,
-                                                                                            dineroJugadores: partidaEncontrada.dineroJugadores }})
-            if(result.modifiedCount == 1) {
-                console.log(result);
-                console.log("Se ha actualizado la partida correctamente");
-                res.status(200).json("Se ha actualizado la partida correctamente"); 
-            }else {
-                //console.error(error);
-                console.log(result);
-                res.status(500).json({ error: 'Error al actualizar la partida '});
+                // Accede a los atributos de la partida utilizando la sintaxis objeto.atributo
+                console.log(partidaEncontrada);
+                
+                //Actualizamos la partida
+                const result = await modeloPartida.updateOne({ id: req.body.idPartida},  { $set: { nombreJugadores: partidaEncontrada.nombreJugadores,
+                                                                                                posicionJugadores: partidaEncontrada.posicionJugadores,
+                                                                                                dineroJugadores: partidaEncontrada.dineroJugadores }})
+                if(result.modifiedCount == 1) {
+                    console.log(result);
+                    console.log("Se ha actualizado la partida correctamente");
+                    res.status(200).json("Se ha actualizado la partida correctamente"); 
+                }else {
+                    //console.error(error);
+                    console.log(result);
+                    res.status(500).json({ error: 'Error al actualizar la partida '});
+                }
+            }else{
+                //Ya esta el jugador no hay que hacer nada
+                res.status(200).json("El jugador ya se ha unido"); 
             }
+
         } else {
             console.log("Partida no encontrada");
             res.status(404).json({error: 'No hay ninguna partida con ese id'}); 
