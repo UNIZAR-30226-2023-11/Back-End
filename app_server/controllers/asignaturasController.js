@@ -196,7 +196,9 @@ async function operativaCasilla(req, res){
     const comprada = estaComprada(req.body.coordenadas, res);
     if(comprada != null){
         console.log("El jugador", req.body.username, "esta en la casilla comprada tiene que pagar");
-        console.log(comprada);
+        console.log(comprada.nombre);
+        console.log(comprada.coordenadas);
+
         //Si la casilla esta comprada habrá que quitarle dinero al jugador y añadirselo al propietario
     }else{
         console.log("El jugador", req.body.username, "no tiene que pagar");
