@@ -5,6 +5,10 @@ const esquema = new schema({
   coordenadas: {
     type: String,
     required: true
+  },
+  nombre:{
+    type: String,
+    required: false
   }
 }, { collection: 'asignaturas_partida' });
 
