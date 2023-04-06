@@ -131,8 +131,8 @@ async function checkCasilla(req, res){
     
     await mongoose.connect(config.db.uri, { useNewUrlParser: true, useUnifiedTopology: true });
     console.log("Connected to MongoDB Atlas")
-    const partidaEncontrada = await modeloPartida.findOne({id: idPartida}).exec();
-    console.log(idPartida);
+    const partidaEncontrada = await modeloPartida.findOne({id: req.body.idPartida}).exec();
+    console.log(req.body.idPartida);
     
     console.log(partidaEncontrada);
 
