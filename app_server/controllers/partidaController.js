@@ -70,11 +70,11 @@ async function findPartida(idPartida){
         console.log("Connected to MongoDB Atlas");
         console.log("ANTES DE FIND", idPartida);
 
-        const partidaEncontrada = await modeloPartida.find({id: idPartida}).exec();
+        const partidaEncontrada = await modeloPartida.findOne({id: idPartida}).exec();
         console.log(idPartida);
 
         console.log(partidaEncontrada);
-        if(partidaEncontrada){
+        if(partidaEncontrada ){
             // Accede a los atributos de la partida utilizando la sintaxis objeto.atributo
             console.log(partidaEncontrada.nombreJugadores);
             return partidaEncontrada;
