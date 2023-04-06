@@ -160,7 +160,7 @@ async function checkCasilla(req, res){
             }
         }else{
             console.log("Partida Encontrada null");
-
+            res.status(500).json({error: 'Error al encontrar la partida'});
         }
         
         
