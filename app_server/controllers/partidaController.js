@@ -140,41 +140,90 @@ async function comenzarPartida(req,res){
     console.log("***POST METHOD Comenzar partida");
 
 }
+/**
+ * 
+ * @param {*} req.body.username Nombre del usuario que lanza los dados 
+ * @param {*} req.body.idPartida
+ * @param {*} res 
+ */
+async function lanzardados(req,res){
+    // Generate two random numbers between 1 and 6
+    const dado1 = Math.floor(Math.random() * 6) + 1;
+    const dado2 = Math.floor(Math.random() * 6) + 1;
+
+    // Calculate the total
+    const total = dado1 + dado2;
 
 
-// async function findPartida(idPartida){
-//     console.log("*** METHOD Find partida");
-
-//     try {
-//         await mongoose.connect(config.db.uri, { useNewUrlParser: true, useUnifiedTopology: true });
-//         console.log("Connected to MongoDB Atlas");
+    try{
+        const partida = await findPartida(req.body.idPartida,res);
+        if(partida != null){
+            await mongoose.connect(config.db.uri, { useNewUrlParser: true, useUnifiedTopology: true });
+            console.log("Connected to MongoDB Atlas");
+            //Actualizamos la partida
+            const result = await modeloPartida.updateOne({ id: req.body.idPartida},  { $set: { dados: (dado1, dado2, req.body.username)}})
+            if(result.modifiedCount == 1) {
+                console.log(result);
+                console.log("Se ha actualizado la partida correctamente, se han añadido los dados y quien los ha lanzado");
+                res.status(200).json("Se ha actualizado la partida correctamente, se han añadido los dados y quien los ha lanzado"); 
+                // Send the result as JSON
+                res.json({
+                    dado1: dado1,
+                    dado2: dado2,
+                    total: total
+                    });
+            }else {
+                //console.error(error);
+                console.log(result);
+                res.status(500).json({ error: 'Error al actualizar la partida al lanzar los dados '});
+            }
+        }else{
+            console.log("Partida no encontrada");
+            res.status(404).json({error: 'No hay ninguna partida con ese id'}); 
+        }
+    } catch (error) {
+        console.error(error);
+        console.log('Error al lanzar los dados en la partida');
+        res.status(500).json({error: 'Error al lanzar los dados en la partida'});
         
-//         const partidaEncontrada = await modeloPartida.findOne({id: idPartida}).exec();
-//         console.log(idPartida);
-//         console.log(partidaEncontrada);
+    }
 
-//         if(partidaEncontrada ){
-//             // Accede a los atributos de la partida utilizando la sintaxis objeto.atributo
-//             console.log(partidaEncontrada.nombreJugadores);
-//             return partidaEncontrada;
-//             //res.status(201).json({message: 'Partida encontrada correctamente', jugadores: partidaEncontrada.nombreJugadores});
-//             //res.send(partidaEncontrada);
-//         } else {
-//             console.log("Partida no encontrada");
-//             //res.status(404).json({error: 'No hay ninguna partida con ese id'});
-//             return null;
-//         }
-//         //res.status(201).json({message: 'Partida creada correctamente'})
-//     }
-//     catch (error) {
-//         console.error(error);
-//         console.log('Error al encontrar partida');
-//         //res.status(500).json({error: 'Error al encontrar partida'});
-//         return null;
-//     }finally {
-//         //mongoose.disconnect();
-//     }
-// }
 
-module.exports = {crearPartida, unirJugador};
+}
+async function findPartida(idPartida, res){
+    console.log("*** METHOD Find partida");
+
+    try {
+        await mongoose.connect(config.db.uri, { useNewUrlParser: true, useUnifiedTopology: true });
+        console.log("Connected to MongoDB Atlas");
+        
+        const partidaEncontrada = await modeloPartida.findOne({id: idPartida}).exec();
+        console.log(idPartida);
+        console.log(partidaEncontrada);
+
+        if(partidaEncontrada ){
+            // Accede a los atributos de la partida utilizando la sintaxis objeto.atributo
+            //console.log(partidaEncontrada.nombreJugadores);
+            //res.status(201).json({message: 'Partida encontrada correctamente', jugadores: partidaEncontrada.nombreJugadores});
+            return partidaEncontrada;
+            //res.send(partidaEncontrada);
+        } else {
+            console.log("Partida no encontrada");
+            //res.status(404).json({error: 'No hay ninguna partida con ese id'});
+            return null;
+        }
+        //res.status(201).json({message: 'Partida creada correctamente'})
+    }
+    catch (error) {
+        console.error(error);
+        console.log('Error al encontrar partida');
+        res.status(500).json({error: 'Error al encontrar partida'});
+        return null;
+    }finally {
+        mongoose.disconnect();
+        console.log("DisConnected to MongoDB Atlas")
+    }
+}
+
+module.exports = {crearPartida, unirJugador, lanzardados};
  

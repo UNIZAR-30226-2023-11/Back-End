@@ -19,6 +19,14 @@ const esquema = new schema({
     dineroJugadores: {
       type: [Number],
       required: true
+    },
+    dados: {
+      type:{
+        dado1: Number,
+        dado2: Number,
+        jugador: String
+      },
+      required: false
     }
     // ,
     // normas: {

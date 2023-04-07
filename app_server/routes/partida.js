@@ -11,4 +11,6 @@ router.get('/tarjeta', ctrlAsignatura.tarjetaAleatoria);
 //router.post('/jugadoresUpdate', ctrlAsignatura.checkCasilla);
 //router.get('/encontrar', ctrlPartida.findPartida);  //Esta es privada
 router.put('/operativaCasilla', ctrlAsignatura.operativaCasilla);
+router.get('/lanzarDados', ctrlPartida.lanzardados);
+
 module.exports = router;
