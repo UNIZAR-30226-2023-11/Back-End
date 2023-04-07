@@ -29,13 +29,19 @@ async function procesarIdMax(idMax) {
     }
   }
 
+/**
+ * 
+ * @param {*} req.body.username Nombre del ususario que crea la partida.
+ * @param {*} req.body.dineroInicial Dinero inicial con el que empezarán los jugadores la partida. 
+ * @param {*} req.body.normas Todavia no esta introducido esta funcionalidad.
+ * @param {*} res 
+ */
 async function crearPartida(req,res){
     console.log("***POST METHOD Crear partida");
     try {
         await mongoose.connect(config.db.uri, { useNewUrlParser: true, useUnifiedTopology: true });
         console.log("Connected to MongoDB Atlas")
 
-        //const idMax =  modeloPartida.aggregate([{$group: {_id: null, maxId: {$max: "$id"}}}]).exec()
         const idMax = await modeloPartida.find().sort({id: -1}).limit(1).exec();
         const maxIdNumber = idMax[0].id;
         console.log(maxIdNumber);
@@ -56,6 +62,7 @@ async function crearPartida(req,res){
         res.status(500).json({error: 'Error al crear partida',  nombreJugadores: req.body.username, posicionJugadores: 1010, dineroJugadores: 0});
     }finally {
         mongoose.disconnect();
+        console.log("DisConnected to MongoDB Atlas")
     }
 }
 
@@ -64,6 +71,11 @@ function estaJugador(username, vJugadores){
     return vJugadores.includes(username);
 }
 
+/**
+ * @param {*} req.bodu.idPartida Identificador de la partida a la que desea unirse (el codigo).
+ * @param {*} req.body.username Nombre del usuario que desea unirse a la partida. 
+ * @param {*} res 
+ */
 async function unirJugador(req,res){
     console.log("***PUT METHOD Actualizar partida se añaden jugadores");
     try {
@@ -119,6 +131,7 @@ async function unirJugador(req,res){
         
     }finally {
         mongoose.disconnect();
+        console.log("DisConnected to MongoDB Atlas")
     }
     
 }
@@ -129,39 +142,39 @@ async function comenzarPartida(req,res){
 }
 
 
-async function findPartida(idPartida){
-    console.log("*** METHOD Find partida");
+// async function findPartida(idPartida){
+//     console.log("*** METHOD Find partida");
 
-    try {
-        await mongoose.connect(config.db.uri, { useNewUrlParser: true, useUnifiedTopology: true });
-        console.log("Connected to MongoDB Atlas");
+//     try {
+//         await mongoose.connect(config.db.uri, { useNewUrlParser: true, useUnifiedTopology: true });
+//         console.log("Connected to MongoDB Atlas");
         
-        const partidaEncontrada = await modeloPartida.findOne({id: idPartida}).exec();
-        console.log(idPartida);
-        console.log(partidaEncontrada);
+//         const partidaEncontrada = await modeloPartida.findOne({id: idPartida}).exec();
+//         console.log(idPartida);
+//         console.log(partidaEncontrada);
 
-        if(partidaEncontrada ){
-            // Accede a los atributos de la partida utilizando la sintaxis objeto.atributo
-            console.log(partidaEncontrada.nombreJugadores);
-            return partidaEncontrada;
-            //res.status(201).json({message: 'Partida encontrada correctamente', jugadores: partidaEncontrada.nombreJugadores});
-            //res.send(partidaEncontrada);
-        } else {
-            console.log("Partida no encontrada");
-            //res.status(404).json({error: 'No hay ninguna partida con ese id'});
-            return null;
-        }
-        //res.status(201).json({message: 'Partida creada correctamente'})
-    }
-    catch (error) {
-        console.error(error);
-        console.log('Error al encontrar partida');
-        //res.status(500).json({error: 'Error al encontrar partida'});
-        return null;
-    }finally {
-        //mongoose.disconnect();
-    }
-}
+//         if(partidaEncontrada ){
+//             // Accede a los atributos de la partida utilizando la sintaxis objeto.atributo
+//             console.log(partidaEncontrada.nombreJugadores);
+//             return partidaEncontrada;
+//             //res.status(201).json({message: 'Partida encontrada correctamente', jugadores: partidaEncontrada.nombreJugadores});
+//             //res.send(partidaEncontrada);
+//         } else {
+//             console.log("Partida no encontrada");
+//             //res.status(404).json({error: 'No hay ninguna partida con ese id'});
+//             return null;
+//         }
+//         //res.status(201).json({message: 'Partida creada correctamente'})
+//     }
+//     catch (error) {
+//         console.error(error);
+//         console.log('Error al encontrar partida');
+//         //res.status(500).json({error: 'Error al encontrar partida'});
+//         return null;
+//     }finally {
+//         //mongoose.disconnect();
+//     }
+// }
 
-module.exports = {crearPartida, findPartida, unirJugador};
+module.exports = {crearPartida, unirJugador};
  
