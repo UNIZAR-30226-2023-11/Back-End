@@ -147,6 +147,7 @@ async function comenzarPartida(req,res){
  * @param {*} res 
  */
 async function lanzardados(req,res){
+    console.log("***GET METHOD Lanzar dados de la partida");
     // Generate two random numbers between 1 and 6
     const dado1 = Math.floor(Math.random() * 6) + 1;
     const dado2 = Math.floor(Math.random() * 6) + 1;
@@ -156,18 +157,20 @@ async function lanzardados(req,res){
 
 
     try{
-        const partida = await findPartida(req.body.idPartida,res);
+        const partida = await findPartida(req.body.idPartida, res);
+        console.log("PARTIDA ENCONTRADA");
+        console.log(partida);
         if(partida != null){
             await mongoose.connect(config.db.uri, { useNewUrlParser: true, useUnifiedTopology: true });
             console.log("Connected to MongoDB Atlas");
             //Actualizamos la partida
-            const result = await modeloPartida.updateOne({ id: req.body.idPartida},  { $set: { dados: (dado1, dado2, req.body.username)}})
+            const result = await modeloPartida.updateOne({ id: req.body.idPartida},  { $set:  { "dados.dado1": dado1, "dados.dado2": dado2, "dados.jugador": req.body.username }})
             if(result.modifiedCount == 1) {
                 console.log(result);
                 console.log("Se ha actualizado la partida correctamente, se han añadido los dados y quien los ha lanzado");
                 res.status(200).json("Se ha actualizado la partida correctamente, se han añadido los dados y quien los ha lanzado"); 
                 // Send the result as JSON
-                res.json({
+                console.log({
                     dado1: dado1,
                     dado2: dado2,
                     total: total
