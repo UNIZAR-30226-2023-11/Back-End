@@ -4,13 +4,19 @@
     "precioCompra": 200,
     "matricula": 100,
     "tipo": "I",
-    "coordenadas": "08"
+    "coordenadas":{
+      "h": 0,
+      "v": 8
+    }
   },
   {
     "nombre": "Ahorro energetico enchufes",
     "precioCompra": 200,
     "matricula": 100,
     "tipo": "I",
-    "coordenadas": "80"
+    "coordenadas":{
+      "h": 8,
+      "v": 0
+    }
   }
 ]

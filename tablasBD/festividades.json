@@ -8,7 +8,10 @@
     "precio4M": 267,
     "devolucionMatricula": 133,
     "tipo": "F",
-    "coordenadas": "105"
+    "coordenadas":{
+      "h": 10,
+      "v": 5
+    }
   },
   {
     "nombre": "Paso de Ecuador",
@@ -19,7 +22,10 @@
     "precio4M": 267,
     "devolucionMatricula": 133,
     "tipo": "F",
-    "coordenadas": "50"
+    "coordenadas":{
+      "h": 5,
+      "v": 0
+    }
   },
   {
     "nombre": "San Pepe",
@@ -30,7 +36,10 @@
     "precio4M": 267,
     "devolucionMatricula": 133,
     "tipo": "F",
-    "coordenadas": "05"
+    "coordenadas":{
+      "h": 0,
+      "v": 5
+    }
   },
   {
     "nombre": "Fin de Carrera",
@@ -41,6 +50,9 @@
     "precio4M": 267,
     "devolucionMatricula": 133,
     "tipo": "F",
-    "coordenadas": "510"
+    "coordenadas":{
+      "h": 5,
+      "v": 10
+    }
   }
 ]

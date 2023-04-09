@@ -9,7 +9,10 @@
     "precio4C": 213,
     "devolucionMatricula": 40,
     "tipo": "A",
-    "coordenadas": "109"
+    "coordenadas":{
+      "h": 10,
+      "v": 9
+    }
   },
   {
     "nombre": "IC",
@@ -21,7 +24,10 @@
     "precio4C": 427,
     "devolucionMatricula": 40,
     "tipo": "A",
-    "coordenadas": "107"
+    "coordenadas":{
+      "h": 10,
+      "v": 7
+    }
   },
   {
     "nombre": "Prog. 2",
@@ -33,7 +39,10 @@
     "precio4C": 533,
     "devolucionMatricula": 67,
     "tipo": "A",
-    "coordenadas": "104"
+    "coordenadas":{
+      "h": 10,
+      "v": 4
+    }
   },
   {
     "nombre": "Fisica y electronica",
@@ -45,7 +54,10 @@
     "precio4C": 533,
     "devolucionMatricula": 67,
     "tipo": "A",
-    "coordenadas": "102"
+    "coordenadas":{
+      "h": 10,
+      "v": 2
+    }
   },
   {
     "nombre": "AOC 1",
@@ -57,7 +69,10 @@
     "precio4C": 600,
     "devolucionMatricula": 80,
     "tipo": "A",
-    "coordenadas": "101"
+    "coordenadas":{
+      "h": 10,
+      "v": 1
+    }
   },
   {
     "nombre": "SO",
@@ -69,7 +84,10 @@
     "precio4C": 833,
     "devolucionMatricula": 93,
     "tipo": "A",
-    "coordenadas": "90"
+    "coordenadas":{
+      "h": 9,
+      "v": 0
+    }
   },
   {
     "nombre": "EDA",
@@ -81,7 +99,10 @@
     "precio4C": 833,
     "devolucionMatricula": 93,
     "tipo": "A",
-    "coordenadas": "70"
+    "coordenadas":{
+      "h": 7,
+      "v": 0
+    }
   },
   {
     "nombre": "Redes",
@@ -93,7 +114,11 @@
     "precio4C": 933,
     "devolucionMatricula": 107,
     "tipo": "A",
-    "coordenadas": "60"
+    "coordenadas":{
+      "h": 6,
+      "v": 0
+    }
+    
   },
   {
     "nombre": "Tec. Prog.",
@@ -105,7 +130,10 @@
     "precio4C": 1000,
     "devolucionMatricula": 120,
     "tipo": "A",
-    "coordenadas": "40"
+    "coordenadas":{
+      "h": 4,
+      "v": 0
+    }
   },
   {
     "nombre": "IPO",
@@ -117,7 +145,11 @@
     "precio4C": 1000,
     "devolucionMatricula": 120,
     "tipo": "A",
-    "coordenadas": "20"
+    "coordenadas":{
+      "h": 2,
+      "v": 0
+    }
+
   },
   {
     "nombre": "AOC 2",
@@ -129,7 +161,10 @@
     "precio4C": 1067,
     "devolucionMatricula": 133,
     "tipo": "A",
-    "coordenadas": "10"
+    "coordenadas":{
+      "h": 1,
+      "v": 0
+    }
   },
   {
     "nombre": "IA",
@@ -141,7 +176,10 @@
     "precio4C": 1167,
     "devolucionMatricula": 147,
     "tipo": "A",
-    "coordenadas": "01"
+    "coordenadas":{
+      "h": 0,
+      "v": 1
+    }
   },
   {
     "nombre": "Distribuidos",
@@ -153,7 +191,10 @@
     "precio4C": 1167,
     "devolucionMatricula": 147,
     "tipo": "A",
-    "coordenadas": "03"
+    "coordenadas":{
+      "h": 0,
+      "v": 3
+    }
   },
   {
     "nombre": "PH",
@@ -165,7 +206,10 @@
     "precio4C": 1233,
     "devolucionMatricula": 160,
     "tipo": "A",
-    "coordenadas": "04"
+    "coordenadas":{
+      "h": 0,
+      "v": 4
+    }
   },
   {
     "nombre": "SiSinf 2",
@@ -177,7 +221,10 @@
     "precio4C": 1300,
     "devolucionMatricula": 173,
     "tipo": "A",
-    "coordenadas": "06"
+    "coordenadas":{
+      "h": 0,
+      "v": 6
+    }
   },
   {
     "nombre": "Procesadores del lenguaje",
@@ -189,7 +236,10 @@
     "precio4C": 1300,
     "devolucionMatricula": 173,
     "tipo": "A",
-    "coordenadas": "07"
+    "coordenadas":{
+      "h": 0,
+      "v": 7
+    }
   },
   {
     "nombre": "PS",
@@ -201,7 +251,10 @@
     "precio4C": 1367,
     "devolucionMatricula": 187,
     "tipo": "A",
-    "coordenadas": "09"
+    "coordenadas":{
+      "h": 0,
+      "v": 9
+    }
   },
   {
     "nombre": "Robotica",
@@ -213,7 +266,10 @@
     "precio4C": 1467,
     "devolucionMatricula": 200,
     "tipo": "A",
-    "coordenadas": "110"
+    "coordenadas":{
+      "h": 1,
+      "v": 10
+    }
   },
   {
     "nombre": "Sistemas y tecnologias web",
@@ -225,7 +281,10 @@
     "precio4C": 1467,
     "devolucionMatricula": 200,
     "tipo": "A",
-    "coordenadas": "210"
+    "coordenadas":{
+      "h": 2,
+      "v": 10
+    }
   },
   {
     "nombre": "Seguridad informatica",
@@ -237,7 +296,10 @@
     "precio4C": 1600,
     "devolucionMatricula": 213,
     "tipo": "A",
-    "coordenadas": "410"
+    "coordenadas":{
+      "h": 4,
+      "v": 10
+    }
   },
   {
     "nombre": "Practicas de empresa",
@@ -249,7 +311,10 @@
     "precio4C": 1733,
     "devolucionMatricula": 233,
     "tipo": "A",
-    "coordenadas": "710"
+    "coordenadas":{
+      "h": 7,
+      "v": 10
+    }
   },
   {
     "nombre": "TFG",
@@ -261,6 +326,9 @@
     "precio4C": 2267,
     "devolucionMatricula": 267,
     "tipo": "A",
-    "coordenadas": "910"
+    "coordenadas":{
+      "h": 9,
+      "v": 10
+    }
   }
 ]
