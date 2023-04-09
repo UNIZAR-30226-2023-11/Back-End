@@ -228,5 +228,5 @@ async function findPartida(idPartida, res){
     }
 }
 
-module.exports = {crearPartida, unirJugador, lanzardados};
+module.exports = {crearPartida, unirJugador, lanzardados, findPartida};
  

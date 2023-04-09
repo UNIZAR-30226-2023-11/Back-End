@@ -10,7 +10,8 @@ router.put('/unirJugador', ctrlPartida.unirJugador);
 router.get('/tarjeta', ctrlAsignatura.tarjetaAleatoria);
 //router.post('/jugadoresUpdate', ctrlAsignatura.checkCasilla);
 //router.get('/encontrar', ctrlPartida.findPartida);  //Esta es privada
-router.put('/operativaCasilla', ctrlAsignatura.operativaCasilla);
+router.put('/casilla', ctrlAsignatura.checkCasilla);
+router.put('/comprar', ctrlAsignatura.comprarCasilla);
 router.get('/lanzarDados', ctrlPartida.lanzardados);
 
 module.exports = router;

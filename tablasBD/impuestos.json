@@ -1,0 +1,16 @@
+[
+  {
+    "nombre": "Ahorro energetico calefaccion",
+    "precioCompra": 200,
+    "matricula": 100,
+    "tipo": "I",
+    "coordenadas": "08"
+  },
+  {
+    "nombre": "Ahorro energetico enchufes",
+    "precioCompra": 200,
+    "matricula": 100,
+    "tipo": "I",
+    "coordenadas": "80"
+  }
+]

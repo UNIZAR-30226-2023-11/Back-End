@@ -18,32 +18,24 @@ const esquema = new schema({
     type: Number,
     required: true
   },
-  precio1Credito:{
+  precio2matriculas:{
     type: Number,
     required: true
   },
-  precio2Creditos:{
+  precio3matriculas:{
     type: Number,
     required: true
   },
-  precio3Creditos:{
-    type: Number,
-    required: true
-  },
-  precio4Creditos:{
-    type: Number,
-    required: true
-  },
-  precio14Creditos:{
-    type: Number,
-    required: true
-  },
-  precioCompraCreditos:{
+  precio4matriculas:{
     type: Number,
     required: true
   },  
   devolucionMatricula: {
     type: Number,
+    required: true
+  },
+  tipo:{
+    type: String,
     required: true
   }
 }, { collection: 'info_asignaturas' });
@@ -51,7 +43,7 @@ const esquema = new schema({
 
 //esquema.index({ nombre: 1 }, { unique: true }); // Crea un índice único en el campo "nombre"
 
-const modeloAsignatura = mongoose.model('asignaturas', esquema, 'info_asignaturas');
+const modeloFestividad = mongoose.model('festividad', esquema, 'info_asignaturas');
 
 
-module.exports = modeloAsignatura;
+module.exports = modeloFestividad;
