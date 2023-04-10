@@ -2,39 +2,14 @@ var config = require('../config/config');
 var modeloPartida = require('../models/partidaModel')
 const  mongoose = require("mongoose");
 
-
 const casillaInicio = 10;
-
-async function procesarIdMax(idMax) {
-    const doc = {
-        id: idMax, 
-        nombreJugadores: req.body.username,
-        posicionJugadores: 1010,
-        dineroJugadores: 0
-    };
-
-    try {
-        await mongoose.connect(config.db.uri, { useNewUrlParser: true, useUnifiedTopology: true });
-        console.log("Connected to MongoDB Atlas")
-
-        await doc.save();
-        console.log('Documento guardado correctamente')
-        res.status(201).json({message: 'Partida creada correctamente'})
-    }
-    catch (error) {
-        console.error(error);
-        res.status(500).json({error: 'Error al crear partida', id: idMax, nombreJugadores: req.body.username, posicionJugadores: 1010, dineroJugadores: 0});
-    }finally {
-        mongoose.disconnect();
-    }
-  }
 
 /**
  * 
  * @param {*} req.body.username Nombre del ususario que crea la partida.
  * @param {*} req.body.dineroInicial Dinero inicial con el que empezarán los jugadores la partida. 
  * @param {*} req.body.normas Todavia no esta introducido esta funcionalidad.
- * @param {*} req.body.nJugadores
+ * @param {*} req.body.nJugadores Numero de jugadores que jugarán
  * @param {*} res 
  */
 async function crearPartida(req,res){
@@ -45,7 +20,7 @@ async function crearPartida(req,res){
 
         const idMax = await modeloPartida.find().sort({id: -1}).limit(1).exec();
         const maxIdNumber = idMax[0].id;
-        console.log(maxIdNumber);
+        //console.log(maxIdNumber);
         const doc = new modeloPartida ({
             id: maxIdNumber+1, 
             nombreJugadores: req.body.username,
@@ -58,11 +33,10 @@ async function crearPartida(req,res){
         console.log('Documento guardado correctamente')
         res.status(201).json({idPartida: doc.id});
 
-    }
-    catch (error) {
+    } catch (error) {
         console.error(error);
         res.status(500).json({error: 'Error al crear partida',  nombreJugadores: req.body.username, posicionJugadores: 1010, dineroJugadores: 0});
-    }finally {
+    } finally {
         mongoose.disconnect();
         console.log("DisConnected to MongoDB Atlas")
     }
@@ -72,7 +46,7 @@ async function crearPartida(req,res){
 
 /**
  * 
- * @param {*} req.body.idPartida
+ * @param {*} req.body.idPartida Identificador de la partida
  * @param {*} res 
  */
 async function listaJugadores(req,res){
@@ -86,11 +60,9 @@ async function listaJugadores(req,res){
         console.log(partidaEncontrada);
 
         if(partidaEncontrada){
-           
-            res.status(200).json({lista: partidaEncontrada.nombreJugadores});
-            
-            //partidaEncontrada.dineroJugadores[tam] = dineroInicial;
-            //partidaEncontrada.numeroJugadores = nJugadores;
+        
+            res.status(200).json({listaJugadores: partidaEncontrada.nombreJugadores, listaDineros: partidaEncontrada.dineroJugadores});
+
         }else{
             console.log("La partida no existe");
         }
@@ -104,13 +76,11 @@ async function listaJugadores(req,res){
     }
 }
 
-
-
 /**
  * 
- * @param {*} req.body.idPartida
- * @param {*} req.body.nJugadores 
- * @param {*} req.body.dineroInicial
+ * @param {*} req.body.idPartida Identificador de la partida
+ * @param {*} req.body.nJugadores Numero de jugadores de la partida
+ * @param {*} req.body.dineroInicial Dinero Inicial de los jugadores
  * @param {*} res 
  */
 async function actualizarPartida(req,res){
@@ -123,7 +93,7 @@ async function actualizarPartida(req,res){
         const partidaEncontrada = await modeloPartida.findOne({id: req.body.idPartida}).exec();
         console.log(partidaEncontrada);
 
-        if(partidaEncontrada){
+        if(partidaEncontrada) {
             //const tam = partidaEncontrada.nombreJugadores.length;
             for(let i = 0; i < partidaEncontrada.nombreJugadores.length; i++) {
                 partidaEncontrada.dineroJugadores[i] = req.body.dineroInicial;
@@ -140,27 +110,31 @@ async function actualizarPartida(req,res){
                 console.log(result);
                 console.log("Se ha actualizado la partida correctamente");
                 res.status(200).json("Se ha actualizado la partida correctamente"); 
-            }else {
+            } else {
                 //console.error(error);
                 console.log(result);
                 res.status(500).json({ error: 'Error al actualizar la partida '});
             }
-            //partidaEncontrada.dineroJugadores[tam] = dineroInicial;
-            //partidaEncontrada.numeroJugadores = nJugadores;
-        }else{
+
+        } else {
             console.log("La partida no existe");
         }
 
-    }catch (error) {
+    } catch (error) {
         console.error(error);
         res.status(500).json({error: 'Error al actualizar partida'});
-    }finally {
+    } finally {
         mongoose.disconnect();
         console.log("DisConnected to MongoDB Atlas")
     }
 }
 
-
+/**
+ * Comprueba si un jugador esta ya en la partida
+ * @param {*} username Nombre del jugador
+ * @param {*} vJugadores Vector de los jugadores de la partida
+ * @returns 
+ */
 function estaJugador(username, vJugadores){
     return vJugadores.includes(username);
 }

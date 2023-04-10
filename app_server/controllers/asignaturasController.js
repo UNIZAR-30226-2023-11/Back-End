@@ -2,16 +2,12 @@ var config = require('../config/config');
 //var modeloUser = require('../models/userModel');
 var modeloFestividad = require('../models/festividadModel');
 var modeloAsignatura = require('../models/asignaturaModel');
-
 var modeloPartida = require('../models/partidaModel');
 var modeloTarjetas = require('../models/tarjetasModel');
 var modeloAsignaturasComprada = require('../models/asignaturasCompradasModel');
 var modeloCasilla = require('../models/casillaModel');
 var modeloImpuesto = require('../models/impuestoModel');
-
 var ctrlPartida = require('../controllers/partidaController');
-
-
 const  mongoose = require("mongoose");
 
 

@@ -178,7 +178,7 @@ async function updateCorreo(req, res){
 }
 
 async function updateUsername(req, res){
-    console.log("***PUT METHOD Actualizar el correo");
+    console.log("***PUT METHOD Actualizar el username");
 
     const doc = {
         nombreUser: req.body.username, 
