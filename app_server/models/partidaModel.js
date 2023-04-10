@@ -23,6 +23,9 @@ const esquema = new schema({
       type: [Number],
       required: true
     },
+    numeroJugadores:{
+      type: Number
+    },
     dados: {
       type:{
         dado1: Number,
