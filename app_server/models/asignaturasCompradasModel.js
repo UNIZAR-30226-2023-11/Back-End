@@ -3,7 +3,10 @@ const mongoose = require("mongoose");
 const schema = mongoose.Schema;
 const esquema = new schema({
   coordenadas: {
-    type: String,
+    type: {
+      h: Number,
+      v: Number
+    },
     required: true
   },
   partida:{

@@ -22,7 +22,8 @@ async function actualizarPosicion(idPartida, coordenadas, jugador,res){
     console.log(partida);
     try {
         const posicion = partida.nombreJugadores.indexOf(jugador);
-        partida.posicionJugadores[posicion] = coordenadas;
+        partida.posicionJugadores[posicion].h = coordenadas.h;
+        partida.posicionJugadores[posicion].v = coordenadas.v;
     
         await mongoose.connect(config.db.uri, { useNewUrlParser: true, useUnifiedTopology: true });
         console.log("Connected to MongoDB Atlas");
@@ -164,7 +165,7 @@ async function estaComprada(coordenadas){
         await mongoose.connect(config.db.uri, { useNewUrlParser: true, useUnifiedTopology: true });
         console.log("Connected to MongoDB Atlas")
 
-        const casillaComprada = await modeloAsignaturasComprada.findOne({coordenadas: coordenadas}).exec();
+        const casillaComprada = await modeloAsignaturasComprada.findOne({"coordenadas.h": coordenadas.h, "coordenadas.v": coordenadas.v}).exec();
         console.log(coordenadas);
         console.log(casillaComprada);
 
@@ -199,9 +200,10 @@ async function estaComprada(coordenadas){
  * @param {*} res 
  */
 async function comprarCasilla(req, res){
-    
+    console.log("METHOD Comprar Casilla");
     //Le restamos el dinero que cuesta al usuario
     //Buscar la casilla y obtener el precio de compra
+    console.log(req.body.coordenadas);
     const casilla = await findCasilla(req.body.coordenadas);
     if (casilla != null){
         //Existe la casilla
@@ -316,7 +318,7 @@ async function isAsignatura(coordenadas){
         await mongoose.connect(config.db.uri, { useNewUrlParser: true, useUnifiedTopology: true });
         console.log("Connected to MongoDB Atlas");
         
-        const casillaEncontrada = await modeloAsignatura.findOne({coordenadas: coordenadas}).exec();
+        const casillaEncontrada = await modeloAsignatura.findOne({"coordenadas.h": coordenadas.h, "coordenadas.v": coordenadas.v}).exec();
         console.log(coordenadas);
         console.log(casillaEncontrada);
         if(casillaEncontrada ){
@@ -349,7 +351,7 @@ async function isFestividad(coordenadas){
         await mongoose.connect(config.db.uri, { useNewUrlParser: true, useUnifiedTopology: true });
         console.log("Connected to MongoDB Atlas");
         
-        const casillaEncontrada = await modeloFestividad.findOne({coordenadas: coordenadas}).exec();
+        const casillaEncontrada = await modeloFestividad.findOne({"coordenadas.h": coordenadas.h, "coordenadas.v": coordenadas.v}).exec();
         console.log(coordenadas);
         console.log(casillaEncontrada);
         if(casillaEncontrada ){
@@ -383,7 +385,7 @@ async function isImpuesto(coordenadas){
         await mongoose.connect(config.db.uri, { useNewUrlParser: true, useUnifiedTopology: true });
         console.log("Connected to MongoDB Atlas");
         
-        const casillaEncontrada = await modeloImpuesto.findOne({coordenadas: coordenadas}).exec();
+        const casillaEncontrada = await modeloImpuesto.findOne({"coordenadas.h": coordenadas.h, "coordenadas.v": coordenadas.v}).exec();
         console.log(coordenadas);
         console.log(casillaEncontrada);
         if(casillaEncontrada ){
@@ -411,13 +413,15 @@ async function isImpuesto(coordenadas){
  * @returns Devuelve una casilla de tipo modeloCasilla o null
  */
 async function findCasilla(coordenadas){
-    console.log("*** METHOD Find partida");
+    console.log("*** METHOD Find casilla");
 
     try {
         await mongoose.connect(config.db.uri, { useNewUrlParser: true, useUnifiedTopology: true });
         console.log("Connected to MongoDB Atlas");
-        const casillaEncontrada = await modeloCasilla.findOne({coordenadas: coordenadas}).exec();
+
+        const casillaEncontrada = await modeloCasilla.findOne({"coordenadas.h": coordenadas.h, "coordenadas.v": coordenadas.v}).exec();
         console.log(coordenadas);
+        console.log("casillaEncontrada");
         console.log(casillaEncontrada);
         if(casillaEncontrada ){
             return casillaEncontrada;
@@ -437,5 +441,7 @@ async function findCasilla(coordenadas){
         console.log("DisConnected to MongoDB Atlas")
     }
 }
+
+
 
 module.exports = {checkCasilla, tarjetaAleatoria, comprarCasilla};

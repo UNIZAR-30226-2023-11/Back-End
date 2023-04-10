@@ -7,7 +7,10 @@ const esquema = new schema({
     required: true
   },
   coordenadas: {
-    type: String,
+    type: {
+      h: Number,
+      v: Number
+    },
     required: true
   },
   precioCompra: {

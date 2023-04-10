@@ -3,7 +3,7 @@ var modeloPartida = require('../models/partidaModel')
 const  mongoose = require("mongoose");
 
 
-const casillaInicio = 1010;
+const casillaInicio = 10;
 
 async function procesarIdMax(idMax) {
     const doc = {
@@ -48,7 +48,7 @@ async function crearPartida(req,res){
         const doc = new modeloPartida ({
             id: maxIdNumber+1, 
             nombreJugadores: req.body.username,
-            posicionJugadores: casillaInicio,
+            posicionJugadores: {h: casillaInicio, v: casillaInicio},
             dineroJugadores: req.body.dineroInicial
             //normas:[]
         });
@@ -72,7 +72,7 @@ function estaJugador(username, vJugadores){
 }
 
 /**
- * @param {*} req.bodu.idPartida Identificador de la partida a la que desea unirse (el codigo).
+ * @param {*} req.body.idPartida Identificador de la partida a la que desea unirse (el codigo).
  * @param {*} req.body.username Nombre del usuario que desea unirse a la partida. 
  * @param {*} res 
  */
@@ -94,7 +94,7 @@ async function unirJugador(req,res){
                 //Añadimos jugador a nombreJugadores
                 partidaEncontrada.nombreJugadores[tam] = req.body.username;
                 //Añadimos jugador a posicionJugadores, en este caso la inicial.
-                partidaEncontrada.posicionJugadores[tam] = casillaInicio;
+                partidaEncontrada.posicionJugadores[tam] = {h: casillaInicio, v: casillaInicio};
                 //Añadimos jugador a dineroJugadores, en este caso con el dinero inicial
                 partidaEncontrada.dineroJugadores[tam] =  partidaEncontrada.dineroJugadores[0];
 
