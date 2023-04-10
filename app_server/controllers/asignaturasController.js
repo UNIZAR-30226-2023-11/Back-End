@@ -196,7 +196,7 @@ async function estaComprada(coordenadas){
  * 
  * @param {*} req.body.username Jugador que desea comprar la casilla
  * @param {*} req.body.coordenadas Corrdenadas de la casilla a comprar
- * @param {*} req.bosy.idPartida Identificador del número de la partida 
+ * @param {*} req.body.idPartida Identificador del número de la partida 
  * @param {*} res 
  */
 async function comprarCasilla(req, res){
