@@ -18,4 +18,6 @@ router.post('/lanzarDados', ctrlPartida.lanzardados);
 
 router.put('/actualizar', ctrlPartida.actualizarPartida);
 
+router.put('/listaJugadores', ctrlPartida.listaJugadores);
+
 module.exports = router;

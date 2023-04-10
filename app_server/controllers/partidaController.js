@@ -70,6 +70,41 @@ async function crearPartida(req,res){
 
 
 
+/**
+ * 
+ * @param {*} req.body.idPartida
+ * @param {*} res 
+ */
+async function listaJugadores(req,res){
+    console.log("***GET METHOD lista jugadores partida");
+    try {
+
+        await mongoose.connect(config.db.uri, { useNewUrlParser: true, useUnifiedTopology: true });
+        console.log("Connected to MongoDB Atlas");
+        
+        const partidaEncontrada = await modeloPartida.findOne({id: req.body.idPartida}).exec();
+        console.log(partidaEncontrada);
+
+        if(partidaEncontrada){
+           
+            res.status(200).json({lista: partidaEncontrada.nombreJugadores});
+            
+            //partidaEncontrada.dineroJugadores[tam] = dineroInicial;
+            //partidaEncontrada.numeroJugadores = nJugadores;
+        }else{
+            console.log("La partida no existe");
+        }
+
+    }catch (error) {
+        console.error(error);
+        res.status(500).json({error: 'Error al obtener la lista de jugadores de la partida'});
+    }finally {
+        mongoose.disconnect();
+        console.log("DisConnected to MongoDB Atlas")
+    }
+}
+
+
 
 /**
  * 
@@ -288,5 +323,5 @@ async function findPartida(idPartida, res){
     }
 }
 
-module.exports = {crearPartida, unirJugador, lanzardados, findPartida, actualizarPartida};
+module.exports = {crearPartida, unirJugador, lanzardados, findPartida, actualizarPartida, listaJugadores};
  
