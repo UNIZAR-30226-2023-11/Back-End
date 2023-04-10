@@ -13,6 +13,10 @@ const esquema = new schema({
     },
     required: true
   },
+  cuatrimestre: {
+    type: Number,
+    required: true
+  },
   precioCompra: {
     type: Number,
     required: true

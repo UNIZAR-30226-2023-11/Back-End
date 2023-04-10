@@ -12,7 +12,8 @@
     "coordenadas":{
       "h": 10,
       "v": 9
-    }
+    },
+    "cuatrimestre": 1
   },
   {
     "nombre": "IC",
@@ -27,7 +28,8 @@
     "coordenadas":{
       "h": 10,
       "v": 7
-    }
+    },
+    "cuatrimestre": 1
   },
   {
     "nombre": "Prog. 2",
@@ -42,7 +44,8 @@
     "coordenadas":{
       "h": 10,
       "v": 4
-    }
+    },
+    "cuatrimestre": 2
   },
   {
     "nombre": "Fisica y electronica",
@@ -57,7 +60,8 @@
     "coordenadas":{
       "h": 10,
       "v": 2
-    }
+    },
+    "cuatrimestre": 2
   },
   {
     "nombre": "AOC 1",
@@ -72,7 +76,8 @@
     "coordenadas":{
       "h": 10,
       "v": 1
-    }
+    },
+    "cuatrimestre": 2
   },
   {
     "nombre": "SO",
@@ -87,7 +92,8 @@
     "coordenadas":{
       "h": 9,
       "v": 0
-    }
+    },
+    "cuatrimestre": 3
   },
   {
     "nombre": "EDA",
@@ -102,7 +108,8 @@
     "coordenadas":{
       "h": 7,
       "v": 0
-    }
+    },
+    "cuatrimestre": 3
   },
   {
     "nombre": "Redes",
@@ -117,7 +124,8 @@
     "coordenadas":{
       "h": 6,
       "v": 0
-    }
+    },
+    "cuatrimestre": 3
     
   },
   {
@@ -133,7 +141,8 @@
     "coordenadas":{
       "h": 4,
       "v": 0
-    }
+    },
+    "cuatrimestre": 4
   },
   {
     "nombre": "IPO",
@@ -148,7 +157,8 @@
     "coordenadas":{
       "h": 2,
       "v": 0
-    }
+    },
+    "cuatrimestre": 4
 
   },
   {
@@ -164,7 +174,8 @@
     "coordenadas":{
       "h": 1,
       "v": 0
-    }
+    },
+    "cuatrimestre": 4
   },
   {
     "nombre": "IA",
@@ -179,7 +190,8 @@
     "coordenadas":{
       "h": 0,
       "v": 1
-    }
+    },
+    "cuatrimestre": 5
   },
   {
     "nombre": "Distribuidos",
@@ -194,7 +206,8 @@
     "coordenadas":{
       "h": 0,
       "v": 3
-    }
+    },
+    "cuatrimestre": 5
   },
   {
     "nombre": "PH",
@@ -209,7 +222,8 @@
     "coordenadas":{
       "h": 0,
       "v": 4
-    }
+    },
+    "cuatrimestre": 5
   },
   {
     "nombre": "SiSinf 2",
@@ -224,7 +238,8 @@
     "coordenadas":{
       "h": 0,
       "v": 6
-    }
+    },
+    "cuatrimestre": 6
   },
   {
     "nombre": "Procesadores del lenguaje",
@@ -239,7 +254,8 @@
     "coordenadas":{
       "h": 0,
       "v": 7
-    }
+    },
+    "cuatrimestre": 6
   },
   {
     "nombre": "PS",
@@ -254,7 +270,8 @@
     "coordenadas":{
       "h": 0,
       "v": 9
-    }
+    },
+    "cuatrimestre": 6
   },
   {
     "nombre": "Robotica",
@@ -269,7 +286,8 @@
     "coordenadas":{
       "h": 1,
       "v": 10
-    }
+    },
+    "cuatrimestre": 7
   },
   {
     "nombre": "Sistemas y tecnologias web",
@@ -284,7 +302,8 @@
     "coordenadas":{
       "h": 2,
       "v": 10
-    }
+    },
+    "cuatrimestre": 7
   },
   {
     "nombre": "Seguridad informatica",
@@ -299,7 +318,8 @@
     "coordenadas":{
       "h": 4,
       "v": 10
-    }
+    },
+    "cuatrimestre": 7
   },
   {
     "nombre": "Practicas de empresa",
@@ -314,7 +334,8 @@
     "coordenadas":{
       "h": 7,
       "v": 10
-    }
+    },
+    "cuatrimestre": 8
   },
   {
     "nombre": "TFG",
@@ -329,6 +350,7 @@
     "coordenadas":{
       "h": 9,
       "v": 10
-    }
+    },
+    "cuatrimestre": 8
   }
 ]

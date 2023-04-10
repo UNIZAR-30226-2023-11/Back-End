@@ -6,6 +6,10 @@ const esquema = new schema({
     type: String,
     required: true
   },
+  cuatrimestre: {
+    type: Number,
+    required: true
+  },
   coordenadas: {
     type: {
       h: Number,

@@ -209,10 +209,6 @@ async function updateUsername(req, res){
         }finally {
             mongoose.disconnect();
         }
-    // } else {
-    //     console.error(error);
-    //         res.status(412).json({ error: 'Error al actualizar el nombre de usuario', nombreUser: req.body.username });
-    // }
 }
 
 async function findUser(req){

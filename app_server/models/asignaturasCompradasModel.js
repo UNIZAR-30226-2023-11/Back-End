@@ -9,6 +9,10 @@ const esquema = new schema({
     },
     required: true
   },
+  cuatrimestre: {
+    type: Number,
+    required: true
+  },
   partida:{
     type: Number,
     required: true

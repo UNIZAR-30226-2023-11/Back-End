@@ -343,7 +343,8 @@ async function comprarCasilla(req, res){
                 coordenadas: casillaComprada.coordenadas, 
                 partida: req.body.idPartida,
                 jugador: req.body.username,
-                precio: casillaComprada.matricula
+                precio: casillaComprada.matricula,
+                cuatrimestre: casillaComprada.cuatrimestre
             });
 
             //La metemos en la tabla de casillas compradas
@@ -416,6 +417,15 @@ async function checkCasilla(req, res){
     }
 }
 
-//async function aumentarCreditos
+// /**
+//  * 
+//  * @param {*} req.body.idPartida
+//  * @param {*} req.body.username
+//  * @param {*} req.body.
+//  * @param {*} res 
+//  */
+// async function aumentarCreditos(req,res){
+
+// }
 
 module.exports = {checkCasilla, tarjetaAleatoria, comprarCasilla};
