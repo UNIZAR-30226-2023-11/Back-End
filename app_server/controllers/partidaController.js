@@ -34,6 +34,7 @@ async function procesarIdMax(idMax) {
  * @param {*} req.body.username Nombre del ususario que crea la partida.
  * @param {*} req.body.dineroInicial Dinero inicial con el que empezarán los jugadores la partida. 
  * @param {*} req.body.normas Todavia no esta introducido esta funcionalidad.
+ * @param {*} req.body.nJugadores
  * @param {*} res 
  */
 async function crearPartida(req,res){
@@ -54,7 +55,56 @@ async function crearPartida(req,res){
         });
         await doc.save();
         console.log('Documento guardado correctamente')
-        res.status(201).json({message: 'Partida creada correctamente'})
+        res.status(201).json(doc.id)
+
+    }
+    catch (error) {
+        console.error(error);
+        res.status(500).json({error: 'Error al crear partida',  nombreJugadores: req.body.username, posicionJugadores: 1010, dineroJugadores: 0});
+    }finally {
+        mongoose.disconnect();
+        console.log("DisConnected to MongoDB Atlas")
+    }
+}
+
+
+
+
+/**
+ * 
+ * @param {*} req.body.idPartida
+ * @param {*} req.body.nJugadores 
+ * @param {*} req.body.dineroInicial
+ * @param {*} res 
+ */
+async function actualizarPartida(req,res){
+    console.log("***POST METHOD Crear partida");
+    try {
+
+        await mongoose.connect(config.db.uri, { useNewUrlParser: true, useUnifiedTopology: true });
+        console.log("Connected to MongoDB Atlas");
+        
+        const partidaEncontrada = await modeloPartida.findOne({id: req.body.idPartida}).exec();
+        console.log(partidaEncontrada);
+
+        if(partidaEncontrada){
+            const tam = partidaEncontrada.nombreJugadores.length;
+            partidaEncontrada.dineroJugadores.forEach(dinJugador)
+            partidaEncontrada.dineroJugadores[tam] = dineroInicial;
+            //partidaEncontrada.numeroJugadores = nJugadores;
+        }
+
+        
+        const doc = new modeloPartida ({
+            id: maxIdNumber+1, 
+            nombreJugadores: req.body.username,
+            posicionJugadores: {h: casillaInicio, v: casillaInicio},
+            dineroJugadores: req.body.dineroInicial
+            //normas:[]
+        });
+        await doc.save();
+        console.log('Documento guardado correctamente')
+        res.status(201).json(doc.id,{message: 'Partida creada correctamente'})
 
     }
     catch (error) {
@@ -168,7 +218,8 @@ async function lanzardados(req,res){
             if(result.modifiedCount == 1) {
                 console.log(result);
                 console.log("Se ha actualizado la partida correctamente, se han añadido los dados y quien los ha lanzado");
-                res.json(dado1,dado2); 
+                dado = {dado1, dado2};
+                res.status(200).json(dado); 
                 // Send the result as JSON
                 console.log({
                     dado1: dado1,
