@@ -38,7 +38,7 @@ jobs:
           node-version: '18'
        
       - name: Install dependencies
-        run: npm install --prefix app_server/
+        run: npm install 
         
       # Run server
       - name: Start server
