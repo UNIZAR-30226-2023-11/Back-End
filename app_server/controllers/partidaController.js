@@ -168,7 +168,7 @@ async function lanzardados(req,res){
             if(result.modifiedCount == 1) {
                 console.log(result);
                 console.log("Se ha actualizado la partida correctamente, se han añadido los dados y quien los ha lanzado");
-                res.status(200).json(dado1,dado2); 
+                res.json(dado1,dado2); 
                 // Send the result as JSON
                 console.log({
                     dado1: dado1,
