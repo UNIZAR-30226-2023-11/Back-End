@@ -443,5 +443,6 @@ async function findCasilla(coordenadas){
 }
 
 
+async function aumentarCreditos
 
 module.exports = {checkCasilla, tarjetaAleatoria, comprarCasilla};
