@@ -114,7 +114,7 @@ async function listaJugadores(req,res){
  * @param {*} res 
  */
 async function actualizarPartida(req,res){
-    console.log("***POST METHOD Actualizar partida");
+    console.log("***PUT METHOD Actualizar partida");
     try {
 
         await mongoose.connect(config.db.uri, { useNewUrlParser: true, useUnifiedTopology: true });
@@ -128,10 +128,10 @@ async function actualizarPartida(req,res){
             for(let i = 0; i < partidaEncontrada.nombreJugadores.length; i++) {
                 partidaEncontrada.dineroJugadores[i] = req.body.dineroInicial;
                 console.log(partidaEncontrada.dineroJugadores[i]);
-            }
-              
             
+            }
             partidaEncontrada.numeroJugadores = req.body.nJugadores;
+            //console.log(partidaEncontrada.numeroJugadores, req.body.nJugadores );
             
             //Actualizamos la partida
             const result = await modeloPartida.updateOne({ id: req.body.idPartida},  { $set: { dineroJugadores: partidaEncontrada.dineroJugadores,
