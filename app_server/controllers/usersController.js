@@ -215,6 +215,35 @@ async function updateUsername(req, res){
     // }
 }
 
+async function devolverCorreo(req, res){
+    console.log("***POST METHOD Devolver correo");
+
+    const doc = {
+        nombreUser: req.body.username
+    };
+
+    try {
+        await mongoose.connect(config.db.uri, { useNewUrlParser: true, useUnifiedTopology: true });
+        console.log("Connected to MongoDB Atlas");
+      
+        const docs = await modeloUser.find(doc);
+      
+        if (docs.length > 0) {
+          console.log("Documento encontrado: ", docs);
+          res.status(200).send('El correo del usuario es', docs.correo);
+        } else {
+          console.log('No se encontró el documento');
+          res.status(500).json({ error: 'Error al buscar el usuario',  nombreUser: req.body.username });
+        }
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Error al buscar el usuario', nombreUser: req.body.username });
+    }finally {
+        mongoose.disconnect();
+        console.log("DisConnected to MongoDB Atlas")
+    }
+}
+
 async function findUser(req){
     console.log("***GET METHOD Encontrar Usuario");
 
@@ -265,4 +294,4 @@ async function leerUser(req, res, next){
     }
 }
 
-module.exports = {registerUser, loginUser, deleteUser, updatePassword, updateCorreo, updateUsername};
+module.exports = {registerUser, loginUser, deleteUser, updatePassword, updateCorreo, updateUsername, devolverCorreo};
