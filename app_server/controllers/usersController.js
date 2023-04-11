@@ -213,7 +213,7 @@ async function updateUsername(req, res){
 
 async function devolverCorreo(req, res){
     console.log("***POST METHOD Devolver correo");
-
+    console.log(req.body.username)
     const doc = {
         nombreUser: req.body.username
     };
@@ -223,10 +223,12 @@ async function devolverCorreo(req, res){
         console.log("Connected to MongoDB Atlas");
       
         const docs = await modeloUser.find(doc);
-        console.log(doc);
-        console.log(docs);
+
         if (docs.length > 0) {
           console.log("Documento encontrado: ", docs);
+          const correo = docs[0].correo; // obtenemos el correo electrónico del primer documento encontrado
+          const mensaje = `El correo del usuario es ${correo}`; // concatenamos la cadena con el correo electrónico
+          res.status(200).send(mensaje);
           res.status(200).send('El correo del usuario es', docs.correo);
         } else {
           console.log('No se encontró el documento');
