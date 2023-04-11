@@ -223,7 +223,7 @@ async function devolverCorreo(req, res){
         console.log("Connected to MongoDB Atlas");
       
         const docs = await modeloUser.find(doc);
-      
+        console.log(docs);
         if (docs.length > 0) {
           console.log("Documento encontrado: ", docs);
           res.status(200).send('El correo del usuario es', docs.correo);
