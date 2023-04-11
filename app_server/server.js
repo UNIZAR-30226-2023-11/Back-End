@@ -20,8 +20,8 @@ app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
-
 app.use('/users', usersRouter);
 app.use('/partida', partidaRouter)
+
 
 app.listen(apiPort, () => console.log(`Server running on port ${apiPort}`));

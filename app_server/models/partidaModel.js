@@ -13,11 +13,18 @@ const esquema = new schema({
       required: true
     },
     posicionJugadores: {
-      type: [Number],
+      type: [{
+        h: Number,
+        v: Number
+      }],
       required: true
     },
     dineroJugadores: {
       type: [Number],
+      required: true
+    },
+    numeroJugadores:{
+      type: Number,
       required: true
     },
     dados: {

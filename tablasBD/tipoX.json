@@ -1,0 +1,38 @@
+[
+  {
+    "nombre": "Apertura de expediente",
+    "precioCompra": 267,
+    "tipo": "X",
+    "coordenadas":{
+      "h": 10,
+      "v": 6
+    }
+  },
+  {
+    "nombre": "Seguro escolar",
+    "precioCompra": 133,
+    "tipo": "X",
+    "coordenadas":{
+      "h": 8,
+      "v": 10
+    }
+  },
+  {
+    "nombre": "Salida",
+    "precioCompra": 267,
+    "tipo": "X",
+    "coordenadas":{
+      "h": 10,
+      "v": 10
+    }
+  },
+  {
+    "nombre": "Salir de julio",
+    "precioCompra": 67,
+    "tipo": "X",
+    "coordenadas":{
+      "h": 10,
+      "v": 0
+    }
+  }
+]

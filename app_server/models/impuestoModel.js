@@ -2,6 +2,10 @@ const mongoose = require("mongoose");
 
 const schema = mongoose.Schema;
 const esquema = new schema({
+  nombre: {
+    type: String,
+    required: true
+  },
   coordenadas: {
     type: {
       h: Number,
@@ -13,22 +17,20 @@ const esquema = new schema({
     type: Number,
     required: true
   },
-  partida:{
+  precioCompra: {
     type: Number,
     required: true
   },
-  jugador:{
-    type: String,
-    required: true
-  },
-  precio:{
+  hipoteca: {
     type: Number,
     required: true
   }
-}, { collection: 'asignaturas_partida' });
+}, { collection: 'info_asignaturas' });
+
 
 //esquema.index({ nombre: 1 }, { unique: true }); // Crea un índice único en el campo "nombre"
 
-const modeloAsignaturaComprada = mongoose.model('asignaturas_partida', esquema);
+const modeloImpuesto = mongoose.model('impuesto', esquema, 'info_asignaturas');
 
-module.exports = modeloAsignaturaComprada;
+
+module.exports = modeloImpuesto;

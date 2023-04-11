@@ -178,7 +178,7 @@ async function updateCorreo(req, res){
 }
 
 async function updateUsername(req, res){
-    console.log("***PUT METHOD Actualizar el correo");
+    console.log("***PUT METHOD Actualizar el username");
 
     const doc = {
         nombreUser: req.body.username, 
@@ -209,10 +209,6 @@ async function updateUsername(req, res){
         }finally {
             mongoose.disconnect();
         }
-    // } else {
-    //     console.error(error);
-    //         res.status(412).json({ error: 'Error al actualizar el nombre de usuario', nombreUser: req.body.username });
-    // }
 }
 
 async function devolverCorreo(req, res){

@@ -2,38 +2,14 @@ var config = require('../config/config');
 var modeloPartida = require('../models/partidaModel')
 const  mongoose = require("mongoose");
 
-
-const casillaInicio = 1010;
-
-async function procesarIdMax(idMax) {
-    const doc = {
-        id: idMax, 
-        nombreJugadores: req.body.username,
-        posicionJugadores: 1010,
-        dineroJugadores: 0
-    };
-
-    try {
-        await mongoose.connect(config.db.uri, { useNewUrlParser: true, useUnifiedTopology: true });
-        console.log("Connected to MongoDB Atlas")
-
-        await doc.save();
-        console.log('Documento guardado correctamente')
-        res.status(201).json({message: 'Partida creada correctamente'})
-    }
-    catch (error) {
-        console.error(error);
-        res.status(500).json({error: 'Error al crear partida', id: idMax, nombreJugadores: req.body.username, posicionJugadores: 1010, dineroJugadores: 0});
-    }finally {
-        mongoose.disconnect();
-    }
-  }
+const casillaInicio = 10;
 
 /**
  * 
  * @param {*} req.body.username Nombre del ususario que crea la partida.
  * @param {*} req.body.dineroInicial Dinero inicial con el que empezarán los jugadores la partida. 
  * @param {*} req.body.normas Todavia no esta introducido esta funcionalidad.
+ * @param {*} req.body.nJugadores Numero de jugadores que jugarán
  * @param {*} res 
  */
 async function crearPartida(req,res){
@@ -44,35 +20,131 @@ async function crearPartida(req,res){
 
         const idMax = await modeloPartida.find().sort({id: -1}).limit(1).exec();
         const maxIdNumber = idMax[0].id;
-        console.log(maxIdNumber);
+        //console.log(maxIdNumber);
         const doc = new modeloPartida ({
             id: maxIdNumber+1, 
             nombreJugadores: req.body.username,
-            posicionJugadores: casillaInicio,
-            dineroJugadores: req.body.dineroInicial
+            posicionJugadores: {h: casillaInicio, v: casillaInicio},
+            dineroJugadores: req.body.dineroInicial,
+            numeroJugadores: req.body.nJugadores
             //normas:[]
         });
         await doc.save();
         console.log('Documento guardado correctamente')
-        res.status(201).json({message: 'Partida creada correctamente'})
+        res.status(201).json({idPartida: doc.id});
 
-    }
-    catch (error) {
+    } catch (error) {
         console.error(error);
         res.status(500).json({error: 'Error al crear partida',  nombreJugadores: req.body.username, posicionJugadores: 1010, dineroJugadores: 0});
-    }finally {
+    } finally {
         mongoose.disconnect();
         console.log("DisConnected to MongoDB Atlas")
     }
 }
 
 
+
+/**
+ * 
+ * @param {*} req.body.idPartida Identificador de la partida
+ * @param {*} res 
+ */
+async function listaJugadores(req,res){
+    console.log("***GET METHOD lista jugadores partida");
+    try {
+
+        await mongoose.connect(config.db.uri, { useNewUrlParser: true, useUnifiedTopology: true });
+        console.log("Connected to MongoDB Atlas");
+        
+        const partidaEncontrada = await modeloPartida.findOne({id: req.body.idPartida}).exec();
+        console.log(partidaEncontrada);
+
+        if(partidaEncontrada){
+            var lista= [];
+            for(let i = 0; i < partidaEncontrada.nombreJugadores.length; i++) {
+                lista.push([partidaEncontrada.nombreJugadores[i],partidaEncontrada.dineroJugadores[i]]);
+            }
+            console.log(lista);
+            res.status(200).json({listaJugadores: partidaEncontrada.nombreJugadores, listaDineros: partidaEncontrada.dineroJugadores, listaTuplas: lista});
+
+        }else{
+            console.log("La partida no existe");
+        }
+
+    }catch (error) {
+        console.error(error);
+        res.status(500).json({error: 'Error al obtener la lista de jugadores de la partida'});
+    }finally {
+        mongoose.disconnect();
+        console.log("DisConnected to MongoDB Atlas")
+    }
+}
+
+/**
+ * 
+ * @param {*} req.body.idPartida Identificador de la partida
+ * @param {*} req.body.nJugadores Numero de jugadores de la partida
+ * @param {*} req.body.dineroInicial Dinero Inicial de los jugadores
+ * @param {*} res 
+ */
+async function actualizarPartida(req,res){
+    console.log("***PUT METHOD Actualizar partida");
+    try {
+
+        await mongoose.connect(config.db.uri, { useNewUrlParser: true, useUnifiedTopology: true });
+        console.log("Connected to MongoDB Atlas");
+        
+        const partidaEncontrada = await modeloPartida.findOne({id: req.body.idPartida}).exec();
+        console.log(partidaEncontrada);
+
+        if(partidaEncontrada) {
+            //const tam = partidaEncontrada.nombreJugadores.length;
+            for(let i = 0; i < partidaEncontrada.nombreJugadores.length; i++) {
+                partidaEncontrada.dineroJugadores[i] = req.body.dineroInicial;
+                console.log(partidaEncontrada.dineroJugadores[i]);
+            
+            }
+            partidaEncontrada.numeroJugadores = req.body.nJugadores;
+            //console.log(partidaEncontrada.numeroJugadores, req.body.nJugadores );
+            
+            //Actualizamos la partida
+            const result = await modeloPartida.updateOne({ id: req.body.idPartida},  { $set: { dineroJugadores: partidaEncontrada.dineroJugadores,
+                                                                                               numeroJugadores: partidaEncontrada.numeroJugadores }})
+            if(result.modifiedCount == 1) {
+                console.log(result);
+                console.log("Se ha actualizado la partida correctamente");
+                res.status(200).json("Se ha actualizado la partida correctamente"); 
+            } else {
+                //console.error(error);
+                console.log(result);
+                res.status(500).json({ error: 'Error al actualizar la partida '});
+            }
+
+        } else {
+            console.log("La partida no existe");
+        }
+
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({error: 'Error al actualizar partida'});
+    } finally {
+        mongoose.disconnect();
+        console.log("DisConnected to MongoDB Atlas")
+    }
+}
+
+/**
+ * Comprueba si un jugador esta ya en la partida
+ * @param {*} username Nombre del jugador
+ * @param {*} vJugadores Vector de los jugadores de la partida
+ * @returns 
+ */
 function estaJugador(username, vJugadores){
     return vJugadores.includes(username);
 }
 
 /**
- * @param {*} req.bodu.idPartida Identificador de la partida a la que desea unirse (el codigo).
+ * @param {*} req.body.idPartida Identificador de la partida a la que desea unirse (el codigo).
  * @param {*} req.body.username Nombre del usuario que desea unirse a la partida. 
  * @param {*} res 
  */
@@ -94,7 +166,7 @@ async function unirJugador(req,res){
                 //Añadimos jugador a nombreJugadores
                 partidaEncontrada.nombreJugadores[tam] = req.body.username;
                 //Añadimos jugador a posicionJugadores, en este caso la inicial.
-                partidaEncontrada.posicionJugadores[tam] = casillaInicio;
+                partidaEncontrada.posicionJugadores[tam] = {h: casillaInicio, v: casillaInicio};
                 //Añadimos jugador a dineroJugadores, en este caso con el dinero inicial
                 partidaEncontrada.dineroJugadores[tam] =  partidaEncontrada.dineroJugadores[0];
 
@@ -168,7 +240,8 @@ async function lanzardados(req,res){
             if(result.modifiedCount == 1) {
                 console.log(result);
                 console.log("Se ha actualizado la partida correctamente, se han añadido los dados y quien los ha lanzado");
-                res.status(200).json("Se ha actualizado la partida correctamente, se han añadido los dados y quien los ha lanzado"); 
+                dado = {dado1, dado2};
+                res.status(200).json(dado); 
                 // Send the result as JSON
                 console.log({
                     dado1: dado1,
@@ -228,5 +301,5 @@ async function findPartida(idPartida, res){
     }
 }
 
-module.exports = {crearPartida, unirJugador, lanzardados};
+module.exports = {crearPartida, unirJugador, lanzardados, findPartida, actualizarPartida, listaJugadores};
  
