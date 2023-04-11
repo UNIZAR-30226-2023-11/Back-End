@@ -229,7 +229,6 @@ async function devolverCorreo(req, res){
           const correo = docs[0].correo; // obtenemos el correo electrónico del primer documento encontrado
           const mensaje = `El correo del usuario es ${correo}`; // concatenamos la cadena con el correo electrónico
           res.status(200).json({email: docs[0].correo});
-          console.log(res.status(200).json({email: docs[0].correo}));
         } else {
           console.log('No se encontró el documento');
           res.status(500).json({ error: 'Error al buscar el usuario',  nombreUser: req.body.username });
