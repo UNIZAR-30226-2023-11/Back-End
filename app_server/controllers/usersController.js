@@ -212,7 +212,7 @@ async function updateUsername(req, res){
 }
 
 async function devolverCorreo(req, res){
-    console.log("***GET METHOD Devolver correo");
+    console.log("***POST METHOD Devolver correo");
     console.log(req.body.username)
     const doc = {
         nombreUser: req.body.username
