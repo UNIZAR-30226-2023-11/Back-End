@@ -8,6 +8,6 @@ router.delete('/delete', ctrlUsers.deleteUser);
 router.put('/updatePassword', ctrlUsers.updatePassword);
 router.put('/updateCorreo', ctrlUsers.updateCorreo);
 router.put('/updateUsername', ctrlUsers.updateUsername);
-router.post('/devolverCorreo', ctrlUsers.devolverCorreo);
+router.get('/devolverCorreo', ctrlUsers.devolverCorreo);
 
 module.exports = router;
