@@ -17,7 +17,9 @@ router.put('/comprar', ctrlAsignatura.comprarCasilla);
 router.post('/lanzarDados', ctrlPartida.lanzardados);
 
 router.put('/actualizar', ctrlPartida.actualizarPartida);
-
 router.put('/listaJugadores', ctrlPartida.listaJugadores);
+
+router.put('/casillaSalida', ctrlAsignatura.dar200);
+router.put('/infoAsignatura', ctrlAsignatura.infoAsignatura);
 
 module.exports = router;

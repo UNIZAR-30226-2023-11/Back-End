@@ -397,7 +397,7 @@ async function checkCasilla(req, res){
             if(comprada.jugador != req.body.username){
                 await pagar(partida, comprada.precio, req.body.username, res);
                 await cobrar(partida, comprada.precio,comprada.jugador , res);
-                res.status(200).json({message: 'Se ha pagado lo que se debia'});
+                res.status(200).json({message: 'Se ha pagado lo que se debia', jugador: comprada.jugador, dinero: comprada.precio});
             }else{
                 console.log("Esta casilla es mia", req.body.username, req.body.coordenadas);
                 res.status(200).json({message: 'Esta asignatura es mia no tengo que hacer nada'});
@@ -411,9 +411,56 @@ async function checkCasilla(req, res){
         
 
     }else{
-        console.log("El jugador", req.body.username, "no tiene que pagar Y PUEDE COMPRARLA");
+        console.log("El jugador", req.body.username);
         //Puede Comprarla
-        res.status(200).json({message: 'Esta asignatura se puede comprar'});
+        res.status(200).json({message: 'Esta asignatura se puede comprar', jugador: null, dinero: null});
+    }
+}
+
+
+/**
+ * 
+ * @param {*} req.body.username Jugador que ha pasado por la casilla de salida
+ * @param {*} req.body.idPartida Identificador del número de la partida 
+ * @param {*} res 
+ */
+async function dar200(req, res){
+    console.log("METHOD Dar 200");
+    const partida = await ctrlPartida.findPartida(req.body.idPartida, res);
+    if(cobrar(partida, 200, req.body.username)){
+        res.status(200).json({message: 'Se le ha dado 200 euros al jugador ', jugador: req.body.username});
+    }else{
+        res.status(500).json({message: 'Ha ocurrido un error al cobrarle 200 euros ', jugador: req.body.username});
+    }
+}
+
+
+
+/**
+ * 
+ * @param {*} req.body.coordenadas Corrdenadas de la casilla a buscar información 
+ * @param {*} res 
+ */
+async function infoAsignatura(req, res){
+    console.log("METHOD Comprar Casilla");
+    //console.log(req.body.coordenadas);
+    const casilla = await findCasilla(req.body.coordenadas);
+    if (casilla != null){
+
+        //Existe la casilla
+        var casillaInfo = null;
+        if( casilla.tipo == "A"){
+            casillaInfo = await isAsignatura(req.body.coordenadas);
+        }else if(casilla.tipo == "F"){
+            casillaInfo = await isFestividad(req.body.coordenadas);
+        }else if(casilla.tipo == "I"){
+            casillaInfo = await isImpuesto(req.body.coordenadas);
+        }
+        
+        res.status(200).json({casillaInfo});
+
+    }else{
+        res.status(404).json("La casilla no existe");
     }
 }
 
@@ -428,4 +475,4 @@ async function checkCasilla(req, res){
 
 // }
 
-module.exports = {checkCasilla, tarjetaAleatoria, comprarCasilla};
+module.exports = {checkCasilla, tarjetaAleatoria, comprarCasilla, dar200, infoAsignatura};
