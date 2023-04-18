@@ -214,7 +214,6 @@ async function isAsignatura(coordenadas){
     catch (error) {
         console.error(error);
         console.log('Error al encontrar la casilla asignatura');
-        res.status(500).json({error: 'Error al encontrar la casilla asignatura'});
         return null;
     }finally {
         mongoose.disconnect();
@@ -245,7 +244,6 @@ async function isFestividad(coordenadas){
     } catch (error) {
         console.error(error);
         console.log('Error al encontrar la casilla asignatura');
-        res.status(500).json({error: 'Error al encontrar la casilla asignatura'});
         return null;
     } finally {
         mongoose.disconnect();
