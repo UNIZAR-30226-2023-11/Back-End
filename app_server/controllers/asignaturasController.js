@@ -317,7 +317,7 @@ async function tarjetaAleatoria(req,res){
  */
 async function comprarCasilla(req, res){
     console.log("METHOD Comprar Casilla");
-    //console.log(req.body.coordenadas);
+    console.log(req.body.coordenadas);
     const casilla = await findCasilla(req.body.coordenadas);
     if (casilla != null){
         //Existe la casilla
