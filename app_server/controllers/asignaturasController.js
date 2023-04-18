@@ -360,44 +360,52 @@ async function comprarCasilla(req, res){
         //Existe la casilla
         const partida = await ctrlPartida.findPartida(req.body.idPartida, res);
         if(partida != null){
-            //Restamos el dinero al jugador y actualizamos el dinero en la partida
-            await pagar(partida, casilla.precioCompra, req.body.username, res);
-            
-            //Miramos el tipo de casilla que es A,F,I,X
-            
-            var casillaComprada = null;
-            if( casilla.tipo == "A"){
-                 casillaComprada = await isAsignatura(req.body.coordenadas);
-            }else if(casilla.tipo == "F"){
-                 casillaComprada = await isFestividad(req.body.coordenadas);
-            }else if(casilla.tipo == "I"){
-                 casillaComprada = await isImpuesto(req.body.coordenadas);
-            }
-            
-            const doc = new modeloAsignaturasComprada ({
-                coordenadas: casillaComprada.coordenadas, 
-                partida: req.body.idPartida,
-                jugador: req.body.username,
-                precio: casillaComprada.matricula,
-                cuatrimestre: casillaComprada.cuatrimestre
-            });
 
-            //La metemos en la tabla de casillas compradas
-            try {
-                await mongoose.connect(config.db.uri, { useNewUrlParser: true, useUnifiedTopology: true });
-                console.log("Connected to MongoDB Atlas")
-        
-                await doc.save();
-                console.log('Documento guardado correctamente');
-                res.status(201).json({message: 'Asignatura comprada insertada correctamente'});
+            //miramos si tiene dinero para comprar
+            const posicion = partida.nombreJugadores.indexOf(req.body.username);
+            if(partida.dineroJugadores[posicion]>= casilla.precioCompra){
+                 //Restamos el dinero al jugador y actualizamos el dinero en la partida
+                await pagar(partida, casilla.precioCompra, req.body.username, res);
                 
-            } catch (error) {
-                console.error(error);
-                res.status(500).json({error: 'Error al crear partida',  nombreJugadores: req.body.username, posicionJugadores: 1010, dineroJugadores: 0});
-            } finally {
-                mongoose.disconnect();
-                console.log("DisConnected to MongoDB Atlas")
+                //Miramos el tipo de casilla que es A,F,I,X
+                
+                var casillaComprada = null;
+                if( casilla.tipo == "A"){
+                    casillaComprada = await isAsignatura(req.body.coordenadas);
+                }else if(casilla.tipo == "F"){
+                    casillaComprada = await isFestividad(req.body.coordenadas);
+                }else if(casilla.tipo == "I"){
+                    casillaComprada = await isImpuesto(req.body.coordenadas);
+                }
+                
+                const doc = new modeloAsignaturasComprada ({
+                    coordenadas: casillaComprada.coordenadas, 
+                    partida: req.body.idPartida,
+                    jugador: req.body.username,
+                    precio: casillaComprada.matricula,
+                    cuatrimestre: casillaComprada.cuatrimestre
+                });
+
+                //La metemos en la tabla de casillas compradas
+                try {
+                    await mongoose.connect(config.db.uri, { useNewUrlParser: true, useUnifiedTopology: true });
+                    console.log("Connected to MongoDB Atlas")
+            
+                    await doc.save();
+                    console.log('Documento guardado correctamente');
+                    res.status(201).json({message: 'Asignatura comprada insertada correctamente'});
+                    
+                } catch (error) {
+                    console.error(error);
+                    res.status(500).json({error: 'Error al crear partida',  nombreJugadores: req.body.username, posicionJugadores: 1010, dineroJugadores: 0});
+                } finally {
+                    mongoose.disconnect();
+                    console.log("DisConnected to MongoDB Atlas")
+                }
+            }else{
+                res.status(400).json({ error: 'Error el usuario no tiene dinero suficiente para comprar la casilla'});
             }
+           
         }else {
             console.error(error);
             res.status(500).json({ error: 'Error al actualizar la partida  al comprar una casilla'});
