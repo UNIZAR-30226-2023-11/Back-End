@@ -5,8 +5,8 @@
     "matricula": 100,
     "tipo": "I",
     "coordenadas":{
-      "h": 0,
-      "v": 8
+      "h": 8,
+      "v": 0
     }
   },
   {
@@ -15,8 +15,8 @@
     "matricula": 100,
     "tipo": "I",
     "coordenadas":{
-      "h": 8,
-      "v": 0
+      "h": 0,
+      "v": 8
     }
   }
 ]

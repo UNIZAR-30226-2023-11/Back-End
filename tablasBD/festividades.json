@@ -9,26 +9,12 @@
     "devolucionMatricula": 133,
     "tipo": "F",
     "coordenadas":{
-      "h": 10,
-      "v": 5
+      "h": 5,
+      "v": 10
     }
   },
   {
     "nombre": "Paso de Ecuador",
-    "precioCompra": 267,
-    "martricula": 33,
-    "precio2M": 67,
-    "precio3M": 133,
-    "precio4M": 267,
-    "devolucionMatricula": 133,
-    "tipo": "F",
-    "coordenadas":{
-      "h": 5,
-      "v": 0
-    }
-  },
-  {
-    "nombre": "San Pepe",
     "precioCompra": 267,
     "martricula": 33,
     "precio2M": 67,
@@ -42,7 +28,7 @@
     }
   },
   {
-    "nombre": "Fin de Carrera",
+    "nombre": "San Pepe",
     "precioCompra": 267,
     "martricula": 33,
     "precio2M": 67,
@@ -52,7 +38,21 @@
     "tipo": "F",
     "coordenadas":{
       "h": 5,
-      "v": 10
+      "v": 0
+    }
+  },
+  {
+    "nombre": "Fin de Carrera",
+    "precioCompra": 267,
+    "martricula": 33,
+    "precio2M": 67,
+    "precio3M": 133,
+    "precio4M": 267,
+    "devolucionMatricula": 133,
+    "tipo": "F",
+    "coordenadas":{
+      "h": 10,
+      "v": 5
     }
   }
 ]

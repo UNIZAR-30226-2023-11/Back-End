@@ -10,8 +10,8 @@
     "devolucionMatricula": 40,
     "tipo": "A",
     "coordenadas":{
-      "h": 10,
-      "v": 9
+      "h": 9,
+      "v": 10
     },
     "cuatrimestre": 1
   },
@@ -26,8 +26,8 @@
     "devolucionMatricula": 40,
     "tipo": "A",
     "coordenadas":{
-      "h": 10,
-      "v": 7
+      "h": 7,
+      "v": 10
     },
     "cuatrimestre": 1
   },
@@ -42,8 +42,8 @@
     "devolucionMatricula": 67,
     "tipo": "A",
     "coordenadas":{
-      "h": 10,
-      "v": 4
+      "h": 4,
+      "v": 10
     },
     "cuatrimestre": 2
   },
@@ -58,8 +58,8 @@
     "devolucionMatricula": 67,
     "tipo": "A",
     "coordenadas":{
-      "h": 10,
-      "v": 2
+      "h": 2,
+      "v": 10
     },
     "cuatrimestre": 2
   },
@@ -74,8 +74,8 @@
     "devolucionMatricula": 80,
     "tipo": "A",
     "coordenadas":{
-      "h": 10,
-      "v": 1
+      "h": 1,
+      "v": 10
     },
     "cuatrimestre": 2
   },
@@ -90,8 +90,8 @@
     "devolucionMatricula": 93,
     "tipo": "A",
     "coordenadas":{
-      "h": 9,
-      "v": 0
+      "h": 0,
+      "v": 9
     },
     "cuatrimestre": 3
   },
@@ -106,8 +106,8 @@
     "devolucionMatricula": 93,
     "tipo": "A",
     "coordenadas":{
-      "h": 7,
-      "v": 0
+      "h": 0,
+      "v": 7
     },
     "cuatrimestre": 3
   },
@@ -122,8 +122,8 @@
     "devolucionMatricula": 107,
     "tipo": "A",
     "coordenadas":{
-      "h": 6,
-      "v": 0
+      "h": 0,
+      "v": 6
     },
     "cuatrimestre": 3
     
@@ -139,8 +139,8 @@
     "devolucionMatricula": 120,
     "tipo": "A",
     "coordenadas":{
-      "h": 4,
-      "v": 0
+      "h": 0,
+      "v": 4
     },
     "cuatrimestre": 4
   },
@@ -155,8 +155,8 @@
     "devolucionMatricula": 120,
     "tipo": "A",
     "coordenadas":{
-      "h": 2,
-      "v": 0
+      "h": 0,
+      "v": 2
     },
     "cuatrimestre": 4
 
@@ -172,8 +172,8 @@
     "devolucionMatricula": 133,
     "tipo": "A",
     "coordenadas":{
-      "h": 1,
-      "v": 0
+      "h": 0,
+      "v": 1
     },
     "cuatrimestre": 4
   },
@@ -188,8 +188,8 @@
     "devolucionMatricula": 147,
     "tipo": "A",
     "coordenadas":{
-      "h": 0,
-      "v": 1
+      "h": 1,
+      "v": 0
     },
     "cuatrimestre": 5
   },
@@ -204,8 +204,8 @@
     "devolucionMatricula": 147,
     "tipo": "A",
     "coordenadas":{
-      "h": 0,
-      "v": 3
+      "h": 3,
+      "v": 0
     },
     "cuatrimestre": 5
   },
@@ -220,8 +220,8 @@
     "devolucionMatricula": 160,
     "tipo": "A",
     "coordenadas":{
-      "h": 0,
-      "v": 4
+      "h": 4,
+      "v": 0
     },
     "cuatrimestre": 5
   },
@@ -236,8 +236,8 @@
     "devolucionMatricula": 173,
     "tipo": "A",
     "coordenadas":{
-      "h": 0,
-      "v": 6
+      "h": 6,
+      "v": 0
     },
     "cuatrimestre": 6
   },
@@ -252,8 +252,8 @@
     "devolucionMatricula": 173,
     "tipo": "A",
     "coordenadas":{
-      "h": 0,
-      "v": 7
+      "h": 7,
+      "v": 0
     },
     "cuatrimestre": 6
   },
@@ -268,8 +268,8 @@
     "devolucionMatricula": 187,
     "tipo": "A",
     "coordenadas":{
-      "h": 0,
-      "v": 9
+      "h": 9,
+      "v": 0
     },
     "cuatrimestre": 6
   },
@@ -284,8 +284,8 @@
     "devolucionMatricula": 200,
     "tipo": "A",
     "coordenadas":{
-      "h": 1,
-      "v": 10
+      "h": 10,
+      "v": 1
     },
     "cuatrimestre": 7
   },
@@ -300,8 +300,8 @@
     "devolucionMatricula": 200,
     "tipo": "A",
     "coordenadas":{
-      "h": 2,
-      "v": 10
+      "h": 10,
+      "v": 2
     },
     "cuatrimestre": 7
   },
@@ -316,8 +316,8 @@
     "devolucionMatricula": 213,
     "tipo": "A",
     "coordenadas":{
-      "h": 4,
-      "v": 10
+      "h": 10,
+      "v": 4
     },
     "cuatrimestre": 7
   },
@@ -332,8 +332,8 @@
     "devolucionMatricula": 233,
     "tipo": "A",
     "coordenadas":{
-      "h": 7,
-      "v": 10
+      "h": 10,
+      "v": 7
     },
     "cuatrimestre": 8
   },
@@ -348,8 +348,8 @@
     "devolucionMatricula": 267,
     "tipo": "A",
     "coordenadas":{
-      "h": 9,
-      "v": 10
+      "h": 10,
+      "v": 9
     },
     "cuatrimestre": 8
   }
