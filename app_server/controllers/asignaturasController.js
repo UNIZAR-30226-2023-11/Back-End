@@ -282,6 +282,45 @@ async function isImpuesto(coordenadas){
     }
 }
 
+
+/**
+ * 
+ * @param {*} username Nombre del jugador del que queremos la lista de asignaturas compradas
+ * @param {*} idPartida Identificador de la partida
+ * @returns Devuelve una casilla de tipo modeloCasilla o null
+ */
+async function findAsignaturasCompradas(username, idPartida){
+    console.log("*** METHOD Find Asignaturas compradas");
+    try {
+        await mongoose.connect(config.db.uri, { useNewUrlParser: true, useUnifiedTopology: true });
+        console.log("Connected to MongoDB Atlas")
+
+        const casillas = await modeloAsignaturasComprada.find({"partida": idPartida, "jugador": username }).exec();
+        console.log(casillas);
+        //console.log(coordenadas);
+        //console.log(casillaComprada);
+        //console.log("casillaEncontrada");
+        //console.log(casillaEncontrada);
+        if(casillas != null){
+            console.log(casillas);
+            return casillas;
+        } else {
+            console.log("El jugador no tiene casillas compradas");
+            return null;
+        }
+        
+    }
+    catch (error) {
+        console.error(error);
+        console.log('Error al encontrar la casilla');
+        return null;
+    }finally {
+        mongoose.disconnect();
+        console.log("DisConnected to MongoDB Atlas")
+    }
+}
+
+
 //**FUNCIONES API  */
 
 /**
@@ -396,7 +435,7 @@ async function checkCasilla(req, res){
                 res.status(200).json({message: 'Se ha pagado lo que se debia', jugador: comprada.jugador, dinero: comprada.precio});
             }else{
                 console.log("Esta casilla es mia", req.body.username, req.body.coordenadas);
-                res.status(200).json({message: 'Esta asignatura es mia no tengo que hacer nada'});
+                res.status(200).json({jugador: req.body.username});
             }
 
         }else {
@@ -464,6 +503,24 @@ async function infoAsignatura(req, res){
     }
 }
 
+/**
+ * 
+ * @param {*} req.body.idPartida Identificador de la partida  
+ * @param {*} req.body.username Nombre del jugador del que queremos mirar las asignaturas compradas
+ * @param {*} res 
+ */
+async function listaAsignaturasC(req, res){
+    console.log("METHOD Comprar Casilla");
+    //console.log(req.body.coordenadas);
+
+    const casillas = await findAsignaturasCompradas( req.body.username, req.body.idPartida);
+    if (casillas != null){
+         res.status(200).json({casillas});
+    }else{
+        res.status(404).json("El usuario no tiene casillas compradas");
+    }
+}
+
 // /**
 //  * 
 //  * @param {*} req.body.idPartida
@@ -475,4 +532,4 @@ async function infoAsignatura(req, res){
 
 // }
 
-module.exports = {checkCasilla, tarjetaAleatoria, comprarCasilla, dar200, infoAsignatura};
+module.exports = {checkCasilla, tarjetaAleatoria, comprarCasilla, dar200, infoAsignatura, listaAsignaturasC};

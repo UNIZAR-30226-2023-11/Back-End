@@ -22,4 +22,6 @@ router.put('/listaJugadores', ctrlPartida.listaJugadores);
 router.put('/casillaSalida', ctrlAsignatura.dar200);
 router.put('/infoAsignatura', ctrlAsignatura.infoAsignatura);
 
+router.put('/listaAsignaturasC', ctrlAsignatura.listaAsignaturasC);
+
 module.exports = router;
