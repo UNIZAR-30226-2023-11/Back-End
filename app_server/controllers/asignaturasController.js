@@ -452,8 +452,12 @@ async function infoAsignatura(req, res){
         }else if(casilla.tipo == "I"){
             casillaInfo = await isImpuesto(req.body.coordenadas);
         }
+        if(casillaInfo != null){
+            res.status(200).json({casillaInfo});
+        }else{
+            res.status(404).json("No se ha encontrado la indormación de la casilla");
+        }
         
-        res.status(200).json({casillaInfo});
 
     }else{
         res.status(404).json("La casilla no existe");
