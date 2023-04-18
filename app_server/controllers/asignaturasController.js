@@ -168,7 +168,7 @@ async function findCasilla(coordenadas){
         console.log("Connected to MongoDB Atlas");
 
         const casillaEncontrada = await modeloCasilla.findOne({"coordenadas.h": coordenadas.h, "coordenadas.v": coordenadas.v}).exec();
-        //console.log(coordenadas);
+        console.log(coordenadas);
         //console.log("casillaEncontrada");
         //console.log(casillaEncontrada);
         if(casillaEncontrada ){
@@ -182,7 +182,6 @@ async function findCasilla(coordenadas){
     catch (error) {
         console.error(error);
         console.log('Error al encontrar la casilla');
-        res.status(500).json({error: 'Error al encontrar la casilla'});
         return null;
     }finally {
         mongoose.disconnect();
@@ -277,7 +276,6 @@ async function isImpuesto(coordenadas){
     } catch (error) {
         console.error(error);
         console.log('Error al encontrar la casilla impuesto');
-        res.status(500).json({error: 'Error al encontrar la casilla impuesto'});
         return null;
 
     } finally {
