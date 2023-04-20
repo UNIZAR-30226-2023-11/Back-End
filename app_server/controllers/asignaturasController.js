@@ -333,8 +333,15 @@ async function tarjetaAleatoria(req,res){
     try {
         await mongoose.connect(config.db.uri, { useNewUrlParser: true, useUnifiedTopology: true });
         console.log("Connected to MongoDB Atlas")
+ 
+        var tipoP = req.params.tipo.toString();
+        //console.log(tipoP);
+        //const resultado = await modeloTarjetas.aggregate([{$sample: {size: 1}}]).exec();
+        const resultado = await modeloTarjetas.aggregate([
+            {$match: {tipo: tipoP}},
+            {$sample: {size: 1}}
+          ]).exec();
 
-        const resultado = await modeloTarjetas.aggregate([{$sample: {size: 1}}]).exec();
         res.status(200).json(resultado); 
       } catch (error) {
         console.log(error);

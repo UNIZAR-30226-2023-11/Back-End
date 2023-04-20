@@ -9,7 +9,7 @@ router.post('/crear', ctrlPartida.crearPartida);
 
 
 router.put('/unirJugador', ctrlPartida.unirJugador);
-router.get('/tarjeta', ctrlAsignatura.tarjetaAleatoria);
+router.get('/tarjeta/:tipo', ctrlAsignatura.tarjetaAleatoria);
 //router.post('/jugadoresUpdate', ctrlAsignatura.checkCasilla);
 //router.get('/encontrar', ctrlPartida.findPartida);  //Esta es privada
 router.put('/casilla', ctrlAsignatura.checkCasilla);
