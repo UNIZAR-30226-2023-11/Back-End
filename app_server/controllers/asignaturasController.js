@@ -373,9 +373,7 @@ async function comprarCasilla(req, res){
             if(partida.dineroJugadores[posicion]>= casilla.precioCompra){
                  //Restamos el dinero al jugador y actualizamos el dinero en la partida
                 await pagar(partida, casilla.precioCompra, req.body.username, res);
-                
                 //Miramos el tipo de casilla que es A,F,I,X
-                
                 var casillaComprada = null;
                 if( casilla.tipo == "A"){
                     casillaComprada = await isAsignatura(req.body.coordenadas);

@@ -26,7 +26,8 @@ async function crearPartida(req,res){
             nombreJugadores: req.body.username,
             posicionJugadores: {h: casillaInicio, v: casillaInicio},
             dineroJugadores: req.body.dineroInicial,
-            numeroJugadores: req.body.nJugadores
+            numeroJugadores: req.body.nJugadores,
+            dados: {dado1: 0 , dado2: 0, jugador: ""}
             //normas:[]
         });
         await doc.save();
@@ -293,7 +294,7 @@ async function findPartida(idPartida, res){
     catch (error) {
         console.error(error);
         console.log('Error al encontrar partida');
-        res.status(500).json({error: 'Error al encontrar partida'});
+        //res.status(500).json({error: 'Error al encontrar partida'});
         return null;
     }finally {
         mongoose.disconnect();
@@ -301,5 +302,32 @@ async function findPartida(idPartida, res){
     }
 }
 
-module.exports = {crearPartida, unirJugador, lanzardados, findPartida, actualizarPartida, listaJugadores};
+/**
+ * 
+ * @param {*} req.body.idPartida 
+ * @param {*} res 
+ */
+async function siguienteTurno(req, res){
+    
+    const partida = await findPartida(req.body.idPartida, res);
+    if( partida != null){
+        const tam = partida.nombreJugadores.length;
+        if( partida.dados.jugador == ""){
+            //le toca al primero
+            res.status(200).json({jugador: partida.nombreJugadores[0]});
+        }else{
+            const posicion = partida.nombreJugadores.indexOf(partida.dados.jugador);
+            if(posicion == tam-1){ //le vuelve a tocar al primero
+                res.status(200).json({jugador: partida.nombreJugadores[0]});
+            }else{
+                res.status(200).json({jugador: partida.nombreJugadores[posicion+1]});
+            }
+        }
+
+    }else{
+        res.status(404).send("Partida no encontrada");
+    }
+}
+
+module.exports = {crearPartida, unirJugador, lanzardados, findPartida, actualizarPartida, listaJugadores, siguienteTurno};
  

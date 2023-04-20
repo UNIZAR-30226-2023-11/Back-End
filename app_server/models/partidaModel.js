@@ -33,7 +33,7 @@ const esquema = new schema({
         dado2: Number,
         jugador: String
       },
-      required: false
+      required: true
     }
     // ,
     // normas: {
