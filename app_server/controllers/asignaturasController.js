@@ -122,14 +122,14 @@ async function actualizarPosicion(idPartida, coordenadas, jugador, res){
  * @param {*} coordenadas Coordenadas de la casilla donde ha caido el jugador 
  * @param {*} res 
  */
-async function estaComprada(coordenadas){
+async function estaComprada(coordenadas, idPartida){
     console.log("***METHOD Para saber si esta comprada una casilla");
 
     try {
         await mongoose.connect(config.db.uri, { useNewUrlParser: true, useUnifiedTopology: true });
         console.log("Connected to MongoDB Atlas")
 
-        const casillaComprada = await modeloAsignaturasComprada.findOne({"coordenadas.h": coordenadas.h, "coordenadas.v": coordenadas.v}).exec();
+        const casillaComprada = await modeloAsignaturasComprada.findOne({"partida": idPartida,"coordenadas.h": coordenadas.h, "coordenadas.v": coordenadas.v}).exec();
         //console.log(coordenadas);
         //console.log(casillaComprada);
 
@@ -434,7 +434,7 @@ async function checkCasilla(req, res){
     await actualizarPosicion(req.body.idPartida, req.body.coordenadas, req.body.username,res);
     
     //Miramos si esta comprada
-    const comprada = await estaComprada(req.body.coordenadas, res);
+    const comprada = await estaComprada(req.body.coordenadas, idPartida);
     if(comprada != null) {
         const partida = await ctrlPartida.findPartida(req.body.idPartida, res);
         if(partida != null) {
