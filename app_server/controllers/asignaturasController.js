@@ -325,7 +325,9 @@ async function findAsignaturasCompradas(username, idPartida){
 
 /**
  * FUNCIONA
- * @param {*} req 
+ * @param {*} req.body.tipo
+ * @param {*} req.body.username
+ * @param {*} req.body.idPartida 
  * @param {*} res Devuelve una tarjeta aleatoria.
  */
 async function tarjetaAleatoria(req,res){
@@ -334,7 +336,7 @@ async function tarjetaAleatoria(req,res){
         await mongoose.connect(config.db.uri, { useNewUrlParser: true, useUnifiedTopology: true });
         console.log("Connected to MongoDB Atlas")
  
-        var tipoP = req.params.tipo.toString();
+        var tipoP = req.body.tipo.toString();
         //console.log(tipoP);
         //const resultado = await modeloTarjetas.aggregate([{$sample: {size: 1}}]).exec();
         const resultado = await modeloTarjetas.aggregate([
@@ -433,7 +435,7 @@ async function checkCasilla(req, res){
     //ACTUALIZAMOS LA POSICION DEL JUGADOR
     await actualizarPosicion(req.body.idPartida, req.body.coordenadas, req.body.username,res);
     
-    //Miramos si esta comprada
+    //Miramos si esta compradacd
     const comprada = await estaComprada(req.body.coordenadas, req.body.idPartida);
     if(comprada != null) {
         const partida = await ctrlPartida.findPartida(req.body.idPartida, res);
