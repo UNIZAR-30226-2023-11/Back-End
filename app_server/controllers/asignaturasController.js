@@ -381,6 +381,7 @@ async function comprarCasilla(req, res){
                     casillaComprada = await isAsignatura(req.body.coordenadas);
                 }else if(casilla.tipo == "F"){
                     casillaComprada = await isFestividad(req.body.coordenadas);
+                    console.log(casillaComprada);
                 }else if(casilla.tipo == "I"){
                     casillaComprada = await isImpuesto(req.body.coordenadas);
                 }
