@@ -434,7 +434,7 @@ async function checkCasilla(req, res){
     await actualizarPosicion(req.body.idPartida, req.body.coordenadas, req.body.username,res);
     
     //Miramos si esta comprada
-    const comprada = await estaComprada(req.body.coordenadas, idPartida);
+    const comprada = await estaComprada(req.body.coordenadas, req.body.idPartida);
     if(comprada != null) {
         const partida = await ctrlPartida.findPartida(req.body.idPartida, res);
         if(partida != null) {
