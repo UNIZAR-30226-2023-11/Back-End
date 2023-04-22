@@ -53,7 +53,7 @@
     "dinero": 500,
     "tipo": "boletin"
   },{
-    "nombre": "¡Qué suerte!",
+    "nombre": "¡Qué suerte, te libras!",
     "descripcion": "Has ido a revisión y te han aprobado, por lo que te libras de la 2ª Convocatoria. Guarda esta carta y úsala cuando quieras escapar de la 2º Convocatoria.",
     "cobrarPagarNada": "nada",
     "dinero": 0,
@@ -95,7 +95,7 @@
     "dinero": 50,
     "tipo": "boletin"
   },{
-    "nombre": "¡Qué suerte!",
+    "nombre": "¡Qué suerte, te libras!",
     "descripcion": "Has ido a revisión y te han aprobado, por lo que te libras de la 2ª Convocatoria. Guarda esta carta y úsala cuando quieras escapar de la 2º Convocatoria.",
     "cobrarPagarNada": "nada",
     "dinero": 0,
