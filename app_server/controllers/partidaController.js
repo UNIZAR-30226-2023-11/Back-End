@@ -43,8 +43,6 @@ async function crearPartida(req,res){
     }
 }
 
-
-
 /**
  * 
  * @param {*} req.body.idPartida Identificador de la partida
@@ -205,14 +203,14 @@ async function unirJugador(req,res){
     }finally {
         mongoose.disconnect();
         console.log("DisConnected to MongoDB Atlas")
-    }
-    
+    } 
 }
 
 async function comenzarPartida(req,res){
     console.log("***POST METHOD Comenzar partida");
 
 }
+
 /**
  * 
  * @param {*} req.body.username Nombre del usuario que lanza los dados 
@@ -227,7 +225,6 @@ async function lanzardados(req,res){
 
     // Calculate the total
     const total = dado1 + dado2;
-
 
     try{
         const partida = await findPartida(req.body.idPartida, res);
@@ -261,12 +258,10 @@ async function lanzardados(req,res){
     } catch (error) {
         console.error(error);
         console.log('Error al lanzar los dados en la partida');
-        res.status(500).json({error: 'Error al lanzar los dados en la partida'});
-        
+        res.status(500).json({error: 'Error al lanzar los dados en la partida'});  
     }
-
-
 }
+
 async function findPartida(idPartida, res){
     console.log("*** METHOD Find partida");
 
@@ -329,5 +324,26 @@ async function siguienteTurno(req, res){
     }
 }
 
-module.exports = {crearPartida, unirJugador, lanzardados, findPartida, actualizarPartida, listaJugadores, siguienteTurno};
- 
+/**
+ * 
+ * @param {*} req.body.idPartida 
+ * @param {*} res 
+ */
+async function turnoActual(req, res){
+    
+    const partida = await findPartida(req.body.idPartida, res);
+    if( partida != null){
+        const tam = partida.nombreJugadores.length;
+        if( partida.dados.jugador == ""){
+            //le toca al primero
+            res.status(200).json({jugador: partida.nombreJugadores[0]});
+        }else{
+            res.status(200).json({jugador: partida.dados.jugador});
+        }
+
+    } else{
+        res.status(404).send("Partida no encontrada");
+    }
+}
+
+module.exports = {crearPartida, unirJugador, lanzardados, findPartida, actualizarPartida, listaJugadores, siguienteTurno, turnoActual};

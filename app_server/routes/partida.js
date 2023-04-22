@@ -26,4 +26,6 @@ router.put('/listaAsignaturasC', ctrlAsignatura.listaAsignaturasC);
 
 router.put('/siguienteTurno', ctrlPartida.siguienteTurno);
 
+router.put('/turnoActual',ctrlPartida.turnoActual)
+
 module.exports = router;
