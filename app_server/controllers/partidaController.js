@@ -218,7 +218,7 @@ async function comenzarPartida(req,res){
  * @param {*} res 
  */
 async function lanzardados(req,res){
-    console.log("***GET METHOD Lanzar dados de la partida");
+    console.log("***POST METHOD Lanzar dados de la partida");
     // Generate two random numbers between 1 and 6
     const dado1 = Math.floor(Math.random() * 6) + 1;
     const dado2 = Math.floor(Math.random() * 6) + 1;

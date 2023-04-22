@@ -20,9 +20,10 @@ const  mongoose = require("mongoose");
  * @param {*} jugador Jugador que paga
  * @param {*} res 
  */
-async function pagar(partida, dinero, jugador, res){
+async function pagar(partida, dinero, jugador, bancarrota){
     console.log("FUNCION PRIVADA PAGAR");
     //console.log(partida);
+
     try {
         const posicion = partida.nombreJugadores.indexOf(jugador);
         partida.dineroJugadores[posicion] = partida.dineroJugadores[posicion] - dinero;
@@ -35,6 +36,13 @@ async function pagar(partida, dinero, jugador, res){
         if(result.modifiedCount == 1) {
             //console.log(result);
             console.log("Se ha actualizado la partida correctamente al pagar");
+            lista.splice(1, 1);
+            if( partida.dineroJugadores[posicion] < 0){
+                partida.dineroJugadores.splice(posicion,1);
+                partida.nombreJugadores.splice(posicion,1);
+                partida.posicionJugadores.splice(posicion,1);
+                bancarrota=true;
+            }
         }
     } catch (error) {
         console.error(error);
@@ -372,9 +380,9 @@ async function comprarCasilla(req, res){
 
             //miramos si tiene dinero para comprar
             const posicion = partida.nombreJugadores.indexOf(req.body.username);
-            if(partida.dineroJugadores[posicion]>= casilla.precioCompra){
+            if(partida.dineroJugadores[posicion] >= casilla.precioCompra){
                  //Restamos el dinero al jugador y actualizamos el dinero en la partida
-                await pagar(partida, casilla.precioCompra, req.body.username, res);
+                await pagar(partida, casilla.precioCompra, req.body.username, false);
                 //Miramos el tipo de casilla que es A,F,I,X
                 var casillaComprada = null;
                 if( casilla.tipo == "A"){
@@ -435,7 +443,7 @@ async function comprarCasilla(req, res){
 async function checkCasilla(req, res){
     //ACTUALIZAMOS LA POSICION DEL JUGADOR
     await actualizarPosicion(req.body.idPartida, req.body.coordenadas, req.body.username,res);
-    
+    var bancarrota = false;
     //Miramos si esta compradacd
     const comprada = await estaComprada(req.body.coordenadas, req.body.idPartida);
     if(comprada != null) {
@@ -446,9 +454,9 @@ async function checkCasilla(req, res){
             //Si la casilla esta comprada habrá que quitarle dinero al jugador y añadirselo al propietario
             //hay que comprobar que no esta comprada por el propio jugador
             if(comprada.jugador != req.body.username){
-                await pagar(partida, comprada.precio, req.body.username, res);
+                await pagar(partida, comprada.precio, req.body.username, bancarrota);
                 await cobrar(partida, comprada.precio,comprada.jugador , res);
-                res.status(200).json({message: 'Se ha pagado lo que se debia', jugador: comprada.jugador, dinero: comprada.precio});
+                res.status(200).json({message: 'Se ha pagado lo que se debia', jugador: comprada.jugador, dinero: comprada.precio, bancarrota: bancarrota});
             }else{
                 console.log("Esta casilla es mia", req.body.username, req.body.coordenadas);
                 res.status(200).json({jugador: req.body.username});
