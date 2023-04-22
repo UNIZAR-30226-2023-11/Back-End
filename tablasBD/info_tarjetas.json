@@ -1,0 +1,169 @@
+[{
+    "nombre": "¡Vas a la cafetería!",
+    "descripcion": "Has ido a la cafetería, paga 55€ por desayunar allí.",
+    "cobrarPagarNada": "pagar",
+    "dinero": 55,
+    "tipo": "boletin"
+  },{
+    "nombre": "A comer en el Ada Byron",
+    "descripcion": "Te toca comer en la cafetería, tienes que pagar el menú, 100€",
+    "cobrarPagarNada": "pagar",
+    "dinero": 100,
+    "tipo": "boletin"
+  },{
+    "nombre": "¡Ay las entregas!",
+    "descripcion": "No has dormido bien esta noche, paga 20€ por un café de avellanas.",
+    "cobrarPagarNada": "pagar",
+    "dinero": 20,
+    "tipo": "boletin"
+  },{
+    "nombre": "Ganas de algo dulce",
+    "descripcion": "Tienes apetito de chocoboms, compralas por 275€ en la máquina.",
+    "cobrarPagarNada": "pagar",
+    "dinero": 275,
+    "tipo": "boletin"
+  },{
+    "nombre": "Unizar necesita dinero",
+    "descripcion": "Te toca pagar el seguro universitario (1000€).",
+    "cobrarPagarNada": "pagar",
+    "dinero": 1000,
+    "tipo": "boletin"
+  },{
+    "nombre": "¡Feliz cumpleaños!",
+    "descripcion": "Es tu cumpleaños, todo los jugadores te tienen que pagar 150€ para comprate un portatil nuevo.",
+    "cobrarPagarNada": "cobrar",
+    "dinero": 150,
+    "tipo": "boletin"
+  },{
+    "nombre": "Vaya, tienes que ir a Segunda Convocatoria",
+    "descripcion": "Ve a 2ª Convocatoria. Ve directamente sin pasar por la casilla de salida y sin cobrar los 200 euros",
+    "cobrarPagarNada": "nada",
+    "dinero": 0,
+    "tipo": "boletin"
+  },{
+    "nombre": "¡Qué suerte!",
+    "descripcion": "La universidad te va a devolver dinero por un error en los cobros. Recibe 1€.",
+    "cobrarPagarNada": "cobrar",
+    "dinero": 1,
+    "tipo": "boletin"
+  },{
+    "nombre": "¡Felicidades, te has graduado!",
+    "descripcion": "Para obtener el título del grado te toca pagar 500€ por el mismo.",
+    "cobrarPagarNada": "pagar",
+    "dinero": 500,
+    "tipo": "boletin"
+  },{
+    "nombre": "¡Qué suerte!",
+    "descripcion": "Has ido a revisión y te han aprobado, por lo que te libras de la 2ª Convocatoria. Guarda esta carta y úsala cuando quieras escapar de la 2º Convocatoria.",
+    "cobrarPagarNada": "nada",
+    "dinero": 0,
+    "tipo": "boletin"
+  },{
+    "nombre": "¡Enhorabuena!",
+    "descripcion": "Te han concedido la beca. Se han sumando a tu cuenta 600€",
+    "cobrarPagarNada": "cobrar",
+    "dinero": 600,
+    "tipo": "boletin"
+  },{
+    "nombre": "Conductor novel",
+    "descripcion": "Te has dejado las luces del coche encendidas en el parking y te has quedado sin batería. Te toca pagar por llamar a un taxi para que te encienda el coche. Paga al taxista 100€",
+    "cobrarPagarNada": "pagar",
+    "dinero": 100,
+    "tipo": "boletin"
+  },{
+    "nombre": "¡Estamos en el ecuador!",
+    "descripcion": "Es tu paso de ecuador, te toca pagar por asistir al evento. Paga 550€.",
+    "cobrarPagarNada": "pagar",
+    "dinero": 550,
+    "tipo": "boletin"
+  },{
+    "nombre": "¡Enhorabuena!",
+    "descripcion": "Como has ganado el primer premio del hackaton, te van a dar dinero. Cobra 500€.",
+    "cobrarPagarNada": "cobrar",
+    "dinero": 500,
+    "tipo": "boletin"
+  },{
+    "nombre": "¡Qué suerte!",
+    "descripcion": "Colócate en la casilla de salida",
+    "cobrarPagarNada": "nada",
+    "dinero": 0,
+    "tipo": "boletin"
+  },{
+    "nombre": "Ay",
+    "descripcion": "O sacas una tarjeta de suerte o te toca pagar 50€.",
+    "cobrarPagarNada": "pagar",
+    "dinero": 50,
+    "tipo": "boletin"
+  },{
+    "nombre": "¡Qué suerte!",
+    "descripcion": "Has ido a revisión y te han aprobado, por lo que te libras de la 2ª Convocatoria. Guarda esta carta y úsala cuando quieras escapar de la 2º Convocatoria.",
+    "cobrarPagarNada": "nada",
+    "dinero": 0,
+    "tipo": "suerte"
+  },{
+    "nombre": "¡Qué mala suerte!",
+    "descripcion": "La inspección de créditos te obliga a pagar matrículas, paga 40 euros por aumento de 2 créditos y paga 115 por cada aumento de 14 créditos..",
+    "cobrarPagarNada": "pagar",
+    "dinero": 0,
+    "tipo": "suerte"
+  },{
+    "nombre": "¡Qué suerte!",
+    "descripcion": "Avanza hasta la casilla de Proyecto Software. Si pasas por la casilla de salida cobra 200 euros.",
+    "cobrarPagarNada": "nada",
+    "dinero": 0,
+    "tipo": "suerte"
+  },{
+    "nombre": "¡FIESTA!",
+    "descripcion": "Es san pepe, ve a la casilla correspondiente. Si pasas por la salida cobra 200 euros",
+    "cobrarPagarNada": "nada",
+    "dinero": 0,
+    "tipo": "suerte"
+  },{
+    "nombre": "¡Ya queda poco!",
+    "descripcion": "Ves al TFG",
+    "cobrarPagarNada": "nada",
+    "dinero": 0,
+    "tipo": "suerte"
+  },{
+    "nombre": "¡Qué suerte!",
+    "descripcion": "Colócate en la casilla de salida",
+    "cobrarPagarNada": "nada",
+    "dinero": 0,
+    "tipo": "suerte"
+  },{
+    "nombre": "¡Vaya!",
+    "descripcion": "Retrocede 5 casillas",
+    "cobrarPagarNada": "nada",
+    "dinero": 0,
+    "tipo": "suerte"
+  },{
+    "nombre": "¡Qué list@ eres!",
+    "descripcion": "Has sacado matrícula de honor. La universidad te dará dinero. Recibe 200€.",
+    "cobrarPagarNada": "cobrar",
+    "dinero": 200,
+    "tipo": "suerte"
+  },{
+    "nombre": "¡Vaya!",
+    "descripcion": "Te has retrasado 2 días con la entrega del proyecto. Te toca pagar un jamón y 250€.",
+    "cobrarPagarNada": "pagar",
+    "dinero": 250,
+    "tipo": "suerte"
+  },{
+    "nombre": "¡Qué suerte!",
+    "descripcion": "La universidad recompensa tu esfuerzo. Recibe 20€.",
+    "cobrarPagarNada": "cobrar",
+    "dinero": 20,
+    "tipo": "suerte"
+  },{
+    "nombre": "La luz está cara",
+    "descripcion": "El conserje te ha pillado usando un ladrón, te toca pagar 300€ a la universidad.",
+    "cobrarPagarNada": "pagar",
+    "dinero": 300,
+    "tipo": "suerte"
+  },{ 
+    "nombre": "Esto no se hace",
+    "descripcion": "Te han detectado plagio, pierdes tu convocatoria, ve a Recuperaciones sin cobrar por pasar por la casilla de salida.",
+    "cobrarPagarNada": "nada",
+    "dinero": 0,
+    "tipo": "suerte"
+  }]
