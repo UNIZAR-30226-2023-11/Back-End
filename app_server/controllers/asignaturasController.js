@@ -36,17 +36,26 @@ async function pagar(partida, dinero, jugador, bancarrota){
         if(result.modifiedCount == 1) {
             //console.log(result);
             console.log("Se ha actualizado la partida correctamente al pagar");
-            lista.splice(1, 1);
+
             if( partida.dineroJugadores[posicion] < 0){
-                partida.dineroJugadores.splice(posicion,1);
-                partida.nombreJugadores.splice(posicion,1);
-                partida.posicionJugadores.splice(posicion,1);
-                bancarrota=true;
+                console.log("Bancarrota ", bancarrota);
+                partida.dineroJugadores.splice(posicion, 1);
+                partida.nombreJugadores.splice(posicion, 1);
+                partida.posicionJugadores.splice(posicion, 1);
+                bancarrota = true;
+                console.log(partida);
+                await modeloPartida.updateOne({ id: partida.id},  { $set: { dineroJugadores: partida.dineroJugadores, nombreJugadores: partida.nombreJugadores,
+                posicionJugadores: partida.posicionJugadores
+            }});
+           
             }
+            
         }
+        return bancarrota;
     } catch (error) {
         console.error(error);
         console.log("Error al actualizar la partida al pagar", partida.id);
+        return bancarrota;
         
     } finally {
         mongoose.disconnect();
@@ -454,7 +463,7 @@ async function checkCasilla(req, res){
             //Si la casilla esta comprada habrá que quitarle dinero al jugador y añadirselo al propietario
             //hay que comprobar que no esta comprada por el propio jugador
             if(comprada.jugador != req.body.username){
-                await pagar(partida, comprada.precio, req.body.username, bancarrota);
+                bancarrota = await pagar(partida, comprada.precio, req.body.username, bancarrota);
                 await cobrar(partida, comprada.precio,comprada.jugador , res);
                 res.status(200).json({message: 'Se ha pagado lo que se debia', jugador: comprada.jugador, dinero: comprada.precio, bancarrota: bancarrota});
             }else{
