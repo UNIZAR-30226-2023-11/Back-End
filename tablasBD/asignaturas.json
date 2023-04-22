@@ -1,6 +1,7 @@
 [
   {
     "nombre": "Prog. 1",
+    "descripcion": "Programacion 1",
     "precioCompra": 80,
     "matricula": 3,
     "precio1C": 13,
@@ -17,6 +18,7 @@
   },
   {
     "nombre": "IC",
+    "descripci": "Introduccion a los Computadores",
     "precioCompra": 80,
     "matricula": 5,
     "precio1C": 27,
@@ -33,6 +35,7 @@
   },
   {
     "nombre": "Prog. 2",
+    "descripcion": "Programacion 2",
     "precioCompra": 133,
     "matricula": 8,
     "precio1C": 40,
@@ -49,6 +52,7 @@
   },
   {
     "nombre": "Fisica y electronica",
+    "descripcion": "Fisica y electronica",
     "precioCompra": 133,
     "matricula": 8,
     "precio1C": 40,
@@ -65,6 +69,7 @@
   },
   {
     "nombre": "AOC 1",
+    "descripcion": "Arquitectura y Organización de Computadores 1",
     "precioCompra": 160,
     "matricula": 11,
     "precio1C": 53,
@@ -81,6 +86,7 @@
   },
   {
     "nombre": "SO",
+    "descripcion": "Sistemas Operativos",
     "precioCompra": 187,
     "matricula": 13,
     "precio1C": 67,
@@ -97,6 +103,7 @@
   },
   {
     "nombre": "EDA",
+    "descripcion": "Estuctura de Datos y Algoritmos",
     "precioCompra": 187,
     "matricula": 13,
     "precio1C": 67,
@@ -113,6 +120,7 @@
   },
   {
     "nombre": "Redes",
+    "descripcion": "Redes de Computadores",
     "precioCompra": 213,
     "matricula": 16,
     "precio1C": 80,
@@ -130,6 +138,7 @@
   },
   {
     "nombre": "Tec. Prog.",
+    "descripcion": "Tecnologia de Programacion",
     "precioCompra": 240,
     "matricula": 19,
     "precio1C": 93,
@@ -146,6 +155,7 @@
   },
   {
     "nombre": "IPO",
+    "descripcion": "Interacción Persona Ordenador",
     "precioCompra": 240,
     "matricula": 19,
     "precio1C": 93,
@@ -163,6 +173,7 @@
   },
   {
     "nombre": "AOC 2",
+    "descripcion": "Arquitectura y Organización de Computadores 2",
     "precioCompra": 267,
     "matricula": 21,
     "precio1C": 107,
@@ -179,6 +190,7 @@
   },
   {
     "nombre": "IA",
+    "descripcion": "Inteligencia Artificial",
     "precioCompra": 293,
     "matricula": 24,
     "precio1C": 120,
@@ -195,6 +207,7 @@
   },
   {
     "nombre": "Distribuidos",
+    "descripcion": "Sistemas Distribuidos",
     "precioCompra": 293,
     "matricula": 24,
     "precio1C": 120,
@@ -211,6 +224,7 @@
   },
   {
     "nombre": "PH",
+    "descripcion": "Proyecto Hardware",
     "precioCompra": 320,
     "matricula": 27,
     "precio1C": 133,
@@ -227,6 +241,7 @@
   },
   {
     "nombre": "SiSinf 2",
+    "descripcion": "Sistemas de la informacion 2",
     "precioCompra": 347,
     "matricula": 29,
     "precio1C": 147,
@@ -243,6 +258,7 @@
   },
   {
     "nombre": "Procesadores del lenguaje",
+    "descripcion": "Procesadores del Lenguaje",
     "precioCompra": 347,
     "matricula": 29,
     "precio1C": 147,
@@ -259,6 +275,7 @@
   },
   {
     "nombre": "PS",
+    "descripcion": "Proyecto Software",
     "precioCompra": 373,
     "matricula": 32,
     "precio1C": 160,
@@ -275,6 +292,7 @@
   },
   {
     "nombre": "Robotica",
+    "descripcion": "Robotica",
     "precioCompra": 400,
     "matricula": 35,
     "precio1C": 173,
@@ -291,6 +309,7 @@
   },
   {
     "nombre": "Sistemas y tecnologias web",
+    "descripcion": "Sistemas y tecnologias web",
     "precioCompra": 400,
     "matricula": 35,
     "precio1C": 173,
@@ -307,6 +326,7 @@
   },
   {
     "nombre": "Seguridad informatica",
+    "descripcion": "Seguridad informatica",
     "precioCompra": 427,
     "matricula": 37,
     "precio1C": 200,
@@ -323,6 +343,7 @@
   },
   {
     "nombre": "Practicas de empresa",
+    "descripcion": "Practicas en una empresa de tu eleccion",
     "precioCompra": 467,
     "matricula": 47,
     "precio1C": 233,
@@ -339,6 +360,7 @@
   },
   {
     "nombre": "TFG",
+    "descripcion": "Trabajo de fin  de grado",
     "precioCompra": 533,
     "matricula": 67,
     "precio1C": 267,
