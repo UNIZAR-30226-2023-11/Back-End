@@ -360,7 +360,7 @@ async function tarjetaAleatoria(req,res){
             {$match: {tipo: tipoP}},
             {$sample: {size: 1}}
           ]).exec();
-
+        
         res.status(200).json(resultado); 
       } catch (error) {
         console.log(error);
@@ -393,23 +393,50 @@ async function comprarCasilla(req, res){
                  //Restamos el dinero al jugador y actualizamos el dinero en la partida
                 await pagar(partida, casilla.precioCompra, req.body.username, false);
                 //Miramos el tipo de casilla que es A,F,I,X
-                var casillaComprada = null;
+                const doc = new modeloAsignaturasComprada();
                 if( casilla.tipo == "A"){
-                    casillaComprada = await isAsignatura(req.body.coordenadas);
+                    var casillaComprada = await isAsignatura(req.body.coordenadas);
+                    console.log("HOLA 1");
+                     //doc = new modeloAsignaturasComprada ({
+                        doc.coordenadas = casillaComprada.coordenadas, 
+                        doc.partida = req.body.idPartida,
+                        doc.jugador = req.body.username,
+                        doc.precio = casillaComprada.matricula,
+                        doc.cuatrimestre =  casillaComprada.cuatrimestre;
+                    //});
+
                 }else if(casilla.tipo == "F"){
-                    casillaComprada = await isFestividad(req.body.coordenadas);
-                    console.log(casillaComprada);
+                    var casillaCompradaF = await isFestividad(req.body.coordenadas);
+                    doc.coordenadas = casillaCompradaF.coordenadas, 
+                    doc.partida = req.body.idPartida,
+                    doc.jugador = req.body.username,
+                    doc.precio = casillaCompradaF.matricula,
+                    doc.cuatrimestre =  0;
+
+                    console.log(casillaCompradaF);
+                    //console.log(casillaComprada.precio2M);
+                    console.log("HOLA 2");
+
+
                 }else if(casilla.tipo == "I"){
-                    casillaComprada = await isImpuesto(req.body.coordenadas);
+                    var casillaCompradaI = await isImpuesto(req.body.coordenadas);
+                    console.log("HOLA 3");
+
+                    doc.coordenadas = casillaCompradaI.coordenadas, 
+                    doc.partida = req.body.idPartida,
+                    doc.jugador = req.body.username,
+                    doc.precio = casillaCompradaI.matricula,
+                    doc.cuatrimestre =  0;
                 }
-                
-                const doc = new modeloAsignaturasComprada ({
-                    coordenadas: casillaComprada.coordenadas, 
-                    partida: req.body.idPartida,
-                    jugador: req.body.username,
-                    precio: casillaComprada.matricula,
-                    cuatrimestre: casillaComprada.cuatrimestre
-                });
+                // console.log(casillaComprada.precio2M);
+                // const doc = new modeloAsignaturasComprada ({
+                //     coordenadas: casillaComprada.coordenadas, 
+                //     partida: req.body.idPartida,
+                //     jugador: req.body.username,
+                //     precio: casillaComprada.matricula,
+                //     cuatrimestre: cuatri
+                // });
+                console.log(doc);
 
                 //La metemos en la tabla de casillas compradas
                 try {
@@ -422,7 +449,8 @@ async function comprarCasilla(req, res){
                     
                 } catch (error) {
                     console.error(error);
-                    res.status(500).json({error: 'Error al crear partida',  nombreJugadores: req.body.username, posicionJugadores: 1010, dineroJugadores: 0});
+                    await cobrar(partida, casilla.precioCompra, req.body.username, res);
+                    res.status(500).json({error: 'Error al comprar la casilla',  nombreJugadores: req.body.username, posicionJugadores: 1010, dineroJugadores: 0});
                 } finally {
                     mongoose.disconnect();
                     console.log("DisConnected to MongoDB Atlas")
