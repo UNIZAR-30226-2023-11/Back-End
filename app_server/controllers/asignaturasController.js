@@ -414,7 +414,7 @@ async function comprarCasilla(req, res) {
 
                 } else if (casilla.tipo == "I") {
                     var casillaCompradaI = await isImpuesto(req.body.coordenadas);
-                    console.log("HOLA 3");
+                    console.log(casillaCompradaI);
 
                     doc.coordenadas = casillaCompradaI.coordenadas,
                         doc.partida = req.body.idPartida,
