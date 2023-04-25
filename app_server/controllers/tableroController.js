@@ -15,7 +15,6 @@ const tablero = [
 function avanzar(coordenadas, total){
     //indice de la posicion actual
     const index = tablero.findIndex(coord => coord.h === coordenadas.h && coord.v === coordenadas.v);
-
     //indice de la posicion nueva
     let indice = (index + total) % tablero.length;
     var salida = false;
