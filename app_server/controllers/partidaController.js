@@ -2,6 +2,9 @@ var config = require('../config/config');
 var modeloPartida = require('../models/partidaModel')
 const  mongoose = require("mongoose");
 
+var tablero = require('../controllers/tableroController');
+
+
 const casillaInicio = 10;
 
 /**
@@ -238,14 +241,22 @@ async function lanzardados(req,res){
             if(result.modifiedCount == 1) {
                 console.log(result);
                 console.log("Se ha actualizado la partida correctamente, se han añadido los dados y quien los ha lanzado");
-                dado = {dado1, dado2};
-                res.status(200).json(dado); 
+               
                 // Send the result as JSON
                 console.log({
                     dado1: dado1,
                     dado2: dado2,
                     total: total
                     });
+
+                const posicion = partida.nombreJugadores.indexOf(req.body.username);
+                var avance = tablero.avanzar(partida.posicionJugadores[posicion], 12);
+                if(avance.salida){
+                    //dar 200 euros
+                }
+                var dado = {dado1, dado2, coordenadas: avance.coordenadas};
+                
+                res.status(200).json(dado); 
             }else {
                 //console.error(error);
                 console.log(result);
