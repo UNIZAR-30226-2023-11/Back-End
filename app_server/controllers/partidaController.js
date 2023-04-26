@@ -324,9 +324,9 @@ async function siguienteTurno(req, res){
         }else{
             const posicion = partida.nombreJugadores.indexOf(partida.dados.jugador);
             if(posicion == tam-1){ //le vuelve a tocar al primero
-                res.status(200).json({jugador: partida.nombreJugadores[0]});
+                res.status(200).json({jugador: partida.nombreJugadores[0], posicion: 0});
             }else{
-                res.status(200).json({jugador: partida.nombreJugadores[posicion+1]});
+                res.status(200).json({jugador: partida.nombreJugadores[posicion+1], posicion: posicion+1});
             }
         }
 
@@ -344,12 +344,12 @@ async function turnoActual(req, res){
     
     const partida = await findPartida(req.body.idPartida, res);
     if( partida != null){
-        const tam = partida.nombreJugadores.length;
+        const posicion = partida.nombreJugadores.indexOf(partida.dados.jugador);
         if( partida.dados.jugador == ""){
             //le toca al primero
-            res.status(200).json({jugador: partida.nombreJugadores[0]});
+            res.status(200).json({jugador: partida.nombreJugadores[0], posicion: 0});
         }else{
-            res.status(200).json({jugador: partida.dados.jugador});
+            res.status(200).json({jugador: partida.dados.jugador, posicion: posicion});
         }
 
     } else{

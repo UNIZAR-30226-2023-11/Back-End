@@ -9,6 +9,10 @@ const esquema = new schema({
     },
     required: true
   },
+  nombre: {
+    type: String,
+    required:true
+  },
   cuatrimestre: {
     type: Number,
     required: true

@@ -404,6 +404,7 @@ async function comprarCasilla(req, res) {
                         doc.jugador = req.body.username,
                         doc.precio = casillaComprada.matricula,
                         doc.cuatrimestre = casillaComprada.cuatrimestre;
+                        doc.nombre = casillaComprada.nombre;
                 } else if (casilla.tipo == "F") {
                     var casillaCompradaF = await isFestividad(req.body.coordenadas);
                     doc.coordenadas = casillaCompradaF.coordenadas,
@@ -411,6 +412,7 @@ async function comprarCasilla(req, res) {
                         doc.jugador = req.body.username,
                         doc.precio = casillaCompradaF.matricula,
                         doc.cuatrimestre = 0;
+                        doc.nombre = casillaCompradaF.nombre;
 
                 } else if (casilla.tipo == "I") {
                     var casillaCompradaI = await isImpuesto(req.body.coordenadas);
@@ -420,6 +422,7 @@ async function comprarCasilla(req, res) {
                         doc.partida = req.body.idPartida,
                         doc.jugador = req.body.username,
                         doc.precio = casillaCompradaI.matricula,
+                        doc.nombre = casillaCompradaI.nombre;
                         doc.cuatrimestre = 0;
                 }
                 console.log(doc);
