@@ -64,10 +64,14 @@ async function listaJugadores(req,res){
         if(partidaEncontrada){
             var lista= [];
             for(let i = 0; i < partidaEncontrada.nombreJugadores.length; i++) {
-                lista.push([partidaEncontrada.nombreJugadores[i],partidaEncontrada.dineroJugadores[i]]);
+                lista.push([partidaEncontrada.nombreJugadores[i],partidaEncontrada.dineroJugadores[i]], partidaEncontrada.posicionJugadores[i]);
             }
             console.log(lista);
-            res.status(200).json({listaJugadores: partidaEncontrada.nombreJugadores, listaDineros: partidaEncontrada.dineroJugadores, listaTuplas: lista});
+            res.status(200).json({
+                listaJugadores: partidaEncontrada.nombreJugadores, 
+                listaDineros: partidaEncontrada.dineroJugadores, 
+                listaPosiciones: partidaEncontrada.posicionJugadores,
+                listaTuplas: lista});
 
         }else{
             console.log("La partida no existe");
