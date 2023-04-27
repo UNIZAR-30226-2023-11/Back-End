@@ -41,10 +41,6 @@ const esquema = new schema({
     type: Number,
     required: true
   },
-  precio14Creditos:{
-    type: Number,
-    required: true
-  },
   precioCompraCreditos:{
     type: Number,
     required: true
