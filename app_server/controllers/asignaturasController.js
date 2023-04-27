@@ -603,7 +603,7 @@ async function devolverCuatri(coordenadas) {
 // }
 //}
 
-async function asignaturaInfo(coordenadas) {
+async function asignaturaInfo2(coordenadas) {
     console.log("METHOD devolver info asignatura");
     //console.log(req.body.coordenadas);
     const casilla = await findCasilla(coordenadas);
@@ -659,7 +659,7 @@ async function aumentarCreditos(req, res) {
 
     if (todos == true) {
         console.log("COORDENQDAS",req.body.coordenadas);
-        var asignatura = await asignaturaInfo(req.body.coordenadas);
+        var asignatura = await asignaturaInfo2(req.body.coordenadas);
         console.log("ASIGNATURA", asignatura);
         //var pos = casillasFiltradas.indexOf(req.body.coordenadas);
         var pos = casillasFiltradas.findIndex(function (casilla) {
@@ -669,7 +669,7 @@ async function aumentarCreditos(req, res) {
        console.log("CASILLA A AUMENTAR", casillasFiltradas[pos]) ;
 
         if (casillasFiltradas[pos].precio == asignatura.matricula) {
-            console.log("PRECIO: matricula-1C");
+            console.log("PRECIO: matricula-1C", asignatura.precio1Credito );
             casillasFiltradas[pos].precio = asignatura.precio1C
             console.log("PRECIO: matricula-1C",casillasFiltradas[pos].precio );
         }
