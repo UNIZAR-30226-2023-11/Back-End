@@ -671,6 +671,7 @@ async function aumentarCreditos(req, res) {
         if (casillasFiltradas[pos].precio == asignatura.matricula) {
             console.log("PRECIO: matricula-1C");
             casillasFiltradas[pos].precio = asignatura.precio1C
+            console.log("PRECIO: matricula-1C",casillasFiltradas[pos].precio );
         }
         else if (casillasFiltradas[pos].precio == asignatura.precio1C) {
             console.log("PRECIO: 1C-2C");

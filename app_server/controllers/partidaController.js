@@ -257,7 +257,7 @@ async function lanzardados(req,res){
                 const posicion = partida.nombreJugadores.indexOf(req.body.username);
                 var avance = tablero.avanzar(partida.posicionJugadores[posicion], total);
                 if(avance.salida){
-                    asignaturas.dar200(req,res)
+                    asignatura.dar200(req,res)
                 }
                 var dado = {dado1, dado2, coordenadas: avance.coordenadas};
                 
