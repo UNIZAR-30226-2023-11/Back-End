@@ -2,7 +2,7 @@
   {
     "nombre": "San Braulio",
     "precioCompra": 267,
-    "martricula": 33,
+    "matricula": 33,
     "precio2M": 67,
     "precio3M": 133,
     "precio4M": 267,
@@ -16,7 +16,7 @@
   {
     "nombre": "Paso de Ecuador",
     "precioCompra": 267,
-    "martricula": 33,
+    "matricula": 33,
     "precio2M": 67,
     "precio3M": 133,
     "precio4M": 267,
@@ -30,7 +30,7 @@
   {
     "nombre": "San Pepe",
     "precioCompra": 267,
-    "martricula": 33,
+    "matricula": 33,
     "precio2M": 67,
     "precio3M": 133,
     "precio4M": 267,
@@ -44,7 +44,7 @@
   {
     "nombre": "Fin de Carrera",
     "precioCompra": 267,
-    "martricula": 33,
+    "matricula": 33,
     "precio2M": 67,
     "precio3M": 133,
     "precio4M": 267,

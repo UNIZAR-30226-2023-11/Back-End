@@ -21,7 +21,7 @@ const esquema = new schema({
     type: Number,
     required: true
   },
-  hipoteca: {
+  matricula: {
     type: Number,
     required: true
   }
