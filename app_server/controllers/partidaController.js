@@ -366,10 +366,11 @@ async function turnoActual(req, res){
 
 /**
  * 
+ * @param {*} partida Partida de tipo modeloPartida
  * @param {*} jugador Jugador que se declara en bancarrota
  * @param {*}  
  */
-async function bancarrota(jugador,res){
+async function bancarrota(partida, jugador,res){
     console.log("***PUT METHOD Bancarrota de la partida");
     try {
         await mongoose.connect(config.db.uri, { useNewUrlParser: true, useUnifiedTopology: true });
