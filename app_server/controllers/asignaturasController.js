@@ -9,6 +9,7 @@ var modeloCasilla = require('../models/casillaModel');
 var modeloImpuesto = require('../models/impuestoModel');
 var ctrlPartida = require('../controllers/partidaController');
 const mongoose = require("mongoose");
+const { rawListeners } = require('../models/normasModel');
 
 
 
@@ -513,9 +514,9 @@ async function dar200(req, res) {
     console.log("METHOD Dar 200");
     const partida = await ctrlPartida.findPartida(req.body.idPartida, res);
     if (cobrar(partida, 200, req.body.username)) {
-        res.status(200).json({ message: 'Se le ha dado 200 euros al jugador ', jugador: req.body.username });
+        // res.status(200).json({ message: 'Se le ha dado 200 euros al jugador ', jugador: req.body.username });
     } else {
-        res.status(500).json({ message: 'Ha ocurrido un error al cobrarle 200 euros ', jugador: req.body.username });
+        // res.status(500).json({ message: 'Ha ocurrido un error al cobrarle 200 euros ', jugador: req.body.username });
     }
 }
 
@@ -571,15 +572,62 @@ async function listaAsignaturasC(req, res) {
     }
 }
 
-// /**
-//  * 
-//  * @param {*} req.body.idPartida
-//  * @param {*} req.body.username
-//  * @param {*} req.body.
-//  * @param {*} res 
-//  */
-// async function aumentarCreditos(req,res){
+async function devolverCuatri(coordenadas){
+    console.log("*** METHOD devolverCuatri");
+    try {
+        await mongoose.connect(config.db.uri, { useNewUrlParser: true, useUnifiedTopology: true });
+        console.log("Connected to MongoDB Atlas")
 
-// }
+        const casillas = await modeloCasilla.find({ "coordenadas.h": coordenadas.h, "coordenadas.v": coordenadas.v }).exec();
+        //console.log(coordenadas);
+        //console.log(casillaComprada);
+        //console.log("casillaEncontrada");
+        //console.log(casillaEncontrada);
+        if (casillas != null) {
+            console.log(casillas.cuatri);
+            return casillas.cuatri;
+        } else {
+            console.log("El jugador no tiene casillas compradas");
+            return 0;
+        }
+
+    }
+    catch (error) {
+        console.error(error);
+        console.log('Error al encontrar la casilla');
+        return 0;
+    } finally {
+        mongoose.disconnect();
+        console.log("DisConnected to MongoDB Atlas")
+    }
+}
+
+/**
+ * 
+ * @param {*} req.body.idPartida
+ * @param {*} req.body.username
+ * @param {*} req.body.coordenadas
+ * @param {*} res 
+ */
+async function aumentarCreditos(req,res){
+    console.log("PUT Aumentar creditos asignatua");
+    // Comprobar que tiene todos los del mismo cuatrimestre
+    try {
+        const cuatri = devolverCuatri(req.body.coordenadas);
+        const casillas = await findAsignaturasCompradas(req.body.username, req.body.idPartida);
+        let casillasFiltradas = casillas.filter(function(casilla) {
+            return casilla.cuatrimestre==cuatri;
+        })
+
+        if (cuatri==1 || cuatri==8) {
+            
+        }
+
+    } catch (error) {
+
+    }
+    // Aumentar creditos + 1 (cambiar precio en asignaturas_partida --> Comparar precio actual en info_asignaturas)
+    // Devolver ok
+}
 
 module.exports = { checkCasilla, tarjetaAleatoria, comprarCasilla, dar200, infoAsignatura, listaAsignaturasC };

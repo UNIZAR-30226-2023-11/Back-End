@@ -16,6 +16,10 @@ const esquemaCasilla = new schema({
     tipo:{
       type: String,
       required: true
+    },
+    cuatri:{
+      type: Number,
+      required: false
     }
   });
 
