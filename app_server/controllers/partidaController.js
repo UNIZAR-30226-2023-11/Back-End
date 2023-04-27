@@ -309,12 +309,15 @@ async function siguienteTurno(req, res){
         const tam = partida.nombreJugadores.length;
         if( partida.dados.jugador == ""){
             //le toca al primero
+            partida.dados.jugador = partida.nombreJugadores[0];
             res.status(200).json({jugador: partida.nombreJugadores[0]});
         }else{
             const posicion = partida.nombreJugadores.indexOf(partida.dados.jugador);
             if(posicion == tam-1){ //le vuelve a tocar al primero
+                partida.dados.jugador = partida.nombreJugadores[posicion];
                 res.status(200).json({jugador: partida.nombreJugadores[0]});
             }else{
+                partida.dados.jugador = partida.nombreJugadores[posicion+1];
                 res.status(200).json({jugador: partida.nombreJugadores[posicion+1]});
             }
         }
@@ -346,4 +349,32 @@ async function turnoActual(req, res){
     }
 }
 
-module.exports = {crearPartida, unirJugador, lanzardados, findPartida, actualizarPartida, listaJugadores, siguienteTurno, turnoActual};
+/**
+ * 
+ * @param {*} jugador Jugador que se declara en bancarrota
+ * @param {*}  
+ */
+async function bancarrota(jugador,res){
+    console.log("***PUT METHOD Bancarrota de la partida");
+    try {
+        await mongoose.connect(config.db.uri, { useNewUrlParser: true, useUnifiedTopology: true });
+        console.log("Connected to MongoDB Atlas");
+
+        const posicion = partida.nombreJugadores.indexOf(jugador);
+        partida.dineroJugadores.splice(posicion, 1);
+        partida.nombreJugadores.splice(posicion, 1);
+        partida.posicionJugadores.splice(posicion, 1);
+        await modeloPartida.updateOne({ id: partida.id},  { $set: { dineroJugadores: partida.dineroJugadores, nombreJugadores: partida.nombreJugadores,
+        posicionJugadores: partida.posicionJugadores}});
+        res.status(200).json('Bancarrota');
+    
+    } catch (error) {
+        console.error(error);
+        console.log("Error al actualizar la partida al pagar", partida.id);
+    } finally {
+        mongoose.disconnect();
+        console.log("Disconnected to MongoDB Atlas")
+    }
+}
+
+module.exports = {crearPartida, unirJugador, lanzardados, findPartida, actualizarPartida, listaJugadores, siguienteTurno, turnoActual, bancarrota};
