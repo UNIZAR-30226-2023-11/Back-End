@@ -123,7 +123,7 @@ async function actualizarPartida(req,res){
             } else {
                 //console.error(error);
                 console.log(result);
-                res.status(500).json({ error: 'Error al actualizar la partida '});
+                res.status(205).json({ error: 'Error al actualizar la partida '}); // es 205 porque puede ser que un jugador no haga nada en su turno
             }
 
         } else {
@@ -190,7 +190,7 @@ async function unirJugador(req,res){
                 }else {
                     //console.error(error);
                     console.log(result);
-                    res.status(500).json({ error: 'Error al actualizar la partida '});
+                    res.status(205).json({ error: 'Error al actualizar la partida '}); // es 205 porque puede ser que un jugador no haga nada en su turno
                 }
             }else{
                 //Ya esta el jugador no hay que hacer nada
