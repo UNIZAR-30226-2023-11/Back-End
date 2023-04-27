@@ -424,7 +424,7 @@ async function comprarCasilla(req, res) {
                         doc.jugador = req.body.username,
                         doc.precio = casillaCompradaI.matricula,
                         doc.nombre = casillaCompradaI.nombre;
-                        doc.cuatrimestre = 0;
+                        doc.cuatrimestre = 9;
                 }
                 console.log(doc);
 
@@ -602,6 +602,25 @@ async function devolverCuatri(coordenadas){
     }
 }
 
+async function asignaturaInfo(coordenadas){
+    console.log("METHOD devolver info asignatura");
+    //console.log(req.body.coordenadas);
+    const casilla = await findCasilla(coordenadas);
+    var casillaInfo = null;
+    if (casilla != null) {
+
+        //Existe la casilla
+        if (casilla.tipo == "A") {
+            casillaInfo = await isAsignatura(coordenadas);
+        } else if (casilla.tipo == "F") {
+            casillaInfo = await isFestividad(coordenadas);
+        } else if (casilla.tipo == "I") {
+            casillaInfo = await isImpuesto(coordenadas);
+        }
+    }
+    return casillaInfo;
+}
+
 /**
  * 
  * @param {*} req.body.idPartida
@@ -612,22 +631,61 @@ async function devolverCuatri(coordenadas){
 async function aumentarCreditos(req,res){
     console.log("PUT Aumentar creditos asignatua");
     // Comprobar que tiene todos los del mismo cuatrimestre
-    try {
-        const cuatri = devolverCuatri(req.body.coordenadas);
-        const casillas = await findAsignaturasCompradas(req.body.username, req.body.idPartida);
-        let casillasFiltradas = casillas.filter(function(casilla) {
-            return casilla.cuatrimestre==cuatri;
-        })
+    // Aumentar creditos + 1 (cambiar precio en asignaturas_partida --> Comparar precio actual en info_asignaturas)
+    // Devolver ok
 
-        if (cuatri==1 || cuatri==8) {
-            
+    const cuatri = devolverCuatri(req.body.coordenadas);
+    const casillas = await findAsignaturasCompradas(req.body.username, req.body.idPartida);
+    let casillasFiltradas = casillas.filter(function(casilla) {
+        return casilla.cuatrimestre==cuatri;
+    })
+
+    var todos = false;
+
+    if ((cuatri==1 || cuatri==8) && (casillasFiltradas==2)) {
+        todos = true;
+    } else if ((cuatri!=1 || cuatri!=8) && (casillasFiltradas==3)) {
+        todos = true;
+    }
+
+    if (todos==true) {
+        var asignatura = asignaturaInfo(req.body.coordenadas);
+        var pos = casillasFiltradas.indexOf(req.body.coordenadas);
+        if (casillasFiltradas[pos].precio==asignatura.precio1c) {
+            casillasFiltradas[pos].precio = asignatura.precio2c
+        } else if (casillasFiltradas[pos].precio==asignatura.precio2c) {
+            casillasFiltradas[pos].precio = asignatura.precio3c
+        } else if (casillasFiltradas[pos].precio==asignatura.precio3c) {
+            casillasFiltradas[pos].precio = asignatura.precio4c
+        } else if (casillasFiltradas[pos].precio==asignatura.precio4c) {
+            // sin cambios
+        }
+    }
+    
+    try {
+        await mongoose.connect(config.db.uri, { useNewUrlParser: true, useUnifiedTopology: true });
+        console.log("Connected to MongoDB Atlas");
+
+        const result = await modeloAsignaturasComprada.updateOne({ "coordenas.h": coordenadas.h, "coordenadas.v": coordenadas.v},  { $set:  { precio: casillasFiltradas[pos].precio }})
+        if(result.modifiedCount == 1) {
+            console.log(result);
+            console.log("Se ha actualizado la asignatura comprada correctamente");
+            res.status(200).json("ok");
+        } else {
+            console.log(result);
+            res.status(500).json({ error: 'Error al actualizar la casilla comprada al aumentar creditos'});
         }
 
     } catch (error) {
+        console.error(error);
+        console.log('Error al aumentar creditos asignatura');
+        res.status(500).json({error: 'Error al aumentar creditos asignatura'});
 
+    } finally {
+        mongoose.disconnect();
+        console.log("DisConnected to MongoDB Atlas")
     }
-    // Aumentar creditos + 1 (cambiar precio en asignaturas_partida --> Comparar precio actual en info_asignaturas)
-    // Devolver ok
+    
 }
 
-module.exports = { checkCasilla, tarjetaAleatoria, comprarCasilla, dar200, infoAsignatura, listaAsignaturasC };
+module.exports = { checkCasilla, tarjetaAleatoria, comprarCasilla, dar200, infoAsignatura, listaAsignaturasC, aumentarCreditos };
