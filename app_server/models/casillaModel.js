@@ -17,9 +17,9 @@ const esquemaCasilla = new schema({
       type: String,
       required: true
     },
-    cuatri:{
+    cuatrimestre:{
       type: Number,
-      required: false
+      required: true
     }
   });
 

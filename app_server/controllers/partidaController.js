@@ -257,7 +257,7 @@ async function lanzardados(req,res){
                 const posicion = partida.nombreJugadores.indexOf(req.body.username);
                 var avance = tablero.avanzar(partida.posicionJugadores[posicion], total);
                 if(avance.salida){
-                    asignaturas.dar200(req,res)
+                    asignatura.dar200(req,res)
                 }
                 var dado = {dado1, dado2, coordenadas: avance.coordenadas};
                 
@@ -331,10 +331,10 @@ async function siguienteTurno(req, res){
             const posicion = partida.nombreJugadores.indexOf(partida.dados.jugador);
             if(posicion == tam-1){ //le vuelve a tocar al primero
                 partida.dados.jugador = partida.nombreJugadores[posicion];
-                res.status(200).json({jugador: partida.nombreJugadores[0]});
+                res.status(200).json({jugador: partida.nombreJugadores[0], posicion: 0});
             }else{
                 partida.dados.jugador = partida.nombreJugadores[posicion+1];
-                res.status(200).json({jugador: partida.nombreJugadores[posicion+1]});
+                res.status(200).json({jugador: partida.nombreJugadores[posicion+1], posicion: posicion+1});
             }
         }
 

@@ -405,7 +405,7 @@ async function comprarCasilla(req, res) {
                         doc.jugador = req.body.username,
                         doc.precio = casillaComprada.matricula,
                         doc.cuatrimestre = casillaComprada.cuatrimestre;
-                        doc.nombre = casillaComprada.nombre;
+                    doc.nombre = casillaComprada.nombre;
                 } else if (casilla.tipo == "F") {
                     var casillaCompradaF = await isFestividad(req.body.coordenadas);
                     doc.coordenadas = casillaCompradaF.coordenadas,
@@ -413,7 +413,7 @@ async function comprarCasilla(req, res) {
                         doc.jugador = req.body.username,
                         doc.precio = casillaCompradaF.matricula,
                         doc.cuatrimestre = 0;
-                        doc.nombre = casillaCompradaF.nombre;
+                    doc.nombre = casillaCompradaF.nombre;
 
                 } else if (casilla.tipo == "I") {
                     var casillaCompradaI = await isImpuesto(req.body.coordenadas);
@@ -424,7 +424,7 @@ async function comprarCasilla(req, res) {
                         doc.jugador = req.body.username,
                         doc.precio = casillaCompradaI.matricula,
                         doc.nombre = casillaCompradaI.nombre;
-                        doc.cuatrimestre = 9;
+                    doc.cuatrimestre = 9;
                 }
                 console.log(doc);
 
@@ -572,37 +572,38 @@ async function listaAsignaturasC(req, res) {
     }
 }
 
-async function devolverCuatri(coordenadas){
+async function devolverCuatri(coordenadas) {
     console.log("*** METHOD devolverCuatri");
-    try {
-        await mongoose.connect(config.db.uri, { useNewUrlParser: true, useUnifiedTopology: true });
-        console.log("Connected to MongoDB Atlas")
+    // try {
+    //     await mongoose.connect(config.db.uri, { useNewUrlParser: true, useUnifiedTopology: true });
+    //     console.log("Connected to MongoDB Atlas")
 
-        const casillas = await modeloCasilla.find({ "coordenadas.h": coordenadas.h, "coordenadas.v": coordenadas.v }).exec();
-        //console.log(coordenadas);
-        //console.log(casillaComprada);
-        //console.log("casillaEncontrada");
-        //console.log(casillaEncontrada);
-        if (casillas != null) {
-            console.log(casillas.cuatri);
-            return casillas.cuatri;
-        } else {
-            console.log("El jugador no tiene casillas compradas");
-            return 0;
-        }
-
-    }
-    catch (error) {
-        console.error(error);
-        console.log('Error al encontrar la casilla');
+    //const casillas = await modeloCasilla.find({ "coordenadas.h": coordenadas.h, "coordenadas.v": coordenadas.v }).exec();
+    //console.log(coordenadas);
+    //console.log(casillaComprada);
+    //console.log("casillaEncontrada");
+    //console.log(casillaEncontrada);
+    var casillas = await findCasilla(coordenadas);
+    if (casillas != null) {
+        console.log(casillas);
+        return casillas.cuatrimestre;
+    } else {
+        console.log("El jugador no tiene casillas compradas");
         return 0;
-    } finally {
-        mongoose.disconnect();
-        console.log("DisConnected to MongoDB Atlas")
     }
-}
 
-async function asignaturaInfo(coordenadas){
+}
+// catch (error) {
+//     console.error(error);
+//     console.log('Error al encontrar la casilla');
+//     return 0;
+// } finally {
+//     mongoose.disconnect();
+//     console.log("DisConnected to MongoDB Atlas")
+// }
+//}
+
+async function asignaturaInfo2(coordenadas) {
     console.log("METHOD devolver info asignatura");
     //console.log(req.body.coordenadas);
     const casilla = await findCasilla(coordenadas);
@@ -628,64 +629,90 @@ async function asignaturaInfo(coordenadas){
  * @param {*} req.body.coordenadas
  * @param {*} res 
  */
-async function aumentarCreditos(req,res){
+async function aumentarCreditos(req, res) {
     console.log("PUT Aumentar creditos asignatua");
     // Comprobar que tiene todos los del mismo cuatrimestre
     // Aumentar creditos + 1 (cambiar precio en asignaturas_partida --> Comparar precio actual en info_asignaturas)
     // Devolver ok
-
-    const cuatri = devolverCuatri(req.body.coordenadas);
-    const casillas = await findAsignaturasCompradas(req.body.username, req.body.idPartida);
-    let casillasFiltradas = casillas.filter(function(casilla) {
-        return casilla.cuatrimestre==cuatri;
-    })
-
-    var todos = false;
-
-    if ((cuatri==1 || cuatri==8) && (casillasFiltradas==2)) {
-        todos = true;
-    } else if ((cuatri!=1 || cuatri!=8) && (casillasFiltradas==3)) {
-        todos = true;
+    console.log("COOORDENADAS", req.body.coordenadas);
+    const cuatri = await devolverCuatri(req.body.coordenadas);
+    console.log("CUATRI", cuatri);
+    let casillas = await findAsignaturasCompradas(req.body.username, req.body.idPartida);
+    console.log("CASILLAS ", casillas);
+    let casillasFiltradas =  [];
+    for(let i=0; i < casillas.length;  i++){
+        if(casillas[i].cuatrimestre === cuatri){
+            casillasFiltradas.push(casillas[i]);
+        }
     }
 
-    if (todos==true) {
-        var asignatura = asignaturaInfo(req.body.coordenadas);
-        var pos = casillasFiltradas.indexOf(req.body.coordenadas);
-        if (casillasFiltradas[pos].precio==asignatura.precio1c) {
-            casillasFiltradas[pos].precio = asignatura.precio2c
-        } else if (casillasFiltradas[pos].precio==asignatura.precio2c) {
-            casillasFiltradas[pos].precio = asignatura.precio3c
-        } else if (casillasFiltradas[pos].precio==asignatura.precio3c) {
-            casillasFiltradas[pos].precio = asignatura.precio4c
-        } else if (casillasFiltradas[pos].precio==asignatura.precio4c) {
+    console.log("CASILLAS FILTRADAS", casillasFiltradas);
+    var todos = false;
+
+    if ((cuatri == 1 || cuatri == 8) && (casillasFiltradas.length == 2)) {
+        todos = true;
+        console.log("HOLA 1");
+    } else if ((cuatri != 1 || cuatri != 8) && (casillasFiltradas.length == 3)) {
+        todos = true;
+        console.log("HOLA 2");
+    }
+
+    if (todos == true) {
+        console.log("COORDENQDAS",req.body.coordenadas);
+        var asignatura = await asignaturaInfo2(req.body.coordenadas);
+        console.log("ASIGNATURA", asignatura);
+        //var pos = casillasFiltradas.indexOf(req.body.coordenadas);
+        var pos = casillasFiltradas.findIndex(function (casilla) {
+            return casilla.coordenadas.h === req.body.coordenadas.h && casilla.coordenadas.v === req.body.coordenadas.v;
+          });
+          
+       console.log("CASILLA A AUMENTAR", casillasFiltradas[pos]) ;
+
+        if (casillasFiltradas[pos].precio == asignatura.matricula) {
+            console.log("PRECIO: matricula-1C", asignatura.precio1Credito );
+            casillasFiltradas[pos].precio = asignatura.precio1C
+            console.log("PRECIO: matricula-1C",casillasFiltradas[pos].precio );
+        }
+        else if (casillasFiltradas[pos].precio == asignatura.precio1C) {
+            console.log("PRECIO: 1C-2C");
+            casillasFiltradas[pos].precio = asignatura.precio2C
+        } else if (casillasFiltradas[pos].precio == asignatura.precio2C) {
+            console.log("PRECIO: 2C-2C");
+            casillasFiltradas[pos].precio = asignatura.precio3C        
+        } else if (casillasFiltradas[pos].precio == asignatura.precio3C) {
+            console.log("PRECIO: 3C-3C");
+            casillasFiltradas[pos].precio = asignatura.precio4C        
+        } else if (casillasFiltradas[pos].precio == asignatura.precio4C) {
+            console.log("PRECIO: 4C-4C");
             // sin cambios
         }
     }
-    
+    console.log(casillasFiltradas[pos]);
+
     try {
         await mongoose.connect(config.db.uri, { useNewUrlParser: true, useUnifiedTopology: true });
         console.log("Connected to MongoDB Atlas");
 
-        const result = await modeloAsignaturasComprada.updateOne({ "coordenas.h": coordenadas.h, "coordenadas.v": coordenadas.v},  { $set:  { precio: casillasFiltradas[pos].precio }})
-        if(result.modifiedCount == 1) {
+        const result = await modeloAsignaturasComprada.updateOne({ "coordenadas.h": req.body.coordenadas.h, "coordenadas.v": req.body.coordenadas.v }, { $set: { precio: casillasFiltradas[pos].precio } })
+        if (result.modifiedCount == 1) {
             console.log(result);
             console.log("Se ha actualizado la asignatura comprada correctamente");
             res.status(200).json("ok");
         } else {
             console.log(result);
-            res.status(500).json({ error: 'Error al actualizar la casilla comprada al aumentar creditos'});
+            res.status(500).json({ error: 'Error al actualizar la casilla comprada al aumentar creditos' });
         }
 
     } catch (error) {
         console.error(error);
         console.log('Error al aumentar creditos asignatura');
-        res.status(500).json({error: 'Error al aumentar creditos asignatura'});
+        res.status(500).json({ error: 'Error al aumentar creditos asignatura' });
 
     } finally {
         mongoose.disconnect();
         console.log("DisConnected to MongoDB Atlas")
     }
-    
+
 }
 
 module.exports = { checkCasilla, tarjetaAleatoria, comprarCasilla, dar200, infoAsignatura, listaAsignaturasC, aumentarCreditos };
