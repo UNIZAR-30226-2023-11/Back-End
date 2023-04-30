@@ -412,15 +412,16 @@ async function numJugadores(req, res){
     console.log("***GET METHOD Número de jugadores de la partida");
     try{
         const partida = await findPartida(req.body.idPartida, res);
+        console.log(partida);
         if(partida != null){
             res.status(200).json({jugadores: partida.numeroJugadores});
         }else{
             res.status(404).send("Partida no encontrada");
         }
-    }catch (error){
+    } catch (error){
         console.error(error);
         console.log("Error al obtener la lista de jugadores de la partida");
-    }
+    } 
 }
 
 module.exports = {crearPartida, unirJugador, lanzardados, findPartida, actualizarPartida, listaJugadores, siguienteTurno, turnoActual, bancarrota, numJugadores};
