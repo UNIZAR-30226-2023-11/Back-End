@@ -397,4 +397,20 @@ async function bancarrota(req,res){
     }
 }
 
+// Función que dado un idPartida devuelve el número de jugadores que pueden unirse a la partida
+async function listaJugadores(req, res){
+    console.log("***GET METHOD Lista de jugadores de la partida");
+    try{
+        const partida = await findPartida(req.body.idPartida, res);
+        if(partida != null){
+            res.status(200).json({jugadores: partida.numeroJugadores});
+        }else{
+            res.status(404).send("Partida no encontrada");
+        }
+    }catch (error){
+        console.error(error);
+        console.log("Error al obtener la lista de jugadores de la partida");
+    }
+}
+
 module.exports = {crearPartida, unirJugador, lanzardados, findPartida, actualizarPartida, listaJugadores, siguienteTurno, turnoActual, bancarrota};
