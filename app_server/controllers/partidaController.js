@@ -3,7 +3,7 @@ var modeloPartida = require('../models/partidaModel')
 const  mongoose = require("mongoose");
 
 var tablero = require('../controllers/tableroController');
-var asignatura = require('../controllers/asignaturasController');
+//var asignatura = require('../controllers/asignaturasController');
 
 
 const casillaInicio = 10;
@@ -257,7 +257,7 @@ async function lanzardados(req,res){
                 const posicion = partida.nombreJugadores.indexOf(req.body.username);
                 var avance = tablero.avanzar(partida.posicionJugadores[posicion], total);
                 if(avance.salida){
-                    asignatura.dar200(req,res)
+                    //asignatura.dar200(req,res)
                 }
                 var dado = {dado1, dado2, coordenadas: avance.coordenadas};
                 
@@ -278,7 +278,7 @@ async function lanzardados(req,res){
     }
 }
 
-async function findPartida(idPartida, res){
+async function findPartida(idPartida){
     console.log("*** METHOD Find partida");
 
     try {

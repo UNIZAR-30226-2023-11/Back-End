@@ -110,7 +110,7 @@ async function cobrar(partida, dinero, jugador) {
  */
 async function actualizarPosicion(idPartida, coordenadas, jugador, res) {
     console.log("METHOD actualizarPosicion");
-    const partida = await ctrlPartida.findPartida(idPartida, res);
+    const partida = await ctrlPartida.findPartida(idPartida);
     //console.log(partida);
 
     try {
