@@ -32,4 +32,6 @@ router.put('/bancarrota', ctrlPartida.bancarrota);
 
 router.put('/aumentar', ctrlAsignatura.aumentarCreditos);
 
+router.get('numJugadores', ctrlPartida.numJugadores)
+
 module.exports = router;
