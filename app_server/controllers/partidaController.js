@@ -260,6 +260,12 @@ async function lanzardados(req,res){
                 partida.posicionJugadores[posicion] = avance.coordenadas;
                 const result = await modeloPartida.updateOne({ id: req.body.idPartida},  { $set:  { posicionJugadores: partidaEncontrada.posicionJugadores }})
 
+                if(result.modifiedCount != 1) {
+                    console.log('Error al actualizar posicion del jugador');
+                    res.status(500).json({error: 'Error al actualizar posicion del jugador'});
+                    exit(1);
+                }
+
                 if(avance.salida){
                     //asignatura.dar200(req,res)
                 }
