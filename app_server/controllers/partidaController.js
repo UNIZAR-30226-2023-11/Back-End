@@ -258,7 +258,7 @@ async function lanzardados(req,res){
                 var avance = tablero.avanzar(partida.posicionJugadores[posicion], total);
                 
                 partida.posicionJugadores[posicion] = avance.coordenadas;
-                const resultado = await modeloPartida.updateOne({ id: req.body.idPartida},  { $set:  { posicionJugadores: partidaEncontrada.posicionJugadores }})
+                const resultado = await modeloPartida.updateOne({ id: req.body.idPartida},  { $set:  { posicionJugadores: partida.posicionJugadores }})
 
                 if(resultado.modifiedCount != 1) {
                     console.log('Error al actualizar posicion del jugador');
