@@ -82,7 +82,8 @@ function obtenerClave(valor) {
 }
 
 function avanzar(coordenadas, total){
-    const cadena = coordenadas.h.toString() + ';' + coordenadas.v.toString();
+    const cadena =  coordenadas.v.toString() + ';' + coordenadas.h.toString();
+    // const cadena = coordenadas.h.toString() + ';' + coordenadas.v.toString();
 
     // indice de la posicion actual
     var index = obtenerClave(cadena);
@@ -96,8 +97,10 @@ function avanzar(coordenadas, total){
     }
     const partes = tablero[indice].split(';');
     const objeto = {
-        h: parseInt(partes[0]),
-        v: parseInt(partes[1])
+        // h: parseInt(partes[0]),
+        // v: parseInt(partes[1])
+        h: parseInt(partes[1]),
+        v: parseInt(partes[0])
     };
     var avance = {coordenadas: objeto, salida: salida};
     
