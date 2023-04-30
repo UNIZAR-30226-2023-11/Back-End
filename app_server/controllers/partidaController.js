@@ -256,6 +256,10 @@ async function lanzardados(req,res){
 
                 const posicion = partida.nombreJugadores.indexOf(req.body.username);
                 var avance = tablero.avanzar(partida.posicionJugadores[posicion], total);
+                
+                partida.posicionJugadores[posicion] = avance.coordenadas;
+                const result = await modeloPartida.updateOne({ id: req.body.idPartida},  { $set:  { posicionJugadores: partidaEncontrada.posicionJugadores }})
+
                 if(avance.salida){
                     //asignatura.dar200(req,res)
                 }
