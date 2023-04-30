@@ -410,7 +410,7 @@ async function bancarrota(req,res){
 // Función que dado un idPartida devuelve el número de jugadores que pueden unirse a la partida
 async function numJugadores(req, res){
     console.log("***GET METHOD Número de jugadores de la partida");
-    console.log(req)
+    console.log(req.body)
     try{
         const partida = await findPartida(req.body.idPartida, res);
         console.log(partida);
