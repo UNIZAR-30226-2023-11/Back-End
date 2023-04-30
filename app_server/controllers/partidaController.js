@@ -398,7 +398,7 @@ async function bancarrota(req,res){
 }
 
 // Función que dado un idPartida devuelve el número de jugadores que pueden unirse a la partida
-async function listaJugadores(req, res){
+async function numJugadores(req, res){
     console.log("***GET METHOD Lista de jugadores de la partida");
     try{
         const partida = await findPartida(req.body.idPartida, res);
@@ -413,4 +413,4 @@ async function listaJugadores(req, res){
     }
 }
 
-module.exports = {crearPartida, unirJugador, lanzardados, findPartida, actualizarPartida, listaJugadores, siguienteTurno, turnoActual, bancarrota};
+module.exports = {crearPartida, unirJugador, lanzardados, findPartida, actualizarPartida, listaJugadores, siguienteTurno, turnoActual, bancarrota, numJugadores};
