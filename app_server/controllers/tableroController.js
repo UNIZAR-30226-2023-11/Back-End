@@ -11,53 +11,53 @@
 
 const tablero = {
     // Esquina superior izquierda
-    0: "0;0",
+    0: "0;0", // Beca
     // Parte de arriba
-    1: "0;1",
-    2: "0;2",
-    3: "0;3",
-    4: "0;4",
-    5: "0;5",
-    6: "0;6",
-    7: "0;7",
-    8: "0;8",
-    9: "0;9",
+    1: "1;0",
+    2: "2;0",
+    3: "3;0",
+    4: "4;0",
+    5: "5;0",
+    6: "6;0",
+    7: "7;0",
+    8: "8;0",
+    9: "9;0",
     // Esquina superior derecha
-    10: "0;10",
+    10: "10;0", // A Julio
     // Parte de la derecha
-    11: "1;10",
-    12: "2;10",
-    13: "3;10",
-    14: "4;10",
-    15: "5;10",
-    16: "6;10",
-    17: "7;10",
-    18: "8;10",
-    19: "9;10",
+    11: "10;1",
+    12: "10;2",
+    13: "10;3",
+    14: "10;4",
+    15: "10;5",
+    16: "10;6",
+    17: "10;7",
+    18: "10;8",
+    19: "10;9",
     // Esquina inferior derecha
-    20: "10;10",
+    20: "10;10", // Salida
     // Parde de abajo
-    21: "10;9",
-    22: "10;8",
-    23: "10;7",
-    24: "10;6",
-    25: "10;5",
-    26: "10;4",
-    27: "10;3",
-    28: "10;2",
-    29: "10;1",
+    21: "9;10",
+    22: "8;10",
+    23: "7;10",
+    24: "6;10",
+    25: "5;10",
+    26: "4;10",
+    27: "3;10",
+    28: "2;10",
+    29: "1;10",
     // Esquina inferior izquierda
-    30: "10;0",
+    30: "10;0", // Julio
     // Parte de la izquierda
-    31: "9;0",
-    32: "8;0",
-    33: "7;0",
-    34: "6;0",
-    35: "5;0",
-    36: "4;0",
-    37: "3;0",
-    38: "2;0",
-    39: "1;0"
+    31: "0;9",
+    32: "0;8",
+    33: "0;7",
+    34: "0;6",
+    35: "0;5",
+    36: "0;4",
+    37: "0;3",
+    38: "0;2",
+    39: "0;1"
 }
 
 //const salida = 0;
@@ -82,8 +82,8 @@ function obtenerClave(valor) {
 }
 
 function avanzar(coordenadas, total){
-    const cadena =  coordenadas.v.toString() + ';' + coordenadas.h.toString();
-    // const cadena = coordenadas.h.toString() + ';' + coordenadas.v.toString();
+    // const cadena =  coordenadas.v.toString() + ';' + coordenadas.h.toString();
+    const cadena = coordenadas.h.toString() + ';' + coordenadas.v.toString();
 
     // indice de la posicion actual
     var index = obtenerClave(cadena);
@@ -97,10 +97,10 @@ function avanzar(coordenadas, total){
     }
     const partes = tablero[indice].split(';');
     const objeto = {
-        // h: parseInt(partes[0]),
-        // v: parseInt(partes[1])
-        h: parseInt(partes[1]),
-        v: parseInt(partes[0])
+        h: parseInt(partes[0]),
+        v: parseInt(partes[1])
+        // h: parseInt(partes[1]),
+        // v: parseInt(partes[0])
     };
     var avance = {coordenadas: objeto, salida: salida};
     

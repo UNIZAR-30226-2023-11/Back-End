@@ -407,13 +407,17 @@ async function bancarrota(req,res){
     }
 }
 
+/**
+ * 
+ * @param {*} idPartida Partida de tipo modeloPartida
+ * @param {*}  
+ */
 // Función que dado un idPartida devuelve el número de jugadores que pueden unirse a la partida
 async function numJugadores(req, res){
     console.log("***POST METHOD Número de jugadores de la partida");
-    console.log(req.body)
+
     try{
         const partida = await findPartida(req.body.idPartida, res);
-        console.log(partida);
         if(partida != null){
             res.status(200).json({jugadores: partida.numeroJugadores});
         }else{
@@ -425,4 +429,29 @@ async function numJugadores(req, res){
     } 
 }
 
-module.exports = {crearPartida, unirJugador, lanzardados, findPartida, actualizarPartida, listaJugadores, siguienteTurno, turnoActual, bancarrota, numJugadores};
+/**
+ * 
+ * @param {*} idPartida Partida de tipo modeloPartida
+ * @param {*} username Jugador que se declara en bancarrota
+ * @param {*}  
+ */
+async function cartaJulio (req, res) {
+    console.log("***POST METHOD Opciones cuando estas en la carcel");
+
+    try {
+        const partida = await findPartida(req.body.idPartida, res);
+        const jugador = req.body.username;
+
+        await mongoose.connect(config.db.uri, { useNewUrlParser: true, useUnifiedTopology: true });
+        console.log("Connected to MongoDB Atlas");
+        
+        const cartaEncontrada = await modeloPartida.findOne({idPartida: partida.id, jugador: jugador, nombre: "¡Qué suerte, te libras!"}).exec();
+        res.status(200).json(cartaEncontrada);
+
+    } catch (error) {
+        console.error(error);
+        console.log("Error al obtener las cartas del jugador");
+    }
+}
+
+module.exports = {crearPartida, unirJugador, lanzardados, findPartida, actualizarPartida, listaJugadores, siguienteTurno, turnoActual, bancarrota, numJugadores, cartaJulio};
