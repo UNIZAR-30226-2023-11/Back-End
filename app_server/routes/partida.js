@@ -34,6 +34,6 @@ router.put('/aumentar', ctrlAsignatura.aumentarCreditos);
 
 router.post('/numJugadores', ctrlPartida.numJugadores);
 
-router.post('/opcionesJulio', ctrlPartida.cartaJulio);
+router.post('/cartaJulio', ctrlPartida.cartaJulio);
 
 module.exports = router;
