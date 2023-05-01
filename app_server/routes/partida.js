@@ -36,4 +36,6 @@ router.post('/numJugadores', ctrlPartida.numJugadores);
 
 router.post('/cartaJulio', ctrlPartida.cartaJulio);
 
+router.post('/usarCartaJulio', ctrlPartida.usarCartaJulio);
+
 module.exports = router;

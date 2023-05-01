@@ -29,7 +29,7 @@ async function crearPartida(req,res){
         const doc = new modeloPartida ({
             id: maxIdNumber+1, 
             nombreJugadores: req.body.username,
-            posicionJugadores: {h: casillaInicio, v: casillaInicio},
+            posicionJugadores: {h: casillaInicio, v: casillaInicio, julio: false},
             dineroJugadores: req.body.dineroInicial,
             numeroJugadores: req.body.nJugadores,
             dados: {dado1: 0 , dado2: 0, jugador: ""}
@@ -174,7 +174,7 @@ async function unirJugador(req,res){
                 //Añadimos jugador a nombreJugadores
                 partidaEncontrada.nombreJugadores[tam] = req.body.username;
                 //Añadimos jugador a posicionJugadores, en este caso la inicial.
-                partidaEncontrada.posicionJugadores[tam] = {h: casillaInicio, v: casillaInicio};
+                partidaEncontrada.posicionJugadores[tam] = {h: casillaInicio, v: casillaInicio, julio: false};
                 //Añadimos jugador a dineroJugadores, en este caso con el dinero inicial
                 partidaEncontrada.dineroJugadores[tam] =  partidaEncontrada.dineroJugadores[0];
 
@@ -395,8 +395,7 @@ async function bancarrota(req,res){
         partida.dineroJugadores.splice(posicion, 1);
         partida.nombreJugadores.splice(posicion, 1);
         partida.posicionJugadores.splice(posicion, 1);
-        await modeloPartida.updateOne({ id: partida.id},  { $set: { dineroJugadores: partida.dineroJugadores, nombreJugadores: partida.nombreJugadores,
-        posicionJugadores: partida.posicionJugadores}});
+        await modeloPartida.updateOne({ id: partida.id},  { $set: { dineroJugadores: partida.dineroJugadores, nombreJugadores: partida.nombreJugadores,posicionJugadores: partida.posicionJugadores}});
         res.status(200).json('Bancarrota');
     
     } catch (error) {
@@ -437,7 +436,7 @@ async function numJugadores(req, res){
  * @param {*}  
  */
 async function cartaJulio (req, res) {
-    console.log("***POST METHOD Opciones cuando estas en la carcel");
+    console.log("***POST METHOD Tiene carta salir de julio");
 
     try {
         const partida = await findPartida(req.body.idPartida, res);
@@ -452,7 +451,39 @@ async function cartaJulio (req, res) {
     } catch (error) {
         console.error(error);
         console.log("Error al obtener las cartas del jugador");
+    } finally {
+        mongoose.disconnect();
+        console.log("Disconnected to MongoDB Atlas")
     }
 }
 
-module.exports = {crearPartida, unirJugador, lanzardados, findPartida, actualizarPartida, listaJugadores, siguienteTurno, turnoActual, bancarrota, numJugadores, cartaJulio};
+/**
+ * 
+ * @param {*} idPartida Partida de tipo modeloPartida
+ * @param {*} username Jugador que se declara en bancarrota
+ * @param {*}  
+ */
+async function usarCartaJulio (req, res) {
+    console.log("***POST METHOD Usar carta salir de julio");
+
+    try {
+        const partida = await findPartida(req.body.idPartida, res);
+        const jugador = req.body.username;
+
+        await mongoose.connect(config.db.uri, { useNewUrlParser: true, useUnifiedTopology: true });
+        console.log("Connected to MongoDB Atlas");
+        
+        await modeloPartida.deleteOne({nombre: "¡Qué suerte, te libras!", partida: partida.id, jugador: jugador});
+          
+        res.status(200).send("Carta usada con éxito");
+
+    } catch (error) {
+        console.error(error);
+        console.log("Error al obtener las cartas del jugador");
+    } finally {
+        mongoose.disconnect();
+        console.log("Disconnected to MongoDB Atlas")
+    }
+}
+
+module.exports = {crearPartida, unirJugador, lanzardados, findPartida, actualizarPartida, listaJugadores, siguienteTurno, turnoActual, bancarrota, numJugadores, cartaJulio, usarCartaJulio};

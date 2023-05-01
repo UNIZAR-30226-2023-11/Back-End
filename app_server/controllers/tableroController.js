@@ -98,7 +98,8 @@ function avanzar(coordenadas, total){
     const partes = tablero[indice].split(';');
     const objeto = {
         h: parseInt(partes[0]),
-        v: parseInt(partes[1])
+        v: parseInt(partes[1]),
+        julio: coordenadas.julio
         // h: parseInt(partes[1]),
         // v: parseInt(partes[0])
     };
