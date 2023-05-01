@@ -3,6 +3,7 @@ var modeloPartida = require('../models/partidaModel')
 const  mongoose = require("mongoose");
 
 var tablero = require('../controllers/tableroController');
+const modeloTarjetasEnMano = require('../models/tarjetasEnMano');
 //var asignatura = require('../controllers/asignaturasController');
 
 
@@ -445,7 +446,7 @@ async function cartaJulio (req, res) {
         await mongoose.connect(config.db.uri, { useNewUrlParser: true, useUnifiedTopology: true });
         console.log("Connected to MongoDB Atlas");
         
-        const cartaEncontrada = await modeloPartida.findOne({idPartida: partida.id, jugador: jugador, nombre: "¡Qué suerte, te libras!"}).exec();
+        const cartaEncontrada = await modeloTarjetasEnMano.findOne({nombre: "¡Qué suerte, te libras!", partida: partida.id, jugador: jugador}).exec();
         res.status(200).json(cartaEncontrada);
 
     } catch (error) {
