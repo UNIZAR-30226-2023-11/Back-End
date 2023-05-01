@@ -25,19 +25,19 @@ const esquema = new schema({
     type: Number,
     required: true
   },
-  precio1Credito:{
+  precio1C:{
     type: Number,
     required: true
   },
-  precio2Creditos:{
+  precio2C:{
     type: Number,
     required: true
   },
-  precio3Creditos:{
+  precio3C:{
     type: Number,
     required: true
   },
-  precio4Creditos:{
+  precio4C:{
     type: Number,
     required: true
   },

@@ -25,15 +25,15 @@ const esquema = new schema({
     type: Number,
     required: true
   },
-  precio2matriculas:{
+  precio2M:{
     type: Number,
     required: true
   },
-  precio3matriculas:{
+  precio3M:{
     type: Number,
     required: true
   },
-  precio4matriculas:{
+  precio4M:{
     type: Number,
     required: true
   },  

@@ -14,11 +14,12 @@
       "h": 9,
       "v": 10
     },
-    "cuatrimestre": 1
+    "cuatrimestre": 1,
+    "precioCompraCreditos": 67
   },
   {
     "nombre": "IC",
-    "descripci": "Introduccion a los Computadores",
+    "descripcion": "Introduccion a los Computadores",
     "precioCompra": 80,
     "matricula": 5,
     "precio1C": 27,
@@ -31,7 +32,8 @@
       "h": 7,
       "v": 10
     },
-    "cuatrimestre": 1
+    "cuatrimestre": 1,
+    "precioCompraCreditos": 67
   },
   {
     "nombre": "Prog. 2",
@@ -48,7 +50,8 @@
       "h": 4,
       "v": 10
     },
-    "cuatrimestre": 2
+    "cuatrimestre": 2,
+    "precioCompraCreditos": 67
   },
   {
     "nombre": "Fisica y electronica",
@@ -65,7 +68,8 @@
       "h": 2,
       "v": 10
     },
-    "cuatrimestre": 2
+    "cuatrimestre": 2,
+    "precioCompraCreditos": 67
   },
   {
     "nombre": "AOC 1",
@@ -82,7 +86,8 @@
       "h": 1,
       "v": 10
     },
-    "cuatrimestre": 2
+    "cuatrimestre": 2,
+    "precioCompraCreditos": 67
   },
   {
     "nombre": "SO",
@@ -99,7 +104,8 @@
       "h": 0,
       "v": 9
     },
-    "cuatrimestre": 3
+    "cuatrimestre": 3,
+    "precioCompraCreditos": 133
   },
   {
     "nombre": "EDA",
@@ -116,7 +122,9 @@
       "h": 0,
       "v": 7
     },
-    "cuatrimestre": 3
+    "cuatrimestre": 3,
+    "precioCompraCreditos": 133
+
   },
   {
     "nombre": "Redes",
@@ -133,7 +141,9 @@
       "h": 0,
       "v": 6
     },
-    "cuatrimestre": 3
+    "cuatrimestre": 3,
+    "precioCompraCreditos": 133
+
     
   },
   {
@@ -151,7 +161,9 @@
       "h": 0,
       "v": 4
     },
-    "cuatrimestre": 4
+    "cuatrimestre": 4,
+    "precioCompraCreditos": 133
+
   },
   {
     "nombre": "IPO",
@@ -168,7 +180,9 @@
       "h": 0,
       "v": 2
     },
-    "cuatrimestre": 4
+    "cuatrimestre": 4,
+    "precioCompraCreditos": 133
+
 
   },
   {
@@ -186,7 +200,9 @@
       "h": 0,
       "v": 1
     },
-    "cuatrimestre": 4
+    "cuatrimestre": 4,
+    "precioCompraCreditos": 133
+
   },
   {
     "nombre": "IA",
@@ -203,7 +219,8 @@
       "h": 1,
       "v": 0
     },
-    "cuatrimestre": 5
+    "cuatrimestre": 5,
+    "precioCompraCreditos": 200
   },
   {
     "nombre": "Distribuidos",
@@ -220,7 +237,9 @@
       "h": 3,
       "v": 0
     },
-    "cuatrimestre": 5
+    "cuatrimestre": 5,
+    "precioCompraCreditos": 200
+
   },
   {
     "nombre": "PH",
@@ -237,7 +256,9 @@
       "h": 4,
       "v": 0
     },
-    "cuatrimestre": 5
+    "cuatrimestre": 5,
+    "precioCompraCreditos": 200
+
   },
   {
     "nombre": "SiSinf 2",
@@ -254,7 +275,9 @@
       "h": 6,
       "v": 0
     },
-    "cuatrimestre": 6
+    "cuatrimestre": 6,
+    "precioCompraCreditos": 200
+
   },
   {
     "nombre": "Procesadores del lenguaje",
@@ -271,7 +294,9 @@
       "h": 7,
       "v": 0
     },
-    "cuatrimestre": 6
+    "cuatrimestre": 6,
+    "precioCompraCreditos": 200
+
   },
   {
     "nombre": "PS",
@@ -288,7 +313,9 @@
       "h": 9,
       "v": 0
     },
-    "cuatrimestre": 6
+    "cuatrimestre": 6,
+    "precioCompraCreditos": 200
+
   },
   {
     "nombre": "Robotica",
@@ -305,7 +332,8 @@
       "h": 10,
       "v": 1
     },
-    "cuatrimestre": 7
+    "cuatrimestre": 7,
+    "precioCompraCreditos": 267
   },
   {
     "nombre": "Sistemas y tecnologias web",
@@ -322,7 +350,9 @@
       "h": 10,
       "v": 2
     },
-    "cuatrimestre": 7
+    "cuatrimestre": 7,
+    "precioCompraCreditos": 267
+
   },
   {
     "nombre": "Seguridad informatica",
@@ -339,7 +369,9 @@
       "h": 10,
       "v": 4
     },
-    "cuatrimestre": 7
+    "cuatrimestre": 7,
+    "precioCompraCreditos": 267
+
   },
   {
     "nombre": "Practicas de empresa",
@@ -356,7 +388,9 @@
       "h": 10,
       "v": 7
     },
-    "cuatrimestre": 8
+    "cuatrimestre": 8,
+    "precioCompraCreditos": 267
+
   },
   {
     "nombre": "TFG",
@@ -373,6 +407,8 @@
       "h": 10,
       "v": 9
     },
-    "cuatrimestre": 8
+    "cuatrimestre": 8,
+    "precioCompraCreditos": 267
+
   }
 ]

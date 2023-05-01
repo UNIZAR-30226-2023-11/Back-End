@@ -607,19 +607,25 @@ async function asignaturaInfo2(coordenadas) {
     console.log("METHOD devolver info asignatura");
     //console.log(req.body.coordenadas);
     const casilla = await findCasilla(coordenadas);
-    var casillaInfo = null;
-    if (casilla != null) {
+
+    if (casilla) {
 
         //Existe la casilla
         if (casilla.tipo == "A") {
+            var casillaInfo = new modeloAsignatura();
             casillaInfo = await isAsignatura(coordenadas);
+            return casillaInfo;
         } else if (casilla.tipo == "F") {
+            var casillaInfo = new modeloFestividad();
             casillaInfo = await isFestividad(coordenadas);
+            return casillaInfo;
         } else if (casilla.tipo == "I") {
+            var casillaInfo = new modeloImpuesto();
             casillaInfo = await isImpuesto(coordenadas);
+            return casillaInfo;
         }
     }
-    return casillaInfo;
+    return null;
 }
 
 /**
@@ -639,9 +645,9 @@ async function aumentarCreditos(req, res) {
     console.log("CUATRI", cuatri);
     let casillas = await findAsignaturasCompradas(req.body.username, req.body.idPartida);
     console.log("CASILLAS ", casillas);
-    let casillasFiltradas =  [];
-    for(let i=0; i < casillas.length;  i++){
-        if(casillas[i].cuatrimestre === cuatri){
+    let casillasFiltradas = [];
+    for (let i = 0; i < casillas.length; i++) {
+        if (casillas[i].cuatrimestre === cuatri) {
             casillasFiltradas.push(casillas[i]);
         }
     }
@@ -658,30 +664,43 @@ async function aumentarCreditos(req, res) {
     }
 
     if (todos == true) {
-        console.log("COORDENQDAS",req.body.coordenadas);
-        var asignatura = await asignaturaInfo2(req.body.coordenadas);
+        console.log("COORDENQDAS", req.body.coordenadas);
+        const asignatura = await asignaturaInfo2(req.body.coordenadas);
         console.log("ASIGNATURA", asignatura);
+        console.log("ASIGNATURA 2", asignatura);
+
         //var pos = casillasFiltradas.indexOf(req.body.coordenadas);
         var pos = casillasFiltradas.findIndex(function (casilla) {
             return casilla.coordenadas.h === req.body.coordenadas.h && casilla.coordenadas.v === req.body.coordenadas.v;
-          });
-          
-       console.log("CASILLA A AUMENTAR", casillasFiltradas[pos]) ;
+        });
 
+        let bancarrota = false;
+
+        console.log("CASILLA A AUMENTAR", casillasFiltradas[pos]);
+        console.log("CASILLA A AUMENTAR PRECIO", casillasFiltradas[pos].precio);
+        const partida = await ctrlPartida.findPartida(req.body.idPartida, res);
         if (casillasFiltradas[pos].precio == asignatura.matricula) {
-            console.log("PRECIO: matricula-1C", asignatura.precio1Credito );
+            console.log("PRECIO: matricula-1C", asignatura.precio1C);
             casillasFiltradas[pos].precio = asignatura.precio1C
-            console.log("PRECIO: matricula-1C",casillasFiltradas[pos].precio );
+            console.log("PRECIO: matricula-1C", casillasFiltradas[pos].precio);
+            await pagar(partida, asignatura.precioCompraCreditos, req.body.username, bancarrota);
         }
         else if (casillasFiltradas[pos].precio == asignatura.precio1C) {
             console.log("PRECIO: 1C-2C");
             casillasFiltradas[pos].precio = asignatura.precio2C
+
+            await pagar(partida, asignatura.precioCompraCreditos, req.body.username, bancarrota);
+
         } else if (casillasFiltradas[pos].precio == asignatura.precio2C) {
             console.log("PRECIO: 2C-2C");
-            casillasFiltradas[pos].precio = asignatura.precio3C        
+            casillasFiltradas[pos].precio = asignatura.precio3C
+            await pagar(partida, asignatura.precioCompraCreditos, req.body.username, bancarrota);
+
         } else if (casillasFiltradas[pos].precio == asignatura.precio3C) {
             console.log("PRECIO: 3C-3C");
-            casillasFiltradas[pos].precio = asignatura.precio4C        
+            casillasFiltradas[pos].precio = asignatura.precio4C
+            await pagar(partida, asignatura.precioCompraCreditos, req.body.username, bancarrota);
+
         } else if (casillasFiltradas[pos].precio == asignatura.precio4C) {
             console.log("PRECIO: 4C-4C");
             // sin cambios
