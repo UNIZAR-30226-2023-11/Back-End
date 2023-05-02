@@ -187,7 +187,7 @@ async function findCasilla(coordenadas) {
     try {
         await mongoose.connect(config.db.uri, { useNewUrlParser: true, useUnifiedTopology: true });
         console.log("Connected to MongoDB Atlas");
-
+        console.log("COORDENADAS FIN C", coordenadas);
         const casillaEncontrada = await modeloCasilla.findOne({ "coordenadas.h": coordenadas.h, "coordenadas.v": coordenadas.v }).exec();
         console.log(coordenadas);
         //console.log("casillaEncontrada");
@@ -486,7 +486,8 @@ async function checkCasilla(req, res) {
                 res.status(200).json({ message: 'Se ha pagado lo que se debia', jugador: comprada.jugador, dinero: comprada.precio, bancarrota: bancarrota });
             } else {
                 console.log("Esta casilla es mia", req.body.username, req.body.coordenadas);
-                res.status(200).json({ jugador: req.body.username });
+                let aumentar = await puedoAumentar(req.body.coordenadas, req.body.idPartida, req.body.username);
+                res.status(200).json({ jugador: req.body.username, aumento: aumentar });
             }
 
         } else {
@@ -705,7 +706,7 @@ async function aumentarCreditos(req, res) {
             console.log("PRECIO: 4C-4C");
             // sin cambios
         }
-    }
+    
     console.log(casillasFiltradas[pos]);
 
     try {
@@ -731,7 +732,41 @@ async function aumentarCreditos(req, res) {
         mongoose.disconnect();
         console.log("DisConnected to MongoDB Atlas")
     }
+    }
+    else{
+        res.status(500).json({ error: 'Error al aumentar creditos asignatura' });
+    }
+}
 
+
+async function puedoAumentar(coordenadas, idPartida, username){
+    console.log("PUT Puedo Aumentar creditos asignatua");
+    // Comprobar que tiene todos los del mismo cuatrimestre
+    // Aumentar creditos + 1 (cambiar precio en asignaturas_partida --> Comparar precio actual en info_asignaturas)
+    // Devolver ok
+    console.log("COOORDENADAS", coordenadas);
+    const cuatri = await devolverCuatri(coordenadas);
+    console.log("CUATRI", cuatri);
+    let casillas = await findAsignaturasCompradas(username, idPartida);
+    console.log("CASILLAS ", casillas);
+    let casillasFiltradas = [];
+    for (let i = 0; i < casillas.length; i++) {
+        if (casillas[i].cuatrimestre === cuatri) {
+            casillasFiltradas.push(casillas[i]);
+        }
+    }
+
+    console.log("CASILLAS FILTRADAS", casillasFiltradas);
+    var todos = false;
+
+    if ((cuatri == 1 || cuatri == 8) && (casillasFiltradas.length == 2)) {
+        todos = true;
+        console.log("HOLA 1");
+    } else if ((cuatri != 1 || cuatri != 8) && (casillasFiltradas.length == 3)) {
+        todos = true;
+        console.log("HOLA 2");
+    }
+    return todos;
 }
 
 module.exports = { checkCasilla, tarjetaAleatoria, comprarCasilla, dar200, infoAsignatura, listaAsignaturasC, aumentarCreditos };
