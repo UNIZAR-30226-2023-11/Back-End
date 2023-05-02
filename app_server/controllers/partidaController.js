@@ -373,7 +373,7 @@ async function siguienteTurno(req, res) {
 
                     await mongoose.connect(config.db.uri, { useNewUrlParser: true, useUnifiedTopology: true });
                     console.log("Connected to MongoDB Atlas");
-                    await modeloPartida.updateOne({ id: req.body.idPartida }, { $set: { "partida.dados.jugador": partida.dados.jugador } });
+                    await modeloPartida.updateOne({ id: req.body.idPartida }, { $set: { "dados.jugador": partida.dados.jugador } });
 
                 } catch (error) {
                     console.error(error);

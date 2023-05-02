@@ -18,11 +18,6 @@ async function registerUser(req, res){
         partidasEnJuego: 0
     });
 
-    // const docs = await modeloUser.find(doc);
-    // if (docs.length > 0) {
-    //     //Existe el usuario
-    //     res.status(400).json({message: 'Ya existe el usuario'});
-    // } else{
         try {
             if(doc.contraseña == req.body.confirm_password){
                 await mongoose.connect(config.db.uri, { useNewUrlParser: true, useUnifiedTopology: true });
@@ -84,10 +79,6 @@ async function deleteUser(req, res){
         console.log("Connected to MongoDB Atlas");
         const docs = await modeloUser.find(doc);
   
-        // if (docs.length == 0) {
-        //   //Existe el usuario
-        //   res.status(400).json({message: 'No existe el usuario'});
-        // }else{ 
             const result = await modeloUser.deleteOne(doc); 
             if (result.deletedCount === 1) {
                 console.log("Se ha eliminado correctamenre");

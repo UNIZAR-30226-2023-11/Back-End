@@ -771,4 +771,21 @@ async function puedoAumentar(coordenadas, idPartida, username){
     return todos;
 }
 
+/**
+ * 
+ * @param {*} req.body.idPartida
+ * @param {*} req.body.username
+ * @param {*} req.body.coordenadas 
+ * @param {*} res 
+ */
+async function veneder(req,res){
+    console.log("METHOD Delete Vender Asignatura");
+    //mirar que tine la asignatura
+    //borrarla
+    //devolverle el dinero
+    
+
+
+}
+
 module.exports = { checkCasilla, tarjetaAleatoria, comprarCasilla, dar200, infoAsignatura, listaAsignaturasC, aumentarCreditos };
