@@ -435,7 +435,8 @@ async function comprarCasilla(req, res) {
 
                     await doc.save();
                     console.log('Documento guardado correctamente');
-                    res.status(201).json({ message: 'Asignatura comprada insertada correctamente' });
+                    let aumentar = await puedoAumentar(req.body.coordenadas, req.body.idPartida, req.body.username);
+                    res.status(201).json({ message: 'Asignatura comprada insertada correctamente', aumento: aumentar });
 
                 } catch (error) {
                     console.error(error);
@@ -500,6 +501,7 @@ async function checkCasilla(req, res) {
     } else {
         console.log("El jugador", req.body.username);
         //Puede Comprarla
+        
         res.status(200).json({ message: 'Esta asignatura se puede comprar', jugador: null, dinero: null });
     }
 }
