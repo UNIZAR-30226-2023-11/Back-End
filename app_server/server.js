@@ -5,7 +5,7 @@ const cors = require('cors');
 var usersRouter = require('./routes/users');
 var partidaRouter = require('./routes/partida');
 const app = express();
-const apiPort = 3000;
+const apiPort = 8080;
 
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.urlencoded({ extended: true }));
