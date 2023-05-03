@@ -663,7 +663,7 @@ async function accionCarta(req, res) {
             console.log("Se ha actualizado la partida correctamente");
             res.status(200).json("Se ha actualizado la partida correctamente");
         } else {
-            // console.error(error);
+            console.error(error);
             console.log(result);
             res.status(205).json({ error: 'Error al actualizar la partida ' }); // es 205 porque puede ser que un jugador no haga nada en su turno
         }
