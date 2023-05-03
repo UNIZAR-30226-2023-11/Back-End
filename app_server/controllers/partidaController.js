@@ -609,8 +609,8 @@ async function accionCarta(req, res) {
             // else if (carta.nombre == "¡Estamos en el ecuador!") { cantidad = 550; } // 550
             // else if (carta.nombre == "Unizar necesita dinero") { cantidad = 1000; } // 1000
 
-            // partida.dineroJugadores[posicion] = partida.dineroJugadores[posicion]-cantidad;
-            partida.dineroJugadores[posicion] -= cantidad;
+            partida.dineroJugadores[posicion] = partida.dineroJugadores[posicion]-cantidad;
+            // partida.dineroJugadores[posicion] -= cantidad;
             
         } else if (carta.cobrarPagarNada=="cobrar") { // cobrar
             var cantidad = carta.dinero;
@@ -621,8 +621,8 @@ async function accionCarta(req, res) {
             // else if (carta.nombre == "¡Qué inteligente eres!") { cantidad = 200; } //200
             // else if (carta.nombre == "¡Qué suerte!") { cantidad = 20; } //20
 
-            // partida.dineroJugadores[posicion] = partida.dineroJugadores[posicion]+cantidad;
-            artida.dineroJugadores[posicion] += cantidad;
+            partida.dineroJugadores[posicion] = partida.dineroJugadores[posicion]+cantidad;
+            // artida.dineroJugadores[posicion] += cantidad;
             
         } else if (carta.cobrarPagarNada=="nada") { // nada
             var h = 0;
