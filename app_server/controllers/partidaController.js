@@ -590,7 +590,7 @@ async function accionCarta(req, res) {
     console.log("***POST METHOD Devuelve lo que tiene que hacer un jugador segun la carta que le ha salido");
     try {
         const partida = await findPartida(req.body.idPartida, res);
-        const carta = await findCarta(req.body.idPartida, res);
+        const carta = await findCarta(tarjeta);
         const jugador = req.body.username
         const posicion = partida.nombreJugadores.indexOf(jugador);
 
