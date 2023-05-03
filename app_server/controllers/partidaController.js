@@ -351,7 +351,7 @@ async function siguienteTurno(req, res) {
             const posicion = partida.nombreJugadores.indexOf(partida.dados.jugador);
             if (posicion == tam - 1) { //le vuelve a tocar al primero
                 try {
-                    partida.dados.jugador = partida.nombreJugadores[posicion];
+                    partida.dados.jugador = partida.nombreJugadores[0];
 
                     await mongoose.connect(config.db.uri, { useNewUrlParser: true, useUnifiedTopology: true });
                     console.log("Connected to MongoDB Atlas");
