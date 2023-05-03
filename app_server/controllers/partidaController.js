@@ -595,29 +595,30 @@ async function accionCarta(req, res) {
         const posicion = partida.nombreJugadores.indexOf(jugador);
 
         if (carta.cobrarPagarNada=="pagar") { // pagar
-            var cantidad = 0;
+            var cantidad = carta.dinero;
             if (carta.nombre == "¡Qué mala suerte!") { /* TODO*/ }
-            else if (carta.nombre == "¡Ay las entregas!") { cantidad = 20; } // 20
-            else if (carta.nombre == "Ay") { cantidad = 50; } // 50
-            else if (carta.nombre == "¡Vas a la cafetería!") { cantidad = 55; } // 55
-            else if (carta.nombre == "A comer en el Ada Byron") { cantidad = 100 } // 100
-            else if (carta.nombre == "Conductor novel") { cantidad = 100; } // 100
-            else if (carta.nombre == "¡Vaya!") { cantidad = 250 } // 250
-            else if (carta.nombre == "Ganas de algo dulce") { cantidad = 275; } // 275
-            else if (carta.nombre == "La luz está cara") { cantidad = 300; } // 300
-            else if (carta.nombre == "¡Felicidades, te has graduado!") { cantidad = 500; } // 500
-            else if (carta.nombre == "¡Estamos en el ecuador!") { cantidad = 550; } // 550
-            else if (carta.nombre == "Unizar necesita dinero") { cantidad = 1000; } // 1000
+            // else if (carta.nombre == "¡Ay las entregas!") { cantidad = 20; } // 20
+            // else if (carta.nombre == "Ay") { cantidad = 50; } // 50
+            // else if (carta.nombre == "¡Vas a la cafetería!") { cantidad = 55; } // 55
+            // else if (carta.nombre == "A comer en el Ada Byron") { cantidad = 100 } // 100
+            // else if (carta.nombre == "Conductor novel") { cantidad = 100; } // 100
+            // else if (carta.nombre == "¡Vaya!") { cantidad = 250 } // 250
+            // else if (carta.nombre == "Ganas de algo dulce") { cantidad = 275; } // 275
+            // else if (carta.nombre == "La luz está cara") { cantidad = 300; } // 300
+            // else if (carta.nombre == "¡Felicidades, te has graduado!") { cantidad = 500; } // 500
+            // else if (carta.nombre == "¡Estamos en el ecuador!") { cantidad = 550; } // 550
+            // else if (carta.nombre == "Unizar necesita dinero") { cantidad = 1000; } // 1000
 
             partida.nombreJugadores[posicion] = partida.nombreJugadores[posicion]-cantidad;
             
         } else if (carta.cobrarPagarNada=="cobrar") { // cobrar
-            if (carta.nombre == "¡Feliz cumpleaños!") { cantidad = 150; } // 150
-            else if (carta.nombre == "¡Qué suerte!") { cantidad = 1; } //1
-            else if (carta.nombre == "¡Enhorabuena!, la beca") { cantidad = 600; } //600
-            else if (carta.nombre == "¡Enhorabuena!") { cantidad = 500; } //500
-            else if (carta.nombre == "¡Qué inteligente eres!") { cantidad = 200; } //200
-            else if (carta.nombre == "¡Qué suerte!") { cantidad = 20; } //20
+            var cantidad = carta.dinero;
+            // if (carta.nombre == "¡Feliz cumpleaños!") { cantidad = 150; } // 150
+            // else if (carta.nombre == "¡Qué suerte!") { cantidad = 1; } //1
+            // else if (carta.nombre == "¡Enhorabuena!, la beca") { cantidad = 600; } //600
+            // else if (carta.nombre == "¡Enhorabuena!") { cantidad = 500; } //500
+            // else if (carta.nombre == "¡Qué inteligente eres!") { cantidad = 200; } //200
+            // else if (carta.nombre == "¡Qué suerte!") { cantidad = 20; } //20
 
             partida.nombreJugadores[posicion] = partida.nombreJugadores[posicion]+cantidad;
             
@@ -651,7 +652,7 @@ async function accionCarta(req, res) {
         await mongoose.connect(config.db.uri, { useNewUrlParser: true, useUnifiedTopology: true });
         console.log("Connected to MongoDB Atlas");
 
-        const result = await modeloPartida.updateOne({ id: req.body.idPartida }, {
+        const result = await modeloPartida.updateOne({ id: partida.idPartida }, {
             $set: {
                 posicionJugadores: partida.posicionJugadores,
                 dineroJugadores: partida.dineroJugadores
@@ -662,7 +663,7 @@ async function accionCarta(req, res) {
             console.log("Se ha actualizado la partida correctamente");
             res.status(200).json("Se ha actualizado la partida correctamente");
         } else {
-            //console.error(error);
+            // console.error(error);
             console.log(result);
             res.status(205).json({ error: 'Error al actualizar la partida ' }); // es 205 porque puede ser que un jugador no haga nada en su turno
         }
