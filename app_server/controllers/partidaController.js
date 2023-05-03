@@ -609,7 +609,8 @@ async function accionCarta(req, res) {
             // else if (carta.nombre == "¡Estamos en el ecuador!") { cantidad = 550; } // 550
             // else if (carta.nombre == "Unizar necesita dinero") { cantidad = 1000; } // 1000
 
-            partida.nombreJugadores[posicion] = partida.nombreJugadores[posicion]-cantidad;
+            // partida.dineroJugadores[posicion] = partida.dineroJugadores[posicion]-cantidad;
+            partida.dineroJugadores[posicion] -= cantidad;
             
         } else if (carta.cobrarPagarNada=="cobrar") { // cobrar
             var cantidad = carta.dinero;
@@ -620,7 +621,8 @@ async function accionCarta(req, res) {
             // else if (carta.nombre == "¡Qué inteligente eres!") { cantidad = 200; } //200
             // else if (carta.nombre == "¡Qué suerte!") { cantidad = 20; } //20
 
-            partida.nombreJugadores[posicion] = partida.nombreJugadores[posicion]+cantidad;
+            // partida.dineroJugadores[posicion] = partida.dineroJugadores[posicion]+cantidad;
+            artida.dineroJugadores[posicion] += cantidad;
             
         } else if (carta.cobrarPagarNada=="nada") { // nada
             var h = 0;
@@ -657,7 +659,8 @@ async function accionCarta(req, res) {
 
         const result1 = await modeloPartida.updateOne({ id: partida.idPartida }, {
             $set: {
-                posicionJugadores: partida.posicionJugadores
+                posicionJugadores: partida.posicionJugadores,
+                dineroJugadores: partida.dineroJugadores
             }
         })
         if (result1.modifiedCount == 1) {
@@ -670,20 +673,20 @@ async function accionCarta(req, res) {
             res.status(205).json({ error: 'Error al actualizar la partida ' }); // es 205 porque puede ser que un jugador no haga nada en su turno
         }
 
-        const result2 = await modeloPartida.updateOne({ id: partida.idPartida }, {
-            $set: {
-                dineroJugadores: partida.dineroJugadores
-            }
-        })
-        if (result1.modifiedCount == 1) {
-            console.log(result2);
-            console.log("Se ha actualizado la partida correctamente");
-            res.status(200).json("Se ha actualizado la partida correctamente");
-        } else {
-            console.error(error);
-            console.log(result2);
-            res.status(205).json({ error: 'Error al actualizar la partida ' }); // es 205 porque puede ser que un jugador no haga nada en su turno
-        }
+        // const result2 = await modeloPartida.updateOne({ id: partida.idPartida }, {
+        //     $set: {
+        //         dineroJugadores: partida.dineroJugadores
+        //     }
+        // })
+        // if (result1.modifiedCount == 1) {
+        //     console.log(result2);
+        //     console.log("Se ha actualizado la partida correctamente");
+        //     res.status(200).json("Se ha actualizado la partida correctamente");
+        // } else {
+        //     console.error(error);
+        //     console.log(result2);
+        //     res.status(205).json({ error: 'Error al actualizar la partida ' }); // es 205 porque puede ser que un jugador no haga nada en su turno
+        // }
 
     } catch (error) {
         console.error(error);
