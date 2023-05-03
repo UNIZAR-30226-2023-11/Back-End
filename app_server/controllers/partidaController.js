@@ -649,6 +649,9 @@ async function accionCarta(req, res) {
             partida.dineroJugadores[posicion] = partida.dineroJugadores[posicion] + dinero;
         }
 
+        console.log(partida.posicionJugadores);
+        console.log(partida.dineroJugadores);
+
         await mongoose.connect(config.db.uri, { useNewUrlParser: true, useUnifiedTopology: true });
         console.log("Connected to MongoDB Atlas");
 
