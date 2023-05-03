@@ -108,4 +108,42 @@ function avanzar(coordenadas, total){
     return avance; 
 }
 
-module.exports = {avanzar};
+function pasaPorSalida(coordenadasIni, coordenadasFin) {
+    const cadenaIni = coordenadasIni.h.toString() + ';' + coordenadasIni.v.toString();
+    var indexIni = obtenerClave(cadenaIni);
+
+    const cadenaFin = coordenadasFin.h.toString() + ';' + coordenadasFin.v.toString();
+    var indexFin = obtenerClave(cadenaFin);
+
+    if (indexIni < 20 && indexFin > 20) {
+        return true;
+    } else {
+        return false
+    }
+}
+
+function retroceder(coordenadas, cantidad) {
+    const cadena = coordenadas.h.toString() + ';' + coordenadas.v.toString();
+    var index = obtenerClave(cadena);
+
+    var length = Object.keys(tablero).length;
+    var indice = (parseInt(index) - cantidad) % length;
+
+    var salida = false;
+    if (index<20 && indice >= 20) {
+        salida = true;
+    }
+    const partes = tablero[indice].split(';');
+    const objeto = {
+        h: parseInt(partes[0]),
+        v: parseInt(partes[1]),
+        julio: coordenadas.julio
+        // h: parseInt(partes[1]),
+        // v: parseInt(partes[0])
+    };
+    var movimiento = {coordenadas: objeto, salida: salida};
+    
+    return movimiento; 
+}
+
+module.exports = {avanzar, pasaPorSalida, retroceder};

@@ -38,4 +38,6 @@ router.post('/cartaJulio', ctrlPartida.cartaJulio);
 
 router.post('/usarCartaJulio', ctrlPartida.usarCartaJulio);
 
+router.put('/accionCarta', ctrlPartida.accionCarta);
+
 module.exports = router;

@@ -59,7 +59,7 @@
     "dinero": 0,
     "tipo": "boletin"
   },{
-    "nombre": "¡Enhorabuena!",
+    "nombre": "¡Enhorabuena!, la beca",
     "descripcion": "Te han concedido la beca. Se han sumando a tu cuenta 600€",
     "cobrarPagarNada": "cobrar",
     "dinero": 600,
@@ -83,7 +83,7 @@
     "dinero": 500,
     "tipo": "boletin"
   },{
-    "nombre": "¡Qué suerte!",
+    "nombre": "¡Qué suerte!, a la salida",
     "descripcion": "Colócate en la casilla de salida",
     "cobrarPagarNada": "nada",
     "dinero": 0,
@@ -125,7 +125,7 @@
     "dinero": 0,
     "tipo": "suerte"
   },{
-    "nombre": "¡Qué suerte!",
+    "nombre": "¡Qué suerte!, a la salida",
     "descripcion": "Colócate en la casilla de salida",
     "cobrarPagarNada": "nada",
     "dinero": 0,
@@ -137,7 +137,7 @@
     "dinero": 0,
     "tipo": "suerte"
   },{
-    "nombre": "¡Qué list@ eres!",
+    "nombre": "¡Qué inteligente eres!",
     "descripcion": "Has sacado matrícula de honor. La universidad te dará dinero. Recibe 200€.",
     "cobrarPagarNada": "cobrar",
     "dinero": 200,

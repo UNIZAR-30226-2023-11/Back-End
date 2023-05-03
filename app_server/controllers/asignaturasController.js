@@ -778,7 +778,7 @@ async function puedoAumentar(coordenadas, idPartida, username){
  * @param {*} req.body.coordenadas 
  * @param {*} res 
  */
-async function veneder(req,res){
+async function vender(req,res){
     console.log("METHOD Delete Vender Asignatura");
     //mirar que tine la asignatura
     //borrarla
