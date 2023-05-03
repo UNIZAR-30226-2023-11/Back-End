@@ -652,19 +652,33 @@ async function accionCarta(req, res) {
         await mongoose.connect(config.db.uri, { useNewUrlParser: true, useUnifiedTopology: true });
         console.log("Connected to MongoDB Atlas");
 
-        const result = await modeloPartida.updateOne({ id: partida.idPartida }, {
+        const result1 = await modeloPartida.updateOne({ id: partida.idPartida }, {
             $set: {
-                posicionJugadores: partida.posicionJugadores,
-                dineroJugadores: partida.dineroJugadores
+                posicionJugadores: partida.posicionJugadores
             }
         })
-        if (result.modifiedCount == 1) {
-            console.log(result);
+        if (result1.modifiedCount == 1) {
+            console.log(result1);
             console.log("Se ha actualizado la partida correctamente");
             res.status(200).json("Se ha actualizado la partida correctamente");
         } else {
             console.error(error);
-            console.log(result);
+            console.log(result1);
+            res.status(205).json({ error: 'Error al actualizar la partida ' }); // es 205 porque puede ser que un jugador no haga nada en su turno
+        }
+
+        const result2 = await modeloPartida.updateOne({ id: partida.idPartida }, {
+            $set: {
+                dineroJugadores: partida.dineroJugadores
+            }
+        })
+        if (result1.modifiedCount == 1) {
+            console.log(result2);
+            console.log("Se ha actualizado la partida correctamente");
+            res.status(200).json("Se ha actualizado la partida correctamente");
+        } else {
+            console.error(error);
+            console.log(result2);
             res.status(205).json({ error: 'Error al actualizar la partida ' }); // es 205 porque puede ser que un jugador no haga nada en su turno
         }
 
