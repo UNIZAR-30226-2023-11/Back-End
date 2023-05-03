@@ -653,8 +653,8 @@ async function accionCarta(req, res) {
 
         const result = await modeloPartida.updateOne({ id: req.body.idPartida }, {
             $set: {
-                posicionJugadores: partidaEncontrada.posicionJugadores,
-                dineroJugadores: partidaEncontrada.dineroJugadores
+                posicionJugadores: partida.posicionJugadores,
+                dineroJugadores: partida.dineroJugadores
             }
         })
         if (result.modifiedCount == 1) {
