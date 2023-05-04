@@ -610,7 +610,7 @@ async function accionCarta(req, res) {
             // else if (carta.nombre == "Unizar necesita dinero") { cantidad = 1000; } // 1000
 
             partida.dineroJugadores[posicion] = partida.dineroJugadores[posicion]-cantidad;
-            console.log("Cantidad: ", cantidad);
+            console.log("Cantidad: ", partida.dineroJugadores[posicion]);
             // partida.dineroJugadores[posicion] -= cantidad;
             
         } else if (carta.cobrarPagarNada=="cobrar") { // cobrar
