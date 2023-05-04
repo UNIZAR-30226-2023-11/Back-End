@@ -40,4 +40,12 @@ router.post('/usarCartaJulio', ctrlPartida.usarCartaJulio);
 
 router.put('/accionCarta', ctrlPartida.accionCarta);
 
+router.put('/accionCarta', ctrlPartida.accionCarta);
+//router.delete('/vender', ctrlPartida.vender);
+
+router.delete('/vender', (req, res) => {
+    // Your code to handle the DELETE request goes here
+    ctrlAsignatura.vender(req, res);
+  });
+
 module.exports = router;
