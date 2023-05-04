@@ -608,7 +608,7 @@ async function accionCarta(req, res) {
             // else if (carta.nombre == "¡Felicidades, te has graduado!") { cantidad = 500; } // 500
             // else if (carta.nombre == "¡Estamos en el ecuador!") { cantidad = 550; } // 550
             // else if (carta.nombre == "Unizar necesita dinero") { cantidad = 1000; } // 1000
-
+            console.log("Cantidad: ", cantidad, " , " , partida.dineroJugadores[posicion]);
             partida.dineroJugadores[posicion] = partida.dineroJugadores[posicion]-cantidad;
             console.log("Cantidad: ", partida.dineroJugadores[posicion]);
             // partida.dineroJugadores[posicion] -= cantidad;
@@ -652,7 +652,7 @@ async function accionCarta(req, res) {
             partida.dineroJugadores[posicion] = partida.dineroJugadores[posicion] + dinero;
         }
 
-        console.log(partida.posicionJugadores);
+        // console.log(partida.posicionJugadores);
         console.log(partida.dineroJugadores);
 
         await mongoose.connect(config.db.uri, { useNewUrlParser: true, useUnifiedTopology: true });
