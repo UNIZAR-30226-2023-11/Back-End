@@ -501,7 +501,7 @@ async function checkCasilla(req, res) {
     } else {
         console.log("El jugador", req.body.username);
         //Puede Comprarla
-        
+
         res.status(200).json({ message: 'Esta asignatura se puede comprar', jugador: null, dinero: null });
     }
 }
@@ -606,7 +606,7 @@ async function devolverCuatri(coordenadas) {
 // }
 //}
 
-async function asignaturaInfo2(coordenadas) {
+async function asignaturaInfo(coordenadas) {
     console.log("METHOD devolver info asignatura");
     //console.log(req.body.coordenadas);
     const casilla = await findCasilla(coordenadas);
@@ -668,7 +668,7 @@ async function aumentarCreditos(req, res) {
 
     if (todos == true) {
         console.log("COORDENQDAS", req.body.coordenadas);
-        const asignatura = await asignaturaInfo2(req.body.coordenadas);
+        const asignatura = await asignaturaInfo(req.body.coordenadas);
         console.log("ASIGNATURA", asignatura);
         console.log("ASIGNATURA 2", asignatura);
 
@@ -708,40 +708,40 @@ async function aumentarCreditos(req, res) {
             console.log("PRECIO: 4C-4C");
             // sin cambios
         }
-    
-    console.log(casillasFiltradas[pos]);
 
-    try {
-        await mongoose.connect(config.db.uri, { useNewUrlParser: true, useUnifiedTopology: true });
-        console.log("Connected to MongoDB Atlas");
+        console.log(casillasFiltradas[pos]);
 
-        const result = await modeloAsignaturasComprada.updateOne({ "coordenadas.h": req.body.coordenadas.h, "coordenadas.v": req.body.coordenadas.v }, { $set: { precio: casillasFiltradas[pos].precio } })
-        if (result.modifiedCount == 1) {
-            console.log(result);
-            console.log("Se ha actualizado la asignatura comprada correctamente");
-            res.status(200).json("ok");
-        } else {
-            console.log(result);
-            res.status(500).json({ error: 'Error al actualizar la casilla comprada al aumentar creditos' });
+        try {
+            await mongoose.connect(config.db.uri, { useNewUrlParser: true, useUnifiedTopology: true });
+            console.log("Connected to MongoDB Atlas");
+
+            const result = await modeloAsignaturasComprada.updateOne({ "coordenadas.h": req.body.coordenadas.h, "coordenadas.v": req.body.coordenadas.v }, { $set: { precio: casillasFiltradas[pos].precio } })
+            if (result.modifiedCount == 1) {
+                console.log(result);
+                console.log("Se ha actualizado la asignatura comprada correctamente");
+                res.status(200).json("ok");
+            } else {
+                console.log(result);
+                res.status(500).json({ error: 'Error al actualizar la casilla comprada al aumentar creditos' });
+            }
+
+        } catch (error) {
+            console.error(error);
+            console.log('Error al aumentar creditos asignatura');
+            res.status(500).json({ error: 'Error al aumentar creditos asignatura' });
+
+        } finally {
+            mongoose.disconnect();
+            console.log("DisConnected to MongoDB Atlas")
         }
-
-    } catch (error) {
-        console.error(error);
-        console.log('Error al aumentar creditos asignatura');
-        res.status(500).json({ error: 'Error al aumentar creditos asignatura' });
-
-    } finally {
-        mongoose.disconnect();
-        console.log("DisConnected to MongoDB Atlas")
     }
-    }
-    else{
+    else {
         res.status(500).json({ error: 'Error al aumentar creditos asignatura' });
     }
 }
 
 
-async function puedoAumentar(coordenadas, idPartida, username){
+async function puedoAumentar(coordenadas, idPartida, username) {
     console.log("PUT Puedo Aumentar creditos asignatua");
     // Comprobar que tiene todos los del mismo cuatrimestre
     // Aumentar creditos + 1 (cambiar precio en asignaturas_partida --> Comparar precio actual en info_asignaturas)
@@ -778,14 +778,72 @@ async function puedoAumentar(coordenadas, idPartida, username){
  * @param {*} req.body.coordenadas 
  * @param {*} res 
  */
-async function vender(req,res){
+async function vender(req, res) {
     console.log("METHOD Delete Vender Asignatura");
+
+    console.log(req.body);
     //mirar que tine la asignatura
-    //borrarla
-    //devolverle el dinero
-    
+    let casillas = await findAsignaturasCompradas(req.body.username, req.body.idPartida);
+    console.log("CASILLAS ", casillas);
+    casillasFiltradas = [];
+    for (let i = 0; i < casillas.length; i++) {
+        if (casillas[i].coordenadas.h === req.body.coordenadas.h && casillas[i].coordenadas.v === req.body.coordenadas.v) {
+            casillasFiltradas.push(casillas[i]);
+        }
+    }
+    if (casillasFiltradas.length === 1) {
+        try {
+            await mongoose.connect(config.db.uri, { useNewUrlParser: true, useUnifiedTopology: true });
+            console.log("Connected to MongoDB Atlas");
+            //borrarla
+            const result = await modeloAsignaturasComprada.deleteOne({
+                "coordenadas.h": req.body.coordenadas.h, "coordenadas.v": req.body.coordenadas.v,
+                partida: req.body.idPartida, jugador: req.body.username
+            });
+            if (result.deletedCount == 1) {
+                console.log(result);
+                console.log("Se ha vendido la asignatura correctamente ");
+                //devolverle el dinero
+                //buscar la asignatura
+                //buscar la partida
+                const casilla = await asignaturaInfo(req.body.coordenadas);
+                if (casilla) {
+                    const partida = await ctrlPartida.findPartida(req.body.idPartida);
+                    if (partida) {
+                        await pagar(partida, casilla.devolucionMatricula, req.body.username);
+                        res.status(200).json("ok");
+                    } else {
+                        res.status(500).json({ error: 'Error al actualizar la venta de la casilla, no existe la partida' });
+                    }
+
+                } else {
+                    res.status(500).json({ error: 'Error al actualizar la venta de la casilla, no existe la casilla' });
+                }
+                
+            } else {
+                console.log(result);
+                res.status(500).json({ error: 'Error al actualizar la venta de la casilla' });
+            }
+
+
+        } catch (error) {
+            console.error(error);
+            console.log('Error al aumentar creditos asignatura');
+            res.status(500).json({ error: 'Error al aumentar creditos asignatura' });
+
+        } finally {
+            mongoose.disconnect();
+            console.log("DisConnected to MongoDB Atlas")
+        }
+
+    }else{
+        res.status(500).json({ error: 'Error al vender de la casilla, esa asignatura no es propiedad del usuario' });
+    }
+
+
+
 
 
 }
 
-module.exports = { checkCasilla, tarjetaAleatoria, comprarCasilla, dar200, infoAsignatura, listaAsignaturasC, aumentarCreditos };
+module.exports = { checkCasilla, tarjetaAleatoria, comprarCasilla, dar200, infoAsignatura, listaAsignaturasC, aumentarCreditos, vender };

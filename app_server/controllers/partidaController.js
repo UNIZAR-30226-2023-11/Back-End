@@ -171,7 +171,8 @@ async function unirJugador(req, res) {
         console.log(partidaEncontrada);
 
         if (partidaEncontrada) {
-            if (!estaJugador(req.body.username, partidaEncontrada.nombreJugadores)) {
+            if (!estaJugador(req.body.username, partidaEncontrada.nombreJugadores) 
+            && partidaEncontrada.nombreJugadores.length < partidaEncontrada.numeroJugadores) {
                 //Si no esta el jugador lo añadimos
                 //Añadimos el jugador a nombreJugadores, posicionJugadores, y dineroJugadores
                 const tam = partidaEncontrada.nombreJugadores.length;
@@ -205,7 +206,7 @@ async function unirJugador(req, res) {
                 }
             } else {
                 //Ya esta el jugador no hay que hacer nada
-                res.status(200).json("El jugador ya se ha unido");
+                res.status(200).json("El jugador ya se ha unido o ya no se pueden más jugadores");
             }
 
         } else {
