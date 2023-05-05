@@ -8,7 +8,7 @@ var partidaRouter = require('./routes/partida');
 var usersController = require('./controllers/usersController');
 const app = express();
 //const apiPort = 8080;
-const wss = new WebSocket.Server({
+const Server = new WebSocket.Server({
   port: 8080
 });
 
@@ -16,27 +16,27 @@ const wss = new WebSocket.Server({
 // server.on('connection', function(socket) {
 //     sockets.push(socket);
 
-    
+
 // Mantener un registro de los clientes conectados
 const clients = new Set();
 
-wss.on('connection', function connection(wss) {
+Server.on('connection', function connection(wss) {
   console.log('Nuevo cliente conectado');
 
   // Agregar el nuevo cliente a la listaF
   clients.add(wss);
 
   // Manejar mensajes entrantes del cliente
-//   ws.on('message', function incoming(message) {
-//     console.log(`Mensaje recibido: ${message}`);
-//   });
-    wss.on('login',function login(username, password) {
-        console.log("INICIO DE SESION");
-        usersController.loginUser(username, password);
-    });
+  //   ws.on('message', function incoming(message) {
+  //     console.log(`Mensaje recibido: ${message}`);
+  //   });
+  Server.on('login', function login(username, password) {
+    console.log("INICIO DE SESION");
+    usersController.loginUser(username, password);
+  });
 
   // Manejar la desconexión del cliente
-  wss.on('close', function close() {
+  Server.on('close', function close() {
     console.log('Cliente desconectado');
 
     // Eliminar el cliente de la lista
