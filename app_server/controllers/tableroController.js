@@ -47,7 +47,7 @@ const tablero = {
     28: "2;10",
     29: "1;10",
     // Esquina inferior izquierda
-    30: "10;0", // Julio
+    30: "0;10", // Julio
     // Parte de la izquierda
     31: "0;9",
     32: "0;8",
