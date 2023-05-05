@@ -238,6 +238,8 @@ async function comenzarPartida(req, res) {
  */
 async function lanzardados(req, res) {
     console.log("***POST METHOD Lanzar dados de la partida");
+
+    console.log(req.body.idPartida);
     // Generate two random numbers between 1 and 6
     const dado1 = Math.floor(Math.random() * 6) + 1;
     const dado2 = Math.floor(Math.random() * 6) + 1;
@@ -417,9 +419,8 @@ async function turnoActual(req, res) {
 
 /**
  * 
- * @param {*} partida Partida de tipo modeloPartida
- * @param {*} jugador Jugador que se declara en bancarrota
- * @param {*}  
+ * @param {*} req.body.idPartida Partida de tipo modeloPartida
+ * @param {*} req.body.username Usuario al que declaramos en bancarrota
  */
 async function bancarrota(req, res) {
     console.log("***PUT METHOD Bancarrota de la partida");
