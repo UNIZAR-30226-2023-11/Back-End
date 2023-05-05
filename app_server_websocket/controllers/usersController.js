@@ -25,13 +25,16 @@ async function registerUser(username,password, confirm_password, email){
 
                 await doc.save();
                 console.log('Documento guardado correctamente')
+                return true;
                 //res.status(201).json({message: 'Usuario creado correctamente'})
             }else{
+                return false;
                 //res.status(400).json({message: 'Contenido Invalido Passwords Distintas', contraseña: req.body.password,  contraseñaDos: req.body.confirm_password})
             }
         }
         catch (error) {
             console.error(error);
+            return false;
             //res.status(500).json({error: 'Error al crear usuario', nombreuser: req.body.username, correo: req.body.email, contraseña: req.body.password});
         }finally {
             mongoose.disconnect();
@@ -85,14 +88,17 @@ async function deleteUser(username){
             const result = await modeloUser.deleteOne(doc); 
             if (result.deletedCount === 1) {
                 console.log("Se ha eliminado correctamenre");
+                return true;
                 //res.status(200).json({message: 'Usuario eliminado correctamente'})
             } else {
                 console.log("No habia ningún usuario con esos datos.");
+                return false;
                 //res.status(400).json({error: 'Error al eliminar usuario. Bad Request'});
             }
         //}
     }catch (error) {
         console.error(error);
+        return false;
         //res.status(500).json({ error: 'Error al eliminar el usuario', nombreuser: req.body.username });
     } finally {
         mongoose.disconnect();
@@ -119,17 +125,20 @@ async function updatePassword(req, res){
         if(result.modifiedCount == 1) {
             console.log(result);
             console.log("Se ha actualizado la contraseña correctamente");
-            res.status(200).json("Se ha actualizado la contraseña correctamente"); 
+            return true;
+            //res.status(200).json("Se ha actualizado la contraseña correctamente"); 
         }else {
             //console.error(error);
             console.log(result);
+            return false;
             //TODO:Probar que si se quita este lo coge el otro
-            res.status(500).json({ error: 'Error al actualizar la contraseña 3', nombreUser: req.body.username, res: result });
+            //res.status(500).json({ error: 'Error al actualizar la contraseña 3', nombreUser: req.body.username, res: result });
         }
            
     } catch (error) {
         console.error(error);
-        res.status(500).json({ error: 'Error al actualizar la contraseña', nombreUser: req.body.username, res: result  });
+        return false;
+       // res.status(500).json({ error: 'Error al actualizar la contraseña', nombreUser: req.body.username, res: result  });
     }
     finally {
         mongoose.disconnect();
@@ -154,16 +163,19 @@ async function updateCorreo(username, email){
         if(result.modifiedCount == 1) {
             console.log(result);
             console.log("Se ha actualizado el correo correctamente");
+            return true;
             //res.status(200).json("Se ha actualizado el correo correctamente"); 
         }else {
             //console.error(error);
             console.log(result);
+            return false;
             //TODO:Probar que si se quita este lo coge el otro
            // res.status(500).json({ error: 'Error al actualizar el correo 3', nombreUser: req.body.username, res: result });
         }
         
     } catch (error) {
         console.error(error);
+        return  false;
         //res.status(500).json({ error: 'Error al actualizar el correo', nombreUser: req.body.username });
     }finally {
         mongoose.disconnect();
@@ -189,16 +201,19 @@ async function updateUsername(username, newusername){
             if(result.modifiedCount == 1) {
                 console.log(result);
                 console.log("Se ha actualizado el nombre de usuario correctamente");
+                return true;
                 //res.status(200).json("Se ha actualizado el nombre de usuario correctamente"); 
             }else {
                 //console.error(error);
                 console.log(result);
+                return false;
                 //TODO:Probar que si se quita este lo coge el otro
                 //res.status(500).json({ error: 'Error al actualizar el nombre de usuario 3', nombreUser: req.body.username, res: result });
             }            
             
         } catch (error) {
             console.error(error);
+            return false;
             //res.status(500).json({ error: 'Error al actualizar el nombre de usuario', nombreUser: req.body.username });
         }finally {
             mongoose.disconnect();
