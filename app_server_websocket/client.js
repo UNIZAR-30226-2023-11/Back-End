@@ -67,7 +67,7 @@ socket.on('connect', () => {
   } else if (args[1] == 'updateUsername') {
     socket.emit('updateUsername', {
       //username: 'patricio',
-      newusername: 'patricioEstrella',
+      newusername: 'patricioNUEVO',
       socketId: socket.id
     }, (ack) => {
       console.log('Server acknowledged:', ack);

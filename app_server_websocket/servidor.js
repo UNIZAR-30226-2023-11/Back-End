@@ -135,6 +135,7 @@ io.on('connection', (socket) => {
       w.logger.verbose('Actualizado nombre de usuario');
       io.emit('mensaje', "Actualizado nombre de usuario");
       clientes[socket.id].username = data.newusername;
+      w.logger.error(clientes[socket.id].username);
       //ack('0 Ok');
     }
     var m = {
