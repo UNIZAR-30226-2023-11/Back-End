@@ -171,7 +171,7 @@ io.on('connection', (socket) => {
     w.logger.verbose('Obtener la imagen de perfil del usuario');
     const socketId = data.socketId;
     //var correo =   await usersController.devolverCorreo(data.username);
-    var imagen = await usersController.devolverCorreo(clientes[socketId].username);
+    var imagen = await usersController.devolverImagenPerfil(clientes[socketId].username);
     var msg;
     if (imagen != 1 && imagen != 2) {
       w.logger.verbose('Imagen obtenida:' + imagen);
@@ -180,10 +180,12 @@ io.on('connection', (socket) => {
       msg = imagen;
       imagen = 0;
     }
+    w.logger.verbose(imagen);
     var m = {
       cod: imagen,
       msg: g.generarMsg(imagen, msg)
     }
+    w.logger.verbose(m);
     ack(m);
   });
 
