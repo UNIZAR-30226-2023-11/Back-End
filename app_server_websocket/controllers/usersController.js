@@ -22,7 +22,7 @@ async function registerUser(username,password, confirm_password, email){
 
         try {
             if(doc.contraseña == confirm_password){
-                await mongoose.createConnection(config.db.uri,config.db.dbOptions);
+                await mongoose.connect(config.db.uri,config.db.dbOptions);
                 w.logger.info("Connected to MongoDB Atlas")
 
                 const filtro = { nombreUser: doc.nombreUser };
@@ -65,7 +65,7 @@ async function loginUser(username, password){
     };
 
     try {
-        await mongoose.createConnection(config.db.uri, config.db.dbOptions);
+        await mongoose.connect(config.db.uri, config.db.dbOptions);
         w.logger.info("Connected to MongoDB Atlas");
       
         const docs = await modeloUser.find(doc);
@@ -94,7 +94,7 @@ async function deleteUser(username){
     const doc = { nombreUser: username};
 
     try {
-        await mongoose.createConnection(config.db.uri, config.db.dbOptions);
+        await mongoose.connect(config.db.uri, config.db.dbOptions);
         w.logger.info("Connected to MongoDB Atlas");
         const docs = await modeloUser.find(doc);
   
@@ -134,7 +134,7 @@ async function updatePassword(username, password, confirm_password){
     };
     console.log(doc);
     try {
-        await mongoose.createConnection(config.db.uri, config.db.dbOptions);
+        await mongoose.connect(config.db.uri, config.db.dbOptions);
         w.logger.info("Connected to MongoDB Atlas");
       
         //const docs = await modeloUser.find(doc);
@@ -174,7 +174,7 @@ async function updateCorreo(username, email){
     };
   
     try {
-        await mongoose.createConnection(config.db.uri, config.db.dbOptions);
+        await mongoose.connect(config.db.uri, config.db.dbOptions);
         w.logger.info("Connected to MongoDB Atlas");
       
         //const docs = await modeloUser.find(doc);
@@ -212,7 +212,7 @@ async function updateUsername(username, newusername){
 
     // if(findUser(doc.newnombreUser) == 0){
         try {
-            await mongoose.createConnection(config.db.uri, config.db.dbOptions);
+            await mongoose.connect(config.db.uri, config.db.dbOptions);
             w.logger.info("Connected to MongoDB Atlas");
         
             //const docs = await modeloUser.find(doc);
@@ -247,7 +247,7 @@ async function devolverCorreo(username){
     };
 
     try {
-        await mongoose.createConnection(config.db.uri, config.db.dbOptions);
+        await mongoose.connect(config.db.uri, config.db.dbOptions);
         w.logger.info("Connected to MongoDB Atlas");
       
         const docs = await modeloUser.find(doc);
@@ -285,7 +285,7 @@ async function devolverImagenPerfil(username){
     };
 
     try {
-        await mongoose.createConnection(config.db.uri, config.db.dbOptions);
+        await mongoose.connect(config.db.uri, config.db.dbOptions);
         w.logger.info("Connected to MongoDB Atlas");
 
         const docs = await modeloUser.find(doc);
@@ -325,7 +325,7 @@ async function findUser(req){
     const doc = {id: req};
   
     try {
-        await mongoose.createConnection(config.db.uri, config.db.dbOptions);
+        await mongoose.connect(config.db.uri, config.db.dbOptions);
         w.logger.info("Connected to MongoDB Atlas");
       
         const docs = await modeloUser.find(doc);
@@ -353,7 +353,7 @@ async function leerUser(req, res, next){
     w.logger.info("***POST METHOD Lectura de Usuario");
 
     try {
-        await mongoose.createConnection(config.db.uri, config.db.dbOptions);
+        await mongoose.connect(config.db.uri, config.db.dbOptions);
         w.logger.info("Connected to MongoDB Atlas")
 
         await modeloUser.find();
