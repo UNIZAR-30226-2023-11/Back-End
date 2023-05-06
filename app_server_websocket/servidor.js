@@ -166,6 +166,28 @@ io.on('connection', (socket) => {
   });
 
 
+  // Prueba
+  socket.on('imagenPerfil', async (data, ack) => {
+    w.logger.verbose('Obtener la imagen de perfil del usuario');
+    const socketId = data.socketId;
+    //var correo =   await usersController.devolverCorreo(data.username);
+    var imagen = await usersController.devolverCorreo(clientes[socketId].username);
+    var msg;
+    if (imagen != 1 && imagen != 2) {
+      w.logger.verbose('Imagen obtenida:' + imagen);
+      //io.emit('mensaje', correo);
+      //ack('0 Ok' + correo)
+      msg = imagen;
+      imagen = 0;
+    }
+    var m = {
+      cod: imagen,
+      msg: g.generarMsg(imagen, msg)
+    }
+    ack(m);
+  });
+
+
   // Escucha el evento 'disconnect'
   socket.on('disconnect', () => {
     w.logger.verbose('Usuario desconectado');

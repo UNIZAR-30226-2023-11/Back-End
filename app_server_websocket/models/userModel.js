@@ -1,5 +1,13 @@
 const mongoose = require("mongoose");
 
+// Eliminar ------------
+const imagenSchema = new mongoose.Schema({
+  imagen: { type: String, required: true },
+  descripcion: String,
+  }, { collection: 'imagenes' });
+  const Imagen = mongoose.model('Imagen', imagenSchema);
+// ------------------------
+
 const schema = mongoose.Schema;
 const esquema = new schema({
   nombreUser: {
@@ -19,7 +27,8 @@ const esquema = new schema({
   //   required: false
   // },
   imagen: {
-    type: String,
+    type: mongoose.Schema.Types.ObjectId, 
+    ref: 'Imagen',
     required: true
   },
   monedas: {
