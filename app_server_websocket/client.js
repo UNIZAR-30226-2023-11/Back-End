@@ -1,48 +1,77 @@
 const io = require('socket.io-client');
-const socket = io('http://localhost:3000');
+//const socket = io('http://localhost:3000');
+const socket = io('http://localhost:3000', {
+  query: {
+    name: 'patricioEstrella'
+  }
+});
 
 const args = process.argv.slice(1);
 console.log(args[1]); // ['foo', 'bar']
 
 
 socket.on('connect', () => {
+
   console.log('Conectado al servidor');
+
+
   if (args[1] == 'login') {
     socket.emit('login', {
       username: 'clarita',
       password: 'clarita12',
       socketId: socket.id
+    }, (ack) => {
+      console.log('Server acknowledged:', ack);
     });
   }else if(args[1]=='register'){
     socket.emit('register', {
-      username: 'patricio',
+      username: 'patricioEstrella',
       password: 'patricioStar',
       confirm_password: 'patricioStar',
       email: 'pestrella@unizar.es',
       socketId: socket.id
   
+    }, (ack) => {
+      console.log('Server acknowledged:', ack);
     });
   }else if(args[1]=='delete'){
     socket.emit('deleteUser', {
-      username: 'patricio',
+      //username: 'patricio2',
       socketId: socket.id
+    }, (ack) => {
+      console.log('Server acknowledged:', ack);
+    });
+  }else if(args[1]=='updatePassword'){
+    socket.emit('updatePassword', {
+      //username: 'patricioEstrella',
+      password: 'patricioStar',
+      confirm_password: 'patriciostar3',
+      socketId: socket.id
+    }, (ack) => {
+      console.log('Server acknowledged:', ack);
     });
   }else if(args[1]=='updateCorreo'){
     socket.emit('updateCorreo', {
-      username: 'patricio',
+      //username: 'patricioEstrella',
       email: 'laostia@gmail.com',
       socketId: socket.id
+    }, (ack) => {
+      console.log('Server acknowledged:', ack);
     });
   }else if(args[1]=='updateUsername'){
     socket.emit('updateUsername', {
-      username: 'patricio',
+      //username: 'patricio',
       newusername: 'patricioEstrella',
       socketId: socket.id
+    }, (ack) => {
+      console.log('Server acknowledged:', ack);
     });
   }else if(args[1]=='correo'){
     socket.emit('correo', {
-      username: 'patricioEstrella',
+      //username: 'patricio',
       socketId: socket.id
+    }, (ack) => {
+      console.log('Server acknowledged:', ack);
     });
   }
 });
@@ -50,11 +79,6 @@ socket.on('connect', () => {
 socket.on('mensaje', (mensaje) => {
   console.log('Mensaje recibido: ' + mensaje);
 });
-
-socket.on('disconnect', () => {
-  console.log('Desconectado del servidor');
-});
-
 
 socket.on('disconnect', () => {
   console.log('Desconectado del servidor');

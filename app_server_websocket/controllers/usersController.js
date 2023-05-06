@@ -23,18 +23,29 @@ async function registerUser(username,password, confirm_password, email){
                 await mongoose.connect(config.db.uri, { useNewUrlParser: true, useUnifiedTopology: true });
                 console.log("Connected to MongoDB Atlas")
 
-                await doc.save();
-                console.log('Documento guardado correctamente')
-                return true;
+                const filtro = { nombreUser: doc.nombreUser };
+                const docs = await modeloUser.find(filtro);
+      
+                if (docs.length > 0) {
+                  console.log("Documento encontrado: ", docs);
+                  return 3;
+                  //res.status(200).send('El usuario ha iniciado sesión correctamente');
+                } else {
+                  console.log('No se encontró el documento');
+                  await doc.save();
+                  console.log('Documento guardado correctamente')
+                  return 0;
+                  //res.status(500).json({ error: 'Error usuario o contraseña incorrectos',  nombreUser: req.body.username, contraseña: req.body.password });
+                }
                 //res.status(201).json({message: 'Usuario creado correctamente'})
             }else{
-                return false;
+                return 1;
                 //res.status(400).json({message: 'Contenido Invalido Passwords Distintas', contraseña: req.body.password,  contraseñaDos: req.body.confirm_password})
             }
         }
         catch (error) {
             console.error(error);
-            return false;
+            return 2;
             //res.status(500).json({error: 'Error al crear usuario', nombreuser: req.body.username, correo: req.body.email, contraseña: req.body.password});
         }finally {
             mongoose.disconnect();
@@ -59,16 +70,16 @@ async function loginUser(username, password){
       
         if (docs.length > 0) {
           console.log("Documento encontrado: ", docs);
-          return true;
+          return 0;
           //res.status(200).send('El usuario ha iniciado sesión correctamente');
         } else {
           console.log('No se encontró el documento');
-          return false;
+          return 1;
           //res.status(500).json({ error: 'Error usuario o contraseña incorrectos',  nombreUser: req.body.username, contraseña: req.body.password });
         }
     } catch (error) {
         console.error(error);
-        return false;
+        return 2;
         //res.status(500).json({ error: 'Error al buscar el usuario', nombreUser: req.body.username });
     }finally {
         mongoose.disconnect();
@@ -88,17 +99,17 @@ async function deleteUser(username){
             const result = await modeloUser.deleteOne(doc); 
             if (result.deletedCount === 1) {
                 console.log("Se ha eliminado correctamenre");
-                return true;
+                return 0;
                 //res.status(200).json({message: 'Usuario eliminado correctamente'})
             } else {
                 console.log("No habia ningún usuario con esos datos.");
-                return false;
+                return 1;
                 //res.status(400).json({error: 'Error al eliminar usuario. Bad Request'});
             }
         //}
     }catch (error) {
         console.error(error);
-        return false;
+        return 2;
         //res.status(500).json({ error: 'Error al eliminar el usuario', nombreuser: req.body.username });
     } finally {
         mongoose.disconnect();
@@ -106,38 +117,39 @@ async function deleteUser(username){
     }
 }
 
-async function updatePassword(req, res){
+async function updatePassword(username, password, confirm_password){
     console.log("***PUT METHOD Actualizar la contraseña");
 
     const doc = {
-        nombreUser: req.body.username, 
-        contraseña: req.body.password,
-        contraseñaDos: req.body.confirm_password
+        nombreUser: username, 
+        contraseña: password,
+        contraseñaDos: confirm_password
     };
   
+    console.log(doc);
     try {
         await mongoose.connect(config.db.uri, { useNewUrlParser: true, useUnifiedTopology: true });
         console.log("Connected to MongoDB Atlas");
       
         //const docs = await modeloUser.find(doc);
-        const result = await modeloUser.updateOne({ nombreUser: doc.nombreUser},  { $set: { contraseña: doc.contraseña }})
+        const result = await modeloUser.updateOne({ nombreUser: doc.nombreUser, contraseña: doc.contraseña},  { $set: { contraseña: doc.contraseñaDos }})
         
         if(result.modifiedCount == 1) {
             console.log(result);
             console.log("Se ha actualizado la contraseña correctamente");
-            return true;
+            return 0;
             //res.status(200).json("Se ha actualizado la contraseña correctamente"); 
         }else {
             //console.error(error);
             console.log(result);
-            return false;
+            return 1;
             //TODO:Probar que si se quita este lo coge el otro
             //res.status(500).json({ error: 'Error al actualizar la contraseña 3', nombreUser: req.body.username, res: result });
         }
            
     } catch (error) {
         console.error(error);
-        return false;
+        return 2;
        // res.status(500).json({ error: 'Error al actualizar la contraseña', nombreUser: req.body.username, res: result  });
     }
     finally {
@@ -163,19 +175,19 @@ async function updateCorreo(username, email){
         if(result.modifiedCount == 1) {
             console.log(result);
             console.log("Se ha actualizado el correo correctamente");
-            return true;
+            return 0;
             //res.status(200).json("Se ha actualizado el correo correctamente"); 
         }else {
             //console.error(error);
             console.log(result);
-            return false;
+            return 1;
             //TODO:Probar que si se quita este lo coge el otro
            // res.status(500).json({ error: 'Error al actualizar el correo 3', nombreUser: req.body.username, res: result });
         }
         
     } catch (error) {
         console.error(error);
-        return  false;
+        return  2;
         //res.status(500).json({ error: 'Error al actualizar el correo', nombreUser: req.body.username });
     }finally {
         mongoose.disconnect();
@@ -201,19 +213,19 @@ async function updateUsername(username, newusername){
             if(result.modifiedCount == 1) {
                 console.log(result);
                 console.log("Se ha actualizado el nombre de usuario correctamente");
-                return true;
+                return 0;
                 //res.status(200).json("Se ha actualizado el nombre de usuario correctamente"); 
             }else {
                 //console.error(error);
                 console.log(result);
-                return false;
+                return 1;
                 //TODO:Probar que si se quita este lo coge el otro
                 //res.status(500).json({ error: 'Error al actualizar el nombre de usuario 3', nombreUser: req.body.username, res: result });
             }            
             
         } catch (error) {
             console.error(error);
-            return false;
+            return 2;
             //res.status(500).json({ error: 'Error al actualizar el nombre de usuario', nombreUser: req.body.username });
         }finally {
             mongoose.disconnect();
@@ -244,12 +256,12 @@ async function devolverCorreo(username){
           
         } else {
           console.log('No se encontró el documento');
-          return  null;
+          return  1;
           //res.status(500).json({ error: 'Error al buscar el usuario',  nombreUser: req.body.username });
         }
     } catch (error) {
         console.error(error);
-        return  null;
+        return  2;
         //res.status(500).json({ error: 'Error al buscar el usuario', nombreUser: req.body.username });
     }finally {
         mongoose.disconnect();
@@ -271,16 +283,16 @@ async function findUser(req){
         if (docs.length > 0) {
           console.log("Documento encontrado: ", docs);
           //res.status(200).send('El usuario ha iniciado sesión correctamente');
-          return 1;
+          return 0;
         } else {
           console.log('No se encontró el documento');
           //res.status(500).json({ error: 'Error el usuario no esta creado' });
-          return 0;
+          return 1;
         }
     } catch (error) {
         console.error(error);
         //res.status(500).json({ error: 'Error al buscar el usuario', nombreuser: req.body.username });
-        return 0;
+        return 2;
     }finally {
         mongoose.disconnect();
         console.log("DisConnected to MongoDB Atlas")
