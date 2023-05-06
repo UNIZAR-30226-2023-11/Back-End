@@ -28,13 +28,13 @@ async function registerUser(username,password, confirm_password, email){
                 const docs = await modeloUser.find(filtro);
       
                 if (docs.length > 0) {
-                  w.logger.debugger("Documento encontrado: ", docs);
+                  w.logger.debug("Documento encontrado: ", docs);
                   return 3;
                   //res.status(200).send('El usuario ha iniciado sesión correctamente');
                 } else {
-                  w.logger.debugger('No se encontró el documento');
+                  w.logger.debug('No se encontró el documento');
                   await doc.save();
-                  w.logger.debugger('Documento guardado correctamente')
+                  w.logger.debug('Documento guardado correctamente')
                   return 0;
                   //res.status(500).json({ error: 'Error usuario o contraseña incorrectos',  nombreUser: req.body.username, contraseña: req.body.password });
                 }
@@ -70,11 +70,11 @@ async function loginUser(username, password){
         const docs = await modeloUser.find(doc);
       
         if (docs.length > 0) {
-          w.logger.debugger("Documento encontrado: ", docs);
+          w.logger.debug("Documento encontrado: ", docs);
           return 0;
           //res.status(200).send('El usuario ha iniciado sesión correctamente');
         } else {
-          w.logger.debugger('No se encontró el documento');
+          w.logger.debug('No se encontró el documento');
           return 1;
           //res.status(500).json({ error: 'Error usuario o contraseña incorrectos',  nombreUser: req.body.username, contraseña: req.body.password });
         }
@@ -99,11 +99,11 @@ async function deleteUser(username){
   
             const result = await modeloUser.deleteOne(doc); 
             if (result.deletedCount === 1) {
-                w.logger.debugger("Se ha eliminado correctamenre");
+                w.logger.debug("Se ha eliminado correctamenre");
                 return 0;
                 //res.status(200).json({message: 'Usuario eliminado correctamente'})
             } else {
-                w.logger.debugger("No habia ningún usuario con esos datos.");
+                w.logger.debug("No habia ningún usuario con esos datos.");
                 return 1;
                 //res.status(400).json({error: 'Error al eliminar usuario. Bad Request'});
             }
@@ -127,17 +127,22 @@ async function updatePassword(username, password, confirm_password){
         contraseñaDos: confirm_password
     };
   
+    const docFiltro = {
+        nombreUser: username, 
+        contraseña: password
+    };
     console.log(doc);
     try {
         await mongoose.connect(config.db.uri, { useNewUrlParser: true, useUnifiedTopology: true });
         w.logger.info("Connected to MongoDB Atlas");
       
         //const docs = await modeloUser.find(doc);
-        const result = await modeloUser.updateOne({ nombreUser: doc.nombreUser, contraseña: doc.contraseña},  { $set: { contraseña: doc.contraseñaDos }})
+
+        const result = await modeloUser.updateOne({ docFiltro },  { $set: { contraseña: doc.contraseñaDos }})
         
         if(result.modifiedCount == 1) {
             console.log(result);
-            w.logger.debugger("Se ha actualizado la contraseña correctamente");
+            w.logger.debug("Se ha actualizado la contraseña correctamente");
             return 0;
             //res.status(200).json("Se ha actualizado la contraseña correctamente"); 
         }else {
@@ -175,7 +180,7 @@ async function updateCorreo(username, email){
         const result = await modeloUser.updateOne({ nombreUser: doc.nombreUser},  { $set: { correo: doc.correo }})
         if(result.modifiedCount == 1) {
             console.log(result);
-            w.logger.debugger("Se ha actualizado el correo correctamente");
+            w.logger.debug("Se ha actualizado el correo correctamente");
             return 0;
             //res.status(200).json("Se ha actualizado el correo correctamente"); 
         }else {
@@ -213,7 +218,7 @@ async function updateUsername(username, newusername){
             const result = await modeloUser.updateOne({ nombreUser: doc.nombreUser},  { $set: { nombreUser: doc.newnombreUser }})
             if(result.modifiedCount == 1) {
                 console.log(result);
-                w.logger.debugger("Se ha actualizado el nombre de usuario correctamente");
+                w.logger.debug("Se ha actualizado el nombre de usuario correctamente");
                 return 0;
                 //res.status(200).json("Se ha actualizado el nombre de usuario correctamente"); 
             }else {
@@ -256,7 +261,7 @@ async function devolverCorreo(username){
           return email;
           
         } else {
-          w.logger.debugger('No se encontró el documento');
+          w.logger.debug('No se encontró el documento');
           return  1;
           //res.status(500).json({ error: 'Error al buscar el usuario',  nombreUser: req.body.username });
         }
@@ -272,7 +277,7 @@ async function devolverCorreo(username){
 
 
 async function devolverImagenPerfil(username){
-    w.logger.info("***POST METHOD Devolver imagen perfil");
+    w.logger.info("***Devolver imagen perfil");
     console.log(username)
     const doc = {
         nombreUser: username
@@ -326,7 +331,7 @@ async function findUser(req){
           //res.status(200).send('El usuario ha iniciado sesión correctamente');
           return 0;
         } else {
-          w.logger.debugger('No se encontró el documento');
+          w.logger.debug('No se encontró el documento');
           //res.status(500).json({ error: 'Error el usuario no esta creado' });
           return 1;
         }
@@ -348,7 +353,7 @@ async function leerUser(req, res, next){
         w.logger.info("Connected to MongoDB Atlas")
 
         await modeloUser.find();
-        w.logger.debugger('Usuario leido correcctamente')
+        w.logger.debug('Usuario leido correcctamente')
         res.status(200).json({message: 'Usuario creado correctamente'})
     }
     catch (error) {

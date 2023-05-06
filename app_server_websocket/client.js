@@ -2,7 +2,7 @@ const io = require('socket.io-client');
 //const socket = io('http://localhost:3000');
 const socket = io('http://localhost:3000', {
   query: {
-    name: 'pppp'
+    name: 'patricioEstrella'
   }
 });
 
@@ -50,8 +50,8 @@ socket.on('connect', () => {
   } else if (args[1] == 'updatePassword') {
     socket.emit('updatePassword', {
       //username: 'patricioEstrella',
-      password: 'patricioStar',
-      confirm_password: 'patriciostar3',
+      password: 'patricioStar3',
+      confirm_password: 'takatapro',
       socketId: socket.id
     }, (ack) => {
       console.log('Server acknowledged:', ack);
