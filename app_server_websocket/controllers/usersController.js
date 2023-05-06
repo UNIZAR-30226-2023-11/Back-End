@@ -1,5 +1,6 @@
 var config = require('../config/config');
 var modeloUser = require('../models/userModel')
+var modeloImagen = require('../models/imagenModel')
 const  mongoose = require("mongoose");
 const w = require('../winston')
 
@@ -297,7 +298,7 @@ async function devolverImagenPerfil(username){
           //res.status(200).json({email: docs[0].correo});
           console.log(docs[0].imagen);
           //var image = docs[0].imagen;
-          const image = await config.database.collection('imagenes').findOne({ _id:  docs[0].imagen });
+          const image = await modeloImagen.findById(docs[0].imagen);
 
           return image;
 

@@ -6,8 +6,8 @@ const config = {
     //uri : "mongodb://admin:admin@172.22.0.2:27017/Monopoly"
     dbOptions: {
       useNewUrlParser: true,
-      useUnifiedTopology: true //,
-      //poolSize: 100
+      useUnifiedTopology: true
+      // ,poolSize: 10 // Tamaño de la piscina
     }
   },
 };
