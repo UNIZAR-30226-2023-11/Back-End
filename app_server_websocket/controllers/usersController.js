@@ -297,7 +297,7 @@ async function devolverImagenPerfil(username){
           //res.status(200).json({email: docs[0].correo});
           console.log(docs[0].imagen);
           //var image = docs[0].imagen;
-          const image = await db.database.collection('imagenes').findOne({ _id:  docs[0].imagen });
+          const image = await config.database.collection('imagenes').findOne({ _id:  docs[0].imagen });
 
           return image;
 
