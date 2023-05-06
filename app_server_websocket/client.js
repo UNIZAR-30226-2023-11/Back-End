@@ -2,7 +2,7 @@ const io = require('socket.io-client');
 //const socket = io('http://localhost:3000');
 const socket = io('http://localhost:3000', {
   query: {
-    name: 'patricioEstrella'
+    name: 'pppp'
   }
 });
 
@@ -14,34 +14,40 @@ socket.on('connect', () => {
 
   console.log('Conectado al servidor');
 
-
   if (args[1] == 'login') {
     socket.emit('login', {
-      username: 'clarita',
-      password: 'clarita12',
+      username: 'pilarBUENO',
+      password: 'klejg',
       socketId: socket.id
     }, (ack) => {
       console.log('Server acknowledged:', ack);
     });
-  }else if(args[1]=='register'){
+  }else if (args[1] == 'nombreInvitado') {
+    socket.emit('nombreInvitado', {
+      username: 'mecachis',
+      socketId: socket.id
+    }, (ack) => {
+      console.log('Server acknowledged:', ack);
+    });
+  }else if (args[1] == 'register') {
     socket.emit('register', {
       username: 'patricioEstrella',
       password: 'patricioStar',
       confirm_password: 'patricioStar',
       email: 'pestrella@unizar.es',
       socketId: socket.id
-  
+
     }, (ack) => {
       console.log('Server acknowledged:', ack);
     });
-  }else if(args[1]=='delete'){
+  } else if (args[1] == 'delete') {
     socket.emit('deleteUser', {
       //username: 'patricio2',
       socketId: socket.id
     }, (ack) => {
       console.log('Server acknowledged:', ack);
     });
-  }else if(args[1]=='updatePassword'){
+  } else if (args[1] == 'updatePassword') {
     socket.emit('updatePassword', {
       //username: 'patricioEstrella',
       password: 'patricioStar',
@@ -50,7 +56,7 @@ socket.on('connect', () => {
     }, (ack) => {
       console.log('Server acknowledged:', ack);
     });
-  }else if(args[1]=='updateCorreo'){
+  } else if (args[1] == 'updateCorreo') {
     socket.emit('updateCorreo', {
       //username: 'patricioEstrella',
       email: 'laostia@gmail.com',
@@ -58,7 +64,7 @@ socket.on('connect', () => {
     }, (ack) => {
       console.log('Server acknowledged:', ack);
     });
-  }else if(args[1]=='updateUsername'){
+  } else if (args[1] == 'updateUsername') {
     socket.emit('updateUsername', {
       //username: 'patricio',
       newusername: 'patricioEstrella',
@@ -66,7 +72,7 @@ socket.on('connect', () => {
     }, (ack) => {
       console.log('Server acknowledged:', ack);
     });
-  }else if(args[1]=='correo'){
+  } else if (args[1] == 'correo') {
     socket.emit('correo', {
       //username: 'patricio',
       socketId: socket.id

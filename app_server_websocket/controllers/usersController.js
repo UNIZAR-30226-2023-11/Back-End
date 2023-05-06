@@ -66,8 +66,8 @@ async function loginUser(username, password){
         await mongoose.connect(config.db.uri, { useNewUrlParser: true, useUnifiedTopology: true });
         console.log("Connected to MongoDB Atlas");
       
+        console.log(doc);
         const docs = await modeloUser.find(doc);
-      
         if (docs.length > 0) {
           console.log("Documento encontrado: ", docs);
           return 0;
