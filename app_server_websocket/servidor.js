@@ -32,7 +32,7 @@ io.on('connection', (socket) => {
     var login = await usersController.loginUser(data.username, data.password);
 
     if (login != 1 && login != 2) {
-      w.logger.verbose('Usuario ha iniciado sesion correctamente');
+      w.logger.verbose('Usuario ha iniciado sesion correctamente\n', data.username);
       //io.to(socketId).emit('mensaje', 'Usuario ha iniciado sesion correctamente');
       clientes[socketId].username = data.username;
       //ack('0 Ok');
