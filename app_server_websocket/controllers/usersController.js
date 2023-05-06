@@ -202,6 +202,7 @@ async function updateCorreo(username, email){
     }
 }
 
+  
 async function updateUsername(username, newusername){
     w.logger.info("***PUT METHOD Actualizar el username");
 
@@ -213,8 +214,8 @@ async function updateUsername(username, newusername){
     // if(findUser(doc.newnombreUser) == 0){
         try {
             await mongoose.connect(config.db.uri, config.db.dbOptions);
+            
             w.logger.info("Connected to MongoDB Atlas");
-        
             //const docs = await modeloUser.find(doc);
             const result = await modeloUser.updateOne({ nombreUser: doc.nombreUser},  { $set: { nombreUser: doc.newnombreUser }})
             if(result.modifiedCount == 1) {

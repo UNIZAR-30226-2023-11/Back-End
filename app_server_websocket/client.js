@@ -2,7 +2,7 @@ const io = require('socket.io-client');
 //const socket = io('http://localhost:3000');
 const socket = io('http://localhost:3000', {
   query: {
-    name: 'patricioEstrella'
+    name: 'patricioNUEVO'
   }
 });
 
@@ -67,7 +67,7 @@ socket.on('connect', () => {
   } else if (args[1] == 'updateUsername') {
     socket.emit('updateUsername', {
       //username: 'patricio',
-      newusername: 'patricioNUEVO',
+      newusername: 'patricioCORRECAMINOS',
       socketId: socket.id
     }, (ack) => {
       console.log('Server acknowledged:', ack);
