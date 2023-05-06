@@ -172,6 +172,8 @@ io.on('connection', (socket) => {
     const socketId = data.socketId;
     //var correo =   await usersController.devolverCorreo(data.username);
     var imagen = await usersController.devolverImagenPerfil(clientes[socketId].username);
+   
+   
     var msg;
     if (imagen != 1 && imagen != 2) {
       w.logger.verbose('Imagen obtenida:' + imagen);

@@ -288,14 +288,17 @@ async function devolverImagenPerfil(username){
         w.logger.info("Connected to MongoDB Atlas");
 
         const docs = await modeloUser.find(doc);
-
+        
         if (docs.length > 0) {
           console.log("Documento encontrado: ", docs);
           const imagen = docs[0].imagen; // obtenemos el correo electrónico del primer documento encontrado
           const mensaje = `La imagen del usuario es ${imagen}`; // concatenamos la cadena con el correo electrónico
+          
           //res.status(200).json({email: docs[0].correo});
           console.log(docs[0].imagen);
-          var image = docs[0].imagen;
+          //var image = docs[0].imagen;
+          const image = await db.collection('imagenes').findOne({ _id:  docs[0].imagen });
+
           return image;
 
         } else {
