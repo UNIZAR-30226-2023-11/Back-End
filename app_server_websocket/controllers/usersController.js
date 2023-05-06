@@ -344,4 +344,4 @@ async function leerUser(req, res, next){
     }
 }
 
-module.exports = {registerUser, loginUser, deleteUser, updatePassword, updateCorreo, updateUsername, devolverCorreo};
+module.exports = {registerUser, loginUser, deleteUser, updatePassword, updateCorreo, updateUsername, devolverCorreo, devolverImagenPerfil};
