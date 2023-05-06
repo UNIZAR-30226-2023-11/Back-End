@@ -10,7 +10,7 @@ async function registerUser(username,password, confirm_password, email){
         correo: email,
         contraseña: password,
         //contraseñaDos: req.body.confirm_password,
-        imagen: "url",
+        imagen: "url", // Cambiar
         monedas: 0,
         victorias: 0,
         partidasJugadas: 0,
