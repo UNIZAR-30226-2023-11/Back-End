@@ -1,7 +1,7 @@
 var config = require('../config/config');
 var modeloUser = require('../models/userModel')
 const  mongoose = require("mongoose");
-const w = require('./winston')
+const w = require('../winston')
 
 async function registerUser(username,password, confirm_password, email){
     w.logger.info("***POST METHOD Creacion de Usuario");
