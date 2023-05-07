@@ -208,11 +208,9 @@ io.on('connection', (socket) => {
       console.log(partida.id);
       msg = partida.id;
       clientes[socketId].partidaActiva = partida.id;
-      
-      partida = 0;
       socket.join(partida.id);
-      
 
+      partida = 0;
       w.logger.verbose("\n\tCliente socket: " + clientes[socketId].socket.id + "\n" +
         "\tCliente nombre: " + clientes[socketId].username + "\n" +
         "\tCliente partida: " + clientes[socketId].partidaActiva + "\n");
