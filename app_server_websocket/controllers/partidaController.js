@@ -242,10 +242,10 @@ async function comenzarPartida(req, res) {
  * @param {*} req.body.idPartida
  * @param {*} res 
  */
-async function lanzardados(req, res) {
-    console.log("***POST METHOD Lanzar dados de la partida");
+async function lanzardados(idPartida, username) {
+    w.logger.info("***POST METHOD Lanzar dados de la partida");
 
-    console.log(req.body.idPartida);
+    w.logger.debug(idPartida);
     // Generate two random numbers between 1 and 6
     const dado1 = Math.floor(Math.random() * 6) + 1;
     const dado2 = Math.floor(Math.random() * 6) + 1;
@@ -254,56 +254,60 @@ async function lanzardados(req, res) {
     const total = dado1 + dado2;
 
     try {
-        const partida = await findPartida(req.body.idPartida, res);
-        console.log("PARTIDA ENCONTRADA");
-        console.log(partida);
+        const partida = await findPartida(idPartida);
+        w.logger.debug("PARTIDA ENCONTRADA");
+        w.logger.debug(partida);
         if (partida != null) {
-            await mongoose.connect(config.db.uri, { useNewUrlParser: true, useUnifiedTopology: true });
-            console.log("Connected to MongoDB Atlas");
+            await mongoose.connect(config.db.uri, config.db.dbOptions);
+            w.logger.verbose("Connected to MongoDB Atlas");
             //Actualizamos la partida
-            const result = await modeloPartida.updateOne({ id: req.body.idPartida }, { $set: { "dados.dado1": dado1, "dados.dado2": dado2, "dados.jugador": req.body.username } })
+            const result = await modeloPartida.updateOne({ id: idPartida }, { $set: { "dados.dado1": dado1, "dados.dado2": dado2, "dados.jugador": username } })
             if (result.modifiedCount == 1) {
-                console.log(result);
-                console.log("Se ha actualizado la partida correctamente, se han añadido los dados y quien los ha lanzado");
+                w.logger.debug(result);
+                w.logger.debug("Se ha actualizado la partida correctamente, se han añadido los dados y quien los ha lanzado");
 
                 // Send the result as JSON
-                console.log({
+                w.logger.debug({
                     dado1: dado1,
                     dado2: dado2,
                     total: total
                 });
 
-                const posicion = partida.nombreJugadores.indexOf(req.body.username);
+                const posicion = partida.nombreJugadores.indexOf(username);
                 var avance = tablero.avanzar(partida.posicionJugadores[posicion], total);
 
                 partida.posicionJugadores[posicion] = avance.coordenadas;
-                const resultado = await modeloPartida.updateOne({ id: req.body.idPartida }, { $set: { posicionJugadores: partida.posicionJugadores } })
+                const resultado = await modeloPartida.updateOne({ id: idPartida }, { $set: { posicionJugadores: partida.posicionJugadores } })
 
                 if (resultado.modifiedCount != 1) {
-                    console.log('Error al actualizar posicion del jugador');
-                    res.status(500).json({ error: 'Error al actualizar posicion del jugador' });
-                    exit(1);
+                    w.logger.error('Error al actualizar posicion del jugador');
+                    return 1;
+                    // res.status(500).json({ error: 'Error al actualizar posicion del jugador' });
+                    // exit(1);
                 }
-
                 if (avance.salida) {
                     //asignatura.dar200(req,res)
                 }
                 var dado = { dado1, dado2, coordenadas: avance.coordenadas };
 
-                res.status(200).json(dado);
+                // res.status(200).json(dado);
+                return dado;
             } else {
                 //console.error(error);
-                console.log(result);
-                res.status(500).json({ error: 'Error al actualizar la partida al lanzar los dados ' });
+                console.low.logger.debug(result);
+               return 1;
+                // res.status(500).json({ error: 'Error al actualizar la partida al lanzar los dados ' });
             }
         } else {
-            console.log("Partida no encontrada");
-            res.status(404).json({ error: 'No hay ninguna partida con ese id' });
+            w.logger.debug("Partida no encontrada");
+            // res.status(404).json({ error: 'No hay ninguna partida con ese id' });
+            return 1;
         }
     } catch (error) {
-        console.error(error);
-        console.log('Error al lanzar los dados en la partida');
-        res.status(500).json({ error: 'Error al lanzar los dados en la partida' });
+        w.logger.error(error);
+        w.logger.error('Error al lanzar los dados en la partida');
+        return 2;
+        // res.status(500).json({ error: 'Error al lanzar los dados en la partida' });
     }
 }
 

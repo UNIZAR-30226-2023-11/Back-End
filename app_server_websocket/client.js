@@ -94,6 +94,13 @@ socket.on('connect', () => {
     }, (ack) => {
       console.log('Server acknowledged:', ack);
     });
+  }else if (args[1] == 'dados') {
+    socket.emit('lanzarDados', {
+      //idPartida: 1,
+      socketId: socket.id
+    }, (ack) => {
+      console.log('Server acknowledged:', ack);
+    });
   }
 });
 

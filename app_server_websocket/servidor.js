@@ -207,7 +207,7 @@ io.on('connection', (socket) => {
     w.logger.verbose('Creación de una partida');
     const socketId = data.socketId;
     //var correo =   await usersController.devolverCorreo(data.username);
-    var partida = await partidaController.crearPartida(clientes[socketId].username, data.dineroInicial, data.nJugadores, data.normas)
+    var partida = await partidaController.crearPartida(clientes[socketId].username, 0, 0, false)
     var msg = "";
     if (partida != 1 && partida != 2) {
       w.logger.verbose('Partida creada correctamente');
@@ -269,6 +269,28 @@ io.on('connection', (socket) => {
 //TODO: HAY QUE GESTIONAR LA SALIDA DE LOS GRUPOS SOCKET.LEAVE
 
 
+socket.on('lanzarDados', async (data, ack) => {
+  w.logger.verbose('Lanzamiento de dados');
+  const socketId = data.socketId;
+  // clientes[socketId].partidaActiva,
+  var dados = await partidaController.lanzardados( 1,clientes[socketId].username);
+
+  var msg = "";
+  if (dados != 1 && dados != 2) {
+    w.logger.verbose('Se han lanzado los dados correctamente');
+
+    msg = dados;
+    dados = 0;
+    w.logger.debug('Dados: ' + dados);
+  }
+  //w.logger.verbose(imagen);
+  var m = {
+    cod: dados,
+    msg: g.generarMsg(dados, msg)
+  }
+  w.logger.verbose(m);
+  ack(m);
+});
 
 
 });

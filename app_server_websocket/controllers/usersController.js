@@ -31,18 +31,14 @@ async function registerUser(username, password, confirm_password, email) {
             if (docs.length > 0) {
                 w.logger.debug("Documento encontrado: ", docs);
                 return 3;
-                //res.status(200).send('El usuario ha iniciado sesión correctamente');
             } else {
                 w.logger.debug('No se encontró el documento');
                 await doc.save();
                 w.logger.debug('Documento guardado correctamente')
                 return 0;
-                //res.status(500).json({ error: 'Error usuario o contraseña incorrectos',  nombreUser: req.body.username, contraseña: req.body.password });
             }
-            //res.status(201).json({message: 'Usuario creado correctamente'})
         } else {
             return 1;
-            //res.status(400).json({message: 'Contenido Invalido Passwords Distintas', contraseña: req.body.password,  contraseñaDos: req.body.confirm_password})
         }
     }
     catch (error) {
@@ -210,7 +206,7 @@ async function updateUsername(username, newusername) {
     // if(findUser(doc.newnombreUser) == 0){
     try {
         await mongoose.connect(config.db.uri, config.db.dbOptions);
-
+//TODO: BUSCAR QUE ESTE NOMBRE DE USUARIO NO ESTE COGIDO
         w.logger.info("Connected to MongoDB Atlas");
         //const docs = await modeloUser.find(doc);
         const result = await modeloUser.updateOne({ nombreUser: doc.nombreUser }, { $set: { nombreUser: doc.newnombreUser } })
