@@ -101,6 +101,15 @@ socket.on('connect', () => {
     }, (ack) => {
       console.log('Server acknowledged:', ack);
     });
+  }else if (args[1] == 'actualizarPartida') {
+    socket.emit('actualizarPartida', {
+      //idPartida: 1,
+      nJugadores: 88,
+      dineroInicial: -20,
+      socketId: socket.id
+    }, (ack) => {
+      console.log('Server acknowledged:', ack);
+    });
   }
 });
 

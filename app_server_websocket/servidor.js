@@ -148,6 +148,7 @@ io.on('connection', (socket) => {
 
   //CORRECTA
   socket.on('infoUsuario', async (data, ack) => {
+    //FIXME: no devolver contraseña
     w.logger.verbose('Obtener el correo de un usuario');
     const socketId = data.socketId;
     var usuario = await usersController.devolverUsuario(clientes[socketId].username);
@@ -233,6 +234,28 @@ io.on('connection', (socket) => {
   });
 
 
+  socket.on('actualizarPartida', async (data, ack) => {
+    w.logger.verbose('Creación de una partida');
+    const socketId = data.socketId;
+    //var correo =   await usersController.devolverCorreo(data.username);  
+    var partida = await partidaController.actualizarPartida( clientes[socketId].partidaActiva, data.nJugadores, data.dineroInicial);
+    var msg = "";
+    if (partida != 1 && partida != 2) {
+      w.logger.verbose('Partida actualizada correctamente');
+
+      w.logger.verbose("\n\tCliente socket: " + clientes[socketId].socket.id + "\n" +
+        "\tCliente nombre: " + clientes[socketId].username + "\n" +
+        "\tCliente partida: " + clientes[socketId].partidaActiva + "\n");
+    }
+    //w.logger.verbose(imagen);
+    var m = {
+      cod: partida,
+      msg: g.generarMsg(partida, msg)
+    }
+    w.logger.verbose(m);
+    ack(m);
+  });
+
   socket.on('unirJugador', async (data, ack) => {
     w.logger.verbose('Se une un jugador a una partida');
     const socketId = data.socketId;
@@ -273,7 +296,7 @@ socket.on('lanzarDados', async (data, ack) => {
   w.logger.verbose('Lanzamiento de dados');
   const socketId = data.socketId;
   // clientes[socketId].partidaActiva,
-  var dados = await partidaController.lanzardados( 1,clientes[socketId].username);
+  var dados = await partidaController.lanzardados( clientes[socketId].partidaActiva, clientes[socketId].username);
 
   var msg = "";
   if (dados != 1 && dados != 2) {

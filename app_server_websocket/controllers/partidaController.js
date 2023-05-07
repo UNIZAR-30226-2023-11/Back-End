@@ -61,7 +61,7 @@ async function listaJugadores(idPartida) {
     w.logger.info("***GET METHOD lista jugadores partida");
     try {
 
-        await mongoose.connect(config.db.uri, { useNewUrlParser: true, useUnifiedTopology: true });
+        await mongoose.connect(config.db.uri, config.db.dbOptions);
         w.logger.verbose("Connected to MongoDB Atlas");
 
         const partidaEncontrada = await modeloPartida.findOne({ id: idPartida }).exec();
@@ -97,58 +97,62 @@ async function listaJugadores(idPartida) {
 
 /**
  * 
- * @param {*} req.body.idPartida Identificador de la partida
- * @param {*} req.body.nJugadores Numero de jugadores de la partida
- * @param {*} req.body.dineroInicial Dinero Inicial de los jugadores
+ * @param {*} idPartida Identificador de la partida
+ * @param {*} nJugadores Numero de jugadores de la partida
+ * @param {*} dineroInicial Dinero Inicial de los jugadores
  * @param {*} res 
  */
-async function actualizarPartida(req, res) {
-    console.log("***PUT METHOD Actualizar partida");
+async function actualizarPartida(idPartida, nJugadores, dineroInicial) {
+   w.logger.info("***PUT METHOD Actualizar partida");
     try {
 
-        await mongoose.connect(config.db.uri, { useNewUrlParser: true, useUnifiedTopology: true });
-        console.log("Connected to MongoDB Atlas");
+        await mongoose.connect(config.db.uri, config.dbOptions);
+        w.logger.verbose("Connected to MongoDB Atlas");
 
-        const partidaEncontrada = await modeloPartida.findOne({ id: req.body.idPartida }).exec();
-        console.log(partidaEncontrada);
+        const partidaEncontrada = await modeloPartida.findOne({ id: idPartida }).exec();
+        w.logger.debug(partidaEncontrada);
 
         if (partidaEncontrada) {
             //const tam = partidaEncontrada.nombreJugadores.length;
             for (let i = 0; i < partidaEncontrada.nombreJugadores.length; i++) {
-                partidaEncontrada.dineroJugadores[i] = req.body.dineroInicial;
+                partidaEncontrada.dineroJugadores[i] = dineroInicial;
                 console.log(partidaEncontrada.dineroJugadores[i]);
 
             }
-            partidaEncontrada.numeroJugadores = req.body.nJugadores;
+            partidaEncontrada.numeroJugadores = nJugadores;
             //console.log(partidaEncontrada.numeroJugadores, req.body.nJugadores );
 
             //Actualizamos la partida
-            const result = await modeloPartida.updateOne({ id: req.body.idPartida }, {
+            const result = await modeloPartida.updateOne({ id: idPartida }, {
                 $set: {
                     dineroJugadores: partidaEncontrada.dineroJugadores,
                     numeroJugadores: partidaEncontrada.numeroJugadores
                 }
             })
             if (result.modifiedCount == 1) {
-                console.log(result);
-                console.log("Se ha actualizado la partida correctamente");
-                res.status(200).json("Se ha actualizado la partida correctamente");
+                w.logger.debug(result);
+                w.logger.verbose("Se ha actualizado la partida correctamente");
+                // res.status(200).json("Se ha actualizado la partida correctamente");
+                return 0;
             } else {
                 //console.error(error);
-                console.log(result);
-                res.status(205).json({ error: 'Error al actualizar la partida ' }); // es 205 porque puede ser que un jugador no haga nada en su turno
+                w.logger.error(result);
+                //res.status(205).json({ error: 'Error al actualizar la partida ' }); // es 205 porque puede ser que un jugador no haga nada en su turno
+                return 1;
             }
 
         } else {
-            console.log("La partida no existe");
+            w.logger.error("La partida no existe");
+            return 1;
         }
 
     } catch (error) {
-        console.error(error);
-        res.status(500).json({ error: 'Error al actualizar partida' });
+        w.logger.error(error);
+        return 2;
+        // res.status(500).json({ error: 'Error al actualizar partida' });
     } finally {
         mongoose.disconnect();
-        console.log("DisConnected to MongoDB Atlas")
+        w.logger.verbose("DisConnected to MongoDB Atlas")
     }
 }
 
