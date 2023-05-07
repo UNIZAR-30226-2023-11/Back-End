@@ -1,9 +1,8 @@
 const http = require('http');
 const server = http.createServer();
-// const io = require('socket.io')(server);
+const io = require('socket.io')(server);
 const w = require('./winston')
 const g = require('./mensajes')
-const io = new WebSocket('wss:https://back-end-tan-xi.vercel.app/');
 
 var usersController = require('./controllers/usersController');
 var partidaController = require('./controllers/partidaController');
