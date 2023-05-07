@@ -2,7 +2,7 @@ const io = require('socket.io-client');
 //const socket = io('http://localhost:3000');
 const socket = io('http://localhost:3000', {
   query: {
-    name: 'patricioNUEVO'
+    name: 'paco'
   }
 });
 
@@ -75,6 +75,15 @@ socket.on('connect', () => {
   } else if (args[1] == 'correo') {
     socket.emit('correo', {
       //username: 'patricio',
+      socketId: socket.id
+    }, (ack) => {
+      console.log('Server acknowledged:', ack);
+    });
+  }else if (args[1] == 'partida') {
+    socket.emit('crearPartida', {
+      //username: 'patricio',
+      dineroInicial: 3,
+      nJugadores: 90,
       socketId: socket.id
     }, (ack) => {
       console.log('Server acknowledged:', ack);

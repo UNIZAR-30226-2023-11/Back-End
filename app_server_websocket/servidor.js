@@ -5,6 +5,7 @@ const w = require('./winston')
 const g = require('./mensajes')
 
 var usersController = require('./controllers/usersController');
+var partidaController = require('./controllers/partidaController');
 
 // Declara un objeto para guardar las conexiones
 const clientes = {};
@@ -171,15 +172,10 @@ io.on('connection', (socket) => {
   socket.on('imagenPerfil', async (data, ack) => {
     w.logger.verbose('Obtener la imagen de perfil del usuario');
     const socketId = data.socketId;
-    //var correo =   await usersController.devolverCorreo(data.username);
     var imagen = await usersController.devolverImagenPerfil(clientes[socketId].username);
-   
-   
     var msg;
     if (imagen != 1 && imagen != 2) {
-      w.logger.verbose('Imagen obtenida:' + imagen);
-      //io.emit('mensaje', correo);
-      //ack('0 Ok' + correo)
+      w.logger.verbose('Imagen obtenida:' + imagen.toString());
       msg = imagen;
       imagen = 0;
     }
@@ -202,14 +198,40 @@ io.on('connection', (socket) => {
     delete clientes[socket.id];
     num--;
     w.logger.verbose('Numero de usuarios conectados ' + num);
-  
+
   });
 
 
-// ==============================================
-// Sección de configuración
-// ==============================================
+  // ==============================================
+  // FUNCIONES DE PARTIDA
+  // ==============================================
 
+  socket.on('crearPartida', async (data, ack) => {
+    w.logger.verbose('Creación de una partida');
+    const socketId = data.socketId;
+    //var correo =   await usersController.devolverCorreo(data.username);
+    var partida = await partidaController.crearPartida(clientes[socketId].username, data.dineroInicial, data.nJugadores)
+    var msg = "";
+    if (partida != 1 && partida != 2) {
+      w.logger.verbose('Partida creada correctamente');
+      //io.emit('mensaje', correo);
+      //ack('0 Ok' + correo)
+      msg = partida.id;
+      partida = 0;
+      clientes[socketId].partidaActiva = msg;
+
+      w.logger.verbose("\n\tCliente socket: " + clientes[socketId].socket.id + "\n" +
+                       "\tCliente nombre: " + clientes[socketId].username + "\n" +
+                       "\tCliente partida: " + clientes[socketId].partidaActiva + "\n");
+    }
+    //w.logger.verbose(imagen);
+    var m = {
+      cod: partida,
+      msg: g.generarMsg(partida, msg)
+    }
+    w.logger.verbose(m);
+    ack(m);
+  });
 
 
 

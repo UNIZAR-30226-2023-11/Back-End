@@ -1,6 +1,7 @@
 var config = require('../config/config');
 var modeloPartida = require('../models/partidaModel')
 const mongoose = require("mongoose");
+const w = require('../winston')
 
 var tablero = require('../controllers/tableroController');
 const modeloTarjetas = require('../models/tarjetasModel');
@@ -11,37 +12,40 @@ const casillaInicio = 10;
 
 /**
  * 
- * @param {*} req.body.username Nombre del ususario que crea la partida.
- * @param {*} req.body.dineroInicial Dinero inicial con el que empezarán los jugadores la partida. 
- * @param {*} req.body.normas Todavia no esta introducido esta funcionalidad.
- * @param {*} req.body.nJugadores Numero de jugadores que jugarán
- * @param {*} res 
+ * @param {*} username Nombre del ususario que crea la partida.
+ * @param {*} dineroInicial Dinero inicial con el que empezarán los jugadores la partida. 
+ * @param {*} normas Todavia no esta introducido esta funcionalidad.
+ * @param {*} nJugadores Numero de jugadores que jugarán
+ * @param {*} return 0 si todo OK , o 2 si ocurre un error en la función
  */
-async function crearPartida(req, res) {
-    console.log("***POST METHOD Crear partida");
+async function crearPartida(username, dineroInicial, nJugadores) {
+    w.logger.info("***POST METHOD Crear partida");
     try {
-        await mongoose.connect(config.db.uri, { useNewUrlParser: true, useUnifiedTopology: true });
-        console.log("Connected to MongoDB Atlas")
+        await mongoose.connect(config.db.uri, config.db.dbOptions);
+        w.logger.verbose("Connected to MongoDB Atlas")
 
         const idMax = await modeloPartida.find().sort({ id: -1 }).limit(1).exec();
         const maxIdNumber = idMax[0].id;
         //console.log(maxIdNumber);
         const doc = new modeloPartida({
             id: maxIdNumber + 1,
-            nombreJugadores: req.body.username,
+            nombreJugadores: username,
             posicionJugadores: { h: casillaInicio, v: casillaInicio, julio: false },
-            dineroJugadores: req.body.dineroInicial,
-            numeroJugadores: req.body.nJugadores,
+            dineroJugadores: dineroInicial,
+            numeroJugadores: nJugadores,
             dados: { dado1: 0, dado2: 0, jugador: "" }
             //normas:[]
         });
         await doc.save();
-        console.log('Documento guardado correctamente')
-        res.status(201).json({ idPartida: doc.id });
+        w.logger.verbose('Documento guardado correctamente')
+        var p = {
+            id : doc.id
+        }
+        return p;
 
     } catch (error) {
         console.error(error);
-        res.status(500).json({ error: 'Error al crear partida', nombreJugadores: req.body.username, posicionJugadores: 1010, dineroJugadores: 0 });
+        return 2;
     } finally {
         mongoose.disconnect();
         console.log("DisConnected to MongoDB Atlas")
