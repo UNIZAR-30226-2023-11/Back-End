@@ -207,10 +207,11 @@ io.on('connection', (socket) => {
       //ack('0 Ok' + correo)
       console.log(partida.id);
       msg = partida.id;
-      partida = 0;
-
-      socket.join(partida.id);
       clientes[socketId].partidaActiva = partida.id;
+      
+      partida = 0;
+      socket.join(partida.id);
+      
 
       w.logger.verbose("\n\tCliente socket: " + clientes[socketId].socket.id + "\n" +
         "\tCliente nombre: " + clientes[socketId].username + "\n" +
