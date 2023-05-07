@@ -178,7 +178,7 @@ async function unirJugador(idPartida, username) {
         w.logger.verbose("Connected to MongoDB Atlas");
 
         const partidaEncontrada = await modeloPartida.findOne({ id: idPartida }).exec();
-        w.logger.debug("Parida " + partidaEncontrada);
+        w.logger.debug("Partida " + partidaEncontrada);
 
         if (partidaEncontrada) {
             if (!estaJugador(username, partidaEncontrada.nombreJugadores) 
@@ -195,7 +195,7 @@ async function unirJugador(idPartida, username) {
                 partidaEncontrada.dineroJugadores[tam] = partidaEncontrada.dineroJugadores[0];
 
                 // Accede a los atributos de la partida utilizando la sintaxis objeto.atributo
-                w.logger.debug("Parida " + partidaEncontrada);
+                w.logger.debug("Partida " + partidaEncontrada);
 
                 //Actualizamos la partida
                 const result = await modeloPartida.updateOne({ id: idPartida }, {
@@ -211,12 +211,15 @@ async function unirJugador(idPartida, username) {
                     return 0;
                 } else {
                     //console.error(error);
+                    w.logger.error("NO SE HA MODIFICADO LA PARTIDA")
+                
                     w.logger.debug(result);
                     return 1;
                 }
             } else {
                 //Ya esta el jugador no hay que hacer nada
-                return 1;
+                w.logger.verbose("El jugador ya esta en la partida o ya no se pueden unir más jugadores")
+                return 4;
                 //TODO: HAY QUE MIRAR QUE DEVOLVER
             }
 

@@ -208,7 +208,7 @@ io.on('connection', (socket) => {
     w.logger.verbose('Creación de una partida');
     const socketId = data.socketId;
     //var correo =   await usersController.devolverCorreo(data.username);
-    var partida = await partidaController.crearPartida(clientes[socketId].username, 0, 0, false)
+    var partida = await partidaController.crearPartida(clientes[socketId].username, 2, 0, false)
     var msg = "";
     if (partida != 1 && partida != 2) {
       w.logger.verbose('Partida creada correctamente');

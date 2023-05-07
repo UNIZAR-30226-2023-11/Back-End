@@ -12,6 +12,9 @@ function generarMsg(codigo, msg) {
         case 3:
             return "Ya hay un usuario con ese nombre"
             break;
+        case 4:
+            return "La partida está completa"
+            break;
         default:
             return "";
     }

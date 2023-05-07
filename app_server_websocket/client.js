@@ -124,3 +124,11 @@ socket.on('esperaJugadores', (mensaje) => {
 socket.on('disconnect', () => {
   console.log('Desconectado del servidor');
 });
+
+
+
+socket.emit('imagenPerfil', {
+  socketId: socket.id
+}, (ack) => {
+  console.log('Server acknowledged:', ack);
+});
