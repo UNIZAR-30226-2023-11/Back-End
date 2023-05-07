@@ -18,7 +18,7 @@ const casillaInicio = 10;
  * @param {*} nJugadores Numero de jugadores que jugarán
  * @param {*} return 0 si todo OK , o 2 si ocurre un error en la función
  */
-async function crearPartida(username, dineroInicial, nJugadores) {
+async function crearPartida(username, dineroInicial, nJugadores, normas) {
     w.logger.info("***POST METHOD Crear partida");
     try {
         await mongoose.connect(config.db.uri, config.db.dbOptions);
@@ -222,12 +222,12 @@ async function unirJugador(idPartida, username) {
         }
     }
     catch (error) {
-        console.error(error);
-        console.log('Error al encontrar partida');
+        w.logger.error(error);
+        w.logger.verbose('Error al encontrar partida');
         return 2;
     } finally {
         mongoose.disconnect();
-        console.log("DisConnected to MongoDB Atlas")
+        w.logger.verbose("DisConnected to MongoDB Atlas")
     }
 }
 
