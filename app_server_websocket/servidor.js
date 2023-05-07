@@ -266,7 +266,7 @@ io.on('connection', (socket) => {
 
 
 
-
+//TODO: HAY QUE GESTIONAR LA SALIDA DE LOS GRUPOS SOCKET.LEAVE
 
 });
 
