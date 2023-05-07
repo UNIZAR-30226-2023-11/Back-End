@@ -320,8 +320,8 @@ io.on('connection', (socket) => {
   socket.on('siguienteTurno', async (data, ack) => {
     w.logger.verbose('Siguiente turno');
     const socketId = data.socketId;
-    /*clientes[socketId].partidaActiva*/
-    var turno = await partidaController.siguienteTurno(1);
+    /**/
+    var turno = await partidaController.siguienteTurno(clientes[socketId].partidaActiva);
     var msg = "";
     if (turno != 1 && turno != 2) {
       w.logger.verbose('Se ha realizado siguiente turno correctamente');

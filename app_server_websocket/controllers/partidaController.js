@@ -360,7 +360,7 @@ async function findPartida(idPartida) {
  */
 async function siguienteTurno(idPartida) {
     w.logger.info("FUNCION SIGUIENTE TURNO")
-    const partida = await findPartida(idPartida, res);
+    const partida = await findPartida(idPartida);
     if (partida != null) {
         const tam = partida.nombreJugadores.length;
         if (partida.dados.jugador == "") {
