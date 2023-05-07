@@ -2,7 +2,7 @@ const io = require('socket.io-client');
 //const socket = io('http://localhost:3000');
 const socket = io('http://localhost:3000', {
   query: {
-    name: 'leticia'
+    name: 'pedro'
   }
 });
 
@@ -89,7 +89,7 @@ socket.on('connect', () => {
     });
   } else if (args[1] == 'unirJugador') {
     socket.emit('unirJugador', {
-      idPartida: 11,
+      idPartida: 1,
       socketId: socket.id
     }, (ack) => {
       console.log('Server acknowledged:', ack);
@@ -133,8 +133,3 @@ socket.on('disconnect', () => {
 
 
 
-socket.emit('imagenPerfil', {
-  socketId: socket.id
-}, (ack) => {
-  console.log('Server acknowledged:', ack);
-});

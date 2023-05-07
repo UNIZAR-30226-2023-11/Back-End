@@ -209,7 +209,7 @@ io.on('connection', (socket) => {
       partida = 0;
 
       socket.join(partida.id);
-      clientes[socketId].partidaActiva = msg;
+      clientes[socketId].partidaActiva = partida.id;
 
       w.logger.verbose("\n\tCliente socket: " + clientes[socketId].socket.id + "\n" +
         "\tCliente nombre: " + clientes[socketId].username + "\n" +
@@ -255,7 +255,7 @@ io.on('connection', (socket) => {
   socket.on('unirJugador', async (data, ack) => {
     w.logger.verbose('Se une un jugador a una partida');
     const socketId = data.socketId;
-    var partida = await partidaController.unirJugador(data.idPartida, clientes[socketId].username );
+    var partida = await partidaController.unirJugador(data.idPartida, clientes[socketId].username);
 
     var msg = "";
     if (partida != 1 && partida != 2) {
@@ -272,12 +272,12 @@ io.on('connection', (socket) => {
 
       w.logger.debug("Sockets del jugador que se ha unido: " + socket.id)
       io.to(data.idPartida).emit('esperaJugadores', lista.listaJugadores);
-    
-      const miembros = io.sockets.in(data.idPartida).sockets;
-      if (miembros) {
-        console.log(`Los miembros del grupo son: ${Object.keys(miembros).join(', ')}`);
-      } else {
-        console.log('No hay miembros en el grupo');
+
+      const socketsGrupo = io.sockets.in(data.idPartida).sockets;
+      console.log(`IDs de los sockets en el grupo ${ data.idPartida }:`);
+
+      for (const socketID in socketsGrupo) {
+        console.log(socketID);
       }
     }
     //w.logger.verbose(imagen);
@@ -346,6 +346,7 @@ io.on('connection', (socket) => {
     w.logger.verbose('Se ha desconectado el usuario: ' + clientes[socket.id].socket.id + ' ' + clientes[socket.id].username);
 
     // Elimina la conexión del objeto connections
+    socket.leave(clientes[socket.id].partidaActiva);
     delete clientes[socket.id];
     num--;
     w.logger.verbose('Numero de usuarios conectados ' + num);
