@@ -167,37 +167,27 @@ io.on('connection', (socket) => {
 
 
   // Prueba
-  socket.on('imagenPerfil', async (data, ack) => {
-    w.logger.verbose('Obtener la imagen de perfil del usuario');
-    const socketId = data.socketId;
-    var imagen = await usersController.devolverImagenPerfil(clientes[socketId].username);
-    var msg;
-    if (imagen != 1 && imagen != 2) {
-      w.logger.verbose('Imagen obtenida:' + imagen.toString());
-      msg = imagen;
-      imagen = 0;
-    }
-    w.logger.verbose(imagen);
-    var m = {
-      cod: imagen,
-      msg: g.generarMsg(imagen, msg)
-    }
-    w.logger.verbose(m);
-    ack(m);
-  });
+  // socket.on('imagenPerfil', async (data, ack) => {
+  //   w.logger.verbose('Obtener la imagen de perfil del usuario');
+  //   const socketId = data.socketId;
+  //   var imagen = await usersController.devolverImagenPerfil(clientes[socketId].username);
+  //   var msg;
+  //   if (imagen != 1 && imagen != 2) {
+  //     w.logger.verbose('Imagen obtenida:' + imagen.toString());
+  //     msg = imagen;
+  //     imagen = 0;
+  //   }
+  //   w.logger.verbose(imagen);
+  //   var m = {
+  //     cod: imagen,
+  //     msg: g.generarMsg(imagen, msg)
+  //   }
+  //   w.logger.verbose(m);
+  //   ack(m);
+  // });
 
 
-  // Escucha el evento 'disconnect'
-  socket.on('disconnect', () => {
-    w.logger.verbose('Usuario desconectado');
-    w.logger.verbose('Se ha desconectado el usuario: ' + clientes[socket.id].socket.id + ' ' + clientes[socket.id].username);
 
-    // Elimina la conexión del objeto connections
-    delete clientes[socket.id];
-    num--;
-    w.logger.verbose('Numero de usuarios conectados ' + num);
-
-  });
 
 
   // ==============================================
@@ -208,7 +198,7 @@ io.on('connection', (socket) => {
     w.logger.verbose('Creación de una partida');
     const socketId = data.socketId;
     //var correo =   await usersController.devolverCorreo(data.username);
-    var partida = await partidaController.crearPartida(clientes[socketId].username, 2, 0, false)
+    var partida = await partidaController.crearPartida(clientes[socketId].username, 0, 2, false)
     var msg = "";
     if (partida != 1 && partida != 2) {
       w.logger.verbose('Partida creada correctamente');
@@ -237,8 +227,7 @@ io.on('connection', (socket) => {
   socket.on('actualizarPartida', async (data, ack) => {
     w.logger.verbose('Creación de una partida');
     const socketId = data.socketId;
-    //var correo =   await usersController.devolverCorreo(data.username);  
-    var partida = await partidaController.actualizarPartida( clientes[socketId].partidaActiva, data.nJugadores, data.dineroInicial);
+    var partida = await partidaController.actualizarPartida(clientes[socketId].partidaActiva, data.nJugadores, data.dineroInicial);
     var msg = "";
     if (partida != 1 && partida != 2) {
       w.logger.verbose('Partida actualizada correctamente');
@@ -246,8 +235,14 @@ io.on('connection', (socket) => {
       w.logger.verbose("\n\tCliente socket: " + clientes[socketId].socket.id + "\n" +
         "\tCliente nombre: " + clientes[socketId].username + "\n" +
         "\tCliente partida: " + clientes[socketId].partidaActiva + "\n");
+
+      if (data.jugar) {
+        io.to(clientes[socketId].partidaActiva).emit('comenzarPartida', 'empezar');
+
+      }
     }
     //w.logger.verbose(imagen);
+    //TODO: cuando jugar es true no dejas que mas users se unan y enviar mensajes a los demas de empezar partida
     var m = {
       cod: partida,
       msg: g.generarMsg(partida, msg)
@@ -259,24 +254,30 @@ io.on('connection', (socket) => {
   socket.on('unirJugador', async (data, ack) => {
     w.logger.verbose('Se une un jugador a una partida');
     const socketId = data.socketId;
-    //var correo =   await usersController.devolverCorreo(data.username);
-    var partida = await partidaController.unirJugador(data.idPartida, clientes[socketId].username);
+    var partida = await partidaController.unirJugador(data.idPartida, 'leticia');
 
     var msg = "";
     if (partida != 1 && partida != 2) {
       w.logger.verbose('Se ha unido correctamente el jugador');
       //io.emit('mensaje', correo);
       //ack('0 Ok' + correo)
-      msg = partida.id;
-      partida = 0;
+      // msg = partida;
+      // partida = 0;
       clientes[socketId].partidaActiva = data.idPartida;
-      socket.join(partida.id);
+      socket.join(data.idPartida);
 
       var lista = await partidaController.listaJugadores(data.idPartida);
       w.logger.debug('Lista jugadores: ' + lista.listaJugadores);
-      
-      io.to(partida.id).emit('esperaJugadores', lista.listaJugadores);
 
+      w.logger.debug("Sockets del jugador que se ha unido: " + socket.id)
+      io.to(partida.id).emit('esperaJugadores', lista.listaJugadores);
+    
+      const miembros = io.sockets.in(data.idPartida).sockets;
+      if (miembros) {
+        console.log(`Los miembros del grupo son: ${Object.keys(miembros).join(', ')}`);
+      } else {
+        console.log('No hay miembros en el grupo');
+      }
     }
     //w.logger.verbose(imagen);
     var m = {
@@ -289,32 +290,66 @@ io.on('connection', (socket) => {
 
 
 
-//TODO: HAY QUE GESTIONAR LA SALIDA DE LOS GRUPOS SOCKET.LEAVE
+  //TODO: HAY QUE GESTIONAR LA SALIDA DE LOS GRUPOS SOCKET.LEAVE
 
 
-socket.on('lanzarDados', async (data, ack) => {
-  w.logger.verbose('Lanzamiento de dados');
-  const socketId = data.socketId;
-  // clientes[socketId].partidaActiva,
-  var dados = await partidaController.lanzardados( clientes[socketId].partidaActiva, clientes[socketId].username);
+  socket.on('lanzarDados', async (data, ack) => {
+    w.logger.verbose('Lanzamiento de dados');
+    const socketId = data.socketId;
+    // clientes[socketId].partidaActiva,
+    var dados = await partidaController.lanzardados(clientes[socketId].partidaActiva, clientes[socketId].username);
 
-  var msg = "";
-  if (dados != 1 && dados != 2) {
-    w.logger.verbose('Se han lanzado los dados correctamente');
+    var msg = "";
+    if (dados != 1 && dados != 2) {
+      w.logger.verbose('Se han lanzado los dados correctamente');
 
-    msg = dados;
-    dados = 0;
-    w.logger.debug('Dados: ' + dados);
-  }
-  //w.logger.verbose(imagen);
-  var m = {
-    cod: dados,
-    msg: g.generarMsg(dados, msg)
-  }
-  w.logger.verbose(m);
-  ack(m);
-});
+      msg = dados;
+      dados = 0;
+      w.logger.debug('Dados: ' + dados);
+    }
+    //w.logger.verbose(imagen);
+    var m = {
+      cod: dados,
+      msg: g.generarMsg(dados, msg)
+    }
+    w.logger.verbose(m);
+    ack(m);
+  });
 
+  socket.on('siguienteTurno', async (data, ack) => {
+    w.logger.verbose('Siguiente turno');
+    const socketId = data.socketId;
+    /*clientes[socketId].partidaActiva*/
+    var turno = await partidaController.siguienteTurno(1);
+    var msg = "";
+    if (turno != 1 && turno != 2) {
+      w.logger.verbose('Se ha realizado siguiente turno correctamente');
+
+      msg = turno;
+      turno = 0;
+      w.logger.debug('Turno: ' + turno);
+    }
+    var m = {
+      cod: turno,
+      msg: g.generarMsg(turno, msg)
+    }
+    w.logger.verbose(m);
+    ack(m);
+
+  });
+
+
+  // Escucha el evento 'disconnect'
+  socket.on('disconnect', () => {
+    w.logger.verbose('Usuario desconectado');
+    w.logger.verbose('Se ha desconectado el usuario: ' + clientes[socket.id].socket.id + ' ' + clientes[socket.id].username);
+
+    // Elimina la conexión del objeto connections
+    delete clientes[socket.id];
+    num--;
+    w.logger.verbose('Numero de usuarios conectados ' + num);
+
+  });
 
 });
 

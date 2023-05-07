@@ -22,14 +22,14 @@ socket.on('connect', () => {
     }, (ack) => {
       console.log('Server acknowledged:', ack);
     });
-  }else if (args[1] == 'nombreInvitado') {
+  } else if (args[1] == 'nombreInvitado') {
     socket.emit('nombreInvitado', {
       username: 'mecachis',
       socketId: socket.id
     }, (ack) => {
       console.log('Server acknowledged:', ack);
     });
-  }else if (args[1] == 'register') {
+  } else if (args[1] == 'register') {
     socket.emit('register', {
       username: 'paco',
       password: 'pacos',
@@ -79,7 +79,7 @@ socket.on('connect', () => {
     }, (ack) => {
       console.log('Server acknowledged:', ack);
     });
-  }else if (args[1] == 'partida') {
+  } else if (args[1] == 'partida') {
     socket.emit('crearPartida', {
       dineroInicial: 3,
       nJugadores: 90,
@@ -87,25 +87,31 @@ socket.on('connect', () => {
     }, (ack) => {
       console.log('Server acknowledged:', ack);
     });
-  }else if (args[1] == 'unirJugador') {
+  } else if (args[1] == 'unirJugador') {
     socket.emit('unirJugador', {
-      idPartida: 1,
+      idPartida: 11,
       socketId: socket.id
     }, (ack) => {
       console.log('Server acknowledged:', ack);
     });
-  }else if (args[1] == 'dados') {
+  } else if (args[1] == 'dados') {
     socket.emit('lanzarDados', {
       //idPartida: 1,
       socketId: socket.id
     }, (ack) => {
       console.log('Server acknowledged:', ack);
     });
-  }else if (args[1] == 'actualizarPartida') {
+  } else if (args[1] == 'actualizarPartida') {
     socket.emit('actualizarPartida', {
       //idPartida: 1,
       nJugadores: 88,
       dineroInicial: -20,
+      socketId: socket.id
+    }, (ack) => {
+      console.log('Server acknowledged:', ack);
+    });
+  } else if (args[1] == 'siguienteTurno') {
+    socket.emit('siguienteTurno', {
       socketId: socket.id
     }, (ack) => {
       console.log('Server acknowledged:', ack);

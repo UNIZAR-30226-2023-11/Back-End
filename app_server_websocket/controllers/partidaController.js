@@ -319,15 +319,15 @@ async function lanzardados(idPartida, username) {
 }
 
 async function findPartida(idPartida) {
-    console.log("*** METHOD Find partida");
+    w.logger.info("*** METHOD Find partida");
 
     try {
         await mongoose.connect(config.db.uri, { useNewUrlParser: true, useUnifiedTopology: true });
-        console.log("Connected to MongoDB Atlas");
+        w.logger.verbose("Connected to MongoDB Atlas");
 
         const partidaEncontrada = await modeloPartida.findOne({ id: idPartida }).exec();
-        console.log(idPartida);
-        console.log(partidaEncontrada);
+        w.logger.debug(idPartida);
+        w.logger.debug(partidaEncontrada);
 
         if (partidaEncontrada) {
             // Accede a los atributos de la partida utilizando la sintaxis objeto.atributo
@@ -336,20 +336,20 @@ async function findPartida(idPartida) {
             return partidaEncontrada;
             //res.send(partidaEncontrada);
         } else {
-            console.log("Partida no encontrada");
+            w.logger.error("Partida no encontrada");
             //res.status(404).json({error: 'No hay ninguna partida con ese id'});
             return null;
         }
         //res.status(201).json({message: 'Partida creada correctamente'})
     }
     catch (error) {
-        console.error(error);
-        console.log('Error al encontrar partida');
+        w.logger.error(error);
+        w.logger.error('Error al encontrar partida');
         //res.status(500).json({error: 'Error al encontrar partida'});
         return null;
     } finally {
         mongoose.disconnect();
-        console.log("DisConnected to MongoDB Atlas")
+        w.logger.verbose("DisConnected to MongoDB Atlas")
     }
 }
 
@@ -358,9 +358,9 @@ async function findPartida(idPartida) {
  * @param {*} req.body.idPartida 
  * @param {*} res 
  */
-async function siguienteTurno(req, res) {
-
-    const partida = await findPartida(req.body.idPartida, res);
+async function siguienteTurno(idPartida) {
+    w.logger.info("FUNCION SIGUIENTE TURNO")
+    const partida = await findPartida(idPartida, res);
     if (partida != null) {
         const tam = partida.nombreJugadores.length;
         if (partida.dados.jugador == "") {
@@ -373,42 +373,46 @@ async function siguienteTurno(req, res) {
                 try {
                     partida.dados.jugador = partida.nombreJugadores[0];
 
-                    await mongoose.connect(config.db.uri, { useNewUrlParser: true, useUnifiedTopology: true });
-                    console.log("Connected to MongoDB Atlas");
-                    await modeloPartida.updateOne({ id: req.body.idPartida }, { $set: { "partida.dados.jugador": partida.dados.jugador } });
+                    await mongoose.connect(config.db.uri, config.db.dbOptions);
+                    w.logger.verbose("Connected to MongoDB Atlas");
+                    await modeloPartida.updateOne({ id: idPartida }, { $set: { "partida.dados.jugador": partida.dados.jugador } });
 
                 } catch (error) {
-                    console.error(error);
-                    console.log("Error al actualizar la partida al cambiar el jugador", partida.id);
+                    w.logger.error(error);
+                    w.logger.error("Error al actualizar la partida al cambiar el jugador", partida.id);
+                    return 2;
                 } finally {
                     mongoose.disconnect();
-                    console.log("Disconnected to MongoDB Atlas")
+                    w.logger.verbose("Disconnected to MongoDB Atlas")
                 }
 
-                res.status(200).json({ jugador: partida.nombreJugadores[0], posicion: 0 });
+                // res.status(200).json({ jugador: partida.nombreJugadores[0], posicion: 0 });
+                return { jugador: partida.nombreJugadores[0], posicion: 0 };
             } else {
 
                 try {
                     partida.dados.jugador = partida.nombreJugadores[posicion + 1];
 
                     await mongoose.connect(config.db.uri, { useNewUrlParser: true, useUnifiedTopology: true });
-                    console.log("Connected to MongoDB Atlas");
-                    await modeloPartida.updateOne({ id: req.body.idPartida }, { $set: { "dados.jugador": partida.dados.jugador } });
+                    w.logger.verbose("Connected to MongoDB Atlas");
+                    await modeloPartida.updateOne({ id: idPartida }, { $set: { "dados.jugador": partida.dados.jugador } });
 
                 } catch (error) {
-                    console.error(error);
-                    console.log("Error al actualizar la partida al cambiar el jugador", partida.id);
+                    w.logger.error(error);
+                    w.logger.error("Error al actualizar la partida al cambiar el jugador", partida.id);
                 } finally {
                     mongoose.disconnect();
-                    console.log("Disconnected to MongoDB Atlas")
+                    w.logger.verbose("Disconnected to MongoDB Atlas")
                 }
 
-                res.status(200).json({ jugador: partida.nombreJugadores[posicion + 1], posicion: posicion + 1 });
+                // res.status(200).json({ jugador: partida.nombreJugadores[posicion + 1], posicion: posicion + 1 });
+                return { jugador: partida.nombreJugadores[posicion + 1], posicion: posicion + 1 };
             }
         }
 
     } else {
-        res.status(404).send("Partida no encontrada");
+        // res.status(404).send("Partida no encontrada");
+        return 1;
     }
 }
 
