@@ -268,6 +268,9 @@ io.on('connection', (socket) => {
 
 //TODO: HAY QUE GESTIONAR LA SALIDA DE LOS GRUPOS SOCKET.LEAVE
 
+
+
+
 });
 
 server.listen(3000, () => {

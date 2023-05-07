@@ -128,10 +128,6 @@ async function updatePassword(username, password, confirm_password) {
         contraseñaDos: confirm_password
     };
 
-    const docFiltro = {
-        nombreUser: username,
-        contraseña: password
-    };
     console.log(doc);
     try {
         await mongoose.connect(config.db.uri, config.db.dbOptions);
@@ -139,7 +135,7 @@ async function updatePassword(username, password, confirm_password) {
 
         //const docs = await modeloUser.find(doc);
 
-        const result = await modeloUser.updateOne({ docFiltro }, { $set: { contraseña: doc.contraseñaDos } })
+        const result = await modeloUser.updateOne({ nombreUser: username }, { $set: { contraseña: doc.contraseñaDos } })
 
         if (result.modifiedCount == 1) {
             console.log(result);

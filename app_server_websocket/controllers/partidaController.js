@@ -163,8 +163,8 @@ function estaJugador(username, vJugadores) {
 }
 
 /**
- * @param {*} req.body.idPartida Identificador de la partida a la que desea unirse (el codigo).
- * @param {*} req.body.username Nombre del usuario que desea unirse a la partida. 
+ * @param {*} idPartida Identificador de la partida a la que desea unirse (el codigo).
+ * @param {*} username Nombre del usuario que desea unirse a la partida. 
  * @param {*} res 
  */
 async function unirJugador(idPartida, username) {
