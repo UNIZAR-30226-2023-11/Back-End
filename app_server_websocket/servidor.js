@@ -215,11 +215,45 @@ io.on('connection', (socket) => {
       //ack('0 Ok' + correo)
       msg = partida.id;
       partida = 0;
+
+      socket.join(partida.id);
       clientes[socketId].partidaActiva = msg;
 
       w.logger.verbose("\n\tCliente socket: " + clientes[socketId].socket.id + "\n" +
         "\tCliente nombre: " + clientes[socketId].username + "\n" +
         "\tCliente partida: " + clientes[socketId].partidaActiva + "\n");
+    }
+    //w.logger.verbose(imagen);
+    var m = {
+      cod: partida,
+      msg: g.generarMsg(partida, msg)
+    }
+    w.logger.verbose(m);
+    ack(m);
+  });
+
+
+  socket.on('unirJugador', async (data, ack) => {
+    w.logger.verbose('Se une un jugador a una partida');
+    const socketId = data.socketId;
+    //var correo =   await usersController.devolverCorreo(data.username);
+    var partida = await partidaController.unirJugador(data.idPartida, clientes[socketId].username);
+
+    var msg = "";
+    if (partida != 1 && partida != 2) {
+      w.logger.verbose('Se ha unido correctamente el jugador');
+      //io.emit('mensaje', correo);
+      //ack('0 Ok' + correo)
+      msg = partida.id;
+      partida = 0;
+      clientes[socketId].partidaActiva = data.idPartida;
+      socket.join(partida.id);
+
+      var lista = await partidaController.listaJugadores(data.idPartida);
+      w.logger.debug('Lista jugadores: ' + lista.listaJugadores);
+      
+      io.to(partida.id).emit('esperaJugadores', lista.listaJugadores);
+
     }
     //w.logger.verbose(imagen);
     var m = {
