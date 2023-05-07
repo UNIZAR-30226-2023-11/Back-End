@@ -147,22 +147,19 @@ io.on('connection', (socket) => {
   });
 
   //CORRECTA
-  socket.on('correo', async (data, ack) => {
+  socket.on('infoUsuario', async (data, ack) => {
     w.logger.verbose('Obtener el correo de un usuario');
     const socketId = data.socketId;
-    //var correo =   await usersController.devolverCorreo(data.username);
-    var correo = await usersController.devolverCorreo(clientes[socketId].username);
+    var usuario = await usersController.devolverUsuario(clientes[socketId].username);
     var msg;
-    if (correo != 1 && correo != 2) {
-      w.logger.verbose('Correo obtenido:' + correo);
-      //io.emit('mensaje', correo);
-      //ack('0 Ok' + correo)
-      msg = correo;
-      correo = 0;
+    if (usuario != 1 && usuario != 2) {
+      w.logger.verbose('Usuario obtenido:' + usuario);
+      msg = usuario;
+      usuario = 0;
     }
     var m = {
-      cod: correo,
-      msg: g.generarMsg(correo, msg)
+      cod: usuario,
+      msg: g.generarMsg(usuario, msg)
     }
     ack(m);
   });
@@ -221,8 +218,8 @@ io.on('connection', (socket) => {
       clientes[socketId].partidaActiva = msg;
 
       w.logger.verbose("\n\tCliente socket: " + clientes[socketId].socket.id + "\n" +
-                       "\tCliente nombre: " + clientes[socketId].username + "\n" +
-                       "\tCliente partida: " + clientes[socketId].partidaActiva + "\n");
+        "\tCliente nombre: " + clientes[socketId].username + "\n" +
+        "\tCliente partida: " + clientes[socketId].partidaActiva + "\n");
     }
     //w.logger.verbose(imagen);
     var m = {
