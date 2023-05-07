@@ -1,8 +1,8 @@
 const io = require('socket.io-client');
 //const socket = io('http://localhost:3000');
-const socket = io('http://localhost:3000', {
+const socket = io('https://back-end-tan-xi.vercel.app', {
   query: {
-    name: 'patricioNUEVO'
+    name: 'pepe'
   }
 });
 
@@ -22,14 +22,14 @@ socket.on('connect', () => {
     }, (ack) => {
       console.log('Server acknowledged:', ack);
     });
-  }else if (args[1] == 'nombreInvitado') {
+  } else if (args[1] == 'nombreInvitado') {
     socket.emit('nombreInvitado', {
       username: 'mecachis',
       socketId: socket.id
     }, (ack) => {
       console.log('Server acknowledged:', ack);
     });
-  }else if (args[1] == 'register') {
+  } else if (args[1] == 'register') {
     socket.emit('register', {
       username: 'paco',
       password: 'pacos',
@@ -72,9 +72,46 @@ socket.on('connect', () => {
     }, (ack) => {
       console.log('Server acknowledged:', ack);
     });
-  } else if (args[1] == 'correo') {
-    socket.emit('correo', {
+  } else if (args[1] == 'infoUsuario') {
+    socket.emit('infoUsuario', {
       //username: 'patricio',
+      socketId: socket.id
+    }, (ack) => {
+      console.log('Server acknowledged:', ack);
+    });
+  } else if (args[1] == 'partida') {
+    socket.emit('crearPartida', {
+      dineroInicial: 3,
+      nJugadores: 90,
+      socketId: socket.id
+    }, (ack) => {
+      console.log('Server acknowledged:', ack);
+    });
+  } else if (args[1] == 'unirJugador') {
+    socket.emit('unirJugador', {
+      idPartida: 30,
+      socketId: socket.id
+    }, (ack) => {
+      console.log('Server acknowledged:', ack);
+    });
+  } else if (args[1] == 'dados') {
+    socket.emit('lanzarDados', {
+      //idPartida: 1,
+      socketId: socket.id
+    }, (ack) => {
+      console.log('Server acknowledged:', ack);
+    });
+  } else if (args[1] == 'actualizarPartida') {
+    socket.emit('actualizarPartida', {
+      //idPartida: 1,
+      nJugadores: 88,
+      dineroInicial: -20,
+      socketId: socket.id
+    }, (ack) => {
+      console.log('Server acknowledged:', ack);
+    });
+  } else if (args[1] == 'siguienteTurno') {
+    socket.emit('siguienteTurno', {
       socketId: socket.id
     }, (ack) => {
       console.log('Server acknowledged:', ack);
@@ -86,6 +123,13 @@ socket.on('mensaje', (mensaje) => {
   console.log('Mensaje recibido: ' + mensaje);
 });
 
+socket.on('esperaJugadores', (mensaje) => {
+  console.log('Mensaje recibido: ' + mensaje);
+});
+
 socket.on('disconnect', () => {
   console.log('Desconectado del servidor');
 });
+
+
+
