@@ -204,6 +204,7 @@ io.on('connection', (socket) => {
       w.logger.verbose('Partida creada correctamente');
       //io.emit('mensaje', correo);
       //ack('0 Ok' + correo)
+      console.log(partida.id);
       msg = partida.id;
       partida = 0;
 
@@ -270,7 +271,7 @@ io.on('connection', (socket) => {
       w.logger.debug('Lista jugadores: ' + lista.listaJugadores);
 
       w.logger.debug("Sockets del jugador que se ha unido: " + socket.id)
-      io.to(partida.id).emit('esperaJugadores', lista.listaJugadores);
+      io.to(data.idPartida).emit('esperaJugadores', lista.listaJugadores);
     
       const miembros = io.sockets.in(data.idPartida).sockets;
       if (miembros) {
