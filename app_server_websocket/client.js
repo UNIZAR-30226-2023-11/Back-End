@@ -1,8 +1,8 @@
 const io = require('socket.io-client');
 //const socket = io('http://localhost:3000');
-const socket = io('http://localhost:3000', {
+const socket = io('https://back-end-tan-xi.vercel.app', {
   query: {
-    name: 'pedro'
+    name: 'pepe'
   }
 });
 
@@ -89,7 +89,7 @@ socket.on('connect', () => {
     });
   } else if (args[1] == 'unirJugador') {
     socket.emit('unirJugador', {
-      idPartida: 1,
+      idPartida: 30,
       socketId: socket.id
     }, (ack) => {
       console.log('Server acknowledged:', ack);

@@ -1,8 +1,9 @@
 const http = require('http');
 const server = http.createServer();
-const io = require('socket.io')(server);
+// const io = require('socket.io')(server);
 const w = require('./winston')
 const g = require('./mensajes')
+const io = new WebSocket('wss:https://back-end-tan-xi.vercel.app/');
 
 var usersController = require('./controllers/usersController');
 var partidaController = require('./controllers/partidaController');
@@ -279,6 +280,10 @@ io.on('connection', (socket) => {
       for (const socketID in socketsGrupo) {
         console.log(socketID);
       }
+      w.logger.verbose("\n\tCliente socket: " + clientes[socketId].socket.id + "\n" +
+        "\tCliente nombre: " + clientes[socketId].username + "\n" +
+        "\tCliente partida: " + clientes[socketId].partidaActiva + "\n");
+
     }
     //w.logger.verbose(imagen);
     var m = {
@@ -327,8 +332,10 @@ io.on('connection', (socket) => {
       w.logger.verbose('Se ha realizado siguiente turno correctamente');
 
       msg = turno;
-      turno = 0;
       w.logger.debug('Turno: ' + turno);
+      
+      io.to(data.idPartida).emit('turnoActual', turno);
+      turno = 0;
     }
     var m = {
       cod: turno,
