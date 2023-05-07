@@ -1,0 +1,5 @@
+services:
+  my-websocket:
+    build: .
+    env:
+      PORT: 3000

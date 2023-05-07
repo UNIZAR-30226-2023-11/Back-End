@@ -1,6 +1,6 @@
 const io = require('socket.io-client');
 //const socket = io('http://localhost:3000');
-const socket = io('https://back-end-tan-xi.vercel.app', {
+const socket = io('https://back-end-git-main-monopoly-unizar.vercel.app', {
   query: {
     name: 'pepe'
   }
