@@ -2,7 +2,7 @@
   "name": "back-end",
   "version": "1.0.0",
   "description": "Back-End del juego Monopoly Informatica realizada por el equipo Susan L. Graham para la asignatura de Proyecto Software 2022-2023.",
-  "main": "server.js",
+  "main": "servidor.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node ./app_server_websocket/servidor.js"
