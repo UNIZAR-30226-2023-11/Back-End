@@ -255,7 +255,7 @@ io.on('connection', (socket) => {
   socket.on('unirJugador', async (data, ack) => {
     w.logger.verbose('Se une un jugador a una partida');
     const socketId = data.socketId;
-    var partida = await partidaController.unirJugador(data.idPartida, 'leticia');
+    var partida = await partidaController.unirJugador(data.idPartida, clientes[socketId].username );
 
     var msg = "";
     if (partida != 1 && partida != 2) {
