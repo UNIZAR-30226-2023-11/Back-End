@@ -16,8 +16,8 @@ socket.on('connect', () => {
 
   if (args[1] == 'login') {
     socket.emit('login', {
-      username: 'pilarBUENO',
-      password: 'klejg',
+      username: 'clarita',
+      password: 'clarita12',
       socketId: socket.id
     }, (ack) => {
       console.log('Server acknowledged:', ack);
@@ -31,10 +31,10 @@ socket.on('connect', () => {
     });
   }else if (args[1] == 'register') {
     socket.emit('register', {
-      username: 'patricioEstrella',
-      password: 'patricioStar',
-      confirm_password: 'patricioStar',
-      email: 'pestrella@unizar.es',
+      username: 'paco',
+      password: 'pacos',
+      confirm_password: 'pacos',
+      email: 'paco@unizar.es',
       socketId: socket.id
 
     }, (ack) => {

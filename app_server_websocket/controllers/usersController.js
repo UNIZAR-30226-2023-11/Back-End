@@ -12,7 +12,7 @@ async function registerUser(username,password, confirm_password, email){
         correo: email,
         contraseña: password,
         //contraseñaDos: req.body.confirm_password,
-        imagen: "url",
+        //imagen: "url",
         monedas: 0,
         victorias: 0,
         partidasJugadas: 0,
@@ -71,7 +71,7 @@ async function loginUser(username, password){
         const docs = await modeloUser.find(doc);
       
         if (docs.length > 0) {
-          w.logger.debug("Documento encontrado: ", docs);
+          w.logger.debug("Documento encontrado: " + docs.toString());
           return 0;
           //res.status(200).send('El usuario ha iniciado sesión correctamente');
         } else {

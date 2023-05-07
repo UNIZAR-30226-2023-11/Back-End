@@ -29,7 +29,7 @@ const esquema = new schema({
   imagen: {
     type: mongoose.Schema.Types.ObjectId, 
     ref: 'Imagen',
-    required: true
+    required: false
   },
   monedas: {
     type: Number,
