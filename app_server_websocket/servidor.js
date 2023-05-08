@@ -164,7 +164,7 @@ io.on('connection', (socket) => {
     //FIXME: no devolver contraseña
     w.logger.verbose('Obtener el correo de un usuario');
     const socketId = data.socketId;
-    var usuario = await usersController.devolverUsuario(clientes[socketId].username);
+    var usuario = await usersController.infoUsuario(clientes[socketId].username);
     
     // var imagen = await usersController.devolverImagenPerfil(clientes[socketId].username);
 
@@ -221,7 +221,7 @@ io.on('connection', (socket) => {
       //io.emit('mensaje', correo);
       //ack('0 Ok' + correo)
       console.log(partida.id);
-      msg = partida.id;
+      msg = partida;
       clientes[socketId].partidaActiva = partida.id;
       socket.join(partida.id);
 

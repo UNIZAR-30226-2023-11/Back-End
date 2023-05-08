@@ -39,7 +39,8 @@ async function crearPartida(username, dineroInicial, nJugadores, normas) {
         await doc.save();
         w.logger.verbose('Documento guardado correctamente')
         var p = {
-            id : doc.id
+            id : doc.id,
+            username: username
         }
         return p;
 

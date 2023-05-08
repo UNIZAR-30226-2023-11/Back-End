@@ -232,7 +232,7 @@ async function updateUsername(username, newusername) {
     }
 }
 
-async function devolverUsuario(username) {
+async function infoUsuario(username) {
     w.logger.info("***POST METHOD Devolver usuario");
     w.logger.verbose(username)
     const doc = {
@@ -310,4 +310,4 @@ async function devolverImagenPerfil(username) {
 
 
 
-module.exports = { registerUser, loginUser, deleteUser, updatePassword, updateCorreo, updateUsername, devolverUsuario, devolverImagenPerfil };
+module.exports = { registerUser, loginUser, deleteUser, updatePassword, updateCorreo, updateUsername, infoUsuario, devolverImagenPerfil };
