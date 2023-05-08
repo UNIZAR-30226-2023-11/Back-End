@@ -248,7 +248,7 @@ async function devolverUsuario(username) {
         if (docs.length > 0) {
             w.logger.debug("Documento encontrado: " + docs[0].toString);
             //   console.log(docs[0]);
-            const image = await modeloImagen.findOne(docs[0].imagen).exec();
+            const image = await modeloImagen.findOne({nombre: docs[0].imagen}).exec();
             docs[0].imagen = image;
             return docs[0];
 
