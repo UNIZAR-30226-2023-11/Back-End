@@ -30,3 +30,7 @@ async function devolverTienda() {
         w.logger.info("DisConnected to MongoDB Atlas")
     }
 }
+
+module.export = {
+    devolverTienda
+}

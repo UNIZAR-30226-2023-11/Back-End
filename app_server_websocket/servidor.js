@@ -18,6 +18,7 @@ const g = require('./mensajes')
 
 var usersController = require('./controllers/usersController');
 var partidaController = require('./controllers/partidaController');
+var tiendaController = require('./controllers/tiendaController');
 
 // Declara un objeto para guardar las conexiones
 const clientes = {};
@@ -359,6 +360,29 @@ io.on('connection', (socket) => {
     ack(m);
 
   });
+
+  // ==============================================
+  // FUNCIONES DE TIENDA
+  // ==============================================
+  socket.on('tienda', async (data, ack) => {
+    w.logger.verbose('Tienda');
+    var tienda = await tiendaController.devolverTienda();
+    var msg = "";
+    if (tienda != 1 && tienda != 2) {
+      w.logger.verbose('Se ha realizado la obtencion de los productose');
+
+      msg = tienda;
+      w.logger.debug('tienda: ' + tienda);
+      
+      tienda = 0;
+    }
+    var m = {
+      cod: tienda,
+      msg: g.generarMsg(tienda, msg)
+    }
+    ack(m);
+  });
+
 
 
   // Escucha el evento 'disconnect'
