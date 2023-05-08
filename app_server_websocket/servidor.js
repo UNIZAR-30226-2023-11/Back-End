@@ -414,8 +414,20 @@ io.on('connection', (socket) => {
     const socketId = data.socketId;
     var coordenadas = data.coordenadas;
 
-    var casilla = await asignaturasController.checkCasilla()
-
+    var casilla = await asignaturasController.checkCasilla(clientes[socketId].username, coordenadas, clientes[socketId].partidaActiva )
+    var msg = "";
+    
+    if(casilla === 5){
+      //TODO: CAMBIAR LISTAJUGADORES A INFOPARTIDA
+      var partida = await partidaController.infoPartida(clientes[socketId].partidaActiva);
+      msg = partida;
+    }
+    var m = {
+      cod: casilla,
+      msg: g.generarMsg(casilla, msg)
+    }
+    w.logger.verbose(m);
+    ack(m);
 
 
   });

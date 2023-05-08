@@ -59,7 +59,7 @@ async function crearPartida(username, dineroInicial, nJugadores, normas) {
  * @param {*} res 
  */
 //TODO: CAMBIAR A INFOPARTIDA
-async function listaJugadores(idPartida) {
+async function infoPartida(idPartida) {
     w.logger.info("***GET METHOD lista jugadores partida");
     try {
 
@@ -81,7 +81,9 @@ async function listaJugadores(idPartida) {
                 listaPosiciones: partidaEncontrada.posicionJugadores,
                 listaTuplas: lista
             };
-            return listas;
+            //return listas;
+            //TODO: Repasar si esta correcta
+            return partidaEncontrada;
 
         } else {
             w.logger.debug("La partida no existe");
@@ -511,4 +513,4 @@ async function dar200(req, res) {
 }
 
 
-module.exports = { crearPartida, unirJugador, lanzardados, findPartida, actualizarPartida, listaJugadores, siguienteTurno, turnoActual, bancarrota, numJugadores, dar200};
+module.exports = { crearPartida, unirJugador, lanzardados, findPartida, actualizarPartida, infoPartida, siguienteTurno, turnoActual, bancarrota, numJugadores, dar200};

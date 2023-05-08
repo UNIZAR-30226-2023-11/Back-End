@@ -2,7 +2,7 @@ const io = require('socket.io-client');
 //const socket = io('http://localhost:3000');
 const socket = io('http://localhost:3000', {
   query: {
-    name: 'pepe'
+    name: 'paco'
   }
 });
 
@@ -126,6 +126,15 @@ socket.on('connect', () => {
     socket.emit('infoAsignatura', {
       coordenadas: {
         "h": 3,
+        "v": 0
+      }
+    }, (ack) => {
+      console.log('Server acknowledged:', ack);
+    });
+  }else if (args[1] == 'casilla') {
+    socket.emit('casilla', {
+      coordenadas: {
+        "h": 6,
         "v": 0
       }
     }, (ack) => {

@@ -11,6 +11,7 @@ var ctrlPartida = require('../controllers/partidaController');
 const mongoose = require("mongoose");
 const { rawListeners } = require('../models/normasModel');
 
+const w = require('../winston')
 
 
 //**FUNCIONES PRIVADAS  */
@@ -108,7 +109,7 @@ async function cobrar(partida, dinero, jugador) {
  * @param {*} jugador Jugador que se ha movido
  * @param {*} res 
  */
-async function actualizarPosicion(idPartida, coordenadas, jugador, res) {
+async function actualizarPosicion(idPartida, coordenadas, jugador) {
     console.log("METHOD actualizarPosicion");
     const partida = await ctrlPartida.findPartida(idPartida);
     //console.log(partida);
@@ -440,39 +441,46 @@ async function comprarCasilla(req, res) {
  */
 async function checkCasilla(username, coordenadas, idPartida) {
     //ACTUALIZAMOS LA POSICION DEL JUGADOR
-    await actualizarPosicion(req.body.idPartida, req.body.coordenadas, req.body.username, res);
+    await actualizarPosicion(idPartida, coordenadas, username);
     var bancarrota = false;
     //Miramos si esta compradacd
-    const comprada = await estaComprada(req.body.coordenadas, req.body.idPartida);
+    const comprada = await estaComprada(coordenadas, idPartida);
     if (comprada != null) {
-        const partida = await ctrlPartida.findPartida(req.body.idPartida, res);
+        const partida = await ctrlPartida.findPartida(idPartida);
         if (partida != null) {
-            console.log("El jugador", req.body.username, "esta en la casilla comprada tiene que pagar");
-            console.log(comprada);
+            w.logger.debug("El jugador", username, "esta en la casilla comprada tiene que pagar");
+            w.logger.debug(comprada);
             //Si la casilla esta comprada habrá que quitarle dinero al jugador y añadirselo al propietario
             //hay que comprobar que no esta comprada por el propio jugador
-            if (comprada.jugador != req.body.username) {
-                bancarrota = await pagar(partida, comprada.precio, req.body.username, bancarrota);
-                await cobrar(partida, comprada.precio, comprada.jugador, res);
-                res.status(200).json({ message: 'Se ha pagado lo que se debia', jugador: comprada.jugador, dinero: comprada.precio, bancarrota: bancarrota });
+            if (comprada.jugador != username) {
+                bancarrota = await pagar(partida, comprada.precio, username, bancarrota);
+                await cobrar(partida, comprada.precio, comprada.jugador);
+                // res.status(200).json({ message: 'Se ha pagado lo que se debia', jugador: comprada.jugador, dinero: comprada.precio, bancarrota: bancarrota });
+                return 5;
+            
             } else {
-                console.log("Esta casilla es mia", req.body.username, req.body.coordenadas);
-                let aumentar = await puedoAumentar(req.body.coordenadas, req.body.idPartida, req.body.username);
-                res.status(200).json({ jugador: req.body.username, aumento: aumentar });
+                w.logger.debug("Esta casilla es mia" + username + coordenadas);
+                let aumentar = await puedoAumentar(coordenadas, idPartida, username);
+                // res.status(200).json({ jugador: username, aumento: aumentar });
+                if(aumentar){
+                    return 6;
+                }
+                return 7;
             }
 
         } else {
-            console.error(error);
-            res.status(500).json({ error: 'Error al actualizar la partida  al pagar la matricula' });
-            console.log('Error al actualizar la partida  al pagar la matricula');
+            w.logger.error(error);
+            // res.status(500).json({ error: 'Error al actualizar la partida  al pagar la matricula' });
+            w.logger.error('Error al actualizar la partida  al pagar la matricula');
+            return 2;
         }
 
 
     } else {
-        console.log("El jugador", req.body.username);
+        w.logger.debug("El jugador", username);
         //Puede Comprarla
-
-        res.status(200).json({ message: 'Esta asignatura se puede comprar', jugador: null, dinero: null });
+        return 8;
+        // res.status(200).json({ message: 'Esta asignatura se puede comprar', jugador: null, dinero: null });
     }
 }
 
