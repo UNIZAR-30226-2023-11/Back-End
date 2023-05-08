@@ -136,7 +136,8 @@ socket.on('connect', () => {
       coordenadas: {
         "h": 6,
         "v": 0
-      }
+      },
+      socketId: socket.id
     }, (ack) => {
       console.log('Server acknowledged:', ack);
     });
