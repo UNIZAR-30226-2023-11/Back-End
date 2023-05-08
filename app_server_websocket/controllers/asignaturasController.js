@@ -483,33 +483,36 @@ async function checkCasilla(req, res) {
 
 /**
  * 
- * @param {*} req.body.coordenadas Corrdenadas de la casilla a buscar información 
+ * @param {*} coordenadas Corrdenadas de la casilla a buscar información 
  * @param {*} res 
  */
-async function infoAsignatura(req, res) {
+async function infoAsignatura(coordenadas) {
     console.log("METHOD Comprar Casilla");
     //console.log(req.body.coordenadas);
-    const casilla = await findCasilla(req.body.coordenadas);
+    const casilla = await findCasilla(coordenadas);
     if (casilla != null) {
 
         //Existe la casilla
         var casillaInfo = null;
         if (casilla.tipo == "A") {
-            casillaInfo = await isAsignatura(req.body.coordenadas);
+            casillaInfo = await isAsignatura(coordenadas);
         } else if (casilla.tipo == "F") {
-            casillaInfo = await isFestividad(req.body.coordenadas);
+            casillaInfo = await isFestividad(coordenadas);
         } else if (casilla.tipo == "I") {
-            casillaInfo = await isImpuesto(req.body.coordenadas);
+            casillaInfo = await isImpuesto(coordenadas);
         }
         if (casillaInfo != null) {
-            res.status(200).json({ casillaInfo });
+            // res.status(200).json({ casillaInfo });
+            return casillaInfo;
         } else {
-            res.status(404).json("No se ha encontrado la indormación de la casilla");
+            // res.status(404).json("No se ha encontrado la indormación de la casilla");
+            return 1;
         }
 
 
     } else {
-        res.status(404).json("La casilla no existe");
+        // res.status(404).json("La casilla no existe");
+        return 1;
     }
 }
 

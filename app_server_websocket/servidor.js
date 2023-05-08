@@ -19,9 +19,10 @@ const g = require('./mensajes')
 var usersController = require('./controllers/usersController');
 var partidaController = require('./controllers/partidaController');
 var tiendaController = require('./controllers/tiendaController');
+var asignaturasController = require('./controllers/asignaturasController');
 
 // Declara un objeto para guardar las conexiones
-const clientes = [];
+const clientes = {};
 
 var num = 0;
 io.on('connection', (socket) => {
@@ -51,6 +52,7 @@ io.on('connection', (socket) => {
       w.logger.verbose('Usuario ha iniciado sesion correctamente\n', data.username);
       //io.to(socketId).emit('mensaje', 'Usuario ha iniciado sesion correctamente');
       clientes[socketId].username = data.username;
+      clientes[socketId].socket = socketId;
       //ack('0 Ok');
     }
     var m = {
@@ -83,6 +85,7 @@ io.on('connection', (socket) => {
       w.logger.verbose('Usuario se ha registrado correctamente');
       io.to(socketId).emit('mensaje', 'Usuario se ha registrado correctamente');
       clientes[socketId].username = data.username;
+      clientes[socketId].socket = socketId;
     }
     var m = {
       cod: reg,
@@ -167,7 +170,7 @@ io.on('connection', (socket) => {
     w.logger.verbose('Obtener el correo de un usuario');
     const socketId = data.socketId;
     var usuario = await usersController.infoUsuario(clientes[socketId].username);
-    
+
     // var imagen = await usersController.devolverImagenPerfil(clientes[socketId].username);
 
     var msg;
@@ -291,7 +294,7 @@ io.on('connection', (socket) => {
       io.to(data.idPartida).emit('esperaJugadores', lista.listaJugadores);
 
       const socketsGrupo = io.sockets.in(data.idPartida).sockets;
-      console.log(`IDs de los sockets en el grupo ${ data.idPartida }:`);
+      console.log(`IDs de los sockets en el grupo ${data.idPartida}:`);
 
       for (const socketID in socketsGrupo) {
         console.log(socketID);
@@ -349,7 +352,7 @@ io.on('connection', (socket) => {
 
       msg = turno;
       w.logger.debug('Turno: ' + turno);
-      
+
       io.to(data.idPartida).emit('turnoActual', turno);
       turno = 0;
     }
@@ -367,18 +370,44 @@ io.on('connection', (socket) => {
     const socketId = data.socketId;
     var partida = clientes[socketId].partidaActiva;
     w.logger.debug("Partida activa: " + partida);
-    clientes.forEach(elemento => {
-      w.logger.debug("Partida activa: " + elemento.partidaActiva);
+
+    Object.values(clientes).forEach(elemento => {
       if (elemento.partidaActiva === partida) {
         //enviamos a ese jugador el evento aJugar
-        io.to(elemento.socket).emit('aJugar', elemento.username );
-        
+        io.to(elemento.socket).emit('aJugar', elemento.username);
       }
-    })
+    });
 
   });
 
 
+  // ==============================================
+  // FUNCIONES DE ASIGNATURAS
+  // ==============================================
+
+  socket.on('infoAsignatura', async (data, ack) => {
+    w.logger.verbose('Info Asignatura');
+    var coordenadas = data.coordenadas;
+    var asignatura = await asignaturasController.infoAsignatura(coordenadas);
+
+    var msg = "";
+    if (asignatura != 1 && asignatura != 2) {
+      w.logger.verbose('Se ha obtenido la informacion de la asignatura');
+
+      msg = asignatura;
+      w.logger.debug('asignatura: ' + asignatura);
+      asignatura = 0;
+    }
+    var m = {
+      cod: asignatura,
+      msg: g.generarMsg(asignatura, msg)
+    }
+    w.logger.verbose(m);
+    ack(m);
+
+
+
+  });
   // ==============================================
   // FUNCIONES DE TIENDA
   // ==============================================
@@ -391,7 +420,7 @@ io.on('connection', (socket) => {
 
       msg = tienda;
       w.logger.debug('tienda: ' + tienda);
-      
+
       tienda = 0;
     }
     var m = {
