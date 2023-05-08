@@ -21,7 +21,8 @@ var partidaController = require('./controllers/partidaController');
 var tiendaController = require('./controllers/tiendaController');
 
 // Declara un objeto para guardar las conexiones
-const clientes = {};
+const clientes = [];
+
 var num = 0;
 io.on('connection', (socket) => {
   w.logger.verbose('Usuario conectado');
@@ -365,13 +366,15 @@ io.on('connection', (socket) => {
     w.logger.verbose('comenzarPartida');
     const socketId = data.socketId;
     var partida = clientes[socketId].partidaActiva;
+    w.logger.debug("Partida activa: " + partida);
     clientes.forEach(elemento => {
-      if (elemento.partidaActiva === 3) {
+      w.logger.debug("Partida activa: " + elemento.partidaActiva);
+      if (elemento.partidaActiva === partida) {
+        //enviamos a ese jugador el evento aJugar
+        io.to(elemento.socket).emit('aJugar', elemento.username );
         
-        console.log("El elemento " + elemento + " tiene el valor que estoy buscando.");
-      } else {
-        console.log("El elemento " + elemento + " no tiene el valor que estoy buscando.");
       }
+    })
 
   });
 
@@ -415,6 +418,10 @@ io.on('connection', (socket) => {
 
 });
 
-server.listen(80, () => {
+// server.listen(80, () => {
+//   w.logger.info('Servidor escuchando en el puerto 80');
+// });
+
+server.listen(3000, () => {
   w.logger.info('Servidor escuchando en el puerto 80');
 });

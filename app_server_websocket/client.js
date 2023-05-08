@@ -2,7 +2,7 @@ const io = require('socket.io-client');
 //const socket = io('http://localhost:3000');
 const socket = io('http://localhost:3000', {
   query: {
-    name: 'pepe'
+    name: 'paco'
   }
 });
 
@@ -116,6 +116,12 @@ socket.on('connect', () => {
     }, (ack) => {
       console.log('Server acknowledged:', ack);
     });
+  } else if (args[1] == 'comenzarPartida') {
+    socket.emit('comenzarPartida', {
+      socketId: socket.id
+    }, (ack) => {
+      console.log('Server acknowledged:', ack);
+    });
   }
 });
 
@@ -124,6 +130,10 @@ socket.on('mensaje', (mensaje) => {
 });
 
 socket.on('esperaJugadores', (mensaje) => {
+  console.log('Mensaje recibido: ' + mensaje);
+});
+
+socket.on('aJugar', (mensaje) => {
   console.log('Mensaje recibido: ' + mensaje);
 });
 
