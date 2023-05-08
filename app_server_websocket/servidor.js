@@ -361,6 +361,21 @@ io.on('connection', (socket) => {
 
   });
 
+  socket.on('comenzarPartida', async (data, ack) => {
+    w.logger.verbose('comenzarPartida');
+    const socketId = data.socketId;
+    var partida = clientes[socketId].partidaActiva;
+    clientes.forEach(elemento => {
+      if (elemento.partidaActiva === 3) {
+        
+        console.log("El elemento " + elemento + " tiene el valor que estoy buscando.");
+      } else {
+        console.log("El elemento " + elemento + " no tiene el valor que estoy buscando.");
+      }
+
+  });
+
+
   // ==============================================
   // FUNCIONES DE TIENDA
   // ==============================================

@@ -17,6 +17,10 @@ const esquema = new schema({
     comprado: {
         type: Boolean,
         required: true, 
+    },
+    usado: {
+        type: Boolean,
+        required: true
     }
 }, { collection: 'tienda' });
 

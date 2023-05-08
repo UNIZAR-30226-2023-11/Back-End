@@ -49,7 +49,16 @@ const esquema = new schema({
   partidasEnJuego: {
     type: Number,
     required: true
+  },
+  productosComprados: {
+    type: [String],
+    required: true
+  },
+  token:{
+    type: String,
+    required: true
   }
+
 }, { collection: 'usuarios' });
 
 // esquema.index({ nombreUser: 1 }, { unique: true }); // Crea un índice único en el campo "nombre"

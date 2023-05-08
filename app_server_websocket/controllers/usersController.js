@@ -12,12 +12,15 @@ async function registerUser(username, password, confirm_password, email) {
         correo: email,
         contraseña: password,
         //contraseñaDos: req.body.confirm_password,
-        //imagen: "url",
         monedas: 0,
         victorias: 0,
         partidasJugadas: 0,
         productosComprados: 0,
-        partidasEnJuego: 0
+        partidasEnJuego: 0,
+        productosComprados: [],
+        // paletaColores: 
+        imagen: "userDefecto",
+        token: "token 1"
     });
 
     try {
