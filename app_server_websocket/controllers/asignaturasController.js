@@ -433,12 +433,12 @@ async function comprarCasilla(req, res) {
 
 /**
  * 
- * @param {*} req.body.username Nombre de usuario del jugador.
- * @param {*} req.body.coordenadas Coordenadas de la casilla donde ha caido el jugador 
- * @param {*} req.body.idPartida 
+ * @param {*} username Nombre de usuario del jugador.
+ * @param {*} coordenadas Coordenadas de la casilla donde ha caido el jugador 
+ * @param {*} idPartida 
  * @param {*} res 
  */
-async function checkCasilla(req, res) {
+async function checkCasilla(username, coordenadas, idPartida) {
     //ACTUALIZAMOS LA POSICION DEL JUGADOR
     await actualizarPosicion(req.body.idPartida, req.body.coordenadas, req.body.username, res);
     var bancarrota = false;

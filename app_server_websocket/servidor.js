@@ -258,7 +258,7 @@ io.on('connection', (socket) => {
         "\tCliente partida: " + clientes[socketId].partidaActiva + "\n");
 
       if (data.jugar) {
-        io.to(clientes[socketId].partidaActiva).emit('comenzarPartida', 'empezar');
+        io.to(clientes[socketId].partidaActiva).emit('comenzarPartida', clientes[socketId].username);
 
       }
     }
@@ -365,20 +365,20 @@ io.on('connection', (socket) => {
 
   });
 
-  socket.on('comenzarPartida', async (data, ack) => {
-    w.logger.verbose('comenzarPartida');
-    const socketId = data.socketId;
-    var partida = clientes[socketId].partidaActiva;
-    w.logger.debug("Partida activa: " + partida);
+  // socket.on('comenzarPartida', async (data, ack) => {
+  //   w.logger.verbose('comenzarPartida');
+  //   const socketId = data.socketId;
+  //   var partida = clientes[socketId].partidaActiva;
+  //   w.logger.debug("Partida activa: " + partida);
 
-    Object.values(clientes).forEach(elemento => {
-      if (elemento.partidaActiva === partida) {
-        //enviamos a ese jugador el evento aJugar
-        io.to(elemento.socket).emit('aJugar', elemento.username);
-      }
-    });
+  //   Object.values(clientes).forEach(elemento => {
+  //     if (elemento.partidaActiva === partida) {
+  //       //enviamos a ese jugador el evento aJugar
+  //       io.to(elemento.socket).emit('aJugar', elemento.username);
+  //     }
+  //   });
 
-  });
+  // });
 
 
   // ==============================================
@@ -408,6 +408,18 @@ io.on('connection', (socket) => {
 
 
   });
+
+  socket.on('casilla', async (data, ack) => {
+    w.logger.verbose('Casilla');
+    const socketId = data.socketId;
+    var coordenadas = data.coordenadas;
+
+    var casilla = await asignaturasController.checkCasilla()
+
+
+
+  });
+
   // ==============================================
   // FUNCIONES DE TIENDA
   // ==============================================
