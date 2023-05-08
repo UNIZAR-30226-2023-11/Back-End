@@ -1,5 +1,17 @@
 const http = require('http');
-const server = http.createServer();
+// const server = http.createServer();
+const server = http.createServer((req, res) => {
+  if (req.url === 'toothless.nerks.net') {
+    res.writeHead(301, { 'Location': 'monopoly.nerks.net' });
+    res.end();
+  } else if (req.url === 'monopoly.nerks.net') {
+    res.write('This is the new page');
+    res.end();
+  } else {
+    res.write('Hello, world!');
+    res.end();
+  }
+});
 const io = require('socket.io')(server);
 const w = require('./winston')
 const g = require('./mensajes')
@@ -361,6 +373,6 @@ io.on('connection', (socket) => {
 
 });
 
-server.listen(3000, () => {
-  w.logger.info('Servidor escuchando en el puerto 3000');
+server.listen(80, () => {
+  w.logger.info('Servidor escuchando en el puerto 80');
 });
