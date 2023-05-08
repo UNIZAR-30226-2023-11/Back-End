@@ -7,7 +7,7 @@ const config = {
     dbOptions: {
       useNewUrlParser: true,
       useUnifiedTopology: true
-      // ,maxPoolSize : 10 // Tamaño de la piscina
+       ,maxPoolSize : 10 // Tamaño de la piscina
     }
   },
 };
