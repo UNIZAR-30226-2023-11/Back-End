@@ -234,7 +234,7 @@ async function updateUsername(username, newusername) {
 
 async function devolverUsuario(username) {
     w.logger.info("***POST METHOD Devolver usuario");
-    console.log(username)
+    w.logger.verbose(username)
     const doc = {
         nombreUser: username
     };
@@ -249,7 +249,7 @@ async function devolverUsuario(username) {
             w.logger.debug("Documento encontrado: " + docs[0].toString);
             w.logger.verbose(docs[0]);
             const image = await modeloImagen.findOne({nombre: docs[0].imagen}).exec();
-            docs[0].imagen = image;
+            docs[0].imagen = imagen.image;
             return docs[0];
 
         } else {
