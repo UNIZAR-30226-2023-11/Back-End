@@ -166,7 +166,7 @@ io.on('connection', (socket) => {
     const socketId = data.socketId;
     var usuario = await usersController.devolverUsuario(clientes[socketId].username);
     
-    var imagen = await usersController.devolverImagenPerfil(clientes[socketId].username);
+    // var imagen = await usersController.devolverImagenPerfil(clientes[socketId].username);
 
     var msg;
     if (usuario != 1 && usuario != 2) {
