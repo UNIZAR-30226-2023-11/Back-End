@@ -27,8 +27,7 @@ const esquema = new schema({
   //   required: false
   // },
   imagen: {
-    type: mongoose.Schema.Types.ObjectId, 
-    ref: 'Imagen',
+    type: String, 
     required: false
   },
   monedas: {

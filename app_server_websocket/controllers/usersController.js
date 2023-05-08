@@ -248,6 +248,8 @@ async function devolverUsuario(username) {
         if (docs.length > 0) {
             w.logger.debug("Documento encontrado: " + docs[0].toString);
             //   console.log(docs[0]);
+            const image = await modeloImagen.findById(docs[0].imagen);
+            docs[0].imagen = image;
             return docs[0];
 
         } else {
@@ -306,54 +308,6 @@ async function devolverImagenPerfil(username) {
 }
 
 
-async function findUser(req) {
-    w.logger.info("***GET METHOD Encontrar Usuario");
 
-    const doc = { id: req };
-
-    try {
-        await mongoose.connect(config.db.uri, config.db.dbOptions);
-        w.logger.info("Connected to MongoDB Atlas");
-
-        const docs = await modeloUser.find(doc);
-
-        if (docs.length > 0) {
-            console.log("Documento encontrado: ", docs);
-            //res.status(200).send('El usuario ha iniciado sesión correctamente');
-            return 0;
-        } else {
-            w.logger.debug('No se encontró el documento');
-            //res.status(500).json({ error: 'Error el usuario no esta creado' });
-            return 1;
-        }
-    } catch (error) {
-        console.error(error);
-        //res.status(500).json({ error: 'Error al buscar el usuario', nombreuser: req.body.username });
-        return 2;
-    } finally {
-        mongoose.disconnect();
-        w.logger.info("DisConnected to MongoDB Atlas")
-    }
-}
-
-async function leerUser(req, res, next) {
-    w.logger.info("***POST METHOD Lectura de Usuario");
-
-    try {
-        await mongoose.connect(config.db.uri, config.db.dbOptions);
-        w.logger.info("Connected to MongoDB Atlas")
-
-        await modeloUser.find();
-        w.logger.debug('Usuario leido correcctamente')
-        res.status(200).json({ message: 'Usuario creado correctamente' })
-    }
-    catch (error) {
-        console.error(error);
-        res.status(500).json({ error: 'Error al leer usuario' });
-    } finally {
-        mongoose.disconnect();
-        w.logger.info("DisConnected to MongoDB Atlas")
-    }
-}
 
 module.exports = { registerUser, loginUser, deleteUser, updatePassword, updateCorreo, updateUsername, devolverUsuario, devolverImagenPerfil };

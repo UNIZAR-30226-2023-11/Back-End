@@ -344,36 +344,6 @@ async function findAsignaturasCompradas(username, idPartida) {
 
 //**FUNCIONES API  */
 
-/**
- * FUNCIONA
- * @param {*} req.body.tipo
- * @param {*} req.body.username
- * @param {*} req.body.idPartida 
- * @param {*} res Devuelve una tarjeta aleatoria.
- */
-async function tarjetaAleatoria(req, res) {
-    console.log("***METHOD GET Para obtener tarjeta aleatoria ");
-    try {
-        await mongoose.connect(config.db.uri, { useNewUrlParser: true, useUnifiedTopology: true });
-        console.log("Connected to MongoDB Atlas")
-
-        var tipoP = req.body.tipo.toString();
-        //console.log(tipoP);
-        //const resultado = await modeloTarjetas.aggregate([{$sample: {size: 1}}]).exec();
-        const resultado = await modeloTarjetas.aggregate([
-            { $match: { tipo: tipoP } },
-            { $sample: { size: 1 } }
-        ]).exec();
-
-        res.status(200).json(resultado);
-    } catch (error) {
-        console.log(error);
-        res.status(500).json({ mensaje: 'Error al obtener tarjeta aleatoria' });
-    } finally {
-        mongoose.disconnect();
-        console.log("DisConnected to MongoDB Atlas")
-    }
-}
 
 /**
  * 
@@ -507,21 +477,7 @@ async function checkCasilla(req, res) {
 }
 
 
-/**
- * 
- * @param {*} req.body.username Jugador que ha pasado por la casilla de salida
- * @param {*} req.body.idPartida Identificador del número de la partida 
- * @param {*} res 
- */
-async function dar200(req, res) {
-    console.log("METHOD Dar 200");
-    const partida = await ctrlPartida.findPartida(req.body.idPartida, res);
-    if (cobrar(partida, 200, req.body.username)) {
-        // res.status(200).json({ message: 'Se le ha dado 200 euros al jugador ', jugador: req.body.username });
-    } else {
-        // res.status(500).json({ message: 'Ha ocurrido un error al cobrarle 200 euros ', jugador: req.body.username });
-    }
-}
+
 
 
 
@@ -846,4 +802,4 @@ async function vender(req, res) {
 
 }
 
-module.exports = { checkCasilla, tarjetaAleatoria, comprarCasilla, dar200, infoAsignatura, listaAsignaturasC, aumentarCreditos, vender };
+module.exports = { checkCasilla, comprarCasilla, infoAsignatura, listaAsignaturasC, aumentarCreditos, vender };
