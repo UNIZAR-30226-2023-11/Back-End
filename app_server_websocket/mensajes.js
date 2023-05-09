@@ -15,6 +15,20 @@ function generarMsg(codigo, msg) {
         case 4:
             return "La partida está completa"
             break;
+        case 5:
+            return msg
+            break;
+        case 6:
+            return "La casilla es tuya y puedes aumentar"
+            break;
+        case 7:
+            return "La casilla es tuya y NO puedes aumentar"
+            break;
+        case 8:
+            return "Puedes comprar la asignatura"
+            break;
+        case 9:
+            return "No tienes suficiente dinero para comprar"
         default:
             return "";
     }
