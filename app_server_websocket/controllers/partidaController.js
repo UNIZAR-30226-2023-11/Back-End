@@ -6,7 +6,7 @@ const w = require('../winston')
 var tablero = require('../controllers/tableroController');
 const modeloTarjetas = require('../models/tarjetasModel');
 const modeloTarjetasEnMano = require('../models/tarjetasEnMano');
-var asignatura = require('../controllers/asignaturasController');
+// var asignatura = require('../controllers/asignaturasController');
 
 const casillaInicio = 10;
 
@@ -445,31 +445,34 @@ async function turnoActual(req, res) {
 
 /**
  * 
- * @param {*} req.body.idPartida Partida de tipo modeloPartida
- * @param {*} req.body.username Usuario al que declaramos en bancarrota
+ * @param {*} idPartida Partida de tipo modeloPartida
+ * @param {*} username Usuario al que declaramos en bancarrota
  */
-async function bancarrota(req, res) {
-    console.log("***PUT METHOD Bancarrota de la partida");
+async function bancarrota(idPartida, username) {
+    w.logger.verbose("***PUT METHOD Bancarrota de la partida");
     try {
-        const partida = await findPartida(req.body.idPartida, res);
-        const jugador = req.body.username;
+        const partida = await findPartida(idPartida);
+        const jugador = username;
 
         await mongoose.connect(config.db.uri, config.dbOptions);
-        console.log("Connected to MongoDB Atlas");
+        w.logger.verbose("Connected to MongoDB Atlas");
 
         const posicion = partida.nombreJugadores.indexOf(jugador);
         partida.dineroJugadores.splice(posicion, 1);
         partida.nombreJugadores.splice(posicion, 1);
         partida.posicionJugadores.splice(posicion, 1);
         await modeloPartida.updateOne({ id: partida.id }, { $set: { dineroJugadores: partida.dineroJugadores, nombreJugadores: partida.nombreJugadores, posicionJugadores: partida.posicionJugadores } });
+        
+        return 0; 
         res.status(200).json('Bancarrota');
 
     } catch (error) {
-        console.error(error);
-        console.log("Error al actualizar la partida al pagar", partida.id);
+        w.logger.error(error);
+        w.logger.error("Error al actualizar la partida al declararse en bancarrota", partida.id);
+        return 2;
     } finally {
         mongoose.disconnect();
-        console.log("Disconnected to MongoDB Atlas")
+        w.logger.verbose("Disconnected to MongoDB Atlas")
     }
 }
 

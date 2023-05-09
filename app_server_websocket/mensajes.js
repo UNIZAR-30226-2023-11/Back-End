@@ -26,6 +26,9 @@ function generarMsg(codigo, msg) {
             break;
         case 8:
             return "Puedes comprar la asignatura"
+            break;
+        case 9:
+            return "No tienes suficiente dinero para comprar"
         default:
             return "";
     }

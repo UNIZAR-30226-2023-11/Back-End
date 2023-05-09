@@ -305,7 +305,7 @@ io.on('connection', (socket) => {
         "\tCliente partida: " + clientes[socketId].partidaActiva + "\n");
 
       partida = 0;
-      }
+    }
     //w.logger.verbose(imagen);
     var m = {
       cod: partida,
@@ -416,10 +416,10 @@ io.on('connection', (socket) => {
     const socketId = data.socketId;
     var coordenadas = data.coordenadas;
 
-    var casilla = await asignaturasController.checkCasilla(clientes[socketId].username, coordenadas, clientes[socketId].partidaActiva )
+    var casilla = await asignaturasController.checkCasilla(clientes[socketId].username, coordenadas, clientes[socketId].partidaActiva)
     var msg = "";
-    
-    if(casilla === 5){
+
+    if (casilla === 5) {
       //TODO: CAMBIAR LISTAJUGADORES A INFOPARTIDA
       var partida = await partidaController.infoPartida(clientes[socketId].partidaActiva);
       msg = partida;
@@ -434,16 +434,99 @@ io.on('connection', (socket) => {
 
   });
 
-  
+  socket.on('comprarCasilla', async (data, ack) => {
+    w.logger.verbose('Metodo de comprar casilla');
+    const socketId = data.socketId;
+    const coordenadas = data.coordenadas;
+    var msg = "";
+    var comprada = await asignaturasController.comprarCasilla(clientes[socketId].username, coordenadas, clientes[socketId].partidaActiva);
+    var m = {
+      cod: comprada,
+      msg: g.generarMsg(comprada, msg)
+    }
+    w.logger.verbose(m);
+    ack(m);
+  });
+
+  socket.on('listaAsignaturasC', async (data, ack) => {
+    w.logger.verbose('Lista de asignaturas compradas');
+    const socketId = data.socketId;
+    // clientes[socketId].partidaActiva = 32;
+    var casillas = await asignaturasController.listaAsignaturasC(clientes[socketId].username, clientes[socketId].partidaActiva)
+    var msg = "";
+    if (casillas != 1) {
+      msg = casillas;
+      casillas = 0;
+    }
+    var m = {
+      cod: casillas,
+      msg: g.generarMsg(casillas, msg)
+    }
+    w.logger.verbose(m);
+    ack(m);
+  });
+
+  socket.on('vender', async (data, ack) => {
+    w.logger.verbose('Vender asignatura');
+    const socketId = data.socketId;
+    var coordenadas = data.coordenadas;
+    clientes[socketId].partidaActiva = 32;
+
+    //TODO: ACTUALIZAR LOS DINEROS DE TODOS LOS JUGADORES EMIT
+    var vendida = await asignaturasController.vender(clientes[socketId].partidaActiva, clientes[socketId].username, coordenadas);
+    var msg = "";
+    var m = {
+      cod: vendida,
+      msg: g.generarMsg(vendida, msg)
+    }
+    w.logger.verbose(m);
+    ack(m);
+
+  });
+
+
+  socket.on('bancarrota', async (data, ack) => {
+    w.logger.verbose('Me declaro en bancarrota y me voy');
+    const socketId = data.socketId;
+    var coordenadas = data.coordenadas;
+    clientes[socketId].partidaActiva = 32;
+    var bancarrota = await partidaController.bancarrota(clientes[socketId].partidaActiva, clientes[socketId].username)
+    var msg = "";
+    var m = {
+      cod: bancarrota,
+      msg: g.generarMsg(bancarrota, "bancarrota")
+    }
+    w.logger.verbose(m);
+    ack(m);
+
+  });
+
+  socket.on('aumentarCreditos', async(data, ack) => {
+    w.logger.verbose('Aumetar creditos de asignaturas');
+    const socketId = data.socketId;
+    var coordenadas = data.coordenadas;
+    clientes[socketId].partidaActiva = 36;
+
+    var aumentada = await asignaturasController.aumentarCreditos(clientes[socketId].partidaActiva, clientes[socketId].username, coordenadas);
+    var msg = "";
+    var m = {
+      cod: aumentada,
+      msg: g.generarMsg(aumentada, msg)
+    }
+    w.logger.verbose(m);
+    ack(m);
+
+
+  });
   // ==============================================
   // FUNCIONES DE CARTAS
   // ==============================================
-  socket.on('suerte', async(data, ack) => {
+  socket.on('suerte', async (data, ack) => {
     w.logger.verbose('Tarjeta aleatoria de suerte');
     const socketId = data.socketId;
     var tarjeta = await cartasController.tarjetaAleatoria('suerte', clientes[socketId].username, clientes[socketId].partidaActiva);
     var msg = "";
-    if(tarjeta != 2){
+    if (tarjeta != 2) {
       msg = tarjeta;
       tarjeta = 0;
     }
@@ -456,12 +539,12 @@ io.on('connection', (socket) => {
 
   });
 
-  socket.on('boletin', async(data, ack) => {
+  socket.on('boletin', async (data, ack) => {
     w.logger.verbose('Tarjeta aleatoria de suerte');
     const socketId = data.socketId;
     var tarjeta = await cartasController.tarjetaAleatoria('boletin', clientes[socketId].username, clientes[socketId].partidaActiva);
     var msg = "";
-    if(tarjeta != 2){
+    if (tarjeta != 2) {
       msg = tarjeta;
       tarjeta = 0;
     }

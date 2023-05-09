@@ -7,6 +7,7 @@ var tablero = require('../controllers/tableroController');
 const modeloTarjetas = require('../models/tarjetasModel');
 const modeloTarjetasEnMano = require('../models/tarjetasEnMano');
 //var asignatura = require('../controllers/asignaturasController');
+const w = require('../winston')
 
 /**
  * 
@@ -14,25 +15,27 @@ const modeloTarjetasEnMano = require('../models/tarjetasEnMano');
  * @param {*} username Jugador que se declara en bancarrota
  * @param {*}  
  */
-async function cartaJulio(req, res) {
-    console.log("***POST METHOD Tiene carta salir de julio");
+async function cartaJulio(idPartida, username) {
+    w.logger.verbose("***POST METHOD Tiene carta salir de julio");
 
     try {
-        const partida = await findPartida(req.body.idPartida, res);
-        const jugador = req.body.username;
+        const partida = await findPartida(idPartida);
+        const jugador = username;
 
-        await mongoose.connect(config.db.uri, { useNewUrlParser: true, useUnifiedTopology: true });
-        console.log("Connected to MongoDB Atlas");
+        await mongoose.connect(config.db.uri, config.db.dbOptions);
+        w.logger.verbose("Connected to MongoDB Atlas");
 
         const cartaEncontrada = await modeloTarjetasEnMano.findOne({ nombre: "¡Qué suerte, te libras!", partida: partida.id, jugador: jugador }).exec();
-        res.status(200).json(cartaEncontrada);
+        // res.status(200).json(cartaEncontrada);
+        return cartaEncontrada;
 
     } catch (error) {
-        console.error(error);
-        console.log("Error al obtener las cartas del jugador");
+        w.logger.error(error);
+        w.logger.verbose("Error al obtener las cartas del jugador");
+        return 2;
     } finally {
         mongoose.disconnect();
-        console.log("Disconnected to MongoDB Atlas")
+        w.logger.verbose("Disconnected to MongoDB Atlas")
     }
 }
 
@@ -43,36 +46,39 @@ async function cartaJulio(req, res) {
  * @param {*} username Jugador que se declara en bancarrota
  * @param {*}  
  */
-async function usarCartaJulio(req, res) {
-    console.log("***POST METHOD Usar carta salir de julio");
+//TODO: HACER EL SOCKET ON DEL SERVIDOR
+async function usarCartaJulio(idPartida, username) {
+    w.logger.verbose("***POST METHOD Usar carta salir de julio");
 
     try {
-        const partida = await findPartida(req.body.idPartida, res);
-        const jugador = req.body.username;
+        const partida = await findPartida(idPartida);
+        const jugador = username;
 
-        await mongoose.connect(config.db.uri, { useNewUrlParser: true, useUnifiedTopology: true });
-        console.log("Connected to MongoDB Atlas");
+        await mongoose.connect(config.db.uri, config.db.dbOptions );
+        w.logger.verbose("Connected to MongoDB Atlas");
 
         await modeloPartida.deleteOne({ nombre: "¡Qué suerte, te libras!", partida: partida.id, jugador: jugador });
 
-        res.status(200).send("Carta usada con éxito");
+        return 0;
+        // res.status(200).send("Carta usada con éxito");
 
     } catch (error) {
-        console.error(error);
-        console.log("Error al obtener las cartas del jugador");
+        w.logger.error(error);
+        w.logger.error("Error al obtener las cartas del jugador");
+        return 2;
     } finally {
         mongoose.disconnect();
-        console.log("Disconnected to MongoDB Atlas")
+        w.logger.verbose("Disconnected to MongoDB Atlas")
     }
 }
 
 
 async function anadirCartaJulio(username, idPartida) {
-    console.log("***POST METHOD Añadir carta salir de julio a un jugador");
+    w.logger.verbose("***POST METHOD Añadir carta salir de julio a un jugador");
 
     try {
-        await mongoose.connect(config.db.uri, { useNewUrlParser: true, useUnifiedTopology: true });
-        console.log("Connected to MongoDB Atlas");
+        await mongoose.connect(config.db.uri,  config.db.dbOptions);
+        w.logger.verbose("Connected to MongoDB Atlas");
 
         const doc = new modeloTarjetasEnMano({
             nombre: "¡Qué suerte, te libras!",
@@ -80,46 +86,48 @@ async function anadirCartaJulio(username, idPartida) {
             jugador: username
         });
         await doc.save();
-        console.log('Documento guardado correctamente')
-        res.status(200).send("Carta agnadida con éxito");
+        w.logger.verbose('Documento guardado correctamente')
+        return 0;
+        // res.status(200).send("Carta agnadida con éxito");
 
     } catch (error) {
-        console.error(error);
-        console.log("Error al obtener las cartas del jugador");
+        w.logger.error(error);
+        w.logger.debug("Error al obtener las cartas del jugador");
+        return 2;
     } finally {
         mongoose.disconnect();
-        console.log("Disconnected to MongoDB Atlas")
+        w.logger.verbose("Disconnected to MongoDB Atlas")
     }
 }
 
 
 async function findCarta(nombre) {
-    console.log("*** METHOD Find carta");
+    w.logger.verbose("*** METHOD Find carta");
 
     try {
         await mongoose.connect(config.db.uri, { useNewUrlParser: true, useUnifiedTopology: true });
-        console.log("Connected to MongoDB Atlas");
+        w.logger.verbose("Connected to MongoDB Atlas");
 
         const cartaEncontrada = await modeloTarjetas.findOne({ nombre: nombre }).exec();
-        console.log(nombre);
-        console.log(cartaEncontrada);
+        w.logger.debug(nombre);
+        w.logger.debug(JSON.stringify(cartaEncontrada));
 
         if (cartaEncontrada) {
             // Accede a los atributos de la carta utilizando la sintaxis objeto.atributo
             return cartaEncontrada;
         } else {
-            console.log("Carta no encontrada");
+            w.logger.debug("Carta no encontrada");
             return null;
         }
     }
     catch (error) {
-        console.error(error);
-        console.log('Error al encontrar carta');
+        w.logger.error(error);
+        w.logger.error('Error al encontrar carta');
         return null;
 
     } finally {
         mongoose.disconnect();
-        console.log("DisConnected to MongoDB Atlas")
+        w.logger.verbose("DisConnected to MongoDB Atlas")
     }
 }
 
@@ -132,12 +140,13 @@ async function findCarta(nombre) {
  * @param {*} tarjeta Nombre de la tarjeta
  * @param {*} coordenadas coordenadas actuales del jugador 
  */
-async function accionCarta(req, res) {
-    console.log("***POST METHOD Devuelve lo que tiene que hacer un jugador segun la carta que le ha salido");
+//TODO: HACER EL SOCKET ON DEL SERVIDOR
+async function accionCarta(idPartida, username, tarjeta, coordenadas) {
+    w.logger.verbose("***POST METHOD Devuelve lo que tiene que hacer un jugador segun la carta que le ha salido");
     try {
-        const partida = await findPartida(req.body.idPartida, res);
-        const carta = await findCarta(req.body.tarjeta);
-        const jugador = req.body.username
+        const partida = await findPartida(idPartida);
+        const carta = await findCarta(tarjeta);
+        const jugador = username
         const posicion = partida.nombreJugadores.indexOf(jugador);
 
         if (carta.cobrarPagarNada=="pagar") { // pagar
@@ -201,8 +210,8 @@ async function accionCarta(req, res) {
         // console.log(partida.posicionJugadores);
         console.log(partida.dineroJugadores);
 
-        await mongoose.connect(config.db.uri, { useNewUrlParser: true, useUnifiedTopology: true });
-        console.log("Connected to MongoDB Atlas");
+        await mongoose.connect(config.db.uri, config.db.dbOptions);
+        w.logger.verbose("Connected to MongoDB Atlas");
 
         const result1 = await modeloPartida.updateOne({ id: partida.idPartida }, {
             $set: {
@@ -212,12 +221,14 @@ async function accionCarta(req, res) {
         })
         if (result1.modifiedCount == 1) {
             console.log(result1);
-            console.log("Se ha actualizado la partida correctamente");
-            res.status(200).json("Se ha actualizado la partida correctamente");
+            w.logger.debug("Se ha actualizado la partida correctamente");
+            return 0;
+            // res.status(200).json("Se ha actualizado la partida correctamente");
         } else {
             // console.error(error);
             console.log(result1);
-            res.status(205).json({ error: 'Error al actualizar la partida ' }); // es 205 porque puede ser que un jugador no haga nada en su turno
+            return 1;
+            // res.status(205).json({ error: 'Error al actualizar la partida ' }); // es 205 porque puede ser que un jugador no haga nada en su turno
         }
 
         // const result2 = await modeloPartida.updateOne({ id: partida.idPartida }, {
@@ -237,11 +248,11 @@ async function accionCarta(req, res) {
 
     } catch (error) {
         console.error(error);
-        console.log("Error al obtener las cartas del jugador");
-
+        w.logger.error("Error al obtener las cartas del jugador");
+        return 2;
     } finally {
         mongoose.disconnect();
-        console.log("DisConnected to MongoDB Atlas")
+        w.logger.verbose("DisConnected to MongoDB Atlas")
     }
 }
 
@@ -282,6 +293,6 @@ async function tarjetaAleatoria(tipo, username, idPartida) {
     }
 }
 
-module.exports = { cartaJulio, usarCartaJulio, accionCarta, tarjetaAleatoria};
+module.exports = { cartaJulio, usarCartaJulio, accionCarta, findCarta, tarjetaAleatoria};
 
 

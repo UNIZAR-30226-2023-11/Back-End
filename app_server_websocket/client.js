@@ -2,7 +2,7 @@ const io = require('socket.io-client');
 //const socket = io('http://localhost:3000');
 const socket = io('http://localhost:3000', {
   query: {
-    name: 'paco'
+    name: 'luna'
   }
 });
 
@@ -122,7 +122,7 @@ socket.on('connect', () => {
     }, (ack) => {
       console.log('Server acknowledged:', ack);
     });
-  }else if (args[1] == 'infoAsignatura') {
+  } else if (args[1] == 'infoAsignatura') {
     socket.emit('infoAsignatura', {
       coordenadas: {
         "h": 3,
@@ -131,7 +131,7 @@ socket.on('connect', () => {
     }, (ack) => {
       console.log('Server acknowledged:', ack);
     });
-  }else if (args[1] == 'casilla') {
+  } else if (args[1] == 'casilla') {
     socket.emit('casilla', {
       coordenadas: {
         "h": 6,
@@ -141,15 +141,57 @@ socket.on('connect', () => {
     }, (ack) => {
       console.log('Server acknowledged:', ack);
     });
-  }else if (args[1] == 'suerte') {
+  } else if (args[1] == 'suerte') {
     socket.emit('suerte', {
       socketId: socket.id
     }, (ack) => {
       console.log('Server acknowledged:', ack.msg.nombre);
     });
-  }else if (args[1] == 'boletin') {
+  } else if (args[1] == 'boletin') {
     socket.emit('boletin', {
       socketId: socket.id
+    }, (ack) => {
+      console.log('Server acknowledged:', ack);
+    });
+  } else if (args[1] == 'comprarCasilla') {
+    socket.emit('comprarCasilla', {
+      socketId: socket.id,
+      coordenadas: {
+        "h": 0,
+        "v": 7
+      }
+    }, (ack) => {
+      console.log('Server acknowledged:', ack);
+    });
+  }else if (args[1] == 'listaAsignaturasC') {
+    socket.emit('listaAsignaturasC', {
+      socketId: socket.id,
+    }, (ack) => {
+      console.log('Server acknowledged:', ack);
+    });
+  }else if (args[1] == 'vender') {
+    socket.emit('vender', {
+      socketId: socket.id,
+      coordenadas: {
+        "h": 0,
+        "v": 7
+      }
+    }, (ack) => {
+      console.log('Server acknowledged:', ack);
+    });
+  }else if (args[1] == 'bancarrota') {
+    socket.emit('bancarrota', {
+      socketId: socket.id
+    }, (ack) => {
+      console.log('Server acknowledged:', ack);
+    });
+  }else if (args[1] == 'aumentarCreditos') {
+    socket.emit('aumentarCreditos', {
+      socketId: socket.id,
+      coordenadas: {
+        "h": 4,
+        "v": 10
+      }
     }, (ack) => {
       console.log('Server acknowledged:', ack);
     });
