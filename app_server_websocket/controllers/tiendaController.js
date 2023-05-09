@@ -21,7 +21,7 @@ async function devolverTienda(username) {
                 user.productosComprados.forEach(elemento => {
                     tienda.indexOf(elemento.nombreUser);
                 });
-
+            }
 
         } else {
             w.logger.debug('No se encontró el documento');
@@ -30,9 +30,8 @@ async function devolverTienda(username) {
         
         const doc = modeloUser ({
             nombreUser: username
-        });        
-    }
-    catch (error) {
+        });
+    } catch (error) {
         console.error(error);
         return 2;
         //res.status(500).json({error: 'Error al crear usuario', nombreuser: req.body.username, correo: req.body.email, contraseña: req.body.password});
