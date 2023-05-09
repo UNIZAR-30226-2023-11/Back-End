@@ -141,6 +141,18 @@ socket.on('connect', () => {
     }, (ack) => {
       console.log('Server acknowledged:', ack);
     });
+  }else if (args[1] == 'suerte') {
+    socket.emit('suerte', {
+      socketId: socket.id
+    }, (ack) => {
+      console.log('Server acknowledged:', ack.msg.nombre);
+    });
+  }else if (args[1] == 'boletin') {
+    socket.emit('boletin', {
+      socketId: socket.id
+    }, (ack) => {
+      console.log('Server acknowledged:', ack);
+    });
   }
 });
 

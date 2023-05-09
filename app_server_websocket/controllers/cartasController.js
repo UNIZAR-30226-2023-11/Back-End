@@ -250,32 +250,35 @@ async function accionCarta(req, res) {
 
 /**
  * FUNCIONA
- * @param {*} req.body.tipo
- * @param {*} req.body.username
- * @param {*} req.body.idPartida 
+ * @param {*} tipo
+ * @param {*} username
+ * @param {*} idPartida 
  * @param {*} res Devuelve una tarjeta aleatoria.
  */
-async function tarjetaAleatoria(req, res) {
-    console.log("***METHOD GET Para obtener tarjeta aleatoria ");
+//TODO: guardar que tarjeta le sale a cada usuario
+async function tarjetaAleatoria(tipo, username, idPartida) {
+    w.logger.verbose("***METHOD GET Para obtener tarjeta aleatoria ");
     try {
-        await mongoose.connect(config.db.uri, { useNewUrlParser: true, useUnifiedTopology: true });
-        console.log("Connected to MongoDB Atlas")
+        await mongoose.connect(config.db.uri, config.db.dbOptions);
+        w.logger.verbose("Connected to MongoDB Atlas")
 
-        var tipoP = req.body.tipo.toString();
+        // var tipoP = tipo;
         //console.log(tipoP);
         //const resultado = await modeloTarjetas.aggregate([{$sample: {size: 1}}]).exec();
         const resultado = await modeloTarjetas.aggregate([
-            { $match: { tipo: tipoP } },
+            { $match: { tipo: tipo } },
             { $sample: { size: 1 } }
         ]).exec();
 
-        res.status(200).json(resultado);
+        // res.status(200).json(resultado);
+        return resultado[0];
     } catch (error) {
-        console.log(error);
-        res.status(500).json({ mensaje: 'Error al obtener tarjeta aleatoria' });
+        w.logger.error(error);
+        return 2;
+        // res.status(500).json({ mensaje: 'Error al obtener tarjeta aleatoria' });
     } finally {
         mongoose.disconnect();
-        console.log("DisConnected to MongoDB Atlas")
+        w.logger.verbose("DisConnected to MongoDB Atlas")
     }
 }
 

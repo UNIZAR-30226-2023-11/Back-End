@@ -15,92 +15,6 @@ const w = require('../winston')
 
 
 //**FUNCIONES PRIVADAS  */
-/**
- * pagar Resta dinero al jugador
- * @param {*} partida Partida de tipo modeloPartida
- * @param {*} casilla Casilla de tipo modeloCasilla
- * @param {*} jugador Jugador que paga
- * @param {*} res 
- */
-async function pagar(partida, dinero, jugador, bancarrota) {
-    console.log("FUNCION PRIVADA PAGAR");
-    //console.log(partida);
-
-    try {
-        const posicion = partida.nombreJugadores.indexOf(jugador);
-        partida.dineroJugadores[posicion] = partida.dineroJugadores[posicion] - dinero;
-
-        await mongoose.connect(config.db.uri, { useNewUrlParser: true, useUnifiedTopology: true });
-        console.log("Connected to MongoDB Atlas");
-
-        const result = await modeloPartida.updateOne({ id: partida.id }, { $set: { dineroJugadores: partida.dineroJugadores } });
-
-        if (result.modifiedCount == 1) {
-            //console.log(result);
-            console.log("Se ha actualizado la partida correctamente al pagar");
-
-            if (partida.dineroJugadores[posicion] < 0) {
-                console.log("Bancarrota ", bancarrota);
-                partida.dineroJugadores.splice(posicion, 1);
-                partida.nombreJugadores.splice(posicion, 1);
-                partida.posicionJugadores.splice(posicion, 1);
-                bancarrota = true;
-                console.log(partida);
-                await modeloPartida.updateOne({ id: partida.id }, {
-                    $set: {
-                        dineroJugadores: partida.dineroJugadores, nombreJugadores: partida.nombreJugadores,
-                        posicionJugadores: partida.posicionJugadores
-                    }
-                });
-
-            }
-
-        }
-        return bancarrota;
-    } catch (error) {
-        console.error(error);
-        console.log("Error al actualizar la partida al pagar", partida.id);
-        return bancarrota;
-
-    } finally {
-        mongoose.disconnect();
-        console.log("Disconnected to MongoDB Atlas")
-    }
-}
-
-/**
- * cobrar Añade dinero al jugador
- * @param {*} partida Partida de tipo modeloPartida
- * @param {*} casilla Casilla de tipo modeloCasilla
- * @param {*} jugador Jugador que cobra
- * @param {*} res 
- */
-async function cobrar(partida, dinero, jugador) {
-    console.log("FUNCION PRIVADA COBRAR");
-    try {
-        const posicion = partida.nombreJugadores.indexOf(jugador);
-        partida.dineroJugadores[posicion] = partida.dineroJugadores[posicion] + dinero;
-
-        await mongoose.connect(config.db.uri, { useNewUrlParser: true, useUnifiedTopology: true });
-        console.log("Connected to MongoDB Atlas");
-
-        const result = await modeloPartida.updateOne({ id: partida.id }, { $set: { dineroJugadores: partida.dineroJugadores } });
-
-        if (result.modifiedCount == 1) {
-            //console.log(result);
-            console.log("Se ha actualizado la partida correctamente al cobrar");
-        } else {
-            console.error(error);
-        }
-    }
-    catch (error) {
-        console.error(error);
-        console.log("Error al cobrar");
-    } finally {
-        mongoose.disconnect();
-        console.log("Disconnected to MongoDB Atlas")
-    }
-}
 
 /**
  * 
@@ -110,7 +24,7 @@ async function cobrar(partida, dinero, jugador) {
  * @param {*} res 
  */
 async function actualizarPosicion(idPartida, coordenadas, jugador) {
-    console.log("METHOD actualizarPosicion");
+    w.logger.verbose("METHOD actualizarPosicion");
     const partida = await ctrlPartida.findPartida(idPartida);
     //console.log(partida);
 
@@ -119,24 +33,20 @@ async function actualizarPosicion(idPartida, coordenadas, jugador) {
         partida.posicionJugadores[posicion].h = coordenadas.h;
         partida.posicionJugadores[posicion].v = coordenadas.v;
 
-        await mongoose.connect(config.db.uri, { useNewUrlParser: true, useUnifiedTopology: true });
-        console.log("Connected to MongoDB Atlas");
-
+        await mongoose.connect(config.db.uri, config.db.dbOptions);
+        w.logger.verbose("Connected to MongoDB Atlas");
         const result = await modeloPartida.updateOne({ id: partida.id }, { $set: { posicionJugadores: partida.posicionJugadores } })
 
         if (result.modifiedCount == 1) {
             //console.log(result);
-            console.log("Se ha actualizado la partida correctamente al cambiar de posición");
-            //res.status(200).json("Se ha actualizado correctamente al cambiar de posición"); 
+            w.logger.debug("Se ha actualizado la partida correctamente al cambiar de posición");
         }
 
     } catch (error) {
-        console.error(error);
-        //res.status(500).json({ error: 'Error al actualizar la partida al cambiar la posicion'});
-
+        w.logger.error(error);
     } finally {
         mongoose.disconnect();
-        console.log("Disconnected to MongoDB Atlas")
+        w.logger.verbose.log("Disconnected to MongoDB Atlas")
     }
 }
 
@@ -145,11 +55,11 @@ async function actualizarPosicion(idPartida, coordenadas, jugador) {
  * @param {*} res 
  */
 async function estaComprada(coordenadas, idPartida) {
-    console.log("***METHOD Para saber si esta comprada una casilla");
+    w.logger.verbose("***METHOD Para saber si esta comprada una casilla");
 
     try {
-        await mongoose.connect(config.db.uri, { useNewUrlParser: true, useUnifiedTopology: true });
-        console.log("Connected to MongoDB Atlas")
+        await mongoose.connect(config.db.uri, config.db.dbOptions);
+        w.logger.verbose("Connected to MongoDB Atlas")
 
         const casillaComprada = await modeloAsignaturasComprada.findOne({ "partida": idPartida, "coordenadas.h": coordenadas.h, "coordenadas.v": coordenadas.v }).exec();
         //console.log(coordenadas);
@@ -157,24 +67,21 @@ async function estaComprada(coordenadas, idPartida) {
 
         if (casillaComprada != null) {
             //Esa casilla esa comprada
-            //res.status(200).json("La casilla esta comprada");
-            console.log("La casilla esta comprada")
+            w.logger.debug("La casilla esta comprada")
             return casillaComprada;
         } else {
             //Esa casilla no esta comprada
-            //res.status(200).json("La casilla no esta comprada"); 
-            console.log("La casilla no esta comprada")
+            w.logger.debug("La casilla no esta comprada")
             return null;
         }
 
     } catch (error) {
-        console.log(error);
-        console.log('Error al saber si la casilla esta comprada o no');
+        w.logger.error(error);
+        w.logger.error('Error al saber si la casilla esta comprada o no');
 
-        //res.status(500).json({mensaje: 'Error al saber si la casilla esta comprada o no'});
     } finally {
         mongoose.disconnect();
-        console.log("DisConnected to MongoDB Atlas");
+        w.logger.verbose("DisConnected to MongoDB Atlas");
     }
 }
 
@@ -184,30 +91,30 @@ async function estaComprada(coordenadas, idPartida) {
  * @returns Devuelve una casilla de tipo modeloCasilla o null
  */
 async function findCasilla(coordenadas) {
-    console.log("*** METHOD Find casilla");
+    w.logger.verbose("*** METHOD Find casilla");
     try {
-        await mongoose.connect(config.db.uri, { useNewUrlParser: true, useUnifiedTopology: true });
-        console.log("Connected to MongoDB Atlas");
-        console.log("COORDENADAS FIN C", coordenadas);
+        await mongoose.connect(config.db.uri, config.db.dbOptions);
+        w.logger.verbose("Connected to MongoDB Atlas");
+        w.logger.debug("COORDENADAS FIN C", coordenadas);
         const casillaEncontrada = await modeloCasilla.findOne({ "coordenadas.h": coordenadas.h, "coordenadas.v": coordenadas.v }).exec();
-        console.log(coordenadas);
+        w.logger.debug(coordenadas);
         //console.log("casillaEncontrada");
         //console.log(casillaEncontrada);
         if (casillaEncontrada) {
             return casillaEncontrada;
         } else {
-            console.log("Casilla no encontrada");
+            w.logger.debug("Casilla no encontrada");
             return null;
         }
 
     }
     catch (error) {
-        console.error(error);
-        console.log('Error al encontrar la casilla');
+        w.logger.error(error);
+        w.logger.error('Error al encontrar la casilla');
         return null;
     } finally {
         mongoose.disconnect();
-        console.log("DisConnected to MongoDB Atlas")
+        w.logger.verbose("DisConnected to MongoDB Atlas")
     }
 }
 
@@ -217,11 +124,11 @@ async function findCasilla(coordenadas) {
  * @returns Devuelve una casilla de tipo modeloAsignatura o null
  */
 async function isAsignatura(coordenadas) {
-    console.log("*** METHOD FIND asignatura");
+    w.logger.verbose("*** METHOD FIND asignatura");
 
     try {
-        await mongoose.connect(config.db.uri, { useNewUrlParser: true, useUnifiedTopology: true });
-        console.log("Connected to MongoDB Atlas");
+        await mongoose.connect(config.db.uri, config.db.dbOptions);
+        w.logger.verbose("Connected to MongoDB Atlas");
 
         const casillaEncontrada = await modeloAsignatura.findOne({ "coordenadas.h": coordenadas.h, "coordenadas.v": coordenadas.v }).exec();
         //console.log(coordenadas);
@@ -229,17 +136,17 @@ async function isAsignatura(coordenadas) {
         if (casillaEncontrada) {
             return casillaEncontrada;
         } else {
-            console.log("Casilla no encontrada asignatura");
+            w.logger.debug("Casilla no encontrada asignatura");
             return null;
         }
     }
     catch (error) {
-        console.error(error);
-        console.log('Error al encontrar la casilla asignatura');
+        w.logger.error(error);
+        w.logger.error('Error al encontrar la casilla asignatura');
         return null;
     } finally {
         mongoose.disconnect();
-        console.log("DisConnected to MongoDB Atlas")
+        w.logger.verbose("DisConnected to MongoDB Atlas")
     }
 }
 
@@ -249,10 +156,10 @@ async function isAsignatura(coordenadas) {
  * @returns Devuelve una casilla de tipo modeloFestividad o null
  */
 async function isFestividad(coordenadas) {
-    console.log("*** METHOD FIND festividad");
+    w.logger.verbose("*** METHOD FIND festividad");
     try {
-        await mongoose.connect(config.db.uri, { useNewUrlParser: true, useUnifiedTopology: true });
-        console.log("Connected to MongoDB Atlas");
+        await mongoose.connect(config.db.uri, config.db.dbOptions);
+        w.logger.verbose("Connected to MongoDB Atlas");
 
         const casillaEncontrada = await modeloFestividad.findOne({ "coordenadas.h": coordenadas.h, "coordenadas.v": coordenadas.v }).exec();
         //console.log(coordenadas);
@@ -260,16 +167,16 @@ async function isFestividad(coordenadas) {
         if (casillaEncontrada) {
             return casillaEncontrada;
         } else {
-            console.log("Casilla no encontrada festividad");
+            w.logger.debug("Casilla no encontrada festividad");
             return null;
         }
     } catch (error) {
-        console.error(error);
-        console.log('Error al encontrar la casilla asignatura');
+        w.logger.error(error);
+        w.logger.error('Error al encontrar la casilla asignatura');
         return null;
     } finally {
         mongoose.disconnect();
-        console.log("DisConnected to MongoDB Atlas")
+        w.logger.verbose("DisConnected to MongoDB Atlas")
     }
 }
 
@@ -279,10 +186,10 @@ async function isFestividad(coordenadas) {
  * @returns Devuelve una casilla de tipo modeloImpuesto o null
  */
 async function isImpuesto(coordenadas) {
-    console.log("*** METHOD FIND impuesto");
+    w.logger.verbose("*** METHOD FIND impuesto");
     try {
-        await mongoose.connect(config.db.uri, { useNewUrlParser: true, useUnifiedTopology: true });
-        console.log("Connected to MongoDB Atlas");
+        await mongoose.connect(config.db.uri, config.db.dbOptions);
+        w.logger.verbose("Connected to MongoDB Atlas");
 
         const casillaEncontrada = await modeloImpuesto.findOne({ "coordenadas.h": coordenadas.h, "coordenadas.v": coordenadas.v }).exec();
         //console.log(coordenadas);
@@ -290,17 +197,17 @@ async function isImpuesto(coordenadas) {
         if (casillaEncontrada) {
             return casillaEncontrada;
         } else {
-            console.log("Casilla no encontrada impuesto");
+            w.logger.debug("Casilla no encontrada impuesto");
             return null;
         }
     } catch (error) {
-        console.error(error);
-        console.log('Error al encontrar la casilla impuesto');
+        w.logger.error(error);
+        w.logger.error('Error al encontrar la casilla impuesto');
         return null;
 
     } finally {
         mongoose.disconnect();
-        console.log("DisConnected to MongoDB Atlas")
+        w.logger.verbose("DisConnected to MongoDB Atlas")
     }
 }
 
@@ -312,33 +219,33 @@ async function isImpuesto(coordenadas) {
  * @returns Devuelve una casilla de tipo modeloCasilla o null
  */
 async function findAsignaturasCompradas(username, idPartida) {
-    console.log("*** METHOD Find Asignaturas compradas");
+    w.logger.verbose("*** METHOD Find Asignaturas compradas");
     try {
-        await mongoose.connect(config.db.uri, { useNewUrlParser: true, useUnifiedTopology: true });
-        console.log("Connected to MongoDB Atlas")
+        await mongoose.connect(config.db.uri, config.db.dbOptions);
+        w.logger.verbose("Connected to MongoDB Atlas")
 
         const casillas = await modeloAsignaturasComprada.find({ "partida": idPartida, "jugador": username }).exec();
-        console.log(casillas);
+        w.logger.debug(casillas);
         //console.log(coordenadas);
         //console.log(casillaComprada);
         //console.log("casillaEncontrada");
         //console.log(casillaEncontrada);
         if (casillas != null) {
-            console.log(casillas);
+            w.logger.debug(casillas);
             return casillas;
         } else {
-            console.log("El jugador no tiene casillas compradas");
+            w.logger.debug("El jugador no tiene casillas compradas");
             return null;
         }
 
     }
     catch (error) {
-        console.error(error);
-        console.log('Error al encontrar la casilla');
+        w.logger.error(error);
+        w.logger.error('Error al encontrar la casilla');
         return null;
     } finally {
         mongoose.disconnect();
-        console.log("DisConnected to MongoDB Atlas")
+        w.logger.verbose("DisConnected to MongoDB Atlas")
     }
 }
 
@@ -366,7 +273,7 @@ async function comprarCasilla(req, res) {
             const posicion = partida.nombreJugadores.indexOf(req.body.username);
             if (partida.dineroJugadores[posicion] >= casilla.precioCompra) {
                 //Restamos el dinero al jugador y actualizamos el dinero en la partida
-                await pagar(partida, casilla.precioCompra, req.body.username, false);
+                await ctrlPartida.pagar(partida, casilla.precioCompra, req.body.username, false);
                 //Miramos el tipo de casilla que es A,F,I,X
                 const doc = new modeloAsignaturasComprada();
                 if (casilla.tipo == "A") {
@@ -401,7 +308,7 @@ async function comprarCasilla(req, res) {
 
                 //La metemos en la tabla de casillas compradas
                 try {
-                    await mongoose.connect(config.db.uri, { useNewUrlParser: true, useUnifiedTopology: true });
+                    await mongoose.connect(config.db.uri, config.db.dbOptions);
                     console.log("Connected to MongoDB Atlas")
 
                     await doc.save();
@@ -411,7 +318,7 @@ async function comprarCasilla(req, res) {
 
                 } catch (error) {
                     console.error(error);
-                    await cobrar(partida, casilla.precioCompra, req.body.username, res);
+                    await ctrlPartida.cobrar(partida, casilla.precioCompra, req.body.username, res);
                     res.status(500).json({ error: 'Error al comprar la casilla', nombreJugadores: req.body.username, posicionJugadores: 1010, dineroJugadores: 0 });
                 } finally {
                     mongoose.disconnect();
@@ -453,16 +360,16 @@ async function checkCasilla(username, coordenadas, idPartida) {
             //Si la casilla esta comprada habrá que quitarle dinero al jugador y añadirselo al propietario
             //hay que comprobar que no esta comprada por el propio jugador
             if (comprada.jugador != username) {
-                bancarrota = await pagar(partida, comprada.precio, username, bancarrota);
-                await cobrar(partida, comprada.precio, comprada.jugador);
+                bancarrota = await ctrlPartida.pagar(partida, comprada.precio, username, bancarrota);
+                await ctrlPartida.cobrar(partida, comprada.precio, comprada.jugador);
                 // res.status(200).json({ message: 'Se ha pagado lo que se debia', jugador: comprada.jugador, dinero: comprada.precio, bancarrota: bancarrota });
                 return 5;
-            
+
             } else {
                 w.logger.debug("Esta casilla es mia" + username + coordenadas);
                 let aumentar = await puedoAumentar(coordenadas, idPartida, username);
                 // res.status(200).json({ jugador: username, aumento: aumentar });
-                if(aumentar){
+                if (aumentar) {
                     return 6;
                 }
                 return 7;
@@ -495,7 +402,7 @@ async function checkCasilla(username, coordenadas, idPartida) {
  * @param {*} res 
  */
 async function infoAsignatura(coordenadas) {
-    console.log("METHOD Comprar Casilla");
+    w.logger.verbose("METHOD INFO Casilla");
     //console.log(req.body.coordenadas);
     const casilla = await findCasilla(coordenadas);
     if (casilla != null) {
@@ -510,16 +417,11 @@ async function infoAsignatura(coordenadas) {
             casillaInfo = await isImpuesto(coordenadas);
         }
         if (casillaInfo != null) {
-            // res.status(200).json({ casillaInfo });
             return casillaInfo;
         } else {
-            // res.status(404).json("No se ha encontrado la indormación de la casilla");
             return 1;
         }
-
-
     } else {
-        // res.status(404).json("La casilla no existe");
         return 1;
     }
 }
@@ -543,7 +445,7 @@ async function listaAsignaturasC(req, res) {
 }
 
 async function devolverCuatri(coordenadas) {
-    console.log("*** METHOD devolverCuatri");
+    w.logger.verbose("*** METHOD devolverCuatri");
     // try {
     //     await mongoose.connect(config.db.uri, { useNewUrlParser: true, useUnifiedTopology: true });
     //     console.log("Connected to MongoDB Atlas")
@@ -558,7 +460,7 @@ async function devolverCuatri(coordenadas) {
         console.log(casillas);
         return casillas.cuatrimestre;
     } else {
-        console.log("El jugador no tiene casillas compradas");
+        w.logger.debug("El jugador no tiene casillas compradas");
         return 0;
     }
 
@@ -574,7 +476,7 @@ async function devolverCuatri(coordenadas) {
 //}
 
 async function asignaturaInfo(coordenadas) {
-    console.log("METHOD devolver info asignatura");
+    w.logger.verbose("METHOD devolver info asignatura");
     //console.log(req.body.coordenadas);
     const casilla = await findCasilla(coordenadas);
 
@@ -653,23 +555,23 @@ async function aumentarCreditos(req, res) {
             console.log("PRECIO: matricula-1C", asignatura.precio1C);
             casillasFiltradas[pos].precio = asignatura.precio1C
             console.log("PRECIO: matricula-1C", casillasFiltradas[pos].precio);
-            await pagar(partida, asignatura.precioCompraCreditos, req.body.username, bancarrota);
+            await ctrlPartida.pagar(partida, asignatura.precioCompraCreditos, req.body.username, bancarrota);
         }
         else if (casillasFiltradas[pos].precio == asignatura.precio1C) {
             console.log("PRECIO: 1C-2C");
             casillasFiltradas[pos].precio = asignatura.precio2C
 
-            await pagar(partida, asignatura.precioCompraCreditos, req.body.username, bancarrota);
+            await ctrlPartida.pagar(partida, asignatura.precioCompraCreditos, req.body.username, bancarrota);
 
         } else if (casillasFiltradas[pos].precio == asignatura.precio2C) {
             console.log("PRECIO: 2C-2C");
             casillasFiltradas[pos].precio = asignatura.precio3C
-            await pagar(partida, asignatura.precioCompraCreditos, req.body.username, bancarrota);
+            await ctrlPartida.pagar(partida, asignatura.precioCompraCreditos, req.body.username, bancarrota);
 
         } else if (casillasFiltradas[pos].precio == asignatura.precio3C) {
             console.log("PRECIO: 3C-3C");
             casillasFiltradas[pos].precio = asignatura.precio4C
-            await pagar(partida, asignatura.precioCompraCreditos, req.body.username, bancarrota);
+            await ctrlPartida.pagar(partida, asignatura.precioCompraCreditos, req.body.username, bancarrota);
 
         } else if (casillasFiltradas[pos].precio == asignatura.precio4C) {
             console.log("PRECIO: 4C-4C");
@@ -679,7 +581,7 @@ async function aumentarCreditos(req, res) {
         console.log(casillasFiltradas[pos]);
 
         try {
-            await mongoose.connect(config.db.uri, { useNewUrlParser: true, useUnifiedTopology: true });
+            await mongoose.connect(config.db.uri, config.db.dbOptions);
             console.log("Connected to MongoDB Atlas");
 
             const result = await modeloAsignaturasComprada.updateOne({ "coordenadas.h": req.body.coordenadas.h, "coordenadas.v": req.body.coordenadas.v }, { $set: { precio: casillasFiltradas[pos].precio } })
@@ -760,7 +662,7 @@ async function vender(req, res) {
     }
     if (casillasFiltradas.length === 1) {
         try {
-            await mongoose.connect(config.db.uri, { useNewUrlParser: true, useUnifiedTopology: true });
+            await mongoose.connect(config.db.uri, config.db.dbOptions);
             console.log("Connected to MongoDB Atlas");
             //borrarla
             const result = await modeloAsignaturasComprada.deleteOne({
@@ -777,7 +679,7 @@ async function vender(req, res) {
                 if (casilla) {
                     const partida = await ctrlPartida.findPartida(req.body.idPartida);
                     if (partida) {
-                        await pagar(partida, casilla.devolucionMatricula, req.body.username);
+                        await ctrlPartida.pagar(partida, casilla.devolucionMatricula, req.body.username);
                         res.status(200).json("ok");
                     } else {
                         res.status(500).json({ error: 'Error al actualizar la venta de la casilla, no existe la partida' });
@@ -786,7 +688,7 @@ async function vender(req, res) {
                 } else {
                     res.status(500).json({ error: 'Error al actualizar la venta de la casilla, no existe la casilla' });
                 }
-                
+
             } else {
                 console.log(result);
                 res.status(500).json({ error: 'Error al actualizar la venta de la casilla' });
@@ -803,7 +705,7 @@ async function vender(req, res) {
             console.log("DisConnected to MongoDB Atlas")
         }
 
-    }else{
+    } else {
         res.status(500).json({ error: 'Error al vender de la casilla, esa asignatura no es propiedad del usuario' });
     }
 

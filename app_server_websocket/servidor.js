@@ -20,7 +20,7 @@ var usersController = require('./controllers/usersController');
 var partidaController = require('./controllers/partidaController');
 var tiendaController = require('./controllers/tiendaController');
 var asignaturasController = require('./controllers/asignaturasController');
-
+var cartasController = require('./controllers/cartasController');
 // Declara un objeto para guardar las conexiones
 const clientes = {};
 
@@ -287,23 +287,25 @@ io.on('connection', (socket) => {
       clientes[socketId].partidaActiva = data.idPartida;
       socket.join(data.idPartida);
 
-      var lista = await partidaController.listaJugadores(data.idPartida);
-      w.logger.debug('Lista jugadores: ' + lista.listaJugadores);
+      var partida = await partidaController.infoPartida(data.idPartida);
+
+      w.logger.debug('Lista jugadores: ' + partida.nombreJugadores);
 
       w.logger.debug("Sockets del jugador que se ha unido: " + socket.id)
-      io.to(data.idPartida).emit('esperaJugadores', lista.listaJugadores);
+      io.to(data.idPartida).emit('esperaJugadores', partida.nombreJugadores);
 
       const socketsGrupo = io.sockets.in(data.idPartida).sockets;
-      console.log(`IDs de los sockets en el grupo ${data.idPartida}:`);
+      w.logger.debug(`IDs de los sockets en el grupo ${data.idPartida}:`);
 
       for (const socketID in socketsGrupo) {
-        console.log(socketID);
+        w.logger.debug(socketID);
       }
       w.logger.verbose("\n\tCliente socket: " + clientes[socketId].socket.id + "\n" +
         "\tCliente nombre: " + clientes[socketId].username + "\n" +
         "\tCliente partida: " + clientes[socketId].partidaActiva + "\n");
 
-    }
+      partida = 0;
+      }
     //w.logger.verbose(imagen);
     var m = {
       cod: partida,
@@ -429,6 +431,46 @@ io.on('connection', (socket) => {
     w.logger.verbose(m);
     ack(m);
 
+
+  });
+
+  
+  // ==============================================
+  // FUNCIONES DE CARTAS
+  // ==============================================
+  socket.on('suerte', async(data, ack) => {
+    w.logger.verbose('Tarjeta aleatoria de suerte');
+    const socketId = data.socketId;
+    var tarjeta = await cartasController.tarjetaAleatoria('suerte', clientes[socketId].username, clientes[socketId].partidaActiva);
+    var msg = "";
+    if(tarjeta != 2){
+      msg = tarjeta;
+      tarjeta = 0;
+    }
+    var m = {
+      cod: tarjeta,
+      msg: g.generarMsg(tarjeta, msg)
+    }
+    w.logger.verbose(m);
+    ack(m);
+
+  });
+
+  socket.on('boletin', async(data, ack) => {
+    w.logger.verbose('Tarjeta aleatoria de suerte');
+    const socketId = data.socketId;
+    var tarjeta = await cartasController.tarjetaAleatoria('boletin', clientes[socketId].username, clientes[socketId].partidaActiva);
+    var msg = "";
+    if(tarjeta != 2){
+      msg = tarjeta;
+      tarjeta = 0;
+    }
+    var m = {
+      cod: tarjeta,
+      msg: g.generarMsg(tarjeta, msg)
+    }
+    w.logger.verbose(m);
+    ack(m);
 
   });
 
