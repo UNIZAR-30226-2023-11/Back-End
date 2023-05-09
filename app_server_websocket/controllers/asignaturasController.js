@@ -761,11 +761,11 @@ async function devolverDinero(partida, dinero, jugador, bancarrota) {
             // }
 
         }
-        return bancarrota;
+        return true;
     } catch (error) {
         w.logger.error(error);
         w.logger.error("Error al actualizar la partida al pagar", partida.id);
-        return bancarrota;
+        return false;
 
     } finally {
         mongoose.disconnect();
