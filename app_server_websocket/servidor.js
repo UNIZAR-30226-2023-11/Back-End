@@ -519,25 +519,25 @@ io.on('connection', (socket) => {
 
   });
 
-  socket.on('infoPartida', async (data, ack) => {
-    w.logger.verbose('Devolver info partida');
-    const socketID = data.socketID;
-    var partida = await partidaController.infoPartida(clientes[socketId].username);
+  // socket.on('infoPartida', async (data, ack) => {
+  //   w.logger.verbose('Devolver info partida');
+  //   const socketID = data.socketID;
+  //   var partida = await partidaController.infoPartida(clientes[socketId].username);
 
-    // var imagen = await usersController.devolverImagenPerfil(clientes[socketId].username);
+  //   // var imagen = await usersController.devolverImagenPerfil(clientes[socketId].username);
 
-    var msg;
-    if (usuario != 1 && usuario != 2) {
-      w.logger.verbose('Partida obtenida:' + partida);
-      msg = partida;
-      partida = 0;
-    }
-    var m = {
-      cod: partida,
-      msg: g.generarMsg(partida, msg)
-    }
-    ack(m);
-  });
+  //   var msg;
+  //   if (usuario != 1 && usuario != 2) {
+  //     w.logger.verbose('Partida obtenida:' + partida);
+  //     msg = partida;
+  //     partida = 0;
+  //   }
+  //   var m = {
+  //     cod: partida,
+  //     msg: g.generarMsg(partida, msg)
+  //   }
+  //   ack(m);
+  // });
 
   // ==============================================
   // FUNCIONES DE CARTAS

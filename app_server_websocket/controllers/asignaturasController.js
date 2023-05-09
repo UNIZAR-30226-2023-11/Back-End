@@ -4,14 +4,15 @@ var modeloFestividad = require('../models/festividadModel');
 var modeloAsignatura = require('../models/asignaturaModel');
 var modeloPartida = require('../models/partidaModel');
 var modeloTarjetas = require('../models/tarjetasModel');
-var modeloAsignaturasComprada = require('../models/asignaturasCompradasModel');
+var modeloAsignaturaComprada = require('../models/asignaturasCompradasModel');
 var modeloCasilla = require('../models/casillaModel');
 var modeloImpuesto = require('../models/impuestoModel');
 var ctrlPartida = require('../controllers/partidaController');
 const mongoose = require("mongoose");
 const { rawListeners } = require('../models/normasModel');
 
-const w = require('../winston')
+const w = require('../winston');
+const modeloAsignaturaComprada = require('../models/asignaturasCompradasModel');
 
 
 //**FUNCIONES PRIVADAS  */
@@ -628,6 +629,69 @@ async function aumentarCreditos(idPartida, username, coordenadas) {
 }
 
 
+/**
+ * 
+ * @param {*} idPartida
+ * @param {*} username
+ * @param {*} coordenadas
+ * @param {*} res 
+ */
+async function disminuirCreditos(idPartida, username, coordenadas) {
+    w.logger.verbose("PUT Disminuir creditos asignatua");
+    
+    try {
+        await mongoose.connect(config.db.uri, config.db.dbOptions);
+        w.logger.verbose("Connected to MongoDB Atlas")
+
+        const asignatura_comprada = await modeloAsignaturaComprada.findOne({coordenadas: coordenadas});
+        const asignatura_info = await asignaturaInfo(coordenadas);
+
+        w.logger.verbose("Asignatura comprada: " + asignatura_comprada);
+        w.logger.verbose("Asginatura info: " + asignatura_info);
+
+        if (casillasFiltradas[pos].precio == asignatura.matricula) {
+            w.logger.debug("PRECIO: matricula-matricula" + asignatura.precio1C);
+
+            // sin cambios
+        }
+        else if (casillasFiltradas[pos].precio == asignatura.precio1C) {
+            w.logger.debug("PRECIO: 1C-matricula");
+            casillasFiltradas[pos].precio = asignatura.matricula;
+
+            await ctrlPartida.devolverDinero(partida, asignatura.precioCompraCreditos, username, bancarrota);
+
+        } else if (casillasFiltradas[pos].precio == asignatura.precio2C) {
+            w.logger.debug("PRECIO: 2C-1C");
+            casillasFiltradas[pos].precio = asignatura.precio1C
+
+            await ctrlPartida.devolverDinero(partida, asignatura.precioCompraCreditos, username, bancarrota);
+
+        } else if (casillasFiltradas[pos].precio == asignatura.precio3C) {
+            w.logger.debug("PRECIO: 3C-2C");
+            casillasFiltradas[pos].precio = asignatura.precio2C
+
+            await ctrlPartida.devolverDinero(partida, asignatura.precioCompraCreditos, username, bancarrota);
+
+        } else if (casillasFiltradas[pos].precio == asignatura.precio4C) {
+            w.logger.debug("PRECIO: 4C-3C");
+            casillasFiltradas[pos].precio = asignatura.precio3C
+
+            await ctrlPartida.devolverDinero(partida, asignatura.precioCompraCreditos, username, bancarrota);
+        }
+        
+    } catch(error) {
+        w.logger.error(error);
+        w.logger.error('Error al disminuir creditos asignatura');
+        return 2;
+
+    } finally {
+        mongoose.disconnect();
+        w.logger.verbose("DisConnected to MongoDB Atlas")
+    }
+}
+
+
+
 async function puedoAumentar(coordenadas, idPartida, username) {
     w.logger.verbose("PUT Puedo Aumentar creditos asignatua");
     // Comprobar que tiene todos los del mismo cuatrimestre
@@ -656,6 +720,59 @@ async function puedoAumentar(coordenadas, idPartida, username) {
     }
     return todos;
 }
+
+/**
+ * devolverDinero Suma dinero al jugador
+ * @param {*} partida Partida de tipo modeloPartida
+ * @param {*} casilla Casilla de tipo modeloCasilla
+ * @param {*} jugador Jugador que paga
+ * @param {*} res 
+ */
+async function devolverDinero(partida, dinero, jugador, bancarrota) {
+    w.logger.verbose("FUNCION PRIVADA dovolverDinero");
+
+    try {
+        const posicion = partida.nombreJugadores.indexOf(jugador);
+        partida.dineroJugadores[posicion] = partida.dineroJugadores[posicion] + dinero;
+
+        await mongoose.connect(config.db.uri, config.db.dbOptions);
+        w.logger.verbose("Connected to MongoDB Atlas");
+
+        const result = await modeloPartida.updateOne({ id: partida.id }, { $set: { dineroJugadores: partida.dineroJugadores } });
+
+        if (result.modifiedCount == 1) {
+            //console.log(result);
+            w.logger.debug("Se ha actualizado la partida correctamente al pagar");
+
+            // if (partida.dineroJugadores[posicion] < 0) {
+            //     console.log("Bancarrota ", bancarrota);
+            //     partida.dineroJugadores.splice(posicion, 1);
+            //     partida.nombreJugadores.splice(posicion, 1);
+            //     partida.posicionJugadores.splice(posicion, 1);
+            //     bancarrota = true;
+            //     w.logger.debug(partida);
+            //     await modeloPartida.updateOne({ id: partida.id }, {
+            //         $set: {
+            //             dineroJugadores: partida.dineroJugadores, nombreJugadores: partida.nombreJugadores,
+            //             posicionJugadores: partida.posicionJugadores
+            //         }
+            //     });
+
+            // }
+
+        }
+        return bancarrota;
+    } catch (error) {
+        w.logger.error(error);
+        w.logger.error("Error al actualizar la partida al pagar", partida.id);
+        return bancarrota;
+
+    } finally {
+        mongoose.disconnect();
+        w.logger.verbose("Disconnected to MongoDB Atlas")
+    }
+}
+
 
 /**
  * 
