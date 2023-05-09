@@ -2,7 +2,7 @@ FROM node:18
 # RUN useradd -ms /bin/bash usuario
 WORKDIR /home/usuario/app
 COPY package*.json ./
-COPY . .
+COPY ./app_server_websocket .
 RUN rm -rf ./node_modules
 RUN npm install
 WORKDIR /home/usuario/app/app_server_websocket
