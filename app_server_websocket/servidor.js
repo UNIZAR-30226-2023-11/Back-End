@@ -596,10 +596,10 @@ io.on('connection', (socket) => {
 
 });
 
-// server.listen(80, () => {
-//   w.logger.info('Servidor escuchando en el puerto 80');
-// });
-
-server.listen(3000, () => {
+server.listen(80, () => {
   w.logger.info('Servidor escuchando en el puerto 80');
 });
+
+// server.listen(3000, () => {
+//   w.logger.info('Servidor escuchando en el puerto 80');
+// });
