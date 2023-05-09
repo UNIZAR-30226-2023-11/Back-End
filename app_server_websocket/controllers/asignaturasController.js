@@ -4,7 +4,7 @@ var modeloFestividad = require('../models/festividadModel');
 var modeloAsignatura = require('../models/asignaturaModel');
 var modeloPartida = require('../models/partidaModel');
 var modeloTarjetas = require('../models/tarjetasModel');
-var modeloAsignaturaComprada = require('../models/asignaturasCompradasModel');
+var modeloAsignaturasComprada = require('../models/asignaturasCompradasModel');
 var modeloCasilla = require('../models/casillaModel');
 var modeloImpuesto = require('../models/impuestoModel');
 var ctrlPartida = require('../controllers/partidaController');
@@ -678,7 +678,7 @@ async function disminuirCreditos(idPartida, username, coordenadas) {
 
             await ctrlPartida.devolverDinero(partida, asignatura.precioCompraCreditos, username, bancarrota);
         }
-        
+
     } catch(error) {
         w.logger.error(error);
         w.logger.error('Error al disminuir creditos asignatura');
