@@ -46,7 +46,7 @@ async function actualizarPosicion(idPartida, coordenadas, jugador) {
         w.logger.error(error);
     } finally {
         mongoose.disconnect();
-        w.logger.verbose.log("Disconnected to MongoDB Atlas")
+        w.logger.verbose("Disconnected to MongoDB Atlas")
     }
 }
 
@@ -550,7 +550,7 @@ async function aumentarCreditos(idPartida, username, coordenadas) {
     }
 
     if (todos == true) {
-        w.logger.debug("COORDENQDAS" + coordenadas);
+        w.logger.debug("COORDENADAS" + coordenadas);
         const asignatura = await asignaturaInfo(coordenadas);
         w.logger.debug("ASIGNATURA" + asignatura);
         w.logger.debug("ASIGNATURA 2" + asignatura);
