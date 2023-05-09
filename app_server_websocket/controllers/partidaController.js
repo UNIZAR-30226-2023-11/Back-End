@@ -371,7 +371,8 @@ async function siguienteTurno(idPartida) {
         if (partida.dados.jugador == "") {
             //le toca al primero
             partida.dados.jugador = partida.nombreJugadores[0];
-            res.status(200).json({ jugador: partida.nombreJugadores[0] });
+            // res.status(200).json({ jugador: partida.nombreJugadores[0] });
+            return {jugador: partida.nombreJugadores[0]}
         } else {
             const posicion = partida.nombreJugadores.indexOf(partida.dados.jugador);
             if (posicion == tam - 1) { //le vuelve a tocar al primero
