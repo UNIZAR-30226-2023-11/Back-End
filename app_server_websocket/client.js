@@ -198,10 +198,6 @@ socket.on('connect', () => {
   } else if (args[1] == 'tienda') {
     socket.emit('tienda', {
       socketId: socket.id,
-      coordenadas: {
-        "h": 4,
-        "v": 10
-      }
     }, (ack) => {
       console.log('Server acknowledged:', ack);
     });
