@@ -407,9 +407,6 @@ async function checkCasilla(username, coordenadas, idPartida) {
 
 
 
-
-
-
 /**
  * 
  * @param {*} coordenadas Corrdenadas de la casilla a buscar información 
