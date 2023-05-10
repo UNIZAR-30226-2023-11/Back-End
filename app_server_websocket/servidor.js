@@ -519,10 +519,11 @@ io.on('connection', (socket) => {
 
   socket.on('infoPartida', async (data, ack) => {
     w.logger.verbose('Devolver info partida');
-    const socketID = data.socketID;
-    var partida = await partidaController.infoPartida(clientes[socketId].username);
+    const socketId = data.socketId;
+    clientes[socketId].partidaActiva = 32;
+    var partida = await partidaController.infoPartida(clientes[socketId].partidaActiva);
     var msg;
-    if (usuario != 1 && usuario != 2) {
+    if (partida != 1 && partida != 2) {
       w.logger.verbose('Partida obtenida:' + partida.toString());
       msg = partida;
       partida = 0;

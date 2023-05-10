@@ -75,12 +75,12 @@ async function infoPartida(idPartida) {
                 lista.push([partidaEncontrada.nombreJugadores[i], partidaEncontrada.dineroJugadores[i]], partidaEncontrada.posicionJugadores[i]);
             }
             w.logger.debug(lista);
-            var listas = {
-                listaJugadores: partidaEncontrada.nombreJugadores,
-                listaDineros: partidaEncontrada.dineroJugadores,
-                listaPosiciones: partidaEncontrada.posicionJugadores,
-                listaTuplas: lista
-            };
+            // var listas = {
+            //     listaJugadores: partidaEncontrada.nombreJugadores,
+            //     listaDineros: partidaEncontrada.dineroJugadores,
+            //     listaPosiciones: partidaEncontrada.posicionJugadores,
+            //     listaTuplas: lista
+            // };
             //return listas;
             //TODO: Repasar si esta correcta
             return partidaEncontrada;
