@@ -2,7 +2,7 @@ const io = require('socket.io-client');
 //const socket = io('http://localhost:3000');
 const socket = io('http://localhost:3000', {
   query: {
-    name: 'paco'
+    name: 'paco',
   }
 });
 
@@ -163,13 +163,13 @@ socket.on('connect', () => {
     }, (ack) => {
       console.log('Server acknowledged:', ack);
     });
-  }else if (args[1] == 'listaAsignaturasC') {
+  } else if (args[1] == 'listaAsignaturasC') {
     socket.emit('listaAsignaturasC', {
       socketId: socket.id,
     }, (ack) => {
       console.log('Server acknowledged:', ack);
     });
-  }else if (args[1] == 'vender') {
+  } else if (args[1] == 'vender') {
     socket.emit('vender', {
       socketId: socket.id,
       coordenadas: {
@@ -179,13 +179,13 @@ socket.on('connect', () => {
     }, (ack) => {
       console.log('Server acknowledged:', ack);
     });
-  }else if (args[1] == 'bancarrota') {
+  } else if (args[1] == 'bancarrota') {
     socket.emit('bancarrota', {
       socketId: socket.id
     }, (ack) => {
       console.log('Server acknowledged:', ack);
     });
-  }else if (args[1] == 'aumentarCreditos') {
+  } else if (args[1] == 'aumentarCreditos') {
     socket.emit('aumentarCreditos', {
       socketId: socket.id,
       coordenadas: {
@@ -201,9 +201,23 @@ socket.on('connect', () => {
     }, (ack) => {
       console.log('Server acknowledged:', ack);
     });
-  }else if (args[1] == 'infoPartida') {
+  } else if (args[1] == 'infoPartida') {
     socket.emit('infoPartida', {
       socketId: socket.id,
+    }, (ack) => {
+      console.log('Server acknowledged:', ack);
+    });
+  } else if (args[1] == 'comprarTienda') {
+    socket.emit('comprarTienda', {
+      socketId: socket.id,
+      producto: 'Cat 1',
+    }, (ack) => {
+      console.log('Server acknowledged:', ack);
+    });
+  } else if (args[1] == 'updateImagenPerfil') {
+    socket.emit('updateImagenPerfil', {
+      socketId: socket.id,
+      imagen: 'Cat 2',
     }, (ack) => {
       console.log('Server acknowledged:', ack);
     });

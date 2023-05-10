@@ -164,6 +164,24 @@ io.on('connection', (socket) => {
     ack(m);
   });
 
+  socket.on('updateImagenPerfil', async (data, ack) => {
+    w.logger.verbose('Actualización de la imagen de perfil de usuario');
+    const socketId = data.socketId;
+    var up = await usersController.updateImagenPerfil(clientes[socketId].username, data.imagen);
+    if (up != 1 && up != 2) {
+      w.logger.verbose('Actualizada imagen de perfil');
+      io.emit('mensaje', "Actualizada imagen de perfil");
+      clientes[socket.id].imagen = data.imagen;
+      w.logger.error(clientes[socket.id].imagen);
+      //ack('0 Ok');
+    }
+    var m = {
+      cod: up,
+      msg: g.generarMsg(up, "")
+    }
+    ack(m);
+  });
+
   //CORRECTA
   socket.on('infoUsuario', async (data, ack) => {
     //FIXME: no devolver contraseña
@@ -593,6 +611,27 @@ io.on('connection', (socket) => {
     var m = {
       cod: tienda,
       msg: g.generarMsg(tienda, msg)
+    }
+    ack(m);
+  });
+
+  socket.on('comprarTienda', async (data, ack) => {
+    w.logger.verbose('Tienda');
+    const socketId = data.socketId;
+    const producto = data.producto;
+    var comprado = await tiendaController.comprarTienda(producto, clientes[socketId].username);
+    var msg = "";
+    if (comprado != 1 && comprado != 2) {
+      w.logger.verbose('Se ha comprado el producto correctamente');
+
+      msg = comprado;
+      w.logger.debug('comprado: ' + comprado);
+
+      comprado = 0;
+    }
+    var m = {
+      cod: comprado,
+      msg: g.generarMsg(comprado, msg)
     }
     ack(m);
   });

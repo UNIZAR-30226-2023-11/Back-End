@@ -48,7 +48,46 @@ async function devolverTienda(username) {
     } finally {
         await mongoose.disconnect();
         w.logger.info("DisConnected to MongoDB Atlas");
+    }º
+}
+
+async function comprarTienda (producto, username) {
+    w.logger.info("***POST METHOD Comprar producto de la tienda");
+
+    try {
+        await mongoose.connect(config.db.uri, config.db.dbOptions);
+        w.logger.info("Connected to MongoDB Atlas");
+
+        const usuario = await modeloUser.findOne({nombreUser: username}).exec();
+        const tam = usuario.productosComprados.length;
+        usuario.productosComprados[tam] = producto;
+
+        const result = await modeloUser.updateOne({ nombreUser: username }, {
+            $set: {
+                productosComprados: usuario.productosComprados
+            }
+        });
+
+        if (result.modifiedCount == 1) {
+            w.logger.debug(result);
+            w.logger.verbose("Se han actualizado los productos del usuario correctamente");
+            return 0;
+        } else {
+            //console.error(error);
+            w.logger.error("NO SE HAN MODIFICADO LOS PRODUCTOS DEL USUARIO")
+        
+            w.logger.debug(result);
+            return 1;
+        }
+
+    } catch (error) {
+        w.logger.error(error);
+        return 2;
+
+    } finally {
+        await mongoose.disconnect();
+        w.logger.info("DisConnected to MongoDB Atlas");
     }
 }
 
-module.exports = { devolverTienda };
+module.exports = { devolverTienda, comprarTienda };

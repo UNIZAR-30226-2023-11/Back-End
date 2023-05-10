@@ -310,7 +310,41 @@ async function devolverImagenPerfil(username) {
     }
 }
 
+async function updateImagenPerfil(username, imagen) {
+    w.logger.info("***PUT METHOD Actualizar el imagenPerfil");
+
+    const doc = {
+        nombreUser: username,
+        imagen: imagen,
+    };
+
+    try {
+        await mongoose.connect(config.db.uri, config.db.dbOptions);
+        w.logger.info("Connected to MongoDB Atlas");
+
+        const result = await modeloUser.updateOne({ nombreUser: doc.nombreUser }, { $set: { imagen: doc.imagen } })
+        if (result.modifiedCount == 1) {
+            console.log(result);
+            w.logger.debug("Se ha actualizado la imagen de perfil correctamente");
+            return 0;
+        } else {
+            console.log(result);
+            return 1;
+            //TODO:Probar que si se quita este lo coge el otro
+            // res.status(500).json({ error: 'Error al actualizar el correo 3', nombreUser: req.body.username, res: result });
+        }
+
+    } catch (error) {
+        console.error(error);
+        return 2;
+
+    } finally {
+        mongoose.disconnect();
+        w.logger.info("DisConnected to MongoDB Atlas")
+    }
+}
 
 
 
-module.exports = { registerUser, loginUser, deleteUser, updatePassword, updateCorreo, updateUsername, infoUsuario, devolverImagenPerfil };
+
+module.exports = { registerUser, loginUser, deleteUser, updatePassword, updateCorreo, updateUsername, infoUsuario, devolverImagenPerfil, updateImagenPerfil };
