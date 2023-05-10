@@ -212,7 +212,6 @@ async function isImpuesto(coordenadas) {
     }
 }
 
-
 /**
  * 
  * @param {*} username Nombre del jugador del que queremos la lista de asignaturas compradas
@@ -404,8 +403,6 @@ async function checkCasilla(username, coordenadas, idPartida) {
         // res.status(200).json({ message: 'Esta asignatura se puede comprar', jugador: null, dinero: null });
     }
 }
-
-
 
 /**
  * 

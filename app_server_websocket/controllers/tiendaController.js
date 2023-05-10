@@ -9,35 +9,34 @@ async function devolverTienda(username) {
 
     try {
         await mongoose.connect(config.db.uri, config.db.dbOptions);
-        w.logger.info("Connected to MongoDB Atlas")
+        w.logger.info("Connected to MongoDB Atlas");
 
-        //toda la tienda
-        const docs = await modeloTienda.find({});
-        if (docs.length > 0) {
-            w.logger.debug("Documento encontrado: ", docs.toString());
-            const user = await modeloUser.find(doc);
+        const tienda = await modeloTienda.find({});
+        if (tienda.length > 0) {
+            w.logger.verbose("Documento encontrado: " + tienda.toString());
+            const usuario = await modeloUser.find({nombreUser: username});
             if (tienda.length > 0) {
                 w.logger.debug("Documento encontrado: ", user);
                 user.productosComprados.forEach(elemento => {
-                    tienda.indexOf(elemento.nombreUser);
-                });
-            }
+                    const indice = tienda.indexOf(elemento.nombreUser);
+                    tienda.comprado[indice] = true;
 
-        } else {
-            w.logger.debug('No se encontró el documento');
-            return 0;
+                    if (tienda.imagen[indice] === usuario.imagen) {
+                        tienda.usado[indice] = true;
+                    }
+                });
+            }   
         }
-        
-        const doc = modeloUser ({
-            nombreUser: username
-        });
+
+        return tienda;
+
     } catch (error) {
-        console.error(error);
+        w.logger.error(error);
         return 2;
-        //res.status(500).json({error: 'Error al crear usuario', nombreuser: req.body.username, correo: req.body.email, contraseña: req.body.password});
+
     } finally {
         mongoose.disconnect();
-        w.logger.info("DisConnected to MongoDB Atlas")
+        w.logger.info("DisConnected to MongoDB Atlas");
     }
 }
 
