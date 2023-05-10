@@ -17,7 +17,7 @@ async function registerUser(username, password, confirm_password, email) {
         partidasJugadas: 0,
         productosComprados: 0,
         partidasEnJuego: 0,
-        productosComprados: [],
+        productosComprados: ["vacio"],
         // paletaColores: 
         imagen: "userDefecto",
         token: "token 1"

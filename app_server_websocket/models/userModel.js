@@ -52,7 +52,8 @@ const esquema = new schema({
   },
   productosComprados: {
     type: [String],
-    required: true
+    required: true,
+    default: []
   },
   token:{
     type: String,

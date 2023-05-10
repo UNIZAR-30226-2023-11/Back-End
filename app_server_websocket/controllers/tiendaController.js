@@ -13,19 +13,22 @@ async function devolverTienda(username) {
 
         const tienda = await modeloTienda.find({});
         if (tienda.length > 0) {
-            w.logger.verbose("Documento encontrado: " + tienda.toString());
-            const usuario = await modeloUser.find({nombreUser: username});
-            if (tienda.length > 0) {
-                w.logger.debug("Documento encontrado: ", user);
-                user.productosComprados.forEach(elemento => {
-                    const indice = tienda.indexOf(elemento.nombreUser);
-                    tienda.comprado[indice] = true;
 
-                    if (tienda.imagen[indice] === usuario.imagen) {
-                        tienda.usado[indice] = true;
+            w.logger.verbose("Documento encontrado: " + tienda);
+            const usuario = await modeloUser.findOne({nombreUser: username}).exec();
+            w.logger.verbose("Documento encontrado: " + usuario);
+            usuario.productosComprados.forEach(elemento => {
+                w.logger.verbose("Elemento: " + elemento);
+                const indice = tienda.findIndex(objeto => objeto.imagen === elemento);
+                w.logger.verbose("Indice: " + indice);
+                if (indice >= 0){
+                    tienda[indice].comprado = true;
+
+                    if (tienda[indice].imagen === usuario.imagen) {
+                        tienda[indice].usado = true;
                     }
-                });
-            }   
+                }
+            });
         }
 
         return tienda;
@@ -40,6 +43,4 @@ async function devolverTienda(username) {
     }
 }
 
-module.export = {
-    devolverTienda
-}
+module.exports = { devolverTienda };

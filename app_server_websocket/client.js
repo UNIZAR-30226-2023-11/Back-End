@@ -2,7 +2,7 @@ const io = require('socket.io-client');
 //const socket = io('http://localhost:3000');
 const socket = io('http://localhost:3000', {
   query: {
-    name: 'luna'
+    name: 'paco'
   }
 });
 
@@ -192,6 +192,22 @@ socket.on('connect', () => {
         "h": 4,
         "v": 10
       }
+    }, (ack) => {
+      console.log('Server acknowledged:', ack);
+    });
+  } else if (args[1] == 'tienda') {
+    socket.emit('tienda', {
+      socketId: socket.id,
+      coordenadas: {
+        "h": 4,
+        "v": 10
+      }
+    }, (ack) => {
+      console.log('Server acknowledged:', ack);
+    });
+  }else if (args[1] == 'infoPartida') {
+    socket.emit('infoPartida', {
+      socketId: socket.id,
     }, (ack) => {
       console.log('Server acknowledged:', ack);
     });

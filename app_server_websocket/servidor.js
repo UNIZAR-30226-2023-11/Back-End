@@ -420,7 +420,6 @@ io.on('connection', (socket) => {
     var msg = "";
 
     if (casilla === 5) {
-      //TODO: CAMBIAR LISTAJUGADORES A INFOPARTIDA
       var partida = await partidaController.infoPartida(clientes[socketId].partidaActiva);
       msg = partida;
     }
@@ -484,7 +483,6 @@ io.on('connection', (socket) => {
 
   });
 
-
   socket.on('bancarrota', async (data, ack) => {
     w.logger.verbose('Me declaro en bancarrota y me voy');
     const socketId = data.socketId;
@@ -519,25 +517,22 @@ io.on('connection', (socket) => {
 
   });
 
-  // socket.on('infoPartida', async (data, ack) => {
-  //   w.logger.verbose('Devolver info partida');
-  //   const socketID = data.socketID;
-  //   var partida = await partidaController.infoPartida(clientes[socketId].username);
-
-  //   // var imagen = await usersController.devolverImagenPerfil(clientes[socketId].username);
-
-  //   var msg;
-  //   if (usuario != 1 && usuario != 2) {
-  //     w.logger.verbose('Partida obtenida:' + partida);
-  //     msg = partida;
-  //     partida = 0;
-  //   }
-  //   var m = {
-  //     cod: partida,
-  //     msg: g.generarMsg(partida, msg)
-  //   }
-  //   ack(m);
-  // });
+  socket.on('infoPartida', async (data, ack) => {
+    w.logger.verbose('Devolver info partida');
+    const socketID = data.socketID;
+    var partida = await partidaController.infoPartida(clientes[socketId].username);
+    var msg;
+    if (usuario != 1 && usuario != 2) {
+      w.logger.verbose('Partida obtenida:' + partida.toString());
+      msg = partida;
+      partida = 0;
+    }
+    var m = {
+      cod: partida,
+      msg: g.generarMsg(partida, msg)
+    }
+    ack(m);
+  });
 
   // ==============================================
   // FUNCIONES DE CARTAS
@@ -583,7 +578,8 @@ io.on('connection', (socket) => {
   // ==============================================
   socket.on('tienda', async (data, ack) => {
     w.logger.verbose('Tienda');
-    var tienda = await tiendaController.devolverTienda();
+    const socketId = data.socketId;
+    var tienda = await tiendaController.devolverTienda(clientes[socketId].username);
     var msg = "";
     if (tienda != 1 && tienda != 2) {
       w.logger.verbose('Se ha realizado la obtencion de los productose');
@@ -618,10 +614,6 @@ io.on('connection', (socket) => {
 
 });
 
-server.listen(80, () => {
-  w.logger.info('Servidor escuchando en el puerto 80');
-});
+server.listen(80, () => {   w.logger.info('Servidor escuchando en el puerto 80'); });
 
-// server.listen(3000, () => {
-//   w.logger.info('Servidor escuchando en el puerto 80');
-// });
+// server.listen(3000, () => { w.logger.info('Servidor escuchando en el puerto 3000'); });
