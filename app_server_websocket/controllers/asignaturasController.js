@@ -316,7 +316,7 @@ async function comprarCasilla(username, coordenadas, idPartida) {
 
                     await doc.save();
                     console.log('Documento guardado correctamente');
-                    let aumentar = await puedoAumentar(coordenadas, idPartida, username);
+                    let aumentar = await puedoAumentaroDisminuir(coordenadas, idPartida, username);
 
                     if (aumentar) {
                         return 6;
@@ -381,7 +381,7 @@ async function checkCasilla(username, coordenadas, idPartida) {
 
             } else {
                 w.logger.debug("Esta casilla es mia" + username + coordenadas);
-                let aumentar = await puedoAumentar(coordenadas, idPartida, username);
+                let aumentar = await puedoAumentaroDisminuir(coordenadas, idPartida, username);
                 // res.status(200).json({ jugador: username, aumento: aumentar });
                 if (aumentar) {
                     return 6;
@@ -579,12 +579,12 @@ async function aumentarCreditos(idPartida, username, coordenadas) {
             await ctrlPartida.pagar(partida, asignatura.precioCompraCreditos, username, bancarrota);
 
         } else if (casillasFiltradas[pos].precio == asignatura.precio2C) {
-            w.logger.debug("PRECIO: 2C-2C");
+            w.logger.debug("PRECIO: 2C-3C");
             casillasFiltradas[pos].precio = asignatura.precio3C
             await ctrlPartida.pagar(partida, asignatura.precioCompraCreditos, username, bancarrota);
 
         } else if (casillasFiltradas[pos].precio == asignatura.precio3C) {
-            w.logger.debug("PRECIO: 3C-3C");
+            w.logger.debug("PRECIO: 3C-4C");
             casillasFiltradas[pos].precio = asignatura.precio4C
             await ctrlPartida.pagar(partida, asignatura.precioCompraCreditos, username, bancarrota);
 
@@ -628,7 +628,6 @@ async function aumentarCreditos(idPartida, username, coordenadas) {
     }
 }
 
-
 /**
  * 
  * @param {*} idPartida
@@ -644,39 +643,66 @@ async function disminuirCreditos(idPartida, username, coordenadas) {
         w.logger.verbose("Connected to MongoDB Atlas")
 
         const asignatura_comprada = await modeloAsignaturaComprada.findOne({coordenadas: coordenadas});
-        const asignatura_info = await asignaturaInfo(coordenadas);
 
-        w.logger.verbose("Asignatura comprada: " + asignatura_comprada);
-        w.logger.verbose("Asginatura info: " + asignatura_info);
+    } catch(error) {
+        w.logger.error(error);
+        w.logger.error('Error al disminuir creditos asignatura');
+        return 2;
 
-        if (casillasFiltradas[pos].precio == asignatura.matricula) {
-            w.logger.debug("PRECIO: matricula-matricula" + asignatura.precio1C);
+    } finally {
+        mongoose.disconnect();
+        w.logger.verbose("DisConnected to MongoDB Atlas")
+    }
 
-            // sin cambios
-        }
-        else if (casillasFiltradas[pos].precio == asignatura.precio1C) {
-            w.logger.debug("PRECIO: 1C-matricula");
-            casillasFiltradas[pos].precio = asignatura.matricula;
+    const asignatura_info = await asignaturaInfo(coordenadas);
 
-            await ctrlPartida.devolverDinero(partida, asignatura.precioCompraCreditos, username, bancarrota);
+    w.logger.verbose("Asignatura comprada: " + asignatura_comprada);
+    w.logger.verbose("Asginatura info: " + asignatura_info);
 
-        } else if (casillasFiltradas[pos].precio == asignatura.precio2C) {
-            w.logger.debug("PRECIO: 2C-1C");
-            casillasFiltradas[pos].precio = asignatura.precio1C
+    if (asignatura_comprada.precio == asignatura_info.matricula) {
+        w.logger.debug("PRECIO: matricula-matricula" + asignatura_info.precio1C);
 
-            await ctrlPartida.devolverDinero(partida, asignatura.precioCompraCreditos, username, bancarrota);
+        // sin cambios
+    }
+    else if (asignatura_comprada.precio == asignatura_info.precio1C) {
+        w.logger.debug("PRECIO: 1C-matricula");
+        asignatura_comprada.precio = asignatura_info.matricula;
 
-        } else if (casillasFiltradas[pos].precio == asignatura.precio3C) {
-            w.logger.debug("PRECIO: 3C-2C");
-            casillasFiltradas[pos].precio = asignatura.precio2C
+        await ctrlPartida.devolverDinero(partida, asignatura_info.precioCompraCreditos, username, bancarrota);
 
-            await ctrlPartida.devolverDinero(partida, asignatura.precioCompraCreditos, username, bancarrota);
+    } else if (asignatura_comprada.precio == asignatura_info.precio2C) {
+        w.logger.debug("PRECIO: 2C-1C");
+        asignatura_comprada.precio = asignatura.precio1C
 
-        } else if (casillasFiltradas[pos].precio == asignatura.precio4C) {
-            w.logger.debug("PRECIO: 4C-3C");
-            casillasFiltradas[pos].precio = asignatura.precio3C
+        await ctrlPartida.devolverDinero(partida, asignatura_info.precioCompraCreditos, username, bancarrota);
 
-            await ctrlPartida.devolverDinero(partida, asignatura.precioCompraCreditos, username, bancarrota);
+    } else if (asignatura_comprada.precio == asignatura_info.precio3C) {
+        w.logger.debug("PRECIO: 3C-2C");
+        asignatura_comprada.precio = asignatura_info.precio2C
+
+        await ctrlPartida.devolverDinero(partida, asignatura_info.precioCompraCreditos, username, bancarrota);
+
+    } else if (asignatura_comprada.precio == asignatura_info.precio4C) {
+        w.logger.debug("PRECIO: 4C-3C");
+        asignatura_comprada.precio = asignatura.precio3C
+
+        await ctrlPartida.devolverDinero(partida, asignatura_info.precioCompraCreditos, username, bancarrota);
+    }
+
+    try {
+        await mongoose.connect(config.db.uri, config.db.dbOptions);
+        w.logger.verbose("Connected to MongoDB Atlas")
+
+        const result = await modeloAsignaturasComprada.updateOne({ "coordenadas.h": coordenadas.h, "coordenadas.v": coordenadas.v }, { $set: { precio: asignatura_comprada.precio } })
+        if (result.modifiedCount == 1) {
+            w.logger.debug(result);
+            w.logger.debug("Se ha actualizado la asignatura comprada correctamente");
+            return 0;
+            // res.status(200).json("ok");
+        } else {
+            w.logger.debug(result);
+            return 1;
+            // res.status(500).json({ error: 'Error al actualizar la casilla comprada al aumentar creditos' });
         }
 
     } catch(error) {
@@ -692,7 +718,7 @@ async function disminuirCreditos(idPartida, username, coordenadas) {
 
 
 
-async function puedoAumentar(coordenadas, idPartida, username) {
+async function puedoAumentaroDisminuir(coordenadas, idPartida, username) {
     w.logger.verbose("PUT Puedo Aumentar creditos asignatua");
     // Comprobar que tiene todos los del mismo cuatrimestre
     // Aumentar creditos + 1 (cambiar precio en asignaturas_partida --> Comparar precio actual en info_asignaturas)
@@ -728,7 +754,7 @@ async function puedoAumentar(coordenadas, idPartida, username) {
  * @param {*} jugador Jugador que paga
  * @param {*} res 
  */
-async function devolverDinero(partida, dinero, jugador, bancarrota) {
+async function devolverDinero(partida, dinero, jugador) {
     w.logger.verbose("FUNCION PRIVADA dovolverDinero");
 
     try {
@@ -762,6 +788,7 @@ async function devolverDinero(partida, dinero, jugador, bancarrota) {
 
         }
         return true;
+
     } catch (error) {
         w.logger.error(error);
         w.logger.error("Error al actualizar la partida al pagar", partida.id);
