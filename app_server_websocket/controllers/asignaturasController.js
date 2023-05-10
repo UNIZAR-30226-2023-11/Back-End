@@ -713,8 +713,6 @@ async function disminuirCreditos(idPartida, username, coordenadas) {
     }
 }
 
-
-
 async function puedoAumentaroDisminuir(coordenadas, idPartida, username) {
     w.logger.verbose("PUT Puedo Aumentar creditos asignatua");
     // Comprobar que tiene todos los del mismo cuatrimestre
