@@ -667,7 +667,7 @@ io.on('connection', (socket) => {
 
 
   socket.on('estaJulio', async (data, ack) => {
-    w.logger.verbose('voyAJulio');
+    w.logger.verbose('estaJulio');
     const socketId = data.socketId;
     var msg;
     var esta = await partidaController.estaJulio(clientes[socketId].username, clientes[socketId].partidaActiva);
