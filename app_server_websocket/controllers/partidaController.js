@@ -480,6 +480,37 @@ async function bancarrota(idPartida, username) {
 /**
  * 
  * @param {*} idPartida Partida de tipo modeloPartida
+ * @param {*} username Usuario al que declaramos en bancarrota
+ */
+async function subastar(idPartida, asignatura) {
+    w.logger.verbose("***PUT METHOD Subastar asignatura");
+    try {
+        const partida = await findPartida(idPartida);
+
+        partida.subasta = []; // Reiniciar el vector a 0
+        
+        await mongoose.connect(config.db.uri, config.dbOptions);
+        w.logger.verbose("Connected to MongoDB Atlas");
+        
+        
+
+
+
+
+    } catch (error) {
+        w.logger.error(error);
+        w.logger.error("Error al subastar la asignatura", asignatura);
+        return 2;
+    } finally {
+        mongoose.disconnect();
+        w.logger.verbose("Disconnected to MongoDB Atlas")
+    }
+}
+
+
+/**
+ * 
+ * @param {*} idPartida Partida de tipo modeloPartida
  * @param {*}  
  */
 // Función que dado un idPartida devuelve el número de jugadores que pueden unirse a la partida

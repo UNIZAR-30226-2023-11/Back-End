@@ -112,7 +112,7 @@ socket.on('connect', () => {
     });
   } else if (args[1] == 'siguienteTurno') {
     socket.emit('siguienteTurno', {
-      socketId: socket.id
+      socketId: socket.id,
     }, (ack) => {
       console.log('Server acknowledged:', ack);
     });

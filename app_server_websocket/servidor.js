@@ -1,16 +1,8 @@
 const http = require('http');
 // const server = http.createServer();
 const server = http.createServer((req, res) => {
-  if (req.url === 'toothless.nerks.net') {
-    res.writeHead(301, { 'Location': 'monopoly.nerks.net' });
-    res.end();
-  } else if (req.url === 'monopoly.nerks.net') {
-    res.write('This is the new page');
-    res.end();
-  } else {
-    res.write('Hello, world!');
-    res.end();
-  }
+  res.write('Hello, world!');
+  res.end();
 });
 const io = require('socket.io')(server);
 const w = require('./winston')
@@ -365,6 +357,7 @@ io.on('connection', (socket) => {
     w.logger.verbose('Siguiente turno');
     const socketId = data.socketId;
     /**/
+    w.logger.verbose('PartidaActiva: ' + clientes[socketId].partidaActiva);
     var turno = await partidaController.siguienteTurno(clientes[socketId].partidaActiva);
     var msg = "";
     if (turno != 1 && turno != 2) {
@@ -374,6 +367,7 @@ io.on('connection', (socket) => {
       w.logger.debug('Turno: ' + turno);
 
       io.to(data.idPartida).emit('turnoActual', turno);
+      
       turno = 0;
     }
     var m = {
@@ -654,6 +648,6 @@ io.on('connection', (socket) => {
 
 });
 
-// server.listen(80, () => {   w.logger.info('Servidor escuchando en el puerto 80'); });
+server.listen(80, () => {   w.logger.info('Servidor escuchando en el puerto 80'); });
 
-server.listen(3000, () => { w.logger.info('Servidor escuchando en el puerto 3000'); });
+// server.listen(3000, () => { w.logger.info('Servidor escuchando en el puerto 3000'); });
