@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 var modeloNormas = require('../models/normasModel')
 
-
+//TODO: POSIBLEMENTE UN ARRAY DE OBJETOS CADA USUARIO
 const schema = mongoose.Schema;
 const esquema = new schema({
     id: {
@@ -27,24 +27,25 @@ const esquema = new schema({
       type: Number,
       required: true
     },
+    carcel:{
+      type: [Boolean],
+      required: true
+    },
+    bancarrota:{
+      type: [Boolean],
+      required: true
+    },
     dados: {
       type:{
         dado1: Number,
         dado2: Number,
-        jugador: String
+        jugador: String,
+        dobles: Number
       },
       required: true
     }
-    // ,
-    // normas: {
-    //   type: mongoose.Schema.Types.ObjectId,
-    //   ref: 'modeloNormas',
-    //   required: true
-    // }
   }, { collection: 'partida' });
   
-//   esquema.index({ nombreUser: 1 }, { unique: true }); // Crea un índice único en el campo "nombre"
-  
-  const modeloPartida = mongoose.model('partida', esquema);
-  
-  module.exports = modeloPartida;
+const modeloPartida = mongoose.model('partida', esquema);
+
+module.exports = modeloPartida;

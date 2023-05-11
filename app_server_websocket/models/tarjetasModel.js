@@ -25,8 +25,6 @@ const esquema = new schema({
   }
 }, { collection: 'info_tarjetas' });
 
-//esquema.index({ nombreUser: 1 }, { unique: true }); // Crea un índice único en el campo "nombre"
-
 const modeloTarjetas = mongoose.model('info_tarjetas', esquema);
 
 module.exports = modeloTarjetas;

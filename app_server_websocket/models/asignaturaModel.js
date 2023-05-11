@@ -51,10 +51,6 @@ const esquema = new schema({
   }
 }, { collection: 'info_asignaturas' });
 
-
-//esquema.index({ nombre: 1 }, { unique: true }); // Crea un índice único en el campo "nombre"
-
 const modeloAsignatura = mongoose.model('asignaturas', esquema, 'info_asignaturas');
-
 
 module.exports = modeloAsignatura;

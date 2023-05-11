@@ -26,10 +26,6 @@ const esquema = new schema({
     }
 }, { collection: 'tienda' });
 
-
-//esquema.index({ nombre: 1 }, { unique: true }); // Crea un índice único en el campo "nombre"
-
 const modeloTienda = mongoose.model('tienda', esquema, 'tienda');
-
 
 module.exports = modeloTienda;

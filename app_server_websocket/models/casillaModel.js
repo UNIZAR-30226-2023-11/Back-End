@@ -24,4 +24,5 @@ const esquemaCasilla = new schema({
   });
 
 const modeloCasilla = mongoose.model('casilla', esquemaCasilla, 'info_asignaturas');
+
 module.exports =  modeloCasilla;

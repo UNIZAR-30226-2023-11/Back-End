@@ -1,12 +1,12 @@
 const mongoose = require("mongoose");
 
-// Eliminar ------------
-const imagenSchema = new mongoose.Schema({
-  imagen: { type: String, required: true },
-  descripcion: String,
-  }, { collection: 'imagenes' });
-  const Imagen = mongoose.model('Imagen', imagenSchema);
-// ------------------------
+// // Eliminar ------------
+// const imagenSchema = new mongoose.Schema({
+//   imagen: { type: String, required: true },
+//   descripcion: String,
+//   }, { collection: 'imagenes' });
+//   const Imagen = mongoose.model('Imagen', imagenSchema);
+// // ------------------------
 
 const schema = mongoose.Schema;
 const esquema = new schema({
@@ -22,10 +22,6 @@ const esquema = new schema({
     type: String,
     required: true
   },
-  // contraseñaDos: {
-  //   type: String,
-  //   required: false
-  // },
   imagen: {
     type: String, 
     required: false
@@ -39,10 +35,6 @@ const esquema = new schema({
     required: true
   },
   partidasJugadas: {
-    type: Number,
-    required: true
-  },
-  productosComprados: {
     type: Number,
     required: true
   },
@@ -61,8 +53,6 @@ const esquema = new schema({
   }
 
 }, { collection: 'usuarios' });
-
-// esquema.index({ nombreUser: 1 }, { unique: true }); // Crea un índice único en el campo "nombre"
 
 const modeloUser = mongoose.model('usuarios', esquema);
 

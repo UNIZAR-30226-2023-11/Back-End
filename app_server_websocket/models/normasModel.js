@@ -11,9 +11,7 @@ const esquema = new schema({
         require: true
     }
   }, { collection: 'info_normas' });
-  
-//   esquema.index({ nombreUser: 1 }, { unique: true }); // Crea un índice único en el campo "nombre"
-  
+    
   const modeloNormas = mongoose.model('info_normas', esquema);
   
   module.exports = modeloNormas;

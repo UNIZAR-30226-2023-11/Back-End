@@ -31,8 +31,6 @@ const esquema = new schema({
   }
 }, { collection: 'asignaturas_partida' });
 
-//esquema.index({ nombre: 1 }, { unique: true }); // Crea un índice único en el campo "nombre"
-
 const modeloAsignaturaComprada = mongoose.model('asignaturas_partida', esquema);
 
 module.exports = modeloAsignaturaComprada;

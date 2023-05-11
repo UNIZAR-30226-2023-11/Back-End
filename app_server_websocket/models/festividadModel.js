@@ -1,5 +1,7 @@
 const mongoose = require("mongoose");
 
+// TODO: Función de gestionar las compras en festividades
+
 const schema = mongoose.Schema;
 const esquema = new schema({
   nombre: {
@@ -13,10 +15,6 @@ const esquema = new schema({
     },
     required: true
   },
-  // cuatrimestre: {
-  //   type: Number,
-  //   required: true
-  // },
   precioCompra: {
     type: Number,
     required: true
@@ -47,10 +45,6 @@ const esquema = new schema({
   }
 }, { collection: 'info_asignaturas' });
 
-
-//esquema.index({ nombre: 1 }, { unique: true }); // Crea un índice único en el campo "nombre"
-
 const modeloFestividad = mongoose.model('festividad', esquema, 'info_asignaturas');
-
 
 module.exports = modeloFestividad;
