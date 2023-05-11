@@ -358,15 +358,16 @@ io.on('connection', (socket) => {
     const socketId = data.socketId;
     /**/
     w.logger.verbose('PartidaActiva: ' + clientes[socketId].partidaActiva);
+    // clientes[socketId].partidaActiva = 1;
     var turno = await partidaController.siguienteTurno(clientes[socketId].partidaActiva);
     var msg = "";
     if (turno != 1 && turno != 2) {
       w.logger.verbose('Se ha realizado siguiente turno correctamente');
 
       msg = turno;
-      w.logger.debug('Turno: ' + turno);
+      w.logger.debug('Turno: ' + JSON.stringify(turno));
 
-      io.to(data.idPartida).emit('turnoActual', turno);
+      io.to(clientes[socketId].partidaActiva).emit('turnoActual', turno);
       
       turno = 0;
     }
@@ -576,6 +577,8 @@ io.on('connection', (socket) => {
     if (tarjeta != 2) {
       msg = tarjeta;
       tarjeta = 0;
+
+      io.to(data.idPartida).emit('infoPartida', partida.nombreJugadores);
     }
     var m = {
       cod: tarjeta,
