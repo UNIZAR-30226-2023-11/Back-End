@@ -452,6 +452,10 @@ io.on('connection', (socket) => {
     const coordenadas = data.coordenadas;
     var msg = "";
     var comprada = await asignaturasController.comprarCasilla(clientes[socketId].username, coordenadas, clientes[socketId].partidaActiva);
+    const partida = await partidaController.infoPartida(clientes[socketId].partidaActiva)
+    w.logger.debug ("partida:" + JSON.stringify(partida));
+
+    io.to(clientes[socketId].partidaActiva).emit('infoPartida', partida);
     var m = {
       cod: comprada,
       msg: g.generarMsg(comprada, msg)
@@ -487,6 +491,11 @@ io.on('connection', (socket) => {
     //TODO: ACTUALIZAR LOS DINEROS DE TODOS LOS JUGADORES EMIT
     var vendida = await asignaturasController.vender(clientes[socketId].partidaActiva, clientes[socketId].username, coordenadas);
     var msg = "";
+
+    const partida = await partidaController.infoPartida(clientes[socketId].partidaActiva)
+    w.logger.debug ("partida:" + JSON.stringify(partida));
+
+    io.to(clientes[socketId].partidaActiva).emit('infoPartida', partida);
     var m = {
       cod: vendida,
       msg: g.generarMsg(vendida, msg)
@@ -555,10 +564,16 @@ io.on('connection', (socket) => {
     w.logger.verbose('Tarjeta aleatoria de suerte');
     const socketId = data.socketId;
     var tarjeta = await cartasController.tarjetaAleatoria('suerte', clientes[socketId].username, clientes[socketId].partidaActiva);
+    
     var msg = "";
     if (tarjeta != 2) {
       msg = tarjeta;
       tarjeta = 0;
+
+      const partida = await partidaController.infoPartida(clientes[socketId].partidaActiva)
+      w.logger.debug ("partida:" + JSON.stringify(partida));
+
+      io.to(clientes[socketId].partidaActiva).emit('infoPartida', partida);
     }
     var m = {
       cod: tarjeta,
@@ -572,13 +587,17 @@ io.on('connection', (socket) => {
   socket.on('boletin', async (data, ack) => {
     w.logger.verbose('Tarjeta aleatoria de suerte');
     const socketId = data.socketId;
+    // clientes[socketId].partidaActiva = 1;
     var tarjeta = await cartasController.tarjetaAleatoria('boletin', clientes[socketId].username, clientes[socketId].partidaActiva);
     var msg = "";
     if (tarjeta != 2) {
       msg = tarjeta;
       tarjeta = 0;
 
-      io.to(data.idPartida).emit('infoPartida', partida.nombreJugadores);
+      const partida = await partidaController.infoPartida(clientes[socketId].partidaActiva)
+      w.logger.debug ("partida:" + JSON.stringify(partida));
+
+      io.to(clientes[socketId].partidaActiva).emit('infoPartida', partida);
     }
     var m = {
       cod: tarjeta,
@@ -633,7 +652,33 @@ io.on('connection', (socket) => {
     ack(m);
   });
 
+  socket.on('pagarJulio', async (data, ack) => {
+    w.logger.verbose('voyAJulio');
+    const socketId = data.socketId;
 
+    var pagar = await partidaController.pagarJulio(clientes[socketId].username, clientes[socketId].partidaActiva);
+    var msg = "";
+    var m = {
+      cod: pagar,
+      msg: g.generarMsg(pagar, msg)
+    }
+    ack(m);
+  });
+
+
+  socket.on('estaJulio', async (data, ack) => {
+    w.logger.verbose('voyAJulio');
+    const socketId = data.socketId;
+    var msg;
+    var esta = await partidaController.estaJulio(clientes[socketId].username, clientes[socketId].partidaActiva);
+    msg = esta;
+    esta = 0;
+    var m = {
+      cod: esta,
+      msg: g.generarMsg(esta, msg)
+    }
+    ack(m);
+  });
 
 
   // Escucha el evento 'disconnect'
@@ -649,8 +694,12 @@ io.on('connection', (socket) => {
 
   });
 
+  
+
 });
 
+
+//TODO: CAMBIAR QUE BANCARROTA NO TE ELIMINE
 server.listen(80, () => {   w.logger.info('Servidor escuchando en el puerto 80'); });
 
 // server.listen(3000, () => { w.logger.info('Servidor escuchando en el puerto 3000'); });

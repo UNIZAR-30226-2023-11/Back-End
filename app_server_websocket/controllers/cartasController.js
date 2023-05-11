@@ -154,7 +154,7 @@ async function accionCarta(idPartida, username, tarjeta, coordenadas) {
         if (carta != null) {
             if (carta.cobrarPagarNada=="pagar") { // pagar
                 var cantidad = carta.dinero;
-                if (carta.nombre == "¡Qué mala suerte!") { /* TODO*/ }
+                if (carta.nombre == "¡Qué mala suerte!") {} // TODO:
                 // else if (carta.nombre == "¡Ay las entregas!") { cantidad = 20; } // 20
                 // else if (carta.nombre == "Ay") { cantidad = 50; } // 50
                 // else if (carta.nombre == "¡Vas a la cafetería!") { cantidad = 55; } // 55
@@ -204,7 +204,11 @@ async function accionCarta(idPartida, username, tarjeta, coordenadas) {
                     }
                 }
                 else if (carta.nombre == "¡Vaya!") { tablero.retroceder(coordenadas, 5); }
-                else if (carta.nombre == "Esto no se hace") { h=0; v=10; }
+                else if (carta.nombre == "Esto no se hace") { 
+                    h=0; v=10; 
+                    const posicion = partida.nombreJugadores.indexOf(username);
+                    partida.carcel[posicion] = true;
+                }
 
                 partida.posicionJugadores[posicion] = {h: h, v: v};
                 partida.dineroJugadores[posicion] = partida.dineroJugadores[posicion] + dinero;

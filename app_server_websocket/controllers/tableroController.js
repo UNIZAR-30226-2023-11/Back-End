@@ -95,15 +95,23 @@ function avanzar(coordenadas, total){
     if (index<20 && indice >= 20) {
         salida = true;
     }
+
+    var julio = false;
+    if (indice === 10) {
+        julio = true;
+        indice === 30
+    }
+
+
     const partes = tablero[indice].split(';');
     const objeto = {
         h: parseInt(partes[0]),
         v: parseInt(partes[1]),
-        julio: coordenadas.julio
         // h: parseInt(partes[1]),
         // v: parseInt(partes[0])
     };
-    var avance = {coordenadas: objeto, salida: salida};
+    
+    var avance = {coordenadas: objeto, salida: salida, julio: julio};
     
     return avance; 
 }

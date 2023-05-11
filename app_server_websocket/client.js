@@ -90,7 +90,7 @@ socket.on('connect', () => {
     });
   } else if (args[1] == 'unirJugador') {
     socket.emit('unirJugador', {
-      idPartida: 30,
+      idPartida: 1,
       socketId: socket.id
     }, (ack) => {
       console.log('Server acknowledged:', ack);
@@ -235,6 +235,10 @@ socket.on('esperaJugadores', (mensaje) => {
 
 socket.on('aJugar', (mensaje) => {
   console.log('Mensaje recibido: ' + mensaje);
+});
+
+socket.on('infoPartida', (mensaje) => {
+  console.log('Mensaje recibido: ' + JSON.stringify(mensaje));
 });
 
 socket.on('disconnect', () => {
