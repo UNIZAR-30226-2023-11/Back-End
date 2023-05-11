@@ -368,7 +368,7 @@ async function siguienteTurno(idPartida) {
     const partida = await findPartida(idPartida);
     if (partida != null) {
         const tam = partida.nombreJugadores.length;
-        if (partida.dados.jugador == "") {
+        if (partida.dados.jugador === "") {
             //le toca al primero
             partida.dados.jugador = partida.nombreJugadores[0];
             // res.status(200).json({ jugador: partida.nombreJugadores[0] });
@@ -395,6 +395,7 @@ async function siguienteTurno(idPartida) {
                 // res.status(200).json({ jugador: partida.nombreJugadores[0], posicion: 0 });
                 return { jugador: partida.nombreJugadores[0], posicion: 0 };
             } else {
+                w.logger.debug("HOLAAA");
 
                 try {
                     partida.dados.jugador = partida.nombreJugadores[posicion + 1];
