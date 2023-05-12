@@ -21,7 +21,7 @@ async function cartaJulio(idPartida, username) {
     w.logger.verbose("***POST METHOD Tiene carta salir de julio");
 
     try {
-        const partida = await findPartida(idPartida);
+        const partida = await partidaController.findPartida(idPartida);
         const jugador = username;
 
         await mongoose.connect(config.db.uri, config.db.dbOptions);
@@ -53,7 +53,7 @@ async function usarCartaJulio(idPartida, username) {
     w.logger.verbose("***POST METHOD Usar carta salir de julio");
 
     try {
-        const partida = await findPartida(idPartida);
+        const partida = await ctfindPartida(idPartida);
         const jugador = username;
 
         await mongoose.connect(config.db.uri, config.db.dbOptions );

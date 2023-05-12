@@ -697,7 +697,7 @@ async function estaJulio(username, idPartida) {
 
     const carta = cartasController.cartaJulio(username, idPartida);
 
-    const puedePagar = false;
+    var puedePagar = false;
     if (partida.dineroJugadores[posicion] >= 50){
         puedePagar = true;        
     }
