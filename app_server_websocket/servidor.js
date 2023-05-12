@@ -694,6 +694,21 @@ io.on('connection', (socket) => {
   });
 
 
+  socket.on('empezarSubasta', async (data, ack) => {
+    w.logger.verbose('empezarSubasta');
+    const socketId = data.socketId;
+    const coordenadas = data.coordenadas;
+
+    var asignatura = await asignaturasController.infoAsignatura(coordenadas);
+    if(asignatura != 1){
+      io.to(clientes[socketId].partidaActiva).emit('hayPuja', asignatura);
+    }
+
+  });
+
+
+
+
   // Escucha el evento 'disconnect'
   socket.on('disconnect', () => {
     w.logger.verbose('Usuario desconectado');
@@ -714,7 +729,7 @@ io.on('connection', (socket) => {
 
 
 //puja10, puja50, puja100
-//ef
+//actualizarPuja socket.on en front
 
 //TODO: CAMBIAR QUE BANCARROTA NO TE ELIMINE
 server.listen(80, () => {   w.logger.info('Servidor escuchando en el puerto 80'); });

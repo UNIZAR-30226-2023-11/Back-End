@@ -294,7 +294,8 @@ async function lanzardados(idPartida, username) {
                 if (dado1 === dado2) { partida.dados.dobles++; }
 
                 if (estaJulio(username, idPartida)) {
-                    if (partida.dados.dobles === 3) {
+                    w.logger.verbose('Estoy en JULIO')
+                    if (partida.dados.dobles === 1) {
                         partida.carcel[posicion] = false;
                         partida.dados.dobles = 0;
 
@@ -307,10 +308,13 @@ async function lanzardados(idPartida, username) {
                             // exit(1);
                         }
                     }
-                    var dado = { dado1, dado2, coordenadas: { h: 0, v: 10 }, numDobles: partida.dados.dobles };
+                    var avance = tablero.avanzar(partida.posicionJugadores[posicion], total);
+                    var dado = { dado1, dado2, coordenadas: avance.coordenadas, numDobles: partida.dados.dobles };
                 }
                 if (!estaJulio(username, idPartida)) {
+                    w.logger.verbose('NO Estoy en JULIO')
                     if (partida.dados.dobles === 3) {
+                        w.logger.verbose('NO Estoy en JULIO PERO HE SACADO 3 DOBLES')
                         partida.carcel[posicion] = true;
                         partida.posicionJugadores[posicion].h = 0;
                         partida.posicionJugadores[posicion].v = 10;
@@ -327,6 +331,7 @@ async function lanzardados(idPartida, username) {
                         var dado = { dado1, dado2, coordenadas: { h: 0, v: 10 }, numDobles: partida.dados.dobles };
 
                     } else {
+                        w.logger.verbose('NO Estoy en JULIO Y AVANZO')
                         var avance = tablero.avanzar(partida.posicionJugadores[posicion], total);
 
                         partida.posicionJugadores[posicion] = avance.coordenadas;
@@ -433,7 +438,7 @@ async function siguienteTurno(idPartida) {
         } else {
             const posicion = partida.nombreJugadores.indexOf(partida.dados.jugador);
             if (posicion == tam - 1) { //le vuelve a tocar al primero
-                
+
                 await mongoose.connect(config.db.uri, config.db.dbOptions);
                 w.logger.verbose("Connected to MongoDB Atlas");
 
@@ -513,13 +518,13 @@ async function siguienteTurno(idPartida) {
 async function bancarrota(idPartida, username) {
     w.logger.verbose("***PUT METHOD Bancarrota de la partida");
     // TODO: 
-    
-        const partida = await findPartida(idPartida);
-        const jugador = username;
 
-        await mongoose.connect(config.db.uri, config.dbOptions);
-        w.logger.verbose("Connected to MongoDB Atlas");
-        try {
+    const partida = await findPartida(idPartida);
+    const jugador = username;
+
+    await mongoose.connect(config.db.uri, config.dbOptions);
+    w.logger.verbose("Connected to MongoDB Atlas");
+    try {
         const posicion = partida.nombreJugadores.indexOf(jugador);
         partida.dineroJugadores.splice(posicion, 1);
         partida.nombreJugadores.splice(posicion, 1);
@@ -546,7 +551,7 @@ async function bancarrota(idPartida, username) {
  */
 async function subastar(idPartida, asignatura) {
     w.logger.verbose("***PUT METHOD Subastar asignatura");
-    
+
     await mongoose.connect(config.db.uri, config.dbOptions);
     w.logger.verbose("Connected to MongoDB Atlas");
 
@@ -654,7 +659,7 @@ async function pagar(partida, dinero, jugador, bancarrota) {
  */
 async function cobrar(partida, dinero, jugador) {
     w.logger.verbose("FUNCION PRIVADA COBRAR");
-   
+
     await mongoose.connect(config.db.uri, config.dbOptions);
     w.logger.verbose("Connected to MongoDB Atlas");
 
@@ -739,4 +744,7 @@ async function pagarJulio(username, idPartida) {
 }
 
 
-module.exports = { crearPartida, unirJugador, lanzardados, findPartida, actualizarPartida, infoPartida, siguienteTurno,  bancarrota, numJugadores, dar200, cobrar, pagar, estaJulio, pagarJulio };
+
+
+
+module.exports = { crearPartida, unirJugador, lanzardados, findPartida, actualizarPartida, infoPartida, siguienteTurno, bancarrota, numJugadores, dar200, cobrar, pagar, estaJulio, pagarJulio };
