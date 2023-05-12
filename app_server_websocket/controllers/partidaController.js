@@ -739,4 +739,4 @@ async function pagarJulio(username, idPartida) {
 }
 
 
-module.exports = { crearPartida, unirJugador, lanzardados, findPartida, actualizarPartida, infoPartida, siguienteTurno, turnoActual, bancarrota, numJugadores, dar200, cobrar, pagar, estaJulio, pagarJulio };
+module.exports = { crearPartida, unirJugador, lanzardados, findPartida, actualizarPartida, infoPartida, siguienteTurno,  bancarrota, numJugadores, dar200, cobrar, pagar, estaJulio, pagarJulio };

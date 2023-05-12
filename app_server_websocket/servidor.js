@@ -707,8 +707,12 @@ io.on('connection', (socket) => {
 
   
 
+
 });
 
+
+//puja10, puja50, puja100
+//e
 
 //TODO: CAMBIAR QUE BANCARROTA NO TE ELIMINE
 server.listen(80, () => {   w.logger.info('Servidor escuchando en el puerto 80'); });
