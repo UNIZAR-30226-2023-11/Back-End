@@ -35,6 +35,16 @@ const esquema = new schema({
       type: [Boolean],
       required: true
     },
+    subasta: {
+      type: {
+        username: String,
+        precio: Number,
+        coordenadas : {
+          h: Number,
+          v: Number
+        }
+      }
+    },
     dados: {
       type:{
         dado1: Number,

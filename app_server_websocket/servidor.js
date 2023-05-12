@@ -694,19 +694,65 @@ io.on('connection', (socket) => {
   });
 
 
-  socket.on('empezarSubasta', async (data, ack) => {
-    w.logger.verbose('empezarSubasta');
+  socket.on('empezarPuja', async (data, ack) => {
+    w.logger.verbose('empezarPuja');
     const socketId = data.socketId;
     const coordenadas = data.coordenadas;
-
-    var asignatura = await asignaturasController.infoAsignatura(coordenadas);
-    if(asignatura != 1){
-      io.to(clientes[socketId].partidaActiva).emit('hayPuja', asignatura);
+    var iniciar = await partidaController.subasta(clientes[socketId].username, clientes[socketId].partidaActiva, 0, coordenadas);
+  
+    if(iniciar != 2 && iniciar != 1){
+      var asignatura = await asignaturasController.infoAsignatura(coordenadas);
+      if(asignatura != 1){
+        io.to(clientes[socketId].partidaActiva).emit('hayPuja', asignatura);
+      }
     }
-
+    var msg = ""
+    var m = {
+      cod: iniciar,
+      msg: g.generarMsg(iniciar, msg)
+    }
+    ack(m);
+    
   });
 
+  let timer;
+  socket.on('pujar', async (data, ack) => {
+    w.logger.verbose('pujar');
+    const socketId = data.socketId;
+    const cantidad = data.cantidad;
 
+    clearTimeout(timer);
+
+    var subasta = await partidaController.subasta(clientes[socketId].username, clientes[socketId].partidaActiva, cantidad, '')
+
+    var partida = await partidaController.findPartida(clientes[socketId].partidaActiva);
+
+    var pujado = {
+      nombre: clientes[socketId].username,
+      precio: partida.subasta.precio
+    }
+    w.logger('verbose', pujado);
+    if(subasta != 2 && subasta != 1){
+
+      if(asignatura != 1){
+        io.to(clientes[socketId].partidaActiva).emit('actualizarPuja', pujado);
+
+        //TODO: COMPRARLAAAAAA!!!!
+      }
+    }
+
+    timer = setTimeout(() => {
+      // La función que se ejecutará después de un tiempo determinado
+      // ...
+      io.to(clientes[socketId].partidaActiva).emit('terminarPuja', 'ok');
+
+
+      //comprar asignatura
+
+
+    }, 15000); // Tiempo de espera en milisegundos
+
+  });
 
 
   // Escucha el evento 'disconnect'

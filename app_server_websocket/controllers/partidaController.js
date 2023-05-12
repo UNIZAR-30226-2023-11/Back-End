@@ -744,7 +744,50 @@ async function pagarJulio(username, idPartida) {
 }
 
 
+async function subasta(username, idPartida, cantidad) {
+    w.logger.info("iniciar subasta")
+
+    const partida = await findPartida(idPartida);
+
+    await mongoose.connect(config.db.uri, config.dbOptions);
+    w.logger.verbose("Connected to MongoDB Atlas");
+
+    try {
+        const result = null;
+        if (cantidad === 0) {
+            result = await modeloPartida.updateOne({ id: idPartida }, { $set: { "subasta.username": username, "subasta.precio": cantidad, "suabasta.coordenadas.h": coordenadas.h, "suabasta.coordenadas.v": coordenadas.v } });
+        } else {
+
+            if (partida) {
+                result = await modeloPartida.updateOne({ id: idPartida }, { $set: { "subasta.username": username, "subasta.precio": partida.subasta.precio + cantidad } });
+            } else {
+                w.logger.debug("No se ha encontrado la partida");
+                return 1;
+            }
+
+        }
+
+        if (result.modifiedCount == 1) {
+            //console.log(result);
+            w.logger.debug("Se ha actualizado la subasta de la partida");
+            return 0;
+        } else {
+            w.logger.error(error);
+            return 2;
+        }
+    }
+    catch (error) {
+        w.logger.error(error);
+        w.logger.error("Error al iniciar la subasta");
+        return 2;
+    } finally {
+        mongoose.disconnect();
+        w.logger.verbose("Disconnected to MongoDB Atlas")
+    }
+}
 
 
 
-module.exports = { crearPartida, unirJugador, lanzardados, findPartida, actualizarPartida, infoPartida, siguienteTurno, bancarrota, numJugadores, dar200, cobrar, pagar, estaJulio, pagarJulio };
+
+
+module.exports = { crearPartida, unirJugador, lanzardados, findPartida, actualizarPartida, infoPartida, siguienteTurno, bancarrota, numJugadores, dar200, cobrar, pagar, estaJulio, pagarJulio, subasta };
