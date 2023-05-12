@@ -263,18 +263,18 @@ io.on('connection', (socket) => {
     if (partida != 1 && partida != 2) {
       w.logger.verbose('Partida actualizada correctamente');
 
-      w.logger.verbose("\n\tCliente socket: " + clientes[socketId].socket.id + "\n" +
+      w.logger.verbose("\n\tCliente socket: " + clientes[socketId].socket + "\n" +
         "\tCliente nombre: " + clientes[socketId].username + "\n" +
         "\tCliente partida: " + clientes[socketId].partidaActiva + "\n");
 
       if (data.jugar) {
-        partida = await partidaController.findPartida(clientes[socketId].partidaActiva);
+        var p = await partidaController.findPartida(clientes[socketId].partidaActiva);
 
         Object.values(clientes).forEach(elemento => {
-          if (elemento.partidaActiva === partida.id) {
+          if (elemento.partidaActiva === p.id) {
             //enviamos a ese jugador el evento aJugar
             var partUser = {
-              partida: partida,
+              partida: p,
               username: elemento.username
             }
             io.to(elemento.socket).emit('comenzarPartida', partUser);
