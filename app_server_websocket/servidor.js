@@ -271,7 +271,7 @@ io.on('connection', (socket) => {
         partida = await partidaController.findPartida(clientes[socketId].partidaActiva);
 
         Object.values(clientes).forEach(elemento => {
-          if (elemento.partidaActiva === partida) {
+          if (elemento.partidaActiva === partida.id) {
             //enviamos a ese jugador el evento aJugar
             var partUser = {
               partida: partida,
