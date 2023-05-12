@@ -9,11 +9,11 @@ const modeloTarjetasEnMano = require('../models/tarjetasEnMano');
 //var asignatura = require('../controllers/asignaturasController');
 //const w = require('../winston')
 
-var partidaController = require('./partidaController');
+// var partidaController = require('./partidaController');
 
 /**
  * 
- * @param {*} idPartida Partida de tipo modeloPartida
+ * @param {*} partida Partida de tipo modeloPartida
  * @param {*} username Jugador que se declara en bancarrota
  * @param {*}  
  */
@@ -21,13 +21,13 @@ async function cartaJulio(idPartida, username) {
     w.logger.verbose("***POST METHOD Tiene carta salir de julio");
 
 
-    const partida = await partidaController.findPartida(idPartida);
+    // const partida = await partidaController.findPartida(idPartida);
     const jugador = username;
 
     await mongoose.connect(config.db.uri, config.db.dbOptions);
     w.logger.verbose("Connected to MongoDB Atlas");
     try {
-        const cartaEncontrada = await modeloTarjetasEnMano.findOne({ nombre: "¡Qué suerte, te libras!", partida: partida.id, jugador: jugador }).exec();
+        const cartaEncontrada = await modeloTarjetasEnMano.findOne({ nombre: "¡Qué suerte, te libras!", partida: idPartida, jugador: jugador }).exec();
         // res.status(200).json(cartaEncontrada);
         return cartaEncontrada;
 
