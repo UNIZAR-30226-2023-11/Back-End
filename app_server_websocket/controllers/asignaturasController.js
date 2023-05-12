@@ -124,7 +124,7 @@ async function isAsignatura(coordenadas) {
         w.logger.debug("Connected to MongoDB Atlas");
 
         const casillaEncontrada = await modeloAsignatura.findOne({ "coordenadas.h": coordenadas.h, "coordenadas.v": coordenadas.v }).exec();
-        
+
         if (casillaEncontrada) {
             return casillaEncontrada;
         } else {
@@ -155,7 +155,7 @@ async function isFestividad(coordenadas) {
         w.logger.debug("Connected to MongoDB Atlas");
 
         const casillaEncontrada = await modeloFestividad.findOne({ "coordenadas.h": coordenadas.h, "coordenadas.v": coordenadas.v }).exec();
-        
+
         if (casillaEncontrada) {
             return casillaEncontrada;
         } else {
@@ -184,7 +184,7 @@ async function isImpuesto(coordenadas) {
         w.logger.debug("Connected to MongoDB Atlas");
 
         const casillaEncontrada = await modeloImpuesto.findOne({ "coordenadas.h": coordenadas.h, "coordenadas.v": coordenadas.v }).exec();
-        
+
         if (casillaEncontrada) {
             return casillaEncontrada;
         } else {
@@ -217,7 +217,7 @@ async function findAsignaturasCompradas(username, idPartida) {
 
         const casillas = await modeloAsignaturasComprada.find({ "partida": idPartida, "jugador": username }).exec();
         w.logger.verbose(casillas);
-        
+
         if (casillas != null) {
             w.logger.verbose(casillas);
             return casillas;
@@ -290,10 +290,11 @@ async function comprarCasilla(username, coordenadas, idPartida) {
                     doc.cuatrimestre = 9;
                 }
 
+                await mongoose.connect(config.db.uri, config.db.dbOptions);
+                w.logger.debug("Connected to MongoDB Atlas")
+
                 //La metemos en la tabla de casillas compradas
                 try {
-                    await mongoose.connect(config.db.uri, config.db.dbOptions);
-                    w.logger.debug("Connected to MongoDB Atlas")
 
                     await doc.save();
                     w.logger.debug('Documento guardado correctamente');
@@ -424,7 +425,7 @@ async function listaAsignaturasC(username, idPartida) {
 
 async function devolverCuatri(coordenadas) {
     w.logger.info("DEVOLVER CUATRIMESTRE DE UNA CASILLA");
-    
+
     var casillas = await findCasilla(coordenadas);
     if (casillas != null) {
         w.logger.verbose(casillas);
@@ -468,7 +469,7 @@ async function asignaturaInfo(coordenadas) {
  */
 async function aumentarCreditos(idPartida, username, coordenadas) {
     w.logger.info("AUMENTAR CREDITOS DE UNA ASIGNATURA");
-    
+
     w.logger.verbose("COOORDENADAS" + coordenadas);
     const cuatri = await devolverCuatri(coordenadas);
     w.logger.verbose("CUATRI" + cuatri);
@@ -535,10 +536,9 @@ async function aumentarCreditos(idPartida, username, coordenadas) {
 
         w.logger.verbose(casillasFiltradas[pos]);
 
+        await mongoose.connect(config.db.uri, config.db.dbOptions);
+        w.logger.debug("Connected to MongoDB Atlas");
         try {
-            await mongoose.connect(config.db.uri, config.db.dbOptions);
-            w.logger.debug("Connected to MongoDB Atlas");
-
             const result = await modeloAsignaturasComprada.updateOne({ "coordenadas.h": coordenadas.h, "coordenadas.v": coordenadas.v }, { $set: { precio: casillasFiltradas[pos].precio } })
             if (result.modifiedCount == 1) {
                 w.logger.verbose(result);
@@ -572,15 +572,15 @@ async function aumentarCreditos(idPartida, username, coordenadas) {
  */
 async function disminuirCreditos(idPartida, username, coordenadas) {
     w.logger.info("DISMINUIR CREDITOS DE UNA ASIGNATURA");
-    
+
     const asignatura_comprada = null;
+    await mongoose.connect(config.db.uri, config.db.dbOptions);
+    w.logger.debug("Connected to MongoDB Atlas")
+
     try {
-        await mongoose.connect(config.db.uri, config.db.dbOptions);
-        w.logger.debug("Connected to MongoDB Atlas")
+        asignatura_comprada = await modeloAsignaturaComprada.findOne({ coordenadas: coordenadas });
 
-        asignatura_comprada = await modeloAsignaturaComprada.findOne({coordenadas: coordenadas});
-
-    } catch(error) {
+    } catch (error) {
         w.logger.error(error);
         w.logger.error('Error al disminuir creditos asignatura');
         return 2;
@@ -625,9 +625,10 @@ async function disminuirCreditos(idPartida, username, coordenadas) {
         await ctrlPartida.devolverDinero(partida, asignatura_info.precioCompraCreditos, username, bancarrota);
     }
 
+    await mongoose.connect(config.db.uri, config.db.dbOptions);
+    w.logger.debug("Connected to MongoDB Atlas")
+
     try {
-        await mongoose.connect(config.db.uri, config.db.dbOptions);
-        w.logger.debug("Connected to MongoDB Atlas")
 
         const result = await modeloAsignaturasComprada.updateOne({ "coordenadas.h": coordenadas.h, "coordenadas.v": coordenadas.v }, { $set: { precio: asignatura_comprada.precio } })
         if (result.modifiedCount == 1) {
@@ -639,7 +640,7 @@ async function disminuirCreditos(idPartida, username, coordenadas) {
             return 1;
         }
 
-    } catch(error) {
+    } catch (error) {
         w.logger.error(error);
         w.logger.error('Error al disminuir creditos asignatura');
         return 2;
@@ -688,13 +689,14 @@ async function puedoAumentaroDisminuir(coordenadas, idPartida, username) {
 async function devolverDinero(partida, dinero, jugador) {
     w.logger.info("DEVOLVER EL DINERO DE UN CREDITO A UN JUGADOR");
 
+
+    const posicion = partida.nombreJugadores.indexOf(jugador);
+    partida.dineroJugadores[posicion] = partida.dineroJugadores[posicion] + dinero;
+
+    await mongoose.connect(config.db.uri, config.db.dbOptions);
+    w.logger.debug("Connected to MongoDB Atlas");
+    
     try {
-        const posicion = partida.nombreJugadores.indexOf(jugador);
-        partida.dineroJugadores[posicion] = partida.dineroJugadores[posicion] + dinero;
-
-        await mongoose.connect(config.db.uri, config.db.dbOptions);
-        w.logger.debug("Connected to MongoDB Atlas");
-
         const result = await modeloPartida.updateOne({ id: partida.id }, { $set: { dineroJugadores: partida.dineroJugadores } });
 
         if (result.modifiedCount == 1) {
@@ -750,9 +752,10 @@ async function vender(idPartida, username, coordenadas) {
         }
     }
     if (casillasFiltradas.length === 1) {
+        await mongoose.connect(config.db.uri, config.db.dbOptions);
+        w.logger.debug("Connected to MongoDB Atlas");
+
         try {
-            await mongoose.connect(config.db.uri, config.db.dbOptions);
-            w.logger.debug("Connected to MongoDB Atlas");
 
             const result = await modeloAsignaturasComprada.deleteOne({
                 "coordenadas.h": coordenadas.h, "coordenadas.v": coordenadas.v,
@@ -761,7 +764,7 @@ async function vender(idPartida, username, coordenadas) {
             if (result.deletedCount == 1) {
                 w.logger.verbose(result);
                 w.logger.debug("Se ha vendido la asignatura correctamente ");
-                
+
                 const casilla = await asignaturaInfo(coordenadas);
                 if (casilla) {
                     const partida = await ctrlPartida.findPartida(idPartida);
