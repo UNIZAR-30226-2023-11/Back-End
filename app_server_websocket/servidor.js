@@ -232,6 +232,14 @@ io.on('connection', (socket) => {
   // FUNCIONES DE PARTIDA
   // ==============================================
 
+  io.of("/").adapter.on("create-room", (room) => {
+    w.logger.debug(`room ${room} was created`);
+  });
+  
+  io.of("/").adapter.on("join-room", (room, id) => {
+    w.logger.debug(`socket ${id} has joined room ${room}`);
+  });
+
   socket.on('crearPartida', async (data, ack) => {
     w.logger.verbose('Creación de una partida');
     const socketId = data.socketId;
@@ -246,7 +254,7 @@ io.on('connection', (socket) => {
       msg = partida;
       clientes[socketId].partidaActiva = partida.id;
 
-      socketToGroupMap.set(socket.id, data.idPartida); // Registrar el ID del socket y el nombre del grupo en el mapa
+      // socketToGroupMap.set(socket.id, data.idPartida); // Registrar el ID del socket y el nombre del grupo en el mapa
       socket.join(data.idPartida); // Unir el socket al grupo utilizando el nombre del grupo
 
 
@@ -320,9 +328,9 @@ io.on('connection', (socket) => {
       // partida = 0;
       clientes[socketId].partidaActiva = data.idPartida;
 
-      socketToGroupMap.set(socket.id, data.idPartida); // Registrar el ID del socket y el nombre del grupo en el mapa
+      // socketToGroupMap.set(socket.id, data.idPartida); // Registrar el ID del socket y el nombre del grupo en el mapa
       socket.join(data.idPartida); // Unir el socket al grupo utilizando el nombre del grupo
-
+          
       var partida = await partidaController.infoPartida(data.idPartida);
 
       w.logger.debug('Lista jugadores: ' , partida.nombreJugadores);
