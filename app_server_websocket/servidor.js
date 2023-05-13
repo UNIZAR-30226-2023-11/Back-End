@@ -321,10 +321,12 @@ io.on('connection', (socket) => {
       const socketsGrupo = io.sockets.in(data.idPartida).sockets;
       w.logger.debug(`IDs de los sockets en el grupo ${data.idPartida}:`);
 
+      var i = 0;
       Object.values(clientes).forEach(elemento => {
         if(elemento.partidaActiva == data.idPartida){
-          w.logger.debug("Socket: " + elemento.socket);
-          w.logger.debug("Socket.id: " + elemento.socket.id);
+          i++;
+          w.logger.debug("Socket: " + i + " " + elemento.socket);
+          // w.logger.debug("Socket.id: " + elemento.socket.id);
         }
       });
 
