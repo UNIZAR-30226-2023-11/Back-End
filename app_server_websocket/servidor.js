@@ -510,7 +510,7 @@ io.on('connection', (socket) => {
     var msg = "";
 
     const partida = await partidaController.infoPartida(clientes[socketId].partidaActiva)
-    w.logger.debug ("partida:" + JSON.stringify(partida));
+    w.logger('debug', "partida:" + JSON.stringify(partida));
 
     io.to(clientes[socketId].partidaActiva).emit('infoPartida', partida);
     var m = {
@@ -546,7 +546,7 @@ io.on('connection', (socket) => {
     w.logger.verbose('Aumetar creditos de asignaturas');
     const socketId = data.socketId;
     var coordenadas = data.coordenadas;
-    clientes[socketId].partidaActiva = 36;
+    // clientes[socketId].partidaActiva = 36;
 
     var aumentada = await asignaturasController.aumentarCreditos(clientes[socketId].partidaActiva, clientes[socketId].username, coordenadas);
     var msg = "";
