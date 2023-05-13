@@ -153,7 +153,7 @@ async function actualizarPartida(idPartida, nJugadores, dineroInicial, normas) {
         }
 
     } catch (error) {
-        w.logger('error', error);
+        w.logger.error(JSON.stringify(error));
         return 2;
         // res.status(500).json({ error: 'Error al actualizar partida' });
     } finally {
@@ -224,7 +224,12 @@ async function unirJugador(idPartida, username) {
                 }
             } else {
                 //Ya esta el jugador no hay que hacer nada
-                w.logger.verbose("El jugador ya esta en la partida o ya no se pueden unir más jugadores")
+                if(estaJugador(username, partidaEncontrada.nombreJugadores)){
+                    w.logger.verbose("El jugador ya esta en la partida ")
+
+                    return 0;
+                }
+                w.logger.verbose("Ya no se pueden unir más jugadores")
                 return 4;
                 //TODO: HAY QUE MIRAR QUE DEVOLVER
             }
