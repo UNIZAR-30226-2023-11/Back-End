@@ -23,7 +23,7 @@ io.on('connection', (socket) => {
   io.emit('mensaje', 'Bienvenido al servidor Socket.IO');
   num++;
   // Guarda la conexión en el objeto connections
-  const name = socket.handshake.query.name;
+  // const name = socket.handshake.query.name;
   //clientes[socket.id] = socket;
 
   // // Guarda la conexión en el objeto clientes junto con el nombre de usuario
