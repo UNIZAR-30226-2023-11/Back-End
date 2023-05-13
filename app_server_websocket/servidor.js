@@ -22,10 +22,10 @@ io.on('connection', (socket) => {
   w.logger.verbose('Usuario conectado');
   
   var long = clientes.legth;
-  w.logger.verbose("NUMERO DE USUARIOS CONECTADOS: ", long);
+  // w.logger.verbose("NUMERO DE USUARIOS CONECTADOS: ", long);
   
   num++;
-  w.logger.verbose('Numero de usuarios conectados ' + num);
+  // w.logger.verbose('Numero de usuarios conectados ' + num);
 
   io.emit('mensaje', 'Bienvenido al servidor Socket.IO');
  
