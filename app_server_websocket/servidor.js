@@ -14,16 +14,16 @@ var tiendaController = require('./controllers/tiendaController');
 var asignaturasController = require('./controllers/asignaturasController');
 var cartasController = require('./controllers/cartasController');
 // Declara un objeto para guardar las conexiones
-const clientes = {};
+var clientes = [];
 const socketToGroupMap = new Map(); // Mapa para mantener un registro de los sockets y los grupos a los que están unidos
 
 var num = 0;
 io.on('connection', (socket) => {
   w.logger.verbose('Usuario conectado');
-
-  const numUsuarios = Object.keys(io.sockets.sockets).length;
-  w.logger.verbose("NUMERO DE USUARIOS: ", numUsuarios);
-
+  
+  var long = clientes.legth;
+  w.logger.verbose("NUMERO DE USUARIOS CONECTADOS: ", long);
+  
   num++;
   w.logger.verbose('Numero de usuarios conectados ' + num);
 
