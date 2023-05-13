@@ -278,8 +278,8 @@ io.on('connection', (socket) => {
               username: elemento.username
             }
             io.to(elemento.socket).emit('comenzarPartida', partUser);
-            console.log(elemento.socket.id)
-            console.log(elemento.socket)
+            w.logger.debug(elemento.socket.id);
+            w.logger.debug(elemento.socket);
           }
         });
         // io.to(clientes[socketId].partidaActiva).emit('comenzarPartida', clientes[socketId].username);
