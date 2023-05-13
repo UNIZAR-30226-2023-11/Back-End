@@ -245,7 +245,7 @@ io.on('connection', (socket) => {
 
 
       partida = 0;
-      w.logger.verbose("\n\tCliente socket: " + clientes[socketId].socket.id + "\n" +
+      w.logger.verbose("\n\tCliente socket: " + JSON.stringify(clientes[socketId].socket.id) + "\n" +
         "\tCliente nombre: " + clientes[socketId].username + "\n" +
         "\tCliente partida: " + clientes[socketId].partidaActiva + "\n");
     }
@@ -254,7 +254,7 @@ io.on('connection', (socket) => {
       cod: partida,
       msg: g.generarMsg(partida, msg)
     }
-    w.logger.verbose(m);
+    w.logger.verbose("MENSAJE", m);
     ack(m);
   });
 
