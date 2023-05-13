@@ -240,7 +240,7 @@ io.on('connection', (socket) => {
       msg = partida;
       clientes[socketId].partidaActiva = partida.id;
 
-      socketToGroupMap.set(socketId, data.idPartida); // Registrar el ID del socket y el nombre del grupo en el mapa
+      socketToGroupMap.set(socket.id, data.idPartida); // Registrar el ID del socket y el nombre del grupo en el mapa
       socket.join(data.idPartida); // Unir el socket al grupo utilizando el nombre del grupo
 
 
@@ -314,7 +314,7 @@ io.on('connection', (socket) => {
       // partida = 0;
       clientes[socketId].partidaActiva = data.idPartida;
 
-      socketToGroupMap.set(socketId, data.idPartida); // Registrar el ID del socket y el nombre del grupo en el mapa
+      socketToGroupMap.set(socket.id, data.idPartida); // Registrar el ID del socket y el nombre del grupo en el mapa
       socket.join(data.idPartida); // Unir el socket al grupo utilizando el nombre del grupo
 
       var partida = await partidaController.infoPartida(data.idPartida);
