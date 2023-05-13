@@ -153,7 +153,7 @@ async function actualizarPartida(idPartida, nJugadores, dineroInicial, normas) {
         }
 
     } catch (error) {
-        w.logger.error(`Error: ${error}`);
+        w.logger.error(`Error: ${JSON.stringify(error)}`);
         return 2;
         // res.status(500).json({ error: 'Error al actualizar partida' });
     } finally {
