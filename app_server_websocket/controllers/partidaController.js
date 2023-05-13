@@ -244,10 +244,10 @@ async function unirJugador(idPartida, username) {
     }
 }
 
-async function comenzarPartida(req, res) {
-    console.log("***POST METHOD Comenzar partida");
+// async function comenzarPartida(req, res) {
+//     console.log("***POST METHOD Comenzar partida");
 
-}
+// }
 
 /**
  * 

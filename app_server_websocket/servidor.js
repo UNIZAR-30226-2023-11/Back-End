@@ -563,7 +563,8 @@ io.on('connection', (socket) => {
   socket.on('suerte', async (data, ack) => {
     w.logger.verbose('Tarjeta aleatoria de suerte');
     const socketId = data.socketId;
-    var tarjeta = await cartasController.tarjetaAleatoria('suerte', clientes[socketId].username, clientes[socketId].partidaActiva);
+    var partida = await findPartida(clientes[socketId].partidaActiva);
+    var tarjeta = await cartasController.tarjetaAleatoria('suerte', clientes[socketId].username, partida);
     
     var msg = "";
     if (tarjeta != 2) {
@@ -588,7 +589,8 @@ io.on('connection', (socket) => {
     w.logger.verbose('Tarjeta aleatoria de suerte');
     const socketId = data.socketId;
     // clientes[socketId].partidaActiva = 1;
-    var tarjeta = await cartasController.tarjetaAleatoria('boletin', clientes[socketId].username, clientes[socketId].partidaActiva);
+    var partida = await findPartida(clientes[socketId].partidaActiva);
+    var tarjeta = await cartasController.tarjetaAleatoria('boletin', clientes[socketId].username, partida );
     var msg = "";
     if (tarjeta != 2) {
       msg = tarjeta;
