@@ -54,10 +54,10 @@ async function devolverTienda(username) {
 }
 
 async function comprarTienda (producto, username) {
-    w.logger.info("***POST METHOD Comprar producto de la tienda");
+    w.logger.info("***METHOD Comprar producto de la tienda");
 
     await mongoose.connect(config.db.uri, config.db.dbOptions);
-    w.logger.info("Connected to MongoDB Atlas");
+    w.logger.debug("Connected to MongoDB Atlas");
 
     try {
 
@@ -84,12 +84,12 @@ async function comprarTienda (producto, username) {
         }
 
     } catch (error) {
-        w.logger.error("Error: ", error);
+        w.logger.error(`Error: ${error}`);
         return 2;
 
     } finally {
         await mongoose.disconnect();
-        w.logger.info("DisConnected to MongoDB Atlas");
+        w.logger.debug("DisConnected to MongoDB Atlas");
     }
 }
 

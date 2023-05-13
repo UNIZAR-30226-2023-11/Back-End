@@ -38,7 +38,7 @@ async function actualizarPosicion(idPartida, coordenadas, jugador) {
         }
 
     } catch (error) {
-        w.logger.error("Error: ", error);
+        w.logger.error(`Error: ${error}`);
     } finally {
          await mongoose.disconnect();
         w.logger.debug("Disconnected to MongoDB Atlas")
@@ -68,7 +68,7 @@ async function estaComprada(coordenadas, idPartida) {
         }
 
     } catch (error) {
-        w.logger.error("Error: ", error);
+        w.logger.error(`Error: ${error}`);
         w.logger.error('Error al saber si la casilla esta comprada o no');
 
     } finally {
@@ -89,7 +89,7 @@ async function findCasilla(coordenadas) {
         await mongoose.connect(config.db.uri, config.db.dbOptions);
         w.logger.debug("Connected to MongoDB Atlas");
 
-        w.logger.verbose("COORDENADAS FIN C", coordenadas);
+        w.logger.verbose(`COORDENADAS FIN C ${coordenadas}`);
         const casillaEncontrada = await modeloCasilla.findOne({ "coordenadas.h": coordenadas.h, "coordenadas.v": coordenadas.v }).exec();
         w.logger.verbose("Coordenadas: ", coordenadas);
 
@@ -102,7 +102,7 @@ async function findCasilla(coordenadas) {
 
     }
     catch (error) {
-        w.logger.error("Error: ", error);
+        w.logger.error(`Error: ${error}`);
         w.logger.error('Error al encontrar la casilla');
         return null;
     } finally {
@@ -133,7 +133,7 @@ async function isAsignatura(coordenadas) {
         }
     }
     catch (error) {
-        w.logger.error("Error: ", error);
+        w.logger.error(`Error: ${error}`);
         w.logger.error('Error al encontrar la casilla asignatura');
         return null;
     } finally {
@@ -163,7 +163,7 @@ async function isFestividad(coordenadas) {
             return null;
         }
     } catch (error) {
-        w.logger.error("Error: ", error);
+        w.logger.error(`Error: ${error}`);
         w.logger.error('Error al encontrar la casilla asignatura');
         return null;
     } finally {
@@ -192,7 +192,7 @@ async function isImpuesto(coordenadas) {
             return null;
         }
     } catch (error) {
-        w.logger.error("Error: ", error);
+        w.logger.error(`Error: ${error}`);
         w.logger.error('Error al encontrar la casilla impuesto');
         return null;
 
@@ -216,10 +216,10 @@ async function findAsignaturasCompradas(username, idPartida) {
         w.logger.debug("Connected to MongoDB Atlas")
 
         const casillas = await modeloAsignaturasComprada.find({ "partida": idPartida, "jugador": username }).exec();
-        w.logger.verbose("Casillas: ", casillas);
+        w.logger.verbose(`Casillas: ${casillas}`);
 
         if (casillas != null) {
-            w.logger.verbose("Casillas: ", casillas);
+            w.logger.verbose(`Casillas: ${casillas}`);
             return casillas;
         } else {
             w.logger.debug("El jugador no tiene casillas compradas");
@@ -228,7 +228,7 @@ async function findAsignaturasCompradas(username, idPartida) {
 
     }
     catch (error) {
-        w.logger.error("Error: ", error);
+        w.logger.error(`Error: ${error}`);
         w.logger.error('Error al encontrar la casilla');
         return null;
     } finally {
