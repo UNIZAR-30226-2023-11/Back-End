@@ -797,4 +797,4 @@ async function subasta(username, idPartida, cantidad, coordenadas) {
 
 
 
-module.exports = { crearPartida, unirJugador, lanzardados, findPartida, actualizarPartida, infoPartida, siguienteTurno, bancarrota, numJugadores, dar200, cobrar, pagar, estaJulio, pagarJulio, subasta };
+module.exports = { crearPartida, unirJugador, lanzardados, findPartida, actualizarPartida, infoPartida, siguienteTurno, bancarrota,  dar200, cobrar, pagar, estaJulio, pagarJulio, subasta };
