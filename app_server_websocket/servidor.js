@@ -301,7 +301,7 @@ io.on('connection', (socket) => {
     var partida = await partidaController.unirJugador(data.idPartida, clientes[socketId].username);
 
     var msg = "";
-    if (partida != 1 && partida != 2) {
+    if (partida != 1 && partida != 2 && partida != 4) {
       w.logger.verbose('Se ha unido correctamente el jugador');
       //io.emit('mensaje', correo);
       //ack('0 Ok' + correo)
