@@ -40,7 +40,7 @@ async function actualizarPosicion(idPartida, coordenadas, jugador) {
     } catch (error) {
         w.logger.error("Error: ", error);
     } finally {
-        mongoose.disconnect();
+         await mongoose.disconnect();
         w.logger.debug("Disconnected to MongoDB Atlas")
     }
 }
@@ -72,7 +72,7 @@ async function estaComprada(coordenadas, idPartida) {
         w.logger.error('Error al saber si la casilla esta comprada o no');
 
     } finally {
-        mongoose.disconnect();
+         await mongoose.disconnect();
         w.logger.debug("DisConnected to MongoDB Atlas");
     }
 }
@@ -106,7 +106,7 @@ async function findCasilla(coordenadas) {
         w.logger.error('Error al encontrar la casilla');
         return null;
     } finally {
-        mongoose.disconnect();
+         await mongoose.disconnect();
         w.logger.debug("DisConnected to MongoDB Atlas")
     }
 }
@@ -137,7 +137,7 @@ async function isAsignatura(coordenadas) {
         w.logger.error('Error al encontrar la casilla asignatura');
         return null;
     } finally {
-        mongoose.disconnect();
+         await mongoose.disconnect();
         w.logger.debug("DisConnected to MongoDB Atlas")
     }
 }
@@ -167,7 +167,7 @@ async function isFestividad(coordenadas) {
         w.logger.error('Error al encontrar la casilla asignatura');
         return null;
     } finally {
-        mongoose.disconnect();
+         await mongoose.disconnect();
         w.logger.debug("DisConnected to MongoDB Atlas")
     }
 }
@@ -197,7 +197,7 @@ async function isImpuesto(coordenadas) {
         return null;
 
     } finally {
-        mongoose.disconnect();
+         await mongoose.disconnect();
         w.logger.debug("DisConnected to MongoDB Atlas")
     }
 }
@@ -232,7 +232,7 @@ async function findAsignaturasCompradas(username, idPartida) {
         w.logger.error('Error al encontrar la casilla');
         return null;
     } finally {
-        mongoose.disconnect();
+         await mongoose.disconnect();
         w.logger.debug("DisConnected to MongoDB Atlas")
     }
 }
@@ -313,7 +313,7 @@ async function comprarCasilla(username, coordenadas, idPartida) {
                     return 2;
 
                 } finally {
-                    mongoose.disconnect();
+                     await mongoose.disconnect();
                     w.logger.debug("DisConnected to MongoDB Atlas")
                 }
             } else {
@@ -555,7 +555,7 @@ async function aumentarCreditos(idPartida, username, coordenadas) {
             return 2;
 
         } finally {
-            mongoose.disconnect();
+             await mongoose.disconnect();
             w.logger.verbose("DisConnected to MongoDB Atlas")
         }
     }
@@ -586,7 +586,7 @@ async function disminuirCreditos(idPartida, username, coordenadas) {
         return 2;
 
     } finally {
-        mongoose.disconnect();
+         await mongoose.disconnect();
         w.logger.debug("DisConnected to MongoDB Atlas")
     }
 
@@ -646,7 +646,7 @@ async function disminuirCreditos(idPartida, username, coordenadas) {
         return 2;
 
     } finally {
-        mongoose.disconnect();
+         await mongoose.disconnect();
         w.logger.debug("DisConnected to MongoDB Atlas")
     }
 }
@@ -727,7 +727,7 @@ async function devolverDinero(partida, dinero, jugador) {
         return false;
 
     } finally {
-        mongoose.disconnect();
+         await mongoose.disconnect();
         w.logger.debug("Disconnected to MongoDB Atlas")
     }
 }
@@ -791,7 +791,7 @@ async function vender(idPartida, username, coordenadas) {
             return 2;
 
         } finally {
-            mongoose.disconnect();
+             await mongoose.disconnect();
             w.logger.debug("DisConnected to MongoDB Atlas")
         }
 

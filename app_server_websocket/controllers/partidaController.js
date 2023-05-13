@@ -50,7 +50,7 @@ async function crearPartida(username, dineroInicial, nJugadores, normas) {
         w.logger.error(JSON.stringify(error));
         return 2;
     } finally {
-        mongoose.disconnect();
+        await mongoose.disconnect();
         console.log("DisConnected to MongoDB Atlas")
     }
 }
@@ -96,7 +96,7 @@ async function infoPartida(idPartida) {
         w.logger.error(error);
         return 2;
     } finally {
-        mongoose.disconnect();
+         await mongoose.disconnect();
         w.logger.verbose("DisConnected to MongoDB Atlas")
     }
 }
@@ -157,7 +157,7 @@ async function actualizarPartida(idPartida, nJugadores, dineroInicial, normas) {
         return 2;
         // res.status(500).json({ error: 'Error al actualizar partida' });
     } finally {
-        mongoose.disconnect();
+         await mongoose.disconnect();
         w.logger.verbose("DisConnected to MongoDB Atlas")
     }
 }
@@ -244,7 +244,7 @@ async function unirJugador(idPartida, username) {
         w.logger.verbose("Error al encontrar partida");
         return 2;
     } finally {
-        mongoose.disconnect();
+         await mongoose.disconnect();
         w.logger.verbose("DisConnected to MongoDB Atlas")
     }
 }
@@ -384,6 +384,9 @@ async function lanzardados(idPartida, username) {
         w.logger.error('Error al lanzar los dados en la partida');
         return 2;
         // res.status(500).json({ error: 'Error al lanzar los dados en la partida' });
+    } finally {
+        await mongoose.disconnect();
+        w.logger.verbose("DisConnected to MongoDB Atlas")
     }
 }
 
@@ -420,7 +423,7 @@ async function findPartida(idPartida) {
         //res.status(500).json({error: 'Error al encontrar partida'});
         return null;
     } finally {
-        mongoose.disconnect();
+        await mongoose.disconnect();
         w.logger.verbose("DisConnected to MongoDB Atlas")
     }
 }
@@ -458,8 +461,8 @@ async function siguienteTurno(idPartida) {
                     w.logger.error("Error al actualizar la partida al cambiar el jugador", partida.id);
                     return 2;
                 } finally {
-                    mongoose.disconnect();
-                    w.logger.verbose("Disconnected to MongoDB Atlas")
+                     await mongoose.disconnect();
+                    w.logg.verbose("Disconnected to MongoDB Atlas")
                 }
 
                 // res.status(200).json({ jugador: partida.nombreJugadores[0], posicion: 0 });
@@ -478,7 +481,7 @@ async function siguienteTurno(idPartida) {
                     w.logger.error("Error: ", error);
                     w.logger.error("Error al actualizar la partida al cambiar el jugador", partida.id);
                 } finally {
-                    mongoose.disconnect();
+                     await mongoose.disconnect();
                     w.logger.verbose("Disconnected to MongoDB Atlas")
                 }
 
@@ -544,7 +547,7 @@ async function bancarrota(idPartida, username) {
         w.logger.error("Error al actualizar la partida al declararse en bancarrota", partida.id);
         return 2;
     } finally {
-        mongoose.disconnect();
+         await mongoose.disconnect();
         w.logger.verbose("Disconnected to MongoDB Atlas")
     }
 }
@@ -572,7 +575,7 @@ async function subastar(idPartida, asignatura) {
         w.logger.error("Error al subastar la asignatura", asignatura);
         return 2;
     } finally {
-        mongoose.disconnect();
+         await mongoose.disconnect();
         w.logger.verbose("Disconnected to MongoDB Atlas")
     }
 }
@@ -650,7 +653,7 @@ async function pagar(partida, dinero, jugador, bancarrota) {
         return 2;
 
     } finally {
-        mongoose.disconnect();
+         await mongoose.disconnect();
         w.logger.verbose("Disconnected to MongoDB Atlas")
     }
 }
@@ -686,7 +689,7 @@ async function cobrar(partida, dinero, jugador) {
         w.logger.error("Error: ", error);
         w.logger.error("Error al cobrar");
     } finally {
-        mongoose.disconnect();
+         await mongoose.disconnect();
         w.logger.verbose("Disconnected to MongoDB Atlas")
     }
 }
@@ -788,7 +791,7 @@ async function subasta(username, idPartida, cantidad, coordenadas) {
         w.logger.error("Error al iniciar la subasta");
         return 2;
     } finally {
-        mongoose.disconnect();
+         await mongoose.disconnect();
         w.logger.verbose("Disconnected to MongoDB Atlas")
     }
 }

@@ -49,7 +49,7 @@ async function registerUser(username, password, confirm_password, email) {
         return 2;
         //res.status(500).json({error: 'Error al crear usuario', nombreuser: req.body.username, correo: req.body.email, contraseña: req.body.password});
     } finally {
-        mongoose.disconnect();
+         await mongoose.disconnect();
         w.logger.info("DisConnected to MongoDB Atlas")
     }
     // }
@@ -85,7 +85,7 @@ async function loginUser(username, password) {
         return 2;
         //res.status(500).json({ error: 'Error al buscar el usuario', nombreUser: req.body.username });
     } finally {
-        mongoose.disconnect();
+         await mongoose.disconnect();
         w.logger.info("DisConnected to MongoDB Atlas")
     }
 }
@@ -116,7 +116,7 @@ async function deleteUser(username) {
         return 2;
         //res.status(500).json({ error: 'Error al eliminar el usuario', nombreuser: req.body.username });
     } finally {
-        mongoose.disconnect();
+         await mongoose.disconnect();
         w.logger.info("DisConnected to MongoDB Atlas")
     }
 }
@@ -159,7 +159,7 @@ async function updatePassword(username, password, confirm_password) {
         // res.status(500).json({ error: 'Error al actualizar la contraseña', nombreUser: req.body.username, res: result  });
     }
     finally {
-        mongoose.disconnect();
+         await mongoose.disconnect();
         w.logger.info("DisConnected to MongoDB Atlas")
     }
 }
@@ -198,7 +198,7 @@ async function updateCorreo(username, email) {
         return 2;
         //res.status(500).json({ error: 'Error al actualizar el correo', nombreUser: req.body.username });
     } finally {
-        mongoose.disconnect();
+         await mongoose.disconnect();
         w.logger.info("DisConnected to MongoDB Atlas")
     }
 }
@@ -238,7 +238,7 @@ async function updateUsername(username, newusername) {
         return 2;
         //res.status(500).json({ error: 'Error al actualizar el nombre de usuario', nombreUser: req.body.username });
     } finally {
-        mongoose.disconnect();
+         await mongoose.disconnect();
     }
 }
 
@@ -270,7 +270,7 @@ async function infoUsuario(username) {
         w.logger.error("Error: ", error);
         return 2;
     } finally {
-        mongoose.disconnect();
+         await mongoose.disconnect();
         w.logger.info("DisConnected to MongoDB Atlas")
     }
 }
@@ -313,7 +313,7 @@ async function devolverImagenPerfil(username) {
         // return null;
         //res.status(500).json({ error: 'Error al buscar el usuario', nombreUser: req.body.username });
     } finally {
-        mongoose.disconnect();
+         await mongoose.disconnect();
         w.logger.info("DisConnected to MongoDB Atlas")
     }
 }
@@ -348,7 +348,7 @@ async function updateImagenPerfil(username, imagen) {
         return 2;
 
     } finally {
-        mongoose.disconnect();
+         await mongoose.disconnect();
         w.logger.info("DisConnected to MongoDB Atlas")
     }
 }
