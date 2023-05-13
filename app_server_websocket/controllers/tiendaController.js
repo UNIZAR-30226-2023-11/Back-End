@@ -10,21 +10,23 @@ async function devolverTienda(username) {
     w.logger.info("***POST METHOD Devolver tienda");
     var usuario = null;
     var tienda = null;
+    
+    await mongoose.connect(config.db.uri, config.db.dbOptions);
+    w.logger.info("Connected to MongoDB Atlas");
+
     try {
-        await mongoose.connect(config.db.uri, config.db.dbOptions);
-        w.logger.info("Connected to MongoDB Atlas");
 
         tienda = await modeloTienda.find({});
         if (tienda.length > 0) {
 
-            w.logger.verbose("Documento encontrado: " + tienda);
+            w.logger.verbose("Documento encontrado: " , tienda);
             usuario = await modeloUser.findOne({nombreUser: username}).exec();
-            w.logger.verbose("Documento encontrado: " + usuario);
+            w.logger.verbose("Documento encontrado: " , usuario);
 
             usuario.productosComprados.forEach(elemento => {
-                w.logger.verbose("Elemento: " + elemento);
+                w.logger.verbose("Elemento: " , elemento);
                 const indice = tienda.findIndex(objeto => objeto.imagen === elemento);
-                w.logger.verbose("Indice: " + indice);
+                w.logger.verbose("Indice: " , indice);
                 if (indice >= 0){
                     tienda[indice].comprado = true;
         
@@ -54,9 +56,10 @@ async function devolverTienda(username) {
 async function comprarTienda (producto, username) {
     w.logger.info("***POST METHOD Comprar producto de la tienda");
 
+    await mongoose.connect(config.db.uri, config.db.dbOptions);
+    w.logger.info("Connected to MongoDB Atlas");
+
     try {
-        await mongoose.connect(config.db.uri, config.db.dbOptions);
-        w.logger.info("Connected to MongoDB Atlas");
 
         const usuario = await modeloUser.findOne({nombreUser: username}).exec();
         const tam = usuario.productosComprados.length;
@@ -69,19 +72,19 @@ async function comprarTienda (producto, username) {
         });
 
         if (result.modifiedCount == 1) {
-            w.logger.debug(result);
+            w.logger.debug("Result: ", result);
             w.logger.verbose("Se han actualizado los productos del usuario correctamente");
             return 0;
         } else {
             //console.error(error);
             w.logger.error("NO SE HAN MODIFICADO LOS PRODUCTOS DEL USUARIO")
         
-            w.logger.debug(result);
+            w.logger.debug("Result: ", result);
             return 1;
         }
 
     } catch (error) {
-        w.logger.error(error);
+        w.logger.error("Error: ", error);
         return 2;
 
     } finally {

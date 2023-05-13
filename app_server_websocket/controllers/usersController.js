@@ -45,7 +45,7 @@ async function registerUser(username, password, confirm_password, email) {
         }
     }
     catch (error) {
-        console.error(error);
+        w.logger.error("Error: ", error);
         return 2;
         //res.status(500).json({error: 'Error al crear usuario', nombreuser: req.body.username, correo: req.body.email, contraseña: req.body.password});
     } finally {
@@ -63,14 +63,15 @@ async function loginUser(username, password) {
         contraseña: password
     };
 
+    await mongoose.connect(config.db.uri, config.db.dbOptions);
+    w.logger.info("Connected to MongoDB Atlas");
+
     try {
-        await mongoose.connect(config.db.uri, config.db.dbOptions);
-        w.logger.info("Connected to MongoDB Atlas");
 
         const docs = await modeloUser.find(doc);
 
         if (docs.length > 0) {
-            w.logger.debug("Documento encontrado: " + docs.toString());
+            w.logger.debug("Documento encontrado: " , docs);
             return 0;
             //res.status(200).send('El usuario ha iniciado sesión correctamente');
         } else {
@@ -79,7 +80,8 @@ async function loginUser(username, password) {
             //res.status(500).json({ error: 'Error usuario o contraseña incorrectos',  nombreUser: req.body.username, contraseña: req.body.password });
         }
     } catch (error) {
-        console.error(error);
+        w.logger.error("Error: ", error);
+
         return 2;
         //res.status(500).json({ error: 'Error al buscar el usuario', nombreUser: req.body.username });
     } finally {
@@ -92,9 +94,10 @@ async function deleteUser(username) {
     w.logger.info("***DELETE METHOD Eliminación de Usuario");
     const doc = { nombreUser: username };
 
+    await mongoose.connect(config.db.uri, config.db.dbOptions);
+    w.logger.info("Connected to MongoDB Atlas");
     try {
-        await mongoose.connect(config.db.uri, config.db.dbOptions);
-        w.logger.info("Connected to MongoDB Atlas");
+
         const docs = await modeloUser.find(doc);
 
         const result = await modeloUser.deleteOne(doc);
@@ -109,7 +112,7 @@ async function deleteUser(username) {
         }
         //}
     } catch (error) {
-        console.error(error);
+        w.logger.error("Error: ", error);
         return 2;
         //res.status(500).json({ error: 'Error al eliminar el usuario', nombreuser: req.body.username });
     } finally {
@@ -127,10 +130,11 @@ async function updatePassword(username, password, confirm_password) {
         contraseñaDos: confirm_password
     };
 
-    console.log(doc);
+    // console.log(doc);
+    await mongoose.connect(config.db.uri, config.db.dbOptions);
+    w.logger.info("Connected to MongoDB Atlas");
+
     try {
-        await mongoose.connect(config.db.uri, config.db.dbOptions);
-        w.logger.info("Connected to MongoDB Atlas");
 
         //const docs = await modeloUser.find(doc);
 
@@ -150,7 +154,7 @@ async function updatePassword(username, password, confirm_password) {
         }
 
     } catch (error) {
-        console.error(error);
+        w.logger.error("Error: ", error);
         return 2;
         // res.status(500).json({ error: 'Error al actualizar la contraseña', nombreUser: req.body.username, res: result  });
     }
@@ -168,9 +172,10 @@ async function updateCorreo(username, email) {
         correo: email,
     };
 
+    await mongoose.connect(config.db.uri, config.db.dbOptions);
+    w.logger.info("Connected to MongoDB Atlas");
+
     try {
-        await mongoose.connect(config.db.uri, config.db.dbOptions);
-        w.logger.info("Connected to MongoDB Atlas");
 
         //const docs = await modeloUser.find(doc);
         const result = await modeloUser.updateOne({ nombreUser: doc.nombreUser }, { $set: { correo: doc.correo } })
@@ -181,14 +186,15 @@ async function updateCorreo(username, email) {
             //res.status(200).json("Se ha actualizado el correo correctamente"); 
         } else {
             //console.error(error);
-            console.log(result);
+            w.logger.debug("Result: ", result);
             return 1;
             //TODO:Probar que si se quita este lo coge el otro
             // res.status(500).json({ error: 'Error al actualizar el correo 3', nombreUser: req.body.username, res: result });
         }
 
     } catch (error) {
-        console.error(error);
+        w.logger.error("Error: ", error);
+
         return 2;
         //res.status(500).json({ error: 'Error al actualizar el correo', nombreUser: req.body.username });
     } finally {
@@ -207,27 +213,28 @@ async function updateUsername(username, newusername) {
     };
 
     // if(findUser(doc.newnombreUser) == 0){
+    await mongoose.connect(config.db.uri, config.db.dbOptions);
+        //TODO: BUSCAR QUE ESTE NOMBRE DE USUARIO NO ESTE COGIDO
+    w.logger.info("Connected to MongoDB Atlas");
     try {
-        await mongoose.connect(config.db.uri, config.db.dbOptions);
-//TODO: BUSCAR QUE ESTE NOMBRE DE USUARIO NO ESTE COGIDO
-        w.logger.info("Connected to MongoDB Atlas");
+      
         //const docs = await modeloUser.find(doc);
         const result = await modeloUser.updateOne({ nombreUser: doc.nombreUser }, { $set: { nombreUser: doc.newnombreUser } })
         if (result.modifiedCount == 1) {
-            console.log(result);
+            w.logger.debug("Result: ", result);
             w.logger.debug("Se ha actualizado el nombre de usuario correctamente");
             return 0;
             //res.status(200).json("Se ha actualizado el nombre de usuario correctamente"); 
         } else {
             //console.error(error);
-            console.log(result);
+            w.logger.debug("Result: ", result);
             return 1;
             //TODO:Probar que si se quita este lo coge el otro
             //res.status(500).json({ error: 'Error al actualizar el nombre de usuario 3', nombreUser: req.body.username, res: result });
         }
 
     } catch (error) {
-        console.error(error);
+        w.logger.error("Error: ", error);
         return 2;
         //res.status(500).json({ error: 'Error al actualizar el nombre de usuario', nombreUser: req.body.username });
     } finally {
@@ -237,20 +244,20 @@ async function updateUsername(username, newusername) {
 
 async function infoUsuario(username) {
     w.logger.info("***POST METHOD Devolver usuario");
-    w.logger.verbose(username)
+    w.logger.verbose("Username: ", username)
     const doc = {
         nombreUser: username
     };
 
+    await mongoose.connect(config.db.uri, config.db.dbOptions);
+    w.logger.info("Connected to MongoDB Atlas");
+
     try {
-        await mongoose.connect(config.db.uri, config.db.dbOptions);
-        w.logger.info("Connected to MongoDB Atlas");
 
         const docs = await modeloUser.find(doc);
 
         if (docs.length > 0) {
-            w.logger.debug("Documento encontrado: " + docs[0].toString);
-            w.logger.verbose(docs[0]);
+            w.logger.debug("Documento encontrado: " , docs[0]);
             const image = await modeloImagen.findOne({nombre: docs[0].imagen}).exec();
             docs[0].imagen = image.imagen;
             return docs[0];
@@ -260,7 +267,7 @@ async function infoUsuario(username) {
             return 1;
         }
     } catch (error) {
-        console.error(error);
+        w.logger.error("Error: ", error);
         return 2;
     } finally {
         mongoose.disconnect();
@@ -271,14 +278,15 @@ async function infoUsuario(username) {
 
 async function devolverImagenPerfil(username) {
     w.logger.info("***Devolver imagen perfil");
-    console.log(username)
+    w.logger.verbose("Username: ", username);
     const doc = {
         nombreUser: username
     };
 
+    await mongoose.connect(config.db.uri, config.db.dbOptions);
+    w.logger.info("Connected to MongoDB Atlas");
+
     try {
-        await mongoose.connect(config.db.uri, config.db.dbOptions);
-        w.logger.info("Connected to MongoDB Atlas");
 
         const docs = await modeloUser.find(doc);
 
@@ -300,9 +308,9 @@ async function devolverImagenPerfil(username) {
             //res.status(500).json({ error: 'Error al buscar el usuario',  nombreUser: req.body.username });
         }
     } catch (error) {
-        console.error(error);
+        w.logger.error("Error: ", error);
         return 2;
-        return null;
+        // return null;
         //res.status(500).json({ error: 'Error al buscar el usuario', nombreUser: req.body.username });
     } finally {
         mongoose.disconnect();
@@ -318,24 +326,25 @@ async function updateImagenPerfil(username, imagen) {
         imagen: imagen,
     };
 
+    await mongoose.connect(config.db.uri, config.db.dbOptions);
+    w.logger.info("Connected to MongoDB Atlas");
+
     try {
-        await mongoose.connect(config.db.uri, config.db.dbOptions);
-        w.logger.info("Connected to MongoDB Atlas");
 
         const result = await modeloUser.updateOne({ nombreUser: doc.nombreUser }, { $set: { imagen: doc.imagen } })
         if (result.modifiedCount == 1) {
-            console.log(result);
+            w.logger.debug("Result: ", result);
             w.logger.debug("Se ha actualizado la imagen de perfil correctamente");
             return 0;
         } else {
-            console.log(result);
+            w.logger.debug("Result: ", result);
             return 1;
             //TODO:Probar que si se quita este lo coge el otro
             // res.status(500).json({ error: 'Error al actualizar el correo 3', nombreUser: req.body.username, res: result });
         }
 
     } catch (error) {
-        console.error(error);
+        w.logger.error("Error: ", error);
         return 2;
 
     } finally {

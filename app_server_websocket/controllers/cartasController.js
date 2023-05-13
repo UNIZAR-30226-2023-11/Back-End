@@ -31,7 +31,7 @@ async function cartaJulio(partida, username) {
         return cartaEncontrada;
 
     } catch (error) {
-        w.logger.error(error);
+        w.logger.error("Error: ", error);
         w.logger.verbose("Error al obtener las cartas del jugador");
         return 2;
     } finally {
@@ -62,7 +62,7 @@ async function usarCartaJulio(partida, username) {
         // res.status(200).send("Carta usada con éxito");
 
     } catch (error) {
-        w.logger.error(error);
+        w.logger.error("Error: ", error);
         w.logger.error("Error al obtener las cartas del jugador");
         return 2;
     } finally {
@@ -90,7 +90,7 @@ async function anadirCartaJulio(username, partida) {
         // res.status(200).send("Carta agnadida con éxito");
 
     } catch (error) {
-        w.logger.error(error);
+        w.logger.error("Error: ", error);
         w.logger.debug("Error al obtener las cartas del jugador");
         return 2;
     } finally {
@@ -109,8 +109,8 @@ async function findCarta(nombre) {
     try {
 
         const cartaEncontrada = await modeloTarjetas.findOne({ nombre: nombre }).exec();
-        w.logger.debug(nombre);
-        w.logger.debug(JSON.stringify(cartaEncontrada));
+        w.logger.debug("Nombre: ", nombre);
+        w.logger.debug("CartaEncontrada: ", cartaEncontrada);
 
         if (cartaEncontrada) {
             // Accede a los atributos de la carta utilizando la sintaxis objeto.atributo
@@ -121,7 +121,7 @@ async function findCarta(nombre) {
         }
     }
     catch (error) {
-        w.logger.error(error);
+        w.logger.error("Error: ", error);
         w.logger.error('Error al encontrar carta');
         return null;
 
@@ -218,7 +218,7 @@ async function accionCarta(partida, username, tarjeta, coordenadas) {
         await mongoose.connect(config.db.uri, config.db.dbOptions);
         w.logger.verbose("Connected to MongoDB Atlas");
         try {
-            w.logger.debug(partida.id)
+            w.logger.debug("idPartida: ", partida.id)
 
             const result1 = await modeloPartida.updateOne({ id: partida.id }, {
                 $set: {
@@ -227,13 +227,13 @@ async function accionCarta(partida, username, tarjeta, coordenadas) {
                 }
             })
             if (result1.modifiedCount == 1) {
-                console.log(result1);
+                w.logger.debug("Result: ", result1);
                 w.logger.debug("Se ha actualizado la partida correctamente");
                 return 0;
                 // res.status(200).json("Se ha actualizado la partida correctamente");
             } else {
                 // console.error(error);
-                console.log(result1);
+                w.logger.debug("Result: ", result1);
                 return 1;
                 // res.status(205).json({ error: 'Error al actualizar la partida ' }); // es 205 porque puede ser que un jugador no haga nada en su turno
             }
@@ -253,7 +253,7 @@ async function accionCarta(partida, username, tarjeta, coordenadas) {
             //     res.status(205).json({ error: 'Error al actualizar la partida ' }); // es 205 porque puede ser que un jugador no haga nada en su turno
             // }
         } catch (error) {
-            console.error(error);
+            w.logger.error("Error: ", error);
             w.logger.error("Error al obtener las cartas del jugador");
             return 2;
         } finally {
@@ -297,7 +297,7 @@ async function tarjetaAleatoria(tipo, username, idPartida, coordenadas) {
         // res.status(200).json(resultado);
         return resultado[0];
     } catch (error) {
-        w.logger.error(error);
+        w.logger.error("Error: ", error);
         return 2;
         // res.status(500).json({ mensaje: 'Error al obtener tarjeta aleatoria' });
     } finally {
