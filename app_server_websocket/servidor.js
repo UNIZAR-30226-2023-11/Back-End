@@ -320,9 +320,10 @@ io.on('connection', (socket) => {
       const socketsGrupo = io.sockets.in(data.idPartida).sockets;
       w.logger.debug(`IDs de los sockets en el grupo ${data.idPartida}:`);
 
-      for (const socketID in socketsGrupo) {
-        w.logger.debug(socketID);
-      }
+      Object.values(clientes).forEach(elemento => {
+        w.logger.debug(elemento.socket.id);
+      });
+
       w.logger.verbose("\n\tCliente socket: " + clientes[socketId].socket.id + "\n" +
         "\tCliente nombre: " + clientes[socketId].username + "\n" +
         "\tCliente partida: " + clientes[socketId].partidaActiva + "\n");
