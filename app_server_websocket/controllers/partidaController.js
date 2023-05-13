@@ -744,7 +744,7 @@ async function pagarJulio(username, idPartida) {
 }
 
 
-async function subasta(username, idPartida, cantidad) {
+async function subasta(username, idPartida, cantidad, coordenadas) {
     w.logger.info("iniciar subasta")
 
     const partida = await findPartida(idPartida);

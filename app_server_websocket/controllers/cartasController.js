@@ -13,11 +13,7 @@ const modeloTarjetasEnMano = require('../models/tarjetasEnMano');
 
 /**
  * 
-<<<<<<< HEAD
- * @param {*} partida Partida Objeto
-=======
  * @param {*} partida Partida de tipo modeloPartida
->>>>>>> 49080d94df152b3bb37c8023412e70fc27074caf
  * @param {*} username Jugador que se declara en bancarrota
  * @param {*}  
  */
@@ -55,7 +51,6 @@ async function cartaJulio(partida, username) {
 async function usarCartaJulio(partida, username) {
     w.logger.verbose("***POST METHOD Usar carta salir de julio");
 
-    const partida = await ctfindPartida(idPartida);
     const jugador = username;
 
     await mongoose.connect(config.db.uri, config.db.dbOptions);
@@ -149,7 +144,6 @@ async function findCarta(nombre) {
 async function accionCarta(partida, username, tarjeta, coordenadas) {
     w.logger.verbose("***POST METHOD Devuelve lo que tiene que hacer un jugador segun la carta que le ha salido");
 
-    const partida = await partidaController.findPartida(idPartida);
     const carta = await findCarta(tarjeta.nombre);
     const jugador = username
     const posicion = partida.nombreJugadores.indexOf(jugador);

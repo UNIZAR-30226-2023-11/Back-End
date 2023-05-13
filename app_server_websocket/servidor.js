@@ -708,6 +708,7 @@ io.on('connection', (socket) => {
     w.logger.verbose('empezarPuja');
     const socketId = data.socketId;
     const coordenadas = data.coordenadas;
+    w.logger('debug', coordenadas);
     var iniciar = await partidaController.subasta(clientes[socketId].username, clientes[socketId].partidaActiva, 0, coordenadas);
   
     if(iniciar != 2 && iniciar != 1){
