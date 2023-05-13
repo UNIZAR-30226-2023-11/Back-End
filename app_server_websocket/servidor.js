@@ -323,12 +323,12 @@ io.on('connection', (socket) => {
 
       Object.values(clientes).forEach(elemento => {
         if(elemento.partidaActiva == data.idPartida){
-          w.logger.debug("Socket: ", elemento.socket);
-          w.logger.debug("Socket.id: ", elemento.socket.id);
+          w.logger.debug("Socket: " + elemento.socket);
+          w.logger.debug("Socket.id: " + elemento.socket.id);
         }
       });
 
-      w.logger.verbose("\n\tCliente socket: " + clientes[socketId].socket.id + "\n" +
+      w.logger.verbose("\n\tCliente socket: " + clientes[socketId].socket + "\n" +
         "\tCliente nombre: " + clientes[socketId].username + "\n" +
         "\tCliente partida: " + clientes[socketId].partidaActiva + "\n");
 
