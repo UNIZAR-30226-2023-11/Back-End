@@ -29,7 +29,7 @@ io.on('connection', (socket) => {
   // // Guarda la conexión en el objeto clientes junto con el nombre de usuario
   clientes[socket.id] = {
     socket: socket,
-    username: name,
+    username: "",
     partidaActiva: 0 // aquí puedes inicializar el nombre de usuario con null
     //otherData: '...'
   };

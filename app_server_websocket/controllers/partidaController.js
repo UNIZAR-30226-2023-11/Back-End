@@ -716,7 +716,8 @@ async function estaJulio(username, idPartida) {
     const partida = await findPartida(idPartida);
     const posicion = partida.nombreJugadores.indexOf(username);
 
-    const carta = cartasController.cartaJulio(username, idPartida);
+
+    const carta = cartasController.cartaJulio(username, partida);
 
     var puedePagar = false;
     if (partida.dineroJugadores[posicion] >= 50) {

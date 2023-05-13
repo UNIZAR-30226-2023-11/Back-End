@@ -26,7 +26,7 @@ async function cartaJulio(partida, username) {
     await mongoose.connect(config.db.uri, config.db.dbOptions);
     w.logger.verbose("Connected to MongoDB Atlas");
     try {
-        const cartaEncontrada = await modeloTarjetasEnMano.findOne({ nombre: "¡Qué suerte, te libras!", partida: idPartida, jugador: jugador }).exec();
+        const cartaEncontrada = await modeloTarjetasEnMano.findOne({ nombre: "¡Qué suerte, te libras!", partida: partida.id, jugador: jugador }).exec();
         // res.status(200).json(cartaEncontrada);
         return cartaEncontrada;
 
