@@ -268,21 +268,21 @@ io.on('connection', (socket) => {
         "\tCliente partida: " + clientes[socketId].partidaActiva + "\n");
 
       if (data.jugar) {
-        var p = await partidaController.findPartida(clientes[socketId].partidaActiva);
+        // var p = await partidaController.findPartida(clientes[socketId].partidaActiva);
 
-        Object.values(clientes).forEach(elemento => {
-          if (elemento.partidaActiva === p.id) {
-            //enviamos a ese jugador el evento aJugar
-            var partUser = {
-              partida: p,
-              username: elemento.username
-            }
-            io.to(elemento.socket).emit('comenzarPartida', partUser);
-            w.logger.debug(elemento.socket.id);
-            w.logger.debug(elemento.socket);
-          }
-        });
-        // io.to(clientes[socketId].partidaActiva).emit('comenzarPartida', clientes[socketId].username);
+        // Object.values(clientes).forEach(elemento => {
+        //   if (elemento.partidaActiva === p.id) {
+        //     //enviamos a ese jugador el evento aJugar
+        //     var partUser = {
+        //       partida: p,
+        //       username: elemento.username
+        //     }
+        //     io.to(elemento.socket).emit('comenzarPartida', partUser);
+        //     // w.logger.debug(elemento.socket.id);
+        //     w.logger.debug(elemento.socket);
+        //   }
+        // });
+        io.to(clientes[socketId].partidaActiva).emit('comenzarPartida', clientes[socketId].username);
       }
     }
     //w.logger.verbose(imagen);
