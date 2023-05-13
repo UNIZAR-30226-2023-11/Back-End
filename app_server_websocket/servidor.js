@@ -321,7 +321,9 @@ io.on('connection', (socket) => {
       w.logger.debug(`IDs de los sockets en el grupo ${data.idPartida}:`);
 
       Object.values(clientes).forEach(elemento => {
-        w.logger.debug(elemento.socket.id);
+        if(elemento.partidaActiva == data.idPartida){
+          w.logger.debug(elemento.socket.id);
+        }
       });
 
       w.logger.verbose("\n\tCliente socket: " + clientes[socketId].socket.id + "\n" +
