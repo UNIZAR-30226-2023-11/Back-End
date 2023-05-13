@@ -22,7 +22,7 @@ io.on('connection', (socket) => {
   w.logger.verbose('Usuario conectado');
 
   const numUsuarios = Object.keys(io.sockets.sockets).length;
-  w.logger.verbose("NUMERO DE USUARIOS: ", numUsuarios)
+  w.logger.verbose("NUMERO DE USUARIOS: ", numUsuarios);
 
   num++;
   w.logger.verbose('Numero de usuarios conectados ' + num);
