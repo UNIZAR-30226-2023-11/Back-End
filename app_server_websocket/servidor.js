@@ -250,13 +250,13 @@ io.on('connection', (socket) => {
       w.logger.verbose('Partida creada correctamente');
       //io.emit('mensaje', correo);
       //ack('0 Ok' + correo)
-      w.logger.verbose("idPartida: ", partida.id);
+      w.logger.verbose("idPartida: "+ partida.id);
       msg = partida;
       clientes[socketId].partidaActiva = partida.id;
 
       // socketToGroupMap.set(socket.id, data.idPartida); // Registrar el ID del socket y el nombre del grupo en el mapa
-      socket.join(data.idPartida); // Unir el socket al grupo utilizando el nombre del grupo
-
+      w.logger.debug("ROOM: " + partida.id);
+      socket.join(partida.id); // Unir el socket al grupo utilizando el nombre del grupo
 
       partida = 0;
       w.logger.verbose("\n\tCliente socket: " + JSON.stringify(clientes[socketId].socket.id) + "\n" +
@@ -336,6 +336,7 @@ io.on('connection', (socket) => {
       w.logger.debug('Lista jugadores: ' , partida.nombreJugadores);
 
       w.logger.debug("Sockets del jugador que se ha unido: " , socket.id);
+      w.logger.debug("ROOM: ", clientes[socketId].partidaActiva);
       io.to(clientes[socketId].partidaActiva).emit('esperaJugadores', partida.nombreJugadores);
 
       const socketsGrupo = io.sockets.in(data.idPartida).sockets;
@@ -346,9 +347,9 @@ io.on('connection', (socket) => {
         if(elemento.partidaActiva == data.idPartida){
           i++;
           w.logger.debug("Socket: " + i + " " + elemento.socket);
-          if(i ===2){
-            w.logger.debug("Socket: " + i + " " + JSON.stringify(elemento.socket));
-          }
+          // if(i ===2){
+          //   w.logger.debug("Socket: " + i + " " + JSON.stringify(elemento.socket));
+          // }
 
   
           // w.logger.debug("Socket.id: " + elemento.socket.id);
