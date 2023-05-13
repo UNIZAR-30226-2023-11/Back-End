@@ -282,6 +282,7 @@ io.on('connection', (socket) => {
         //     w.logger.debug(elemento.socket);
         //   }
         // });
+
         io.to(clientes[socketId].partidaActiva).emit('comenzarPartida', {username: clientes[socketId].username, partida: p});
       }
     }
@@ -314,8 +315,8 @@ io.on('connection', (socket) => {
 
       w.logger.debug('Lista jugadores: ' + partida.nombreJugadores);
 
-      w.logger.debug("Sockets del jugador que se ha unido: " + socket.id)
-      io.to(data.idPartida).emit('esperaJugadores', partida.nombreJugadores);
+      w.logger.debug("Sockets del jugador que se ha unido: " + socket.id);
+      io.to(clientes[socketId].partidaActiva).emit('esperaJugadores', partida.nombreJugadores);
 
       const socketsGrupo = io.sockets.in(data.idPartida).sockets;
       w.logger.debug(`IDs de los sockets en el grupo ${data.idPartida}:`);
