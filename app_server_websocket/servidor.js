@@ -22,11 +22,13 @@ io.on('connection', (socket) => {
   w.logger.verbose('Usuario conectado');
 
   const numUsuarios = Object.keys(io.sockets.sockets).length;
-  console.log(`Hay ${numUsuarios} usuarios conectados al servidor`);
+  w.logger.verbose("NUMERO DE USUARIOS: ", numUsuarios)
 
-  // w.logger.verbose('Numero de usuarios conectados ' + num);
-  io.emit('mensaje', 'Bienvenido al servidor Socket.IO');
   num++;
+  w.logger.verbose('Numero de usuarios conectados ' + num);
+
+  io.emit('mensaje', 'Bienvenido al servidor Socket.IO');
+ 
   // Guarda la conexión en el objeto connections
   // const name = socket.handshake.query.name;
   //clientes[socket.id] = socket;
