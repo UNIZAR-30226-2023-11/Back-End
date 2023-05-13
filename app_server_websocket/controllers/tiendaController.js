@@ -7,12 +7,12 @@ const w = require('../winston')
 
 
 async function devolverTienda(username) {
-    w.logger.info("***POST METHOD Devolver tienda");
+    w.logger.info("***METHOD Devolver tienda");
     var usuario = null;
     var tienda = null;
     
     await mongoose.connect(config.db.uri, config.db.dbOptions);
-    w.logger.info("Connected to MongoDB Atlas");
+    w.logger.debug("Connected to MongoDB Atlas");
 
     try {
 
@@ -44,12 +44,12 @@ async function devolverTienda(username) {
         return tienda;
 
     } catch (error) {
-        w.logger.error(error);
+        w.logger.error(`Error: ${error}`);
         return 2;
 
     } finally {
         await mongoose.disconnect();
-        w.logger.info("DisConnected to MongoDB Atlas");
+        w.logger.debug("DisConnected to MongoDB Atlas");
     }º
 }
 

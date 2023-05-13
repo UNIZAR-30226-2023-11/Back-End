@@ -104,7 +104,7 @@ async function findCarta(nombre) {
     w.logger.verbose("*** METHOD Find carta");
 
     await mongoose.connect(config.db.uri, config.db.dbOptions);
-    w.logger.verbose("Connected to MongoDB Atlas");
+    w.logger.debug("Connected to MongoDB Atlas");
 
     try {
 
@@ -121,13 +121,13 @@ async function findCarta(nombre) {
         }
     }
     catch (error) {
-        w.logger.error("Error: ", error);
+        w.logger.error(`Error: ${error}`);
         w.logger.error('Error al encontrar carta');
         return null;
 
     } finally {
          await mongoose.disconnect();
-        w.logger.verbose("DisConnected to MongoDB Atlas")
+        w.logger.debug("DisConnected to MongoDB Atlas")
     }
 }
 
@@ -142,7 +142,7 @@ async function findCarta(nombre) {
  */
 //TODO: HACER EL SOCKET ON DEL SERVIDOR
 async function accionCarta(partida, username, tarjeta, coordenadas) {
-    w.logger.verbose("***POST METHOD Devuelve lo que tiene que hacer un jugador segun la carta que le ha salido");
+    w.logger.verbose("***METHOD Devuelve lo que tiene que hacer un jugador segun la carta que le ha salido");
 
     const carta = await findCarta(tarjeta.nombre);
     const jugador = username
@@ -216,7 +216,7 @@ async function accionCarta(partida, username, tarjeta, coordenadas) {
         console.log(partida.dineroJugadores);
 
         await mongoose.connect(config.db.uri, config.db.dbOptions);
-        w.logger.verbose("Connected to MongoDB Atlas");
+        w.logger.debug("Connected to MongoDB Atlas");
         try {
             w.logger.debug("idPartida: ", partida.id)
 
@@ -253,12 +253,12 @@ async function accionCarta(partida, username, tarjeta, coordenadas) {
             //     res.status(205).json({ error: 'Error al actualizar la partida ' }); // es 205 porque puede ser que un jugador no haga nada en su turno
             // }
         } catch (error) {
-            w.logger.error("Error: ", error);
+            w.logger.error(`Error: ${error}`);
             w.logger.error("Error al obtener las cartas del jugador");
             return 2;
         } finally {
              await mongoose.disconnect();
-            w.logger.verbose("DisConnected to MongoDB Atlas")
+            w.logger.debug("DisConnected to MongoDB Atlas")
         }
     }
 }
@@ -276,10 +276,10 @@ async function accionCarta(partida, username, tarjeta, coordenadas) {
 //TODO: guardar que tarjeta le sale a cada usuario
 
 async function tarjetaAleatoria(tipo, username, idPartida, coordenadas) {
-    w.logger.verbose("***METHOD GET Para obtener tarjeta aleatoria ");
+    w.logger.verbose("***METHOD Para obtener tarjeta aleatoria ");
     
     await mongoose.connect(config.db.uri, config.db.dbOptions);
-    w.logger.verbose("Connected to MongoDB Atlas")
+    w.logger.debug("Connected to MongoDB Atlas")
 
     try {
         // var tipoP = tipo;
@@ -297,12 +297,12 @@ async function tarjetaAleatoria(tipo, username, idPartida, coordenadas) {
         // res.status(200).json(resultado);
         return resultado[0];
     } catch (error) {
-        w.logger.error("Error: ", error);
+        w.logger.error(`Error: ${error}`);
         return 2;
         // res.status(500).json({ mensaje: 'Error al obtener tarjeta aleatoria' });
     } finally {
          await mongoose.disconnect();
-        w.logger.verbose("DisConnected to MongoDB Atlas")
+        w.logger.debug("DisConnected to MongoDB Atlas")
     }
 }
 
