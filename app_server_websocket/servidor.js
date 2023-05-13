@@ -309,7 +309,9 @@ io.on('connection', (socket) => {
       // msg = partida;
       // partida = 0;
       clientes[socketId].partidaActiva = data.idPartida;
-      socket.join(data.idPartida);
+
+      socketToGroupMap.set(socket.id, data.idPartida); // Registrar el ID del socket y el nombre del grupo en el mapa
+      socket.join(data.idPartida); // Unir el socket al grupo utilizando el nombre del grupo
 
       var partida = await partidaController.infoPartida(data.idPartida);
 
@@ -326,6 +328,8 @@ io.on('connection', (socket) => {
         if(elemento.partidaActiva == data.idPartida){
           i++;
           w.logger.debug("Socket: " + i + " " + elemento.socket);
+
+  
           // w.logger.debug("Socket.id: " + elemento.socket.id);
         }
       });
