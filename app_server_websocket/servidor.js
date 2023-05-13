@@ -524,6 +524,10 @@ io.on('connection', (socket) => {
     var coordenadas = data.coordenadas;
     clientes[socketId].partidaActiva = 32;
     var bancarrota = await partidaController.bancarrota(clientes[socketId].partidaActiva, clientes[socketId].username)
+    const partida = await partidaController.infoPartida(clientes[socketId].partidaActiva);
+    w.logger.debug ("partida:" + JSON.stringify(partida));
+
+    io.to(clientes[socketId].partidaActiva).emit('infoPartida', partida);
     var msg = "";
     var m = {
       cod: bancarrota,
@@ -744,10 +748,12 @@ io.on('connection', (socket) => {
     timer = setTimeout(() => {
       // La función que se ejecutará después de un tiempo determinado
       // ...
+      //comprar asignatura
+      // sacar la info de la partida y mandarla en terminarPuja
       io.to(clientes[socketId].partidaActiva).emit('terminarPuja', 'ok');
 
 
-      //comprar asignatura
+      
 
 
     }, 15000); // Tiempo de espera en milisegundos
