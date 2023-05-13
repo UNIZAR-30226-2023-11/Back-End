@@ -235,7 +235,7 @@ io.on('connection', (socket) => {
       w.logger.verbose('Partida creada correctamente');
       //io.emit('mensaje', correo);
       //ack('0 Ok' + correo)
-      console.log(partida.id);
+      w.logger.verbose("idPartida: ", partida.id);
       msg = partida;
       clientes[socketId].partidaActiva = partida.id;
       socket.join(partida.id);
@@ -313,9 +313,9 @@ io.on('connection', (socket) => {
 
       var partida = await partidaController.infoPartida(data.idPartida);
 
-      w.logger.debug('Lista jugadores: ' + partida.nombreJugadores);
+      w.logger.debug('Lista jugadores: ' , partida.nombreJugadores);
 
-      w.logger.debug("Sockets del jugador que se ha unido: " + socket.id);
+      w.logger.debug("Sockets del jugador que se ha unido: " , socket.id);
       io.to(clientes[socketId].partidaActiva).emit('esperaJugadores', partida.nombreJugadores);
 
       const socketsGrupo = io.sockets.in(data.idPartida).sockets;
@@ -323,7 +323,8 @@ io.on('connection', (socket) => {
 
       Object.values(clientes).forEach(elemento => {
         if(elemento.partidaActiva == data.idPartida){
-          w.logger.debug(elemento.socket.id);
+          w.logger.debug("Socket: ", elemento.socket);
+          w.logger.debug("Socket.id: ", elemento.socket.id);
         }
       });
 
