@@ -396,7 +396,7 @@ async function findPartida(idPartida) {
     w.logger.info("*** METHOD Find partida");
 
     await mongoose.connect(config.db.uri, config.db.dbOptions);
-    w.logger.verbose("Connected to MongoDB Atlas");
+    w.logger.info("Connected to MongoDB Atlas");
 
     try {
 
@@ -418,13 +418,13 @@ async function findPartida(idPartida) {
         //res.status(201).json({message: 'Partida creada correctamente'})
     }
     catch (error) {
-        w.logger.error("Error: ", error);
+        w.logger.error("Error: ", JSON.stringify(error));
         w.logger.error('Error al encontrar partida');
         //res.status(500).json({error: 'Error al encontrar partida'});
         return null;
     } finally {
         await mongoose.disconnect();
-        w.logger.verbose("DisConnected to MongoDB Atlas")
+        w.logger.info("DisConnected to MongoDB Atlas")
     }
 }
 

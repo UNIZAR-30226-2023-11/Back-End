@@ -45,6 +45,7 @@ io.on('connection', (socket) => {
   socket.on('login', async (data, ack) => {
     const socketId = data.socketId;
     w.logger.verbose('INICIO DE SESION ' , socketId);
+    w.logger.debug('socketId: ' + socketId);
     var login = await usersController.loginUser(data.username, data.password);
 
     if (login != 1 && login != 2) {
