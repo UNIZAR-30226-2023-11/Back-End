@@ -35,7 +35,7 @@ async function cartaJulio(partida, username) {
         w.logger.verbose("Error al obtener las cartas del jugador");
         return 2;
     } finally {
-        mongoose.disconnect();
+         await mongoose.disconnect();
         w.logger.verbose("Disconnected to MongoDB Atlas")
     }
 }
@@ -66,7 +66,7 @@ async function usarCartaJulio(partida, username) {
         w.logger.error("Error al obtener las cartas del jugador");
         return 2;
     } finally {
-        mongoose.disconnect();
+         await mongoose.disconnect();
         w.logger.verbose("Disconnected to MongoDB Atlas")
     }
 }
@@ -94,7 +94,7 @@ async function anadirCartaJulio(username, partida) {
         w.logger.debug("Error al obtener las cartas del jugador");
         return 2;
     } finally {
-        mongoose.disconnect();
+         await mongoose.disconnect();
         w.logger.verbose("Disconnected to MongoDB Atlas")
     }
 }
@@ -126,7 +126,7 @@ async function findCarta(nombre) {
         return null;
 
     } finally {
-        mongoose.disconnect();
+         await mongoose.disconnect();
         w.logger.verbose("DisConnected to MongoDB Atlas")
     }
 }
@@ -257,7 +257,7 @@ async function accionCarta(partida, username, tarjeta, coordenadas) {
             w.logger.error("Error al obtener las cartas del jugador");
             return 2;
         } finally {
-            mongoose.disconnect();
+             await mongoose.disconnect();
             w.logger.verbose("DisConnected to MongoDB Atlas")
         }
     }
@@ -301,7 +301,7 @@ async function tarjetaAleatoria(tipo, username, idPartida, coordenadas) {
         return 2;
         // res.status(500).json({ mensaje: 'Error al obtener tarjeta aleatoria' });
     } finally {
-        mongoose.disconnect();
+         await mongoose.disconnect();
         w.logger.verbose("DisConnected to MongoDB Atlas")
     }
 }
