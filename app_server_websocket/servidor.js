@@ -337,7 +337,7 @@ io.on('connection', (socket) => {
       w.logger.debug('Lista jugadores: ' , partida.nombreJugadores);
 
       w.logger.debug("Sockets del jugador que se ha unido: " , socket.id);
-      w.logger.debug("ROOM: ", clientes[socketId].partidaActiva);
+      w.logger.debug(`ROOM: ${clientes[socketId].partidaActiva}`);
       io.to(clientes[socketId].partidaActiva).emit('esperaJugadores', partida.nombreJugadores);
 
       const socketsGrupo = io.sockets.in(data.idPartida).sockets;

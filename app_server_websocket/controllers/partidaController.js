@@ -142,7 +142,7 @@ async function actualizarPartida(idPartida, nJugadores, dineroInicial, normas) {
                 return 0;
             } else {
                 //console.error(error);
-                w.logger.error("ERROR ", result);
+                w.logger.error("ERROR ", JSON.stringify(result));
                 //res.status(205).json({ error: 'Error al actualizar la partida ' }); // es 205 porque puede ser que un jugador no haga nada en su turno
                 return 1;
             }
@@ -153,7 +153,7 @@ async function actualizarPartida(idPartida, nJugadores, dineroInicial, normas) {
         }
 
     } catch (error) {
-        w.logger.error("ERROR ", error);
+        w.logger.error("ERROR ", JSON.stringify(error));
         return 2;
         // res.status(500).json({ error: 'Error al actualizar partida' });
     } finally {
