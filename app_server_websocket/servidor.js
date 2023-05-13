@@ -260,7 +260,7 @@ io.on('connection', (socket) => {
       socket.join(partida.id); // Unir el socket al grupo utilizando el nombre del grupo
 
       partida = 0;
-      w.logger.verbose("\n\tCliente socket: " + JSON.stringify(clientes[socketId].socket.id) + "\n" +
+      w.logger.verbose("\n\tCliente socket: " + JSON.stringify(clientes[socketId].socket) + "\n" +
         "\tCliente nombre: " + clientes[socketId].username + "\n" +
         "\tCliente partida: " + clientes[socketId].partidaActiva + "\n");
     }
