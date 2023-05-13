@@ -20,7 +20,11 @@ const socketToGroupMap = new Map(); // Mapa para mantener un registro de los soc
 var num = 0;
 io.on('connection', (socket) => {
   w.logger.verbose('Usuario conectado');
-  w.logger.verbose('Numero de usuarios conectados ' + num);
+
+  const numUsuarios = Object.keys(io.sockets.sockets).length;
+  console.log(`Hay ${numUsuarios} usuarios conectados al servidor`);
+
+  // w.logger.verbose('Numero de usuarios conectados ' + num);
   io.emit('mensaje', 'Bienvenido al servidor Socket.IO');
   num++;
   // Guarda la conexión en el objeto connections
@@ -38,7 +42,7 @@ io.on('connection', (socket) => {
 
   socket.on('login', async (data, ack) => {
     const socketId = data.socketId;
-    w.logger.verbose('INICIO DE SESION ' + socketId);
+    w.logger.verbose('INICIO DE SESION ' , socketId);
     var login = await usersController.loginUser(data.username, data.password);
 
     if (login != 1 && login != 2) {
@@ -58,7 +62,7 @@ io.on('connection', (socket) => {
 
   socket.on('nombreInvitado', async (data, ack) => {
     const socketId = data.socketId;
-    w.logger.verbose('Invitado ' + socketId);
+    w.logger.verbose('Invitado: ' ,  socketId);
 
     clientes[socketId].username = data.username;
     var m = {
