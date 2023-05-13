@@ -263,13 +263,27 @@ io.on('connection', (socket) => {
     if (partida != 1 && partida != 2) {
       w.logger.verbose('Partida actualizada correctamente');
 
-      w.logger.verbose("\n\tCliente socket: " + clientes[socketId].socket.id + "\n" +
+      w.logger.verbose("\n\tCliente socket: " + clientes[socketId].socket + "\n" +
         "\tCliente nombre: " + clientes[socketId].username + "\n" +
         "\tCliente partida: " + clientes[socketId].partidaActiva + "\n");
 
       if (data.jugar) {
-        io.to(clientes[socketId].partidaActiva).emit('comenzarPartida', clientes[socketId].username);
+        var p = await partidaController.findPartida(clientes[socketId].partidaActiva);
 
+        // Object.values(clientes).forEach(elemento => {
+        //   if (elemento.partidaActiva === p.id) {
+        //     //enviamos a ese jugador el evento aJugar
+        //     var partUser = {
+        //       partida: p,
+        //       username: elemento.username
+        //     }
+        //     io.to(elemento.socket).emit('comenzarPartida', partUser);
+        //     // w.logger.debug(elemento.socket.id);
+        //     w.logger.debug(elemento.socket);
+        //   }
+        // });
+
+        io.to(clientes[socketId].partidaActiva).emit('comenzarPartida', {username: clientes[socketId].username, partida: p});
       }
     }
     //w.logger.verbose(imagen);
@@ -288,7 +302,7 @@ io.on('connection', (socket) => {
     var partida = await partidaController.unirJugador(data.idPartida, clientes[socketId].username);
 
     var msg = "";
-    if (partida != 1 && partida != 2) {
+    if (partida != 1 && partida != 2 && partida != 4) {
       w.logger.verbose('Se ha unido correctamente el jugador');
       //io.emit('mensaje', correo);
       //ack('0 Ok' + correo)
@@ -301,15 +315,18 @@ io.on('connection', (socket) => {
 
       w.logger.debug('Lista jugadores: ' + partida.nombreJugadores);
 
-      w.logger.debug("Sockets del jugador que se ha unido: " + socket.id)
-      io.to(data.idPartida).emit('esperaJugadores', partida.nombreJugadores);
+      w.logger.debug("Sockets del jugador que se ha unido: " + socket.id);
+      io.to(clientes[socketId].partidaActiva).emit('esperaJugadores', partida.nombreJugadores);
 
       const socketsGrupo = io.sockets.in(data.idPartida).sockets;
       w.logger.debug(`IDs de los sockets en el grupo ${data.idPartida}:`);
 
-      for (const socketID in socketsGrupo) {
-        w.logger.debug(socketID);
-      }
+      Object.values(clientes).forEach(elemento => {
+        if(elemento.partidaActiva == data.idPartida){
+          w.logger.debug(elemento.socket.id);
+        }
+      });
+
       w.logger.verbose("\n\tCliente socket: " + clientes[socketId].socket.id + "\n" +
         "\tCliente nombre: " + clientes[socketId].username + "\n" +
         "\tCliente partida: " + clientes[socketId].partidaActiva + "\n");
@@ -388,7 +405,7 @@ io.on('connection', (socket) => {
 
   //   Object.values(clientes).forEach(elemento => {
   //     if (elemento.partidaActiva === partida) {
-  //       //enviamos a ese jugador el evento aJugar
+  //       enviamos a ese jugador el evento aJugar
   //       io.to(elemento.socket).emit('aJugar', elemento.username);
   //     }
   //   });
@@ -511,6 +528,10 @@ io.on('connection', (socket) => {
     var coordenadas = data.coordenadas;
     clientes[socketId].partidaActiva = 32;
     var bancarrota = await partidaController.bancarrota(clientes[socketId].partidaActiva, clientes[socketId].username)
+    const partida = await partidaController.infoPartida(clientes[socketId].partidaActiva);
+    w.logger.debug ("partida:" + JSON.stringify(partida));
+
+    io.to(clientes[socketId].partidaActiva).emit('infoPartida', partida);
     var msg = "";
     var m = {
       cod: bancarrota,
@@ -683,6 +704,69 @@ io.on('connection', (socket) => {
   });
 
 
+  socket.on('empezarPuja', async (data, ack) => {
+    w.logger.verbose('empezarPuja');
+    const socketId = data.socketId;
+    const coordenadas = data.coordenadas;
+    var iniciar = await partidaController.subasta(clientes[socketId].username, clientes[socketId].partidaActiva, 0, coordenadas);
+  
+    if(iniciar != 2 && iniciar != 1){
+      var asignatura = await asignaturasController.infoAsignatura(coordenadas);
+      if(asignatura != 1){
+        io.to(clientes[socketId].partidaActiva).emit('hayPuja', asignatura);
+      }
+    }
+    var msg = ""
+    var m = {
+      cod: iniciar,
+      msg: g.generarMsg(iniciar, msg)
+    }
+    ack(m);
+    
+  });
+
+  let timer;
+  socket.on('pujar', async (data, ack) => {
+    w.logger.verbose('pujar');
+    const socketId = data.socketId;
+    const cantidad = data.cantidad;
+
+    clearTimeout(timer);
+
+    var subasta = await partidaController.subasta(clientes[socketId].username, clientes[socketId].partidaActiva, cantidad, '')
+
+    var partida = await partidaController.findPartida(clientes[socketId].partidaActiva);
+
+    var pujado = {
+      nombre: clientes[socketId].username,
+      precio: partida.subasta.precio
+    }
+    w.logger('verbose', pujado);
+    if(subasta != 2 && subasta != 1){
+
+      if(asignatura != 1){
+        io.to(clientes[socketId].partidaActiva).emit('actualizarPuja', pujado);
+
+        //TODO: COMPRARLAAAAAA!!!!
+      }
+    }
+
+    timer = setTimeout(() => {
+      // La función que se ejecutará después de un tiempo determinado
+      // ...
+      //comprar asignatura
+      // sacar la info de la partida y mandarla en terminarPuja
+      io.to(clientes[socketId].partidaActiva).emit('terminarPuja', 'ok');
+
+
+      
+
+
+    }, 15000); // Tiempo de espera en milisegundos
+
+  });
+
+
   // Escucha el evento 'disconnect'
   socket.on('disconnect', () => {
     w.logger.verbose('Usuario desconectado');
@@ -698,8 +782,12 @@ io.on('connection', (socket) => {
 
   
 
+
 });
 
+
+//puja10, puja50, puja100
+//actualizarPuja socket.on en front
 
 //TODO: CAMBIAR QUE BANCARROTA NO TE ELIMINE
 server.listen(80, () => {   w.logger.info('Servidor escuchando en el puerto 80'); });
