@@ -197,32 +197,32 @@ async function accionCarta(partida, username, carta, coordenadas) {
             if (carta.nombre == "Vaya, tienes que ir a Segunda Convocatoria") { 
                 h = 0; v = 10;
                 partida.carcel[posicion] = true;
-                partida.posicionJugadores[posicion] = { h: h, v: v };
+                partida.posicionJugadores[posicion] = { "h": h, "v": v };
             }
-            else if (carta.nombre == "¡Qué suerte!, a la salida") { h = 10; v = 10; partida.posicionJugadores[posicion] = { h: h, v: v }; }
+            else if (carta.nombre == "¡Qué suerte!, a la salida") { h = 10; v = 10; partida.posicionJugadores[posicion] = { "h": h, "v": v }; }
             else if (carta.nombre == "¡Qué suerte, te libras!") { await anadirCartaJulio(jugador, partida); }
             else if (carta.nombre == "¡FIESTA!") {
                 h = 5; v = 0;
-                if (tablero.pasaPorSalida(req.body.coordenadas, { h: h, v: v })) {
+                if (tablero.pasaPorSalida(req.body.coordenadas, { "h": h, "v": v })) {
                     dinero = 200;
                 }
-                partida.posicionJugadores[posicion] = { h: h, v: v };
+                partida.posicionJugadores[posicion] = { "h": h, "v": v };
             }
-            else if (carta.nombre == "¡Ya queda poco!") { h = 10; v = 9; partida.posicionJugadores[posicion] = { h: h, v: v }; }
+            else if (carta.nombre == "¡Ya queda poco!") { h = 10; v = 9; partida.posicionJugadores[posicion] = { "h": h, "v": v }; }
             else if (carta.nombre == "¡Qué suerte!") {
                 w.logger.verbose("AQUI");
                 h = 9; v = 0;
-                if (tablero.pasaPorSalida(coordenadas, { h: h, v: v })) {
+                if (tablero.pasaPorSalida(coordenadas, { "h": h, "v": v })) {
                     dinero = 200;
                 }
-                partida.posicionJugadores[posicion] = { h: h, v: v };
+                partida.posicionJugadores[posicion] = { "h": h, "v": v };
             }
             else if (carta.nombre == "¡Vaya!") { tablero.retroceder(coordenadas, 5); }
             else if (carta.nombre == "Esto no se hace") {
                 h = 0; v = 10;
                 const posicion = partida.nombreJugadores.indexOf(username);
                 partida.carcel[posicion] = true;
-                partida.posicionJugadores[posicion] = { h: h, v: v };
+                partida.posicionJugadores[posicion] = { "h": h, "v": v };
             }
 
             partida.dineroJugadores[posicion] = partida.dineroJugadores[posicion] + dinero;

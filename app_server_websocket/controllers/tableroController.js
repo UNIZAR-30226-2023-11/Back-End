@@ -125,9 +125,8 @@ function pasaPorSalida(coordenadasIni, coordenadasFin) {
 
     if (indexIni < 20 && indexFin > 20) {
         return true;
-    } else {
-        return false
     }
+    return false
 }
 
 function retroceder(coordenadas, cantidad) {

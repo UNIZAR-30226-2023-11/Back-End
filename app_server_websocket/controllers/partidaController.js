@@ -420,8 +420,8 @@ async function findPartida(idPartida) {
 
     try {
 
-        const partidaEncontrada = await modeloPartida.findOne({ id: idPartida }).exec();
         w.logger.debug(`Numero de la partida: ${JSON.stringify(idPartida)}`);
+        const partidaEncontrada = await modeloPartida.findOne({ id: idPartida }).exec();
         w.logger.debug(`PARTIDA ENCONTRADA: ${JSON.stringify(partidaEncontrada)}`);
 
         if (partidaEncontrada) {
