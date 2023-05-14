@@ -28,6 +28,11 @@ const esquema = new schema({
   precio:{
     type: Number,
     required: true
+  },
+  hipotecada: {
+    type: Boolean,
+    required: true,
+    default: false
   }
 }, { collection: 'asignaturas_partida' });
 

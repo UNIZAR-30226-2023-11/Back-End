@@ -484,7 +484,7 @@ async function aumentarCreditos(idPartida, username, coordenadas) {
     w.logger.verbose(`CASILLAS: ${JSON.stringify(casillas)}`);
     let casillasFiltradas = [];
     for (let i = 0; i < casillas.length; i++) {
-        if (casillas[i].cuatrimestre === cuatri) {
+        if (casillas[i].cuatrimestre === cuatri && casillas[i].hipotecada == false) {
             casillasFiltradas.push(casillas[i]);
         }
     }
@@ -670,7 +670,7 @@ async function puedoAumentaroDisminuir(coordenadas, idPartida, username) {
     w.logger.verbose(`CASILLAS: ${JSON.stringify(casillas)}`);
     let casillasFiltradas = [];
     for (let i = 0; i < casillas.length; i++) {
-        if (casillas[i].cuatrimestre === cuatri) {
+        if (casillas[i].cuatrimestre === cuatri && casillas[i].hipotecada == false) {
             casillasFiltradas.push(casillas[i]);
         }
     }
