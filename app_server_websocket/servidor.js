@@ -862,7 +862,9 @@ io.on('connection', (socket) => {
       const socketId = data.socketId;
       // clientes[socketId].partidaActiva = 1;
       var partida = await partidaController.findPartida(clientes[socketId].partidaActiva);
-      var tarjeta = await cartasController.tarjetaAleatoria('boletin', clientes[socketId].username, partida );
+      var posicion = partina.nombreJugadores.indexOf(clientes[socketId].username);
+      var coordenadas = partida.posicionJugadores[posicion];
+      var tarjeta = await cartasController.tarjetaAleatoria('boletin', clientes[socketId].username, partida, coordenadas );
       var msg = "";
 
       var doc = {
