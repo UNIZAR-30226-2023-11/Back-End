@@ -53,7 +53,7 @@ io.on('connection', (socket) => {
       w.logger.verbose('Usuario ha iniciado sesion correctamente\n', data.username);
       //io.to(socketId).emit('mensaje', 'Usuario ha iniciado sesion correctamente');
 
-      clientes[socketId] = {socket: socketId, username: data.username}
+      clientes[socketId] = {socket: socketId, username: data.username, partidaActiva: 0}
       // clientes[socketId].username = data.username;
       // clientes[socketId].socket = JSON.stringify(socketId);
       //ack('0 Ok');
@@ -87,8 +87,10 @@ io.on('connection', (socket) => {
     if (reg != 1 && reg != 2) {
       w.logger.verbose('Usuario se ha registrado correctamente');
       io.to(socketId).emit('mensaje', 'Usuario se ha registrado correctamente');
-      clientes[socketId].username = data.username;
-      clientes[socketId].socket = JSON.stringify(socketId);
+      
+      clientes[socketId] = {socket: socketId, username: data.username, partidaActiva: 0}
+      // clientes[socketId].username = data.username;
+      // clientes[socketId].socket = JSON.stringify(socketId);
     }
     var m = {
       cod: reg,
@@ -258,6 +260,7 @@ io.on('connection', (socket) => {
       w.logger.verbose("idPartida: "+ partida.id);
       msg = partida;
       w.logger.verbose("SocketId usuario que crea la partida: "+ JSON.stringify(socketId));
+      
       clientes[socketId].partidaActiva = partida.id;
 
       // socketToGroupMap.set(socket.id, data.idPartida); // Registrar el ID del socket y el nombre del grupo en el mapa
