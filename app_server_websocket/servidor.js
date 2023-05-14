@@ -583,6 +583,7 @@ io.on('connection', (socket) => {
 
     var s = clientes[socketId].partidaActiva;
     io.to(s.toString()).emit('infoPartida', partida);
+    // if(partida.nombreJugadores.)
     var msg = "";
     var m = {
       cod: bancarrota,

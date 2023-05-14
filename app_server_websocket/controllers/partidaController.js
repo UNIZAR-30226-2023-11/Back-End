@@ -305,7 +305,7 @@ async function lanzardados(idPartida, username) {
 
                 if (dado1 === dado2) { partida.dados.dobles++; }
 
-                if (estaJulio(username, idPartida)) {
+                if (estaJulio(username, partida)) {
                     w.logger.verbose("Estoy en JULIO")
                     if (partida.dados.dobles === 1) {
                         partida.carcel[posicion] = false;
@@ -323,7 +323,7 @@ async function lanzardados(idPartida, username) {
                     var avance = tablero.avanzar(partida.posicionJugadores[posicion], total);
                     var dado = { dado1, dado2, coordenadas: avance.coordenadas, numDobles: partida.dados.dobles };
                 }
-                if (!estaJulio(username, idPartida)) {
+                if (!estaJulio(username, partida)) {
                     w.logger.verbose("NO Estoy en JULIO")
                     if (partida.dados.dobles === 3) {
                         w.logger.verbose('NO Estoy en JULIO PERO HE SACADO 3 DOBLES')
@@ -728,10 +728,10 @@ async function dar200(username, idPartida) {
  * @param {*} username Jugador que ha pasado por la casilla de salida
  * @param {*} idPartida Identificador del número de la partida 
  */
-async function estaJulio(username, idPartida) {
+async function estaJulio(username, partida) {
     w.logger.info("Comprabar si usuario está en julio")
 
-    const partida = await findPartida(idPartida);
+    // const partida = await findPartida(idPartida);
     const posicion = partida.nombreJugadores.indexOf(username);
 
 
