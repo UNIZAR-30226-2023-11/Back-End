@@ -5,6 +5,7 @@ const w = require('../winston')
 
 var tablero = require('../controllers/tableroController');
 const modeloTarjetas = require('../models/tarjetasModel');
+const usersController = require('../models/usersController');
 const modeloTarjetasEnMano = require('../models/tarjetasEnMano');
 
 var cartasController = require('../controllers/cartasController');
@@ -452,56 +453,63 @@ async function siguienteTurno(idPartida) {
     w.logger.info("FUNCION SIGUIENTE TURNO")
     const partida = await findPartida(idPartida);
     if (partida != null) {
-        const tam = partida.nombreJugadores.length;
-        if (partida.dados.jugador === "") {
-            //le toca al primero
-            partida.dados.jugador = partida.nombreJugadores[0];
-            // res.status(200).json({ jugador: partida.nombreJugadores[0] });
-            return { jugador: partida.nombreJugadores[0] }
-        } else {
-            const posicion = partida.nombreJugadores.indexOf(partida.dados.jugador);
-            if (posicion == tam - 1) { //le vuelve a tocar al primero
-
-                await mongoose.connect(config.db.uri, config.db.dbOptions);
-                w.logger.debug("Connected to MongoDB Atlas");
-
-                try {
-                    partida.dados.jugador = partida.nombreJugadores[0];
-
-
-                    await modeloPartida.updateOne({ id: idPartida }, { $set: { "partida.dados.jugador": partida.dados.jugador, "partida.dados.dobles": 0 } });
-
-                } catch (error) {
-                    w.logger.error(`Error: ${JSON.stringify(error)}`);
-                    w.logger.error(`Error al actualizar la partida al cambiar el jugador: ${JSON.stringify(partida.id)}`);
-                    return 2;
-                } finally {
-                     await mongoose.disconnect();
-                    w.logger.debug("Disconnected to MongoDB Atlas")
-                }
-
-                // res.status(200).json({ jugador: partida.nombreJugadores[0], posicion: 0 });
-                return { jugador: partida.nombreJugadores[0], posicion: 0 };
+        if(partida.nombreJugadores.length <= 1){ // Fin de la partida
+            var s = partida.idPartida;
+            io.to(s.toString()).emit('finPartida', partida.nombreJugadores[0]);
+            partida.finalizada = true;
+            return 0
+        } else{
+            const tam = partida.nombreJugadores.length;
+            if (partida.dados.jugador === "") {
+                //le toca al primero
+                partida.dados.jugador = partida.nombreJugadores[0];
+                // res.status(200).json({ jugador: partida.nombreJugadores[0] });
+                return { jugador: partida.nombreJugadores[0] }
             } else {
-                w.logger.debug("HOLAAA");
-
-                try {
-                    partida.dados.jugador = partida.nombreJugadores[posicion + 1];
+                const posicion = partida.nombreJugadores.indexOf(partida.dados.jugador);
+                if (posicion == tam - 1) { //le vuelve a tocar al primero
 
                     await mongoose.connect(config.db.uri, config.db.dbOptions);
-                    w.logger.verbose("Connected to MongoDB Atlas");
-                    await modeloPartida.updateOne({ id: idPartida }, { $set: { "dados.jugador": partida.dados.jugador, "dados.dobles": 0 } });
+                    w.logger.debug("Connected to MongoDB Atlas");
 
-                } catch (error) {
-                    w.logger.error(`Error: ${JSON.stringify(error)}`);
-                    w.logger.error(`Error al actualizar la partida al cambiar el jugador: ${JSON.stringify(partida.id)}`);
-                } finally {
-                     await mongoose.disconnect();
-                    w.logger.verbose("Disconnected to MongoDB Atlas")
+                    try {
+                        partida.dados.jugador = partida.nombreJugadores[0];
+
+
+                        await modeloPartida.updateOne({ id: idPartida }, { $set: { "partida.dados.jugador": partida.dados.jugador, "partida.dados.dobles": 0 } });
+
+                    } catch (error) {
+                        w.logger.error(`Error: ${JSON.stringify(error)}`);
+                        w.logger.error(`Error al actualizar la partida al cambiar el jugador: ${JSON.stringify(partida.id)}`);
+                        return 2;
+                    } finally {
+                        await mongoose.disconnect();
+                        w.logger.debug("Disconnected to MongoDB Atlas")
+                    }
+
+                    // res.status(200).json({ jugador: partida.nombreJugadores[0], posicion: 0 });
+                    return { jugador: partida.nombreJugadores[0], posicion: 0 };
+                } else {
+                    w.logger.debug("HOLAAA");
+
+                    try {
+                        partida.dados.jugador = partida.nombreJugadores[posicion + 1];
+
+                        await mongoose.connect(config.db.uri, config.db.dbOptions);
+                        w.logger.verbose("Connected to MongoDB Atlas");
+                        await modeloPartida.updateOne({ id: idPartida }, { $set: { "dados.jugador": partida.dados.jugador, "dados.dobles": 0 } });
+
+                    } catch (error) {
+                        w.logger.error(`Error: ${JSON.stringify(error)}`);
+                        w.logger.error(`Error al actualizar la partida al cambiar el jugador: ${JSON.stringify(partida.id)}`);
+                    } finally {
+                        await mongoose.disconnect();
+                        w.logger.verbose("Disconnected to MongoDB Atlas")
+                    }
+
+                    // res.status(200).json({ jugador: partida.nombreJugadores[posicion + 1], posicion: posicion + 1 });
+                    return { jugador: partida.nombreJugadores[posicion + 1], posicion: posicion + 1 };
                 }
-
-                // res.status(200).json({ jugador: partida.nombreJugadores[posicion + 1], posicion: posicion + 1 });
-                return { jugador: partida.nombreJugadores[posicion + 1], posicion: posicion + 1 };
             }
         }
 
@@ -820,6 +828,7 @@ async function beca(username, partida) {
     var posicion = partida.nombreJugadores.indexOf(username);
 
     partida.dineroJugadores[posicion] = partida.beca;
+    var dineroB = partida.beca;
     partida.beca = 0;
 
     await mongoose.connect(config.db.uri, config.dbOptions);
@@ -828,7 +837,7 @@ async function beca(username, partida) {
     try {
         result = await modeloPartida.updateOne({ id: partida.id }, { $set: { dineroJugadores: partida.dineroJugadores, beca: partida.beca } });
         if(result.modifiedCount>0){
-            return 0;
+            return {cod: 0, beca: dineroB}
         }else{
             return 1;
         } 

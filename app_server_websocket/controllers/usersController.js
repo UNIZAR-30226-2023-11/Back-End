@@ -353,7 +353,34 @@ async function updateImagenPerfil(username, imagen) {
     }
 }
 
+async function darMonedas(username){
+    w.logger.info("Dar monedas al jugador por ganar partida");
+
+    await mongoose.connect(config.db.uri, config.db.dbOptions);
+    w.logger.debug("Connected to MongoDB Atlas");
+
+    try {
+        
+        var usuario = await modeloUsuario.findOne({ nombreUser: username}).exec()
+        
+        if(usuario){
+            usuario.victorias++;
+            usuario.monedas = usuario.monedas + 10;
+            return 0;
+        } else{
+            w.logger.verbose("El ganador es un invitado");
+            return 10;
+        }
+        
+    } catch (error) {
+        w.logger.error(`Error: ${JSON.stringify(error)}`);
+        return 2;
+
+    } finally {
+         await mongoose.disconnect();
+        w.logger.debug("DisConnected to MongoDB Atlas")
+    }
+}
 
 
-
-module.exports = { registerUser, loginUser, deleteUser, updatePassword, updateCorreo, updateUsername, infoUsuario, devolverImagenPerfil, updateImagenPerfil };
+module.exports = { registerUser, loginUser, deleteUser, updatePassword, updateCorreo, updateUsername, infoUsuario, devolverImagenPerfil, updateImagenPerfil, darMonedas };

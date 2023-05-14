@@ -414,38 +414,40 @@ io.on('connection', (socket) => {
         socket.join(idP.toString()); // Unir el socket al grupo utilizando el nombre del grupo
             
         var partida = await partidaController.infoPartida(data.idPartida);
+        if(partida){
+          w.logger.debug('Lista jugadores: ' , partida.nombreJugadores);
 
-        w.logger.debug('Lista jugadores: ' , partida.nombreJugadores);
+          w.logger.debug("Sockets del jugador que se ha unido: " , socket.id);
+          w.logger.debug(`ROOM: ${clientes[socketId].partidaActiva}`);
+          var idP = clientes[socketId].partidaActiva;
+          io.to(idP.toString()).emit('esperaJugadores', partida.nombreJugadores);
 
-        w.logger.debug("Sockets del jugador que se ha unido: " , socket.id);
-        w.logger.debug(`ROOM: ${clientes[socketId].partidaActiva}`);
-        var idP = clientes[socketId].partidaActiva;
-        io.to(idP.toString()).emit('esperaJugadores', partida.nombreJugadores);
+          const socketsGrupo = io.sockets.in(data.idPartida).sockets;
+          w.logger.debug(`IDs de los sockets en el grupo ${data.idPartida}:`);
 
-        const socketsGrupo = io.sockets.in(data.idPartida).sockets;
-        w.logger.debug(`IDs de los sockets en el grupo ${data.idPartida}:`);
+          var i = 0;
+          Object.values(clientes).forEach(elemento => {
+            if(elemento.partidaActiva == data.idPartida){
+              i++;
+              w.logger.debug("Socket: " + i + " " + elemento.socket);
+              // if(i ===2){
+              //   w.logger.debug("Socket: " + i + " " + JSON.stringify(elemento.socket));
+              // }
 
-        var i = 0;
-        Object.values(clientes).forEach(elemento => {
-          if(elemento.partidaActiva == data.idPartida){
-            i++;
-            w.logger.debug("Socket: " + i + " " + elemento.socket);
-            // if(i ===2){
-            //   w.logger.debug("Socket: " + i + " " + JSON.stringify(elemento.socket));
-            // }
+      
+              // w.logger.debug("Socket.id: " + elemento.socket.id);
+            }
+          });
 
-    
-            // w.logger.debug("Socket.id: " + elemento.socket.id);
-          }
-        });
+          w.logger.verbose("\n\tCliente socket: " + clientes[socketId].socket + "\n" +
+            "\tCliente nombre: " + clientes[socketId].username + "\n" +
+            "\tCliente partida: " + clientes[socketId].partidaActiva + "\n");
 
-        w.logger.verbose("\n\tCliente socket: " + clientes[socketId].socket + "\n" +
-          "\tCliente nombre: " + clientes[socketId].username + "\n" +
-          "\tCliente partida: " + clientes[socketId].partidaActiva + "\n");
-
-        //partida = 0;
-        msg = partida;
-        partida = 0;
+          //partida = 0;
+          msg = partida;
+          partida = 0;
+        }
+        
       }
       //w.logger.verbose(imagen);
       var m = {
@@ -501,8 +503,15 @@ io.on('connection', (socket) => {
       w.logger.verbose('PartidaActiva: ' , clientes[socketId]);
       // clientes[socketId].partidaActiva = 1;
       var turno = await partidaController.siguienteTurno(clientes[socketId].partidaActiva);
+      var partida = await partidaController.findPartida(clientes[socketId].partidaActiva);
+      if(turno === 0 && partida.finalizada === true){
+        turno = usersController.darMonedas(partida.nombreJugadores[0]);
+        var s = clientes[socketId].partidaActiva;
+        io.to(s.toString()).emit('finPartida', partida.nombreJugadores[0]);
+      }
+      
       var msg = "";
-      if (turno != 1 && turno != 2) {
+      if (turno != 1 && turno != 2 && partida.finalizada === false) {
         w.logger.verbose('Se ha realizado siguiente turno correctamente');
 
         msg = turno;
@@ -683,9 +692,7 @@ io.on('connection', (socket) => {
 
       var s = clientes[socketId].partidaActiva;
       io.to(s.toString()).emit('infoPartida', partida);
-      if(partida.nombreJugadores.length <= 1){
-        io.to(s.toString()).emit('finPartida', partida.nombreJugadores[0]);
-      }
+
       var msg = "";
       var m = {
         cod: bancarrota,
@@ -774,9 +781,10 @@ io.on('connection', (socket) => {
       const partida = await partidaController.findPartida(clientes[socketId].partidaActiva);
       var beca = await partidaController.beca(clientes[socketId].username, partida);
 
+
       var msg;
       if (beca != 1 && beca != 2) {
-        msg = beca;
+        msg = beca.beca;
         beca = 0;
       }
       var m = {
