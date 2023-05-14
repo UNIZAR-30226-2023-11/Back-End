@@ -58,6 +58,10 @@ const esquema = new schema({
         dobles: Number
       },
       required: true
+    },
+    finalizada: {
+      type: Boolean,
+      required: true
     }
   }, { collection: 'partida' });
   
