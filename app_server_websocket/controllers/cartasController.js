@@ -28,7 +28,7 @@ async function cartaJulio(partida, username) {
     try {
         const cartaEncontrada = await modeloTarjetasEnMano.findOne({ nombre: "¡Qué suerte, te libras!", partida: partida.id, jugador: jugador }).exec();
         // res.status(200).json(cartaEncontrada);
-        return cartaEncontrada;
+        return 0;
 
     } catch (error) {
         w.logger.error(`Error: ${JSON.stringify(error)}`);
@@ -141,10 +141,10 @@ async function findCarta(nombre) {
  * @param {*} coordenadas coordenadas actuales del jugador 
  */
 //TODO: HACER EL SOCKET ON DEL SERVIDOR
-async function accionCarta(partida, username, tarjeta, coordenadas) {
+async function accionCarta(partida, username, carta, coordenadas) {
     w.logger.info("***METHOD Devuelve lo que tiene que hacer un jugador segun la carta que le ha salido");
 
-    const carta = await findCarta(tarjeta.nombre);
+    // const carta = await findCarta(tarjeta.nombre);
     const jugador = username
     const posicion = partida.nombreJugadores.indexOf(jugador);
 
