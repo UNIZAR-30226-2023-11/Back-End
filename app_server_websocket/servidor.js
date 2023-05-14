@@ -764,8 +764,9 @@ io.on('connection', (socket) => {
     w.logger.verbose('Pago de impuestos');
     if (data.socketId != null) {
       const socketId = data.socketId;
+      const coordenadas = data.coordenadas;
       const partida = await partidaController.findPartida(clientes[socketId].partidaActiva);
-      var pago = await partidaController.pagoImpuestos(clientes[socketId].username, partida);
+      var pago = await partidaController.pagoImpuestos(clientes[socketId].username, partida, coordenadas);
 
       var msg = "";
       

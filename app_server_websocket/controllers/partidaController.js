@@ -817,19 +817,22 @@ async function pagarJulio(username, idPartida) {
  * @param {*} username Jugador que ha pasado por la casilla de salida
  * @param {*} partida La partida 
  */
-async function pagoImpuestos(username, partida) {
+async function pagoImpuestos(username, partida, coordenadas) {
     w.logger.info("Pagar los impuestos");
-
+    //FIXME: ACORDARNOS DE QUE LAS COORDENADAS LAS COGEMOS DE PARTIDA
     var posicion = partida.nombreJugadores.indexOf(username);
     console.log(partida.posicionJugadores[posicion]);
     var dinero = 0;
-    if (partida.posicionJugadores[posicion].h == 10 && partida.posicionJugadores[posicion].v == 8){ // Seguro escolar
+    // if (partida.posicionJugadores[posicion].h == 10 && partida.posicionJugadores[posicion].v == 8){ // Seguro escolar
+    if (coordenadas.h == 10 && coordenadas.v == 8){
         w.logger.verbose("Seguro escolar")
         dinero = 133;
         partida.beca = partida.beca + dinero;
         partida.dineroJugadores[posicion] = partida.dineroJugadores[posicion] - dinero;
     }
-    else if (partida.posicionJugadores[posicion].h == 6 && partida.posicionJugadores[posicion].v == 10){ // Expediente
+    // else if (partida.posicionJugadores[posicion].h == 6 && partida.posicionJugadores[posicion].v == 10){ // Expediente
+    else if (coordenadas.h == 6 && coordenadas.v == 10){ // Expediente
+
         w.logger.verbose("Expediente")
         dinero = 267;
         partida.beca = partida.beca + dinero;
