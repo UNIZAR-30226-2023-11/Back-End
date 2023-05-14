@@ -10,5 +10,5 @@ RUN npm install socket.io
 # RUN ls -la
 # RUN chown -R usuario:usuario /home/usuario/app
 # USER usuario
-# CMD ["tail", "-f", "/dev/null"]
-CMD ["npm","start"]
+CMD ["tail", "-f", "/dev/null"]
+# CMD ["npm","start"]
