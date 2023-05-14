@@ -677,6 +677,7 @@ io.on('connection', (socket) => {
     var msg = "";
     if (tarjeta != 2) {
       msg = tarjeta;
+      w.logger.verbose(msg);
       tarjeta = 0;
 
       const partida = await partidaController.infoPartida(clientes[socketId].partidaActiva)

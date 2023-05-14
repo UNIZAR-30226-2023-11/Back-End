@@ -295,6 +295,7 @@ async function tarjetaAleatoria(tipo, username, idPartida, coordenadas) {
 
 
         // res.status(200).json(resultado);
+        w.logger.debug("BOLETIN: ", resultado[0]);
         return resultado[0];
     } catch (error) {
         w.logger.error(`Error: ${JSON.stringify(error)}`);
