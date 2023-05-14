@@ -308,7 +308,7 @@ io.on('connection', (socket) => {
         Object.values(clientes).forEach(elemento => {
           i++;
           w.logger.verbose("CLIENTES " + i + " "  +  elemento.socket.toString() +  " " + elemento.partidaActiva.toString());
-          w.loggger.verbose("IDPARTIDA: " + p.id);
+          w.logger.verbose("IDPARTIDA: " + p.id);
           if (elemento.partidaActiva == p.id) {
             //enviamos a ese jugador el evento aJugar
             var partUser = {
