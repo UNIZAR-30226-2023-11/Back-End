@@ -171,7 +171,15 @@ async function accionCarta(partida, username, tarjeta, coordenadas) {
 
         } else if (carta.cobrarPagarNada == "cobrar") { // cobrar
             var cantidad = carta.dinero;
-            // if (carta.nombre == "¡Feliz cumpleaños!") { cantidad = 150; } // 150
+            if (carta.nombre == "¡Feliz cumpleaños!") { 
+                cantidad = 150*(partida.nombreJugadores.length-1); 
+                partida.nombreJugadores.forEach(elemento => {
+                    var indice = partida.nombreJugadores.indexOf(elemento);
+                    if (elemento != username) {
+                        partida.dineroJugadores[indice] = partida.dineroJugadores[indice] - 150; 
+                    }
+                });
+            } // 150
             // else if (carta.nombre == "¡Qué suerte!") { cantidad = 1; } //1
             // else if (carta.nombre == "¡Enhorabuena!, la beca") { cantidad = 600; } //600
             // else if (carta.nombre == "¡Enhorabuena!") { cantidad = 500; } //500
