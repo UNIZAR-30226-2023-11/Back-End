@@ -305,11 +305,11 @@ async function lanzardados(idPartida, username) {
 
                 if (dado1 === dado2) { partida.dados.dobles++; }
 
-                if (estaJulio(username, partida)) {
+                if ((await estaJulio(username, partida)).carcel) {
                     w.logger.verbose("Estoy en JULIO")
                     if (partida.dados.dobles === 1) {
                         partida.carcel[posicion] = false;
-                        partida.dados.dobles = 0;
+                        partida.dados.dobles = 1;
 
                         const resultado = await modeloPartida.updateOne({ id: idPartida }, { $set: { "dados.dobles": partida.dados.dobles, carcel: partida.carcel } })
 
@@ -323,7 +323,7 @@ async function lanzardados(idPartida, username) {
                     var avance = tablero.avanzar(partida.posicionJugadores[posicion], total);
                     var dado = { dado1, dado2, coordenadas: avance.coordenadas, numDobles: partida.dados.dobles };
                 }
-                if (!estaJulio(username, partida)) {
+                if (!(await estaJulio(username, partida)).carcel) {
                     w.logger.verbose("NO Estoy en JULIO")
                     if (partida.dados.dobles === 3) {
                         w.logger.verbose('NO Estoy en JULIO PERO HE SACADO 3 DOBLES')
