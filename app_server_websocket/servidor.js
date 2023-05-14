@@ -19,7 +19,7 @@ const socketToGroupMap = new Map(); // Mapa para mantener un registro de los soc
 
 var num = 0;
 io.on('connection', (socket) => {
-  w.logger.verbose('Usuario conectado');
+  // w.logger.verbose('Usuario conectado');
   
   var long = clientes.legth;
   // w.logger.verbose("NUMERO DE USUARIOS CONECTADOS: ", long);
@@ -260,7 +260,7 @@ io.on('connection', (socket) => {
       socket.join(partida.id); // Unir el socket al grupo utilizando el nombre del grupo
 
       partida = 0;
-      w.logger.verbose("\n\tCliente socket: " + JSON.stringify(clientes[socketId].socket) + "\n" +
+      w.logger.verbose("\n\tCliente socket: " + (clientes[socketId].socket) + "\n" +
         "\tCliente nombre: " + clientes[socketId].username + "\n" +
         "\tCliente partida: " + clientes[socketId].partidaActiva + "\n");
     }
