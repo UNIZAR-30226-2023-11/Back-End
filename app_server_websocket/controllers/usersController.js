@@ -268,7 +268,7 @@ async function infoUsuario(username) {
             return 1;
         }
     } catch (error) {
-        w.logger.error(`Error: ${JSON.stringify(error)}`);
+        w.logger.error(`Error: ${JSON.stringify(error)}\n No se ha encontrado el documento.`);
         return 2;
     } finally {
          await mongoose.disconnect();

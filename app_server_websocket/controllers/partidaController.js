@@ -35,7 +35,8 @@ async function crearPartida(username, dineroInicial, nJugadores, normas) {
             posicionJugadores: { h: casillaInicio, v: casillaInicio, julio: false },
             dineroJugadores: dineroInicial,
             numeroJugadores: nJugadores,
-            dados: { dado1: 0, dado2: 0, jugador: "" }
+            dados: { dado1: 0, dado2: 0, jugador: "" },
+            historicoJugadores: username
             //normas:[]
         });
         await doc.save();
@@ -198,6 +199,8 @@ async function unirJugador(idPartida, username) {
 
                 //Añadimos jugador a nombreJugadores
                 partidaEncontrada.nombreJugadores[tam] = username;
+                //Añadimos jugador a historicoJugadores
+                partidaEncontrada.historicoJugadores[tam] = username;
                 //Añadimos jugador a posicionJugadores, en este caso la inicial.
                 partidaEncontrada.posicionJugadores[tam] = { h: casillaInicio, v: casillaInicio, julio: false };
                 //Añadimos jugador a dineroJugadores, en este caso con el dinero inicial
@@ -211,7 +214,8 @@ async function unirJugador(idPartida, username) {
                     $set: {
                         nombreJugadores: partidaEncontrada.nombreJugadores,
                         posicionJugadores: partidaEncontrada.posicionJugadores,
-                        dineroJugadores: partidaEncontrada.dineroJugadores
+                        dineroJugadores: partidaEncontrada.dineroJugadores,
+                        historicoJugadores: partidaEncontrada.historicoJugadores
                     }
                 })
                 if (result.modifiedCount == 1) {
@@ -541,8 +545,10 @@ async function bancarrota(idPartida, username) {
         partida.dineroJugadores.splice(posicion, 1);
         partida.nombreJugadores.splice(posicion, 1);
         partida.posicionJugadores.splice(posicion, 1);
-        await modeloPartida.updateOne({ id: partida.id }, { $set: { dineroJugadores: partida.dineroJugadores, nombreJugadores: partida.nombreJugadores, posicionJugadores: partida.posicionJugadores } });
-
+        await modeloPartida.updateOne({ id: partida.id }, { $set: { 
+                            dineroJugadores: partida.dineroJugadores, 
+                            nombreJugadores: partida.nombreJugadores, 
+                            posicionJugadores: partida.posicionJugadores} });
         return 0;
         // res.status(200).json('Bancarrota');
 

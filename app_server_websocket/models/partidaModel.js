@@ -35,6 +35,11 @@ const esquema = new schema({
       type: [Boolean],
       required: true
     },
+    historicoJugadores: {
+      type: [String],
+      required: true,
+      default: []
+    },
     subasta: {
       type: {
         username: String,
