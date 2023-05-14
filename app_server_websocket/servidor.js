@@ -420,7 +420,7 @@ io.on('connection', (socket) => {
     w.logger.verbose('Siguiente turno');
     const socketId = data.socketId;
     /**/
-    w.logger.verbose('PartidaActiva: ' + clientes[socketId].partidaActiva);
+    w.logger.verbose('PartidaActiva: ' , clientes[socketId]);
     // clientes[socketId].partidaActiva = 1;
     var turno = await partidaController.siguienteTurno(clientes[socketId].partidaActiva);
     var msg = "";
