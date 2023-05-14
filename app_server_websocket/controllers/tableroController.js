@@ -64,7 +64,7 @@ const tablero = {
 
 // function avanzar(coordenadas, total){
 //     //indice de la posicion actual
-//     const index = tablero.findIndex(coord => coord.h === coordenadas.h && coord.v === coordenadas.v);
+//     const index = tablero.findIndex(coord => coord.h == coordenadas.h && coord.v == coordenadas.v);
 //     //indice de la posicion nueva
 //     let indice = (index + total) % tablero.length;
 //     var salida = false;
@@ -77,7 +77,7 @@ const tablero = {
 // }
 
 function obtenerClave(valor) {
-    const claveEncontrada = Object.keys(tablero).find(clave => tablero[clave] === valor);
+    const claveEncontrada = Object.keys(tablero).find(clave => tablero[clave] == valor);
     return claveEncontrada || null; // si no se encuentra el valor, devolvemos null
 }
 
@@ -97,9 +97,9 @@ function avanzar(coordenadas, total){
     }
 
     var julio = false;
-    if (indice === 10) {
+    if (indice == 10) {
         julio = true;
-        indice === 30
+        indice == 30
     }
 
 
@@ -123,7 +123,7 @@ function pasaPorSalida(coordenadasIni, coordenadasFin) {
     const cadenaFin = coordenadasFin.h.toString() + ';' + coordenadasFin.v.toString();
     var indexFin = obtenerClave(cadenaFin);
 
-    if (indexIni <= 20 && indexFin >= 20) {
+    if (indexIni < 20 && indexFin >= 20) {
         return true;
     }
     return false

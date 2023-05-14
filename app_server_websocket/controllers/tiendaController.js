@@ -25,12 +25,12 @@ async function devolverTienda(username) {
 
             usuario.productosComprados.forEach(elemento => {
                 w.logger.verbose(`Elemento: ${elemento}`);
-                const indice = tienda.findIndex(objeto => objeto.imagen === elemento);
+                const indice = tienda.findIndex(objeto => objeto.imagen == elemento);
                 w.logger.verbose(`Indice: ${indice}`);
                 if (indice >= 0){
                     tienda[indice].comprado = true;
         
-                    if (tienda[indice].imagen === usuario.imagen) {
+                    if (tienda[indice].imagen == usuario.imagen) {
                         tienda[indice].usado = true;
                     }
                 }

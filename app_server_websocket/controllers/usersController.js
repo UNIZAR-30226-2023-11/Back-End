@@ -103,7 +103,7 @@ async function deleteUser(username) {
         const docs = await modeloUser.find(doc);
 
         const result = await modeloUser.deleteOne(doc);
-        if (result.deletedCount === 1) {
+        if (result.deletedCount == 1) {
             w.logger.debug("Se ha eliminado correctamenre");
             return 0;
             //res.status(200).json({message: 'Usuario eliminado correctamente'})

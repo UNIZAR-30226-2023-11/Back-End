@@ -319,11 +319,11 @@ async function lanzardados(idPartida, username) {
                     total: total
                 });
 
-                if (dado1 === dado2) { partida.dados.dobles++; }
+                if (dado1 == dado2) { partida.dados.dobles++; }
 
                 if ((await estaJulio(username, partida)).carcel) {
                     w.logger.verbose("Estoy en JULIO")
-                    if (partida.dados.dobles === 3) {
+                    if (partida.dados.dobles == 3) {
                         partida.carcel[posicion] = false;
                         partida.dados.dobles = 0;
 
@@ -341,7 +341,7 @@ async function lanzardados(idPartida, username) {
                 }
                 if (!(await estaJulio(username, partida)).carcel) {
                     w.logger.verbose("NO Estoy en JULIO")
-                    if (partida.dados.dobles === 3) {
+                    if (partida.dados.dobles == 3) {
                         w.logger.verbose('NO Estoy en JULIO PERO HE SACADO 3 DOBLES')
                         partida.carcel[posicion] = true;
                         partida.posicionJugadores[posicion].h = 0;
@@ -466,7 +466,7 @@ async function siguienteTurno(idPartida) {
             return 0
         } else{
             const tam = partida.nombreJugadores.length;
-            if (partida.dados.jugador === "") {
+            if (partida.dados.jugador == "") {
                 //le toca al primero
                 partida.dados.jugador = partida.nombreJugadores[0];
                 // res.status(200).json({ jugador: partida.nombreJugadores[0] });
@@ -907,7 +907,7 @@ async function subasta(username, idPartida, cantidad, coordenadas) {
 
     try {
         const result = null;
-        if (cantidad === 0) {
+        if (cantidad == 0) {
             result = await modeloPartida.updateOne({ id: idPartida }, { $set: { "subasta.username": username, "subasta.precio": cantidad, "suabasta.coordenadas.h": coordenadas.h, "suabasta.coordenadas.v": coordenadas.v } });
         } else {
 

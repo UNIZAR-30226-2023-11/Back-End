@@ -494,7 +494,7 @@ async function aumentarCreditos(idPartida, username, coordenadas) {
     w.logger.verbose(`CASILLAS: ${JSON.stringify(casillas)}`);
     let casillasFiltradas = [];
     for (let i = 0; i < casillas.length; i++) {
-        if (casillas[i].cuatrimestre === cuatri && casillas[i].hipotecada == false) {
+        if (casillas[i].cuatrimestre == cuatri && casillas[i].hipotecada == false) {
             casillasFiltradas.push(casillas[i]);
         }
     }
@@ -516,7 +516,7 @@ async function aumentarCreditos(idPartida, username, coordenadas) {
         w.logger.verbose(`ASIGNATURA 2: ${JSON.stringify(asignatura)}`);
 
         var pos = casillasFiltradas.findIndex(function (casilla) {
-            return casilla.coordenadas.h === coordenadas.h && casilla.coordenadas.v === coordenadas.v;
+            return casilla.coordenadas.h == coordenadas.h && casilla.coordenadas.v == coordenadas.v;
         });
 
         let bancarrota = false;
@@ -680,7 +680,7 @@ async function puedoAumentaroDisminuir(coordenadas, idPartida, username) {
     w.logger.verbose(`CASILLAS: ${JSON.stringify(casillas)}`);
     let casillasFiltradas = [];
     for (let i = 0; i < casillas.length; i++) {
-        if (casillas[i].cuatrimestre === cuatri && casillas[i].hipotecada == false) {
+        if (casillas[i].cuatrimestre == cuatri && casillas[i].hipotecada == false) {
             casillasFiltradas.push(casillas[i]);
         }
     }
@@ -764,11 +764,11 @@ async function vender(idPartida, username, coordenadas) {
     w.logger.verbose(`CASILLAS: ${JSON.stringify(casillas)}`);
     casillasFiltradas = [];
     for (let i = 0; i < casillas.length; i++) {
-        if (casillas[i].coordenadas.h === coordenadas.h && casillas[i].coordenadas.v === coordenadas.v) {
+        if (casillas[i].coordenadas.h == coordenadas.h && casillas[i].coordenadas.v == coordenadas.v) {
             casillasFiltradas.push(casillas[i]);
         }
     }
-    if (casillasFiltradas.length === 1) {
+    if (casillasFiltradas.length == 1) {
         await mongoose.connect(config.db.uri, config.db.dbOptions);
         w.logger.debug("Connected to MongoDB Atlas");
 

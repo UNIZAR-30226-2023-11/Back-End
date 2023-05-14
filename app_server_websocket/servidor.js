@@ -741,7 +741,7 @@ io.on('connection', (socket) => {
     if (data.socketId != null) {
       w.logger.verbose('Devolver info partida');
       const socketId = data.socketId;
-      clientes[socketId].partidaActiva = 32;
+      // clientes[socketId].partidaActiva = 32;
       var partida = await partidaController.infoPartida(clientes[socketId].partidaActiva);
       var msg;
       if (partida != 1 && partida != 2) {
@@ -772,6 +772,9 @@ io.on('connection', (socket) => {
       if (pago != 1 && pago != 2) {
         msg = pago.dinero.toString();
         pago = 0;
+
+        var s = clientes[socketId].partidaActiva;
+        io.to(s.toString()).emit('infoPartida', partida);
       }
       var m = {
         cod: pago,
@@ -797,6 +800,9 @@ io.on('connection', (socket) => {
       if (beca != 1 && beca != 2) {
         msg = beca.beca;
         beca = 0;
+
+        var s = clientes[socketId].partidaActiva;
+        io.to(s.toString()).emit('infoPartida', partida);
       }
       var m = {
         cod: beca,
