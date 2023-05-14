@@ -883,8 +883,8 @@ async function beca(username, partida) {
     w.logger.debug("Connected to MongoDB Atlas");
 
     try {
-        result = await modeloPartida.updateOne({ id: partida.id }, { $set: { dineroJugadores: partida.dineroJugadores, beca: partida.beca } });
-        if(result.modifiedCount>0){
+        var result = await modeloPartida.updateOne({ id: partida.id }, { $set: { dineroJugadores: partida.dineroJugadores, beca: partida.beca } });
+        if(result.modifiedCount>0 || result.matchedCount == 1){
             return {cod: 0, beca: dineroB}
         }else{
             return 1;
