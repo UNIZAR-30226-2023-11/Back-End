@@ -296,9 +296,11 @@ io.on('connection', (socket) => {
   });
 
   socket.on('crearPartida', async (data, ack) => {
-    if (data.socketId != null) {
+    const socketId = data.socketId;
+    
+    if (data.socketId != null && clientes[socketId].username != null) {
       w.logger.verbose('Creación de una partida');
-      const socketId = data.socketId;
+    
       //var correo =   await usersController.devolverCorreo(data.username);
 
       w.logger.verbose("USUARIO QUE QUIERE CREAR PARTIDA: "+  clientes[socketId].username);
