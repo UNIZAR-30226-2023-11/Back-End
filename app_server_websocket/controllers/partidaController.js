@@ -774,8 +774,35 @@ async function pagarJulio(username, idPartida) {
     const partida = await findPartida(idPartida);
     // const posicion = partida.nombreJugadores.indexOf(username);
 
+
     await pagar(partida, 50, username, false);
 
+    await mongoose.connect(config.db.uri, config.dbOptions);
+    w.logger.debug("Connected to MongoDB Atlas");
+
+    try {
+        const posicion = partida.nombreJugadores.indexOf(username);
+        partida.carcel[posicion] = false
+    
+        const result = await modeloPartida.updateOne({ id: partida.id }, { $set: { carcel: partida.carcel } });
+
+        if (result.modifiedCount == 1) {
+            //console.log(result);
+            w.logger.debug("Se ha pagado julio correctamente");
+            return 0
+        } else {
+            w.logger.error(`Error: ${JSON.stringify(error)}`);
+            return 1
+        }
+    }
+    catch (error) {
+        w.logger.error(`Error: ${JSON.stringify(error)}`);
+        w.logger.error("Error al pagar Julio");
+        return 2
+    } finally {
+         await mongoose.disconnect();
+        w.logger.debug("Disconnected to MongoDB Atlas")
+    }
 
     return 0;
 }
