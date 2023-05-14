@@ -98,7 +98,7 @@ async function infoPartida(idPartida) {
         }
 
     } catch (error) {
-        w.logger.error(`Error: ${JSON.stringify(error)}`);
+        console.log(error)
         return 2;
     } finally {
          await mongoose.disconnect();
@@ -147,7 +147,7 @@ async function actualizarPartida(idPartida, nJugadores, dineroInicial, normas) {
                 return 0;
             } else {
                 //console.error(error);
-                w.logger.error(`Error: ${JSON.stringify(result)}`);
+                console.log(error)
                 if(result.matchedCount > 0){
                     return 0;
                 }
@@ -161,7 +161,7 @@ async function actualizarPartida(idPartida, nJugadores, dineroInicial, normas) {
         }
 
     } catch (error) {
-        w.logger.error(`Error: ${JSON.stringify(error)}`);
+        console.log(error)
         return 2;
         // res.status(500).json({ error: 'Error al actualizar partida' });
     } finally {
@@ -259,7 +259,7 @@ async function unirJugador(idPartida, username) {
         }
     }
     catch (error) {
-        w.logger.error(`Error: ${JSON.stringify(error)}`);
+        console.log(error)
         w.logger.verbose("Error al encontrar partida");
         return 2;
     } finally {
@@ -400,7 +400,7 @@ async function lanzardados(idPartida, username) {
             return 1;
         }
     } catch (error) {
-        w.logger.error(`Error: ${JSON.stringify(error)}`);
+        console.log(error)(`Error: ${JSON.stringify(error)}`);
         w.logger.error('Error al lanzar los dados en la partida');
         return 2;
         // res.status(500).json({ error: 'Error al lanzar los dados en la partida' });
@@ -438,7 +438,7 @@ async function findPartida(idPartida) {
         //res.status(201).json({message: 'Partida creada correctamente'})
     }
     catch (error) {
-        w.logger.error(`Error: ${JSON.stringify(error)}`);
+        console.log(error);
         w.logger.error('Error al encontrar partida');
         //res.status(500).json({error: 'Error al encontrar partida'});
         return null;
@@ -481,7 +481,7 @@ async function siguienteTurno(idPartida) {
                         await modeloPartida.updateOne({ id: idPartida }, { $set: { "partida.dados.jugador": partida.dados.jugador, "partida.dados.dobles": 0 } });
 
                     } catch (error) {
-                        w.logger.error(`Error: ${JSON.stringify(error)}`);
+                        console.log(error);
                         w.logger.error(`Error al actualizar la partida al cambiar el jugador: ${JSON.stringify(partida.id)}`);
                         return 2;
                     } finally {
@@ -502,7 +502,7 @@ async function siguienteTurno(idPartida) {
                         await modeloPartida.updateOne({ id: idPartida }, { $set: { "dados.jugador": partida.dados.jugador, "dados.dobles": 0 } });
 
                     } catch (error) {
-                        w.logger.error(`Error: ${JSON.stringify(error)}`);
+                        console.log(error);
                         w.logger.error(`Error al actualizar la partida al cambiar el jugador: ${JSON.stringify(partida.id)}`);
                     } finally {
                         await mongoose.disconnect();
@@ -570,7 +570,7 @@ async function bancarrota(idPartida, username) {
         // res.status(200).json('Bancarrota');
 
     } catch (error) {
-        w.logger.error(`Error: ${JSON.stringify(error)}`);
+        console.log(error);
         w.logger.error(`Error al actualizar la partida al declararse en bancarrota: ${JSON.stringify(idPartida)}`);
         return 2;
     } finally {
@@ -598,7 +598,7 @@ async function subastar(idPartida, asignatura) {
 
 
     } catch (error) {
-        w.logger.error(`Error: ${JSON.stringify(error)}`);
+        console.log(error);
         w.logger.error(`Error al subastar la asignatura: ${JSON.stringify(asignatura)}`);
         return 2;
     } finally {
@@ -675,7 +675,7 @@ async function pagar(partida, dinero, jugador, bancarrota) {
         }
         return bancarrota;
     } catch (error) {
-        w.logger.error(`Error: ${JSON.stringify(error)}`);
+        console.log(error);
         w.logger.error(`Error al actualizar la partida al pagar: ${JSON.stringify(partida.id)}`);
         return 2;
 
@@ -709,11 +709,11 @@ async function cobrar(partida, dinero, jugador) {
             //console.log(result);
             w.logger.debug("Se ha actualizado la partida correctamente al cobrar");
         } else {
-            w.logger.error(`Error: ${JSON.stringify(error)}`);
+            console.log(error);
         }
     }
     catch (error) {
-        w.logger.error(`Error: ${JSON.stringify(error)}`);
+        console.log(error);
         w.logger.error("Error al cobrar");
     } finally {
          await mongoose.disconnect();
@@ -792,12 +792,12 @@ async function pagarJulio(username, idPartida) {
             w.logger.debug("Se ha pagado julio correctamente");
             return 0
         } else {
-            w.logger.error(`Error: ${JSON.stringify(error)}`);
+            console.log(error);
             return 1
         }
     }
     catch (error) {
-        w.logger.error(`Error: ${JSON.stringify(error)}`);
+        console.log(error);
         w.logger.error("Error al pagar Julio");
         return 2
     } finally {

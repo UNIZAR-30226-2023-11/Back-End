@@ -210,7 +210,7 @@ async function accionCarta(partida, username, carta, coordenadas) {
             }
             else if (carta.nombre == "¡Ya queda poco!") { h = 10; v = 9; partida.posicionJugadores[posicion] = { "h": h, "v": v }; }
             else if (carta.nombre == "¡Qué suerte!") {
-                w.logger.verbose("Coordenadas: ", coordenadas);
+                console.log("Coordenadas: ", coordenadas);
                 h = 9; v = 0;
                 if (tablero.pasaPorSalida(coordenadas, { "h": h, "v": v })) {
                     dinero = 200;
