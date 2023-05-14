@@ -241,6 +241,7 @@ async function accionCarta(partida, username, carta, coordenadas) {
 
         await mongoose.connect(config.db.uri, config.db.dbOptions);
         w.logger.debug("Connected to MongoDB Atlas");
+        
         try {
             w.logger.debug(`idPartida: ${JSON.stringify(partida.id)}`)
 

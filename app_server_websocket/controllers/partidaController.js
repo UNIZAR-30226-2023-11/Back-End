@@ -26,6 +26,7 @@ async function crearPartida(username, dineroInicial, nJugadores, normas) {
 
     await mongoose.connect(config.db.uri, config.db.dbOptions);
     w.logger.verbose("Connected to MongoDB Atlas")
+    
     try {
         const idMax = await modeloPartida.find().sort({ id: -1 }).limit(1).exec();
         const maxIdNumber = idMax[0].id;
@@ -72,6 +73,7 @@ async function infoPartida(idPartida) {
 
     await mongoose.connect(config.db.uri, config.db.dbOptions);
     w.logger.debug("Connected to MongoDB Atlas");
+    
     try {
         const partidaEncontrada = await modeloPartida.findOne({ id: idPartida }).exec();
         w.logger.debug("PARTIDA INFO PARTIDA" , JSON.stringify(partidaEncontrada));
@@ -119,6 +121,7 @@ async function actualizarPartida(idPartida, nJugadores, dineroInicial, normas) {
 
     await mongoose.connect(config.db.uri, config.dbOptions);
     w.logger.debug("Connected to MongoDB Atlas");
+    
     try {
         const partidaEncontrada = await modeloPartida.findOne({ id: idPartida }).exec();
         w.logger.debug("PARTIDA ENCONTRADA: ", partidaEncontrada);
@@ -190,6 +193,7 @@ async function unirJugador(idPartida, username) {
 
     await mongoose.connect(config.db.uri, config.db.dbOptions);
     w.logger.debug("Connected to MongoDB Atlas");
+    
     try {
         const partidaEncontrada = await modeloPartida.findOne({ id: idPartida }).exec();
         w.logger.debug(`PARTIDA ENCONTRADA ${JSON.stringify(partidaEncontrada)}`);
@@ -557,6 +561,7 @@ async function bancarrota(idPartida, username) {
 
     await mongoose.connect(config.db.uri, config.dbOptions);
     w.logger.debug("Connected to MongoDB Atlas");
+    
     try {
         const posicion = partida.nombreJugadores.indexOf(jugador);
         partida.dineroJugadores.splice(posicion, 1);
@@ -589,7 +594,6 @@ async function subastar(idPartida, asignatura) {
 
     await mongoose.connect(config.db.uri, config.dbOptions);
     w.logger.debug("Connected to MongoDB Atlas");
-
 
     try {
         const partida = await findPartida(idPartida);

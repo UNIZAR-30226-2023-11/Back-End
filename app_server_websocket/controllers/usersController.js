@@ -23,10 +23,11 @@ async function registerUser(username, password, confirm_password, email) {
         token: "token 1"
     });
 
+    await mongoose.connect(config.db.uri, config.db.dbOptions);
+    w.logger.debug("Connected to MongoDB Atlas")
+
     try {
         if (doc.contraseña == confirm_password) {
-            await mongoose.connect(config.db.uri, config.db.dbOptions);
-            w.logger.debug("Connected to MongoDB Atlas")
 
             const filtro = { nombreUser: doc.nombreUser };
             const docs = await modeloUser.find(filtro);
@@ -96,6 +97,7 @@ async function deleteUser(username) {
 
     await mongoose.connect(config.db.uri, config.db.dbOptions);
     w.logger.debug("Connected to MongoDB Atlas");
+    
     try {
 
         const docs = await modeloUser.find(doc);
@@ -216,6 +218,7 @@ async function updateUsername(username, newusername) {
     await mongoose.connect(config.db.uri, config.db.dbOptions);
         //TODO: BUSCAR QUE ESTE NOMBRE DE USUARIO NO ESTE COGIDO
     w.logger.debug("Connected to MongoDB Atlas");
+    
     try {
       
         //const docs = await modeloUser.find(doc);
