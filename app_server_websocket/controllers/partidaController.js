@@ -823,13 +823,13 @@ async function pagoImpuestos(username, partida) {
     var posicion = partida.nombreJugadores.indexOf(username);
     console.log(partida.posicionJugadores[posicion]);
     var dinero = 0;
-    if (partida.posicionJugadores[posicion].h === 10 && partida.posicionJugadores[posicion].v === 8){ // Seguro escolar
+    if (partida.posicionJugadores[posicion].h == 10 && partida.posicionJugadores[posicion].v == 8){ // Seguro escolar
         w.logger.verbose("Seguro escolar")
         dinero = 133;
         partida.beca = partida.beca + dinero;
         partida.dineroJugadores[posicion] = partida.dineroJugadores[posicion] - dinero;
     }
-    else if (partida.posicionJugadores[posicion].h === 6 && partida.posicionJugadores[posicion].v === 10){ // Expediente
+    else if (partida.posicionJugadores[posicion].h == 6 && partida.posicionJugadores[posicion].v == 10){ // Expediente
         w.logger.verbose("Expediente")
         dinero = 267;
         partida.beca = partida.beca + dinero;
