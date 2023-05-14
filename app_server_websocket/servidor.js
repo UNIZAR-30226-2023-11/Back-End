@@ -809,15 +809,22 @@ io.on('connection', (socket) => {
       var partida = await partidaController.findPartida(clientes[socketId].partidaActiva);
       var tarjeta = await cartasController.tarjetaAleatoria('suerte', clientes[socketId].username, partida);
       
+      var doc = {
+        nombre: tarjeta.nombre,
+        descripcion: tarjeta.descripcion,
+        cobrarPagarNada: tarjeta.cobrarPagarNada,
+        dinero: tarjeta.dinero,
+        tipo: tarjeta.tipo,
+        julio: false
+      }
+
+      if (doc.nombre === "Esto no se hace") {
+        doc.julio = true;
+      }
+      
       var msg = "";
       if (tarjeta != 2) {
-        msg = tarjeta;
-        msg.julio = false;
-
-        if (tarjeta.nombre === "Esto no se hace") {
-          msg.julio = true;
-        } 
-
+        msg = doc;
         tarjeta = 0;
 
         const partida = await partidaController.infoPartida(clientes[socketId].partidaActiva)
@@ -847,22 +854,21 @@ io.on('connection', (socket) => {
       var tarjeta = await cartasController.tarjetaAleatoria('boletin', clientes[socketId].username, partida );
       var msg = "";
 
-      // var doc = {
-      //   nombre: ,
-      //   descripcion: ,
-      //   cobrarPagarNada: ,
-      //   dinero:,
-      //   tipo: 
-      // }
+      var doc = {
+        nombre: tarjeta.nombre,
+        descripcion: tarjeta.descripcion,
+        cobrarPagarNada: tarjeta.cobrarPagarNada,
+        dinero: tarjeta.dinero,
+        tipo: tarjeta.tipo,
+        julio: false
+      }
+
+      if (doc.nombre === "Vaya, tienes que ir a Segunda Convocatoria") {
+        doc.julio = true;
+      }
 
       if (tarjeta != 2) {
-        msg = tarjeta;
-        msg.julio = false;
-
-        if (tarjeta.nombre === "Vaya, tienes que ir a Segunda Convocatoria") {
-          msg.julio = true;
-        } 
-
+        msg = doc;
         w.logger.verbose(msg);
         tarjeta = 0;
 
