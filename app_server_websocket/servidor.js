@@ -816,7 +816,7 @@ io.on('connection', (socket) => {
       const socketId = data.socketId;
   
       var partida = await partidaController.findPartida(clientes[socketId].partidaActiva);
-      var posicion = partina.nombreJugadores.indexOf(clientes[socketId].username);
+      var posicion = partida.nombreJugadores.indexOf(clientes[socketId].username);
       var coordenadas = partida.posicionJugadores[posicion];
       var tarjeta = await cartasController.tarjetaAleatoria('suerte', clientes[socketId].username, partida, coordenadas );
       
@@ -862,7 +862,7 @@ io.on('connection', (socket) => {
       const socketId = data.socketId;
       // clientes[socketId].partidaActiva = 1;
       var partida = await partidaController.findPartida(clientes[socketId].partidaActiva);
-      var posicion = partina.nombreJugadores.indexOf(clientes[socketId].username);
+      var posicion = partida.nombreJugadores.indexOf(clientes[socketId].username);
       var coordenadas = partida.posicionJugadores[posicion];
       var tarjeta = await cartasController.tarjetaAleatoria('boletin', clientes[socketId].username, partida, coordenadas );
       var msg = "";
