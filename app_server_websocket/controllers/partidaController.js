@@ -38,7 +38,8 @@ async function crearPartida(username, dineroInicial, nJugadores, normas) {
             dados: { dado1: 0, dado2: 0, jugador: "" },
             historicoJugadores: username,
             finalizada: false,
-            carcel: false
+            carcel: false,
+            bancarrota: false
             //normas:[]
         });
         await doc.save();
@@ -209,7 +210,7 @@ async function unirJugador(idPartida, username) {
                 partidaEncontrada.dineroJugadores[tam] = partidaEncontrada.dineroJugadores[0];
                 //carcel
                 partidaEncontrada.carcel[tam] = false
-
+                partidaEncontrada.bancarrota[tam] = false
                 // Accede a los atributos de la partida utilizando la sintaxis objeto.atributo
                 w.logger.debug(`PARTIDA ENCONTRADA ${JSON.stringify(partidaEncontrada)}`);
 

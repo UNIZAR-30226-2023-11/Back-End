@@ -193,7 +193,10 @@ async function accionCarta(partida, username, tarjeta, coordenadas) {
             var h = 0;
             var v = 0;
             var dinero = 0;
-            if (carta.nombre == "Vaya, tienes que ir a Segunda Convocatoria") { h = 0; v = 10; }
+            if (carta.nombre == "Vaya, tienes que ir a Segunda Convocatoria") { 
+                h = 0; v = 10;
+                partida.carcel[posicion] = true ;
+            }
             else if (carta.nombre == "¡Qué suerte!, a la salida") { h = 10; v = 10; }
             else if (carta.nombre == "¡Qué suerte, te libras!") { await anadirCartaJulio(jugador, partida); }
             else if (carta.nombre == "¡FIESTA!") {
@@ -231,7 +234,8 @@ async function accionCarta(partida, username, tarjeta, coordenadas) {
             const result1 = await modeloPartida.updateOne({ id: partida.id }, {
                 $set: {
                     "posicionJugadores": partida.posicionJugadores,
-                    "dineroJugadores": partida.dineroJugadores
+                    "dineroJugadores": partida.dineroJugadores,
+                    "carcel" : partida.carcel
                 }
             })
             if (result1.modifiedCount == 1) {
