@@ -818,11 +818,11 @@ async function pagoImpuestos(username, partida) {
 
     var posicion = partida.nombreJugadores.indexOf(username);
 
-    if (partida.coordenadas.h === 10 && partida.coordenadas.v === 8){ // Seguro escolar
+    if (partida.posicionJugadores[posicion].h === 10 && partida.posicionJugadores[posicion].v === 8){ // Seguro escolar
         partida.beca = partida.beca + 133;
         partida.dineroJugadores[posicion] = partida.dineroJugadores[posicion] - 133;
     }
-    if (partida.coordenadas.h === 6 && partida.coordenadas.v === 10){ // Expediente
+    if (partida.posicionJugadores[posicion].h === 6 && partida.posicionJugadores[posicion].v === 10){ // Expediente
         partida.beca = partida.beca + 267;
         partida.dineroJugadores[posicion] = partida.dineroJugadores[posicion] - 267;
     }

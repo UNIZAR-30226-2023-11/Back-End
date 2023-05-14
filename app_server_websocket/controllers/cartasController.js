@@ -202,7 +202,12 @@ async function accionCarta(partida, username, carta, coordenadas) {
                 partida.carcel[posicion] = true;
                 partida.posicionJugadores[posicion] = { "h": h, "v": v };
             }
-            else if (carta.nombre == "¡Qué suerte!, a la salida") { h = 10; v = 10; partida.posicionJugadores[posicion] = { "h": h, "v": v }; }
+            else if (carta.nombre == "¡Qué suerte!, a la salida") { 
+                h = 10; v = 10; 
+                if (tablero.pasaPorSalida(coordenadas, { "h": h, "v": v })) {
+                    dinero = 200;
+                }
+                partida.posicionJugadores[posicion] = { "h": h, "v": v }; }
             else if (carta.nombre == "¡Qué suerte, te libras!") { await anadirCartaJulio(jugador, partida); }
             else if (carta.nombre == "¡FIESTA!") {
                 h = 5; v = 0;

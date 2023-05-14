@@ -123,7 +123,7 @@ function pasaPorSalida(coordenadasIni, coordenadasFin) {
     const cadenaFin = coordenadasFin.h.toString() + ';' + coordenadasFin.v.toString();
     var indexFin = obtenerClave(cadenaFin);
 
-    if (indexIni < 20 && indexFin > 20) {
+    if (indexIni <= 20 && indexFin >= 20) {
         return true;
     }
     return false
