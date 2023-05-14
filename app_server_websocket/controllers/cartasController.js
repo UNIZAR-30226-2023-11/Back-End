@@ -308,7 +308,7 @@ async function tarjetaAleatoria(tipo, username, idPartida, coordenadas) {
         //     { $sample: { size: 1 } }
         // ]).exec();
 
-        const resultado = await modeloTarjetas.findOne({ nombre: "A comer en el Ada Byron"}).exec();
+        const resultado = await modeloTarjetas.findOne({ nombre: "¡Qué suerte!"}).exec();
 
         // idPartida = 1; resultado[0]
         await accionCarta(idPartida, username, resultado, coordenadas);
@@ -318,7 +318,7 @@ async function tarjetaAleatoria(tipo, username, idPartida, coordenadas) {
         w.logger.debug("BOLETIN: ", resultado);
         return resultado;
     } catch (error) {
-        w.logger.error(`Error: ${JSON.stringify(error)}`);
+        console.log(error)
         return 2;
         // res.status(500).json({ mensaje: 'Error al obtener tarjeta aleatoria' });
     } finally {
