@@ -164,9 +164,9 @@ async function accionCarta(partida, username, tarjeta, coordenadas) {
             // else if (carta.nombre == "¡Felicidades, te has graduado!") { cantidad = 500; } // 500
             // else if (carta.nombre == "¡Estamos en el ecuador!") { cantidad = 550; } // 550
             // else if (carta.nombre == "Unizar necesita dinero") { cantidad = 1000; } // 1000
-            console.log("Cantidad: ", cantidad, " , ", partida.dineroJugadores[posicion]);
+            w.logger.verbose("Cantidad: ", cantidad, " , ", partida.dineroJugadores[posicion]);
             partida.dineroJugadores[posicion] = partida.dineroJugadores[posicion] - cantidad;
-            console.log("Cantidad: ", partida.dineroJugadores[posicion]);
+            w.logger.verbose("Cantidad: ", partida.dineroJugadores[posicion]);
             // partida.dineroJugadores[posicion] -= cantidad;
 
         } else if (carta.cobrarPagarNada == "cobrar") { // cobrar
@@ -293,13 +293,13 @@ async function tarjetaAleatoria(tipo, username, idPartida, coordenadas) {
 
         const resultado = await modeloTarjetas.findOne({ nombre: "¡Vas a la cafetería!"}).exec();
 
-        // idPartida = 1;
-        await accionCarta(idPartida, username, resultado[0], coordenadas);
+        // idPartida = 1; resultado[0]
+        await accionCarta(idPartida, username, resultado, coordenadas);
 
 
         // res.status(200).json(resultado);
-        w.logger.debug("BOLETIN: ", resultado[0]);
-        return resultado[0];
+        w.logger.debug("BOLETIN: ", resultado);
+        return resultado;
     } catch (error) {
         w.logger.error(`Error: ${JSON.stringify(error)}`);
         return 2;
