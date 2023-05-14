@@ -6,6 +6,7 @@ var modeloTarjetas = require('../models/tarjetasModel');
 var modeloAsignaturasComprada = require('../models/asignaturasCompradasModel');
 var modeloCasilla = require('../models/casillaModel');
 var modeloImpuesto = require('../models/impuestoModel');
+var modeloImagen = require('../models/imagenModel');
 var ctrlPartida = require('../controllers/partidaController');
 
 const mongoose = require("mongoose");
