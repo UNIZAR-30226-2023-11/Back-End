@@ -38,8 +38,8 @@ async function crearPartida(username, dineroInicial, nJugadores, normas) {
             dados: { dado1: 0, dado2: 0, jugador: "" },
             historicoJugadores: username,
             finalizada: false,
-            carcel: false,
-            bancarrota: false
+            carcel: [false],
+            bancarrota: [false]
             //normas:[]
         });
         await doc.save();
