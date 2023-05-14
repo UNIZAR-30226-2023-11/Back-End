@@ -592,7 +592,7 @@ async function aumentarCreditos(idPartida, username, coordenadas) {
 async function disminuirCreditos(idPartida, username, coordenadas) {
     w.logger.info("DISMINUIR CREDITOS DE UNA ASIGNATURA");
 
-    const asignatura_comprada = null;
+    var asignatura_comprada = null;
     await mongoose.connect(config.db.uri, config.db.dbOptions);
     w.logger.debug("Connected to MongoDB Atlas")
 
