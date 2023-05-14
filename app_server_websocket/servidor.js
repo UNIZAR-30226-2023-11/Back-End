@@ -505,6 +505,7 @@ io.on('connection', (socket) => {
       var turno = await partidaController.siguienteTurno(clientes[socketId].partidaActiva);
       var partida = await partidaController.findPartida(clientes[socketId].partidaActiva);
       if(turno === 0 && partida.finalizada === true){
+        w.logger.verbose("LA PARTIDA HA FINALIZADO");
         turno = usersController.darMonedas(partida.nombreJugadores[0]);
         var s = clientes[socketId].partidaActiva;
         io.to(s.toString()).emit('finPartida', partida.nombreJugadores[0]);
