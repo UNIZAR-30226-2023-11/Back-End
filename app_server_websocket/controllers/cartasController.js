@@ -152,7 +152,7 @@ async function accionCarta(partida, username, tarjeta, coordenadas) {
     if (carta != null) {
         if (carta.cobrarPagarNada == "pagar") { // pagar
             var cantidad = carta.dinero;
-            if (carta.nombre == "¡Qué mala suerte!") { } // TODO:
+            // if (carta.nombre == "¡Qué mala suerte!") { } // TODO:
             // else if (carta.nombre == "¡Ay las entregas!") { cantidad = 20; } // 20
             // else if (carta.nombre == "Ay") { cantidad = 50; } // 50
             // else if (carta.nombre == "¡Vas a la cafetería!") { cantidad = 55; } // 55
@@ -285,10 +285,13 @@ async function tarjetaAleatoria(tipo, username, idPartida, coordenadas) {
         // var tipoP = tipo;
         //console.log(tipoP);
         //const resultado = await modeloTarjetas.aggregate([{$sample: {size: 1}}]).exec();
-        const resultado = await modeloTarjetas.aggregate([
-            { $match: { tipo: tipo } },
-            { $sample: { size: 1 } }
-        ]).exec();
+
+        // const resultado = await modeloTarjetas.aggregate([
+        //     { $match: { tipo: tipo } },
+        //     { $sample: { size: 1 } }
+        // ]).exec();
+
+        const resultado = await modeloTarjetas.findOne({ nombre: "¡Vas a la cafetería!"});
 
         // idPartida = 1;
         await accionCarta(idPartida, username, resultado[0], coordenadas);
