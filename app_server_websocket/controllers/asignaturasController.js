@@ -25,13 +25,15 @@ async function actualizarPosicion(idPartida, coordenadas, jugador) {
     w.logger.info("ACTUALIZAR POSICION");
     const partida = await ctrlPartida.findPartida(idPartida);
 
+    await mongoose.connect(config.db.uri, config.db.dbOptions);
+    w.logger.debug("Connected to MongoDB Atlas");
+    
     try {
         const posicion = partida.nombreJugadores.indexOf(jugador);
         partida.posicionJugadores[posicion].h = coordenadas.h;
         partida.posicionJugadores[posicion].v = coordenadas.v;
 
-        await mongoose.connect(config.db.uri, config.db.dbOptions);
-        w.logger.debug("Connected to MongoDB Atlas");
+
         const result = await modeloPartida.updateOne({ id: partida.id }, { $set: { posicionJugadores: partida.posicionJugadores } })
 
         if (result.modifiedCount == 1) {
@@ -52,9 +54,10 @@ async function actualizarPosicion(idPartida, coordenadas, jugador) {
 async function estaComprada(coordenadas, idPartida) {
     w.logger.info("CASILLA ESTA COMPRADA?");
 
+    await mongoose.connect(config.db.uri, config.db.dbOptions);
+    w.logger.debug("Connected to MongoDB Atlas")
+
     try {
-        await mongoose.connect(config.db.uri, config.db.dbOptions);
-        w.logger.debug("Connected to MongoDB Atlas")
 
         const casillaComprada = await modeloAsignaturasComprada.findOne({ "partida": idPartida, "coordenadas.h": coordenadas.h, "coordenadas.v": coordenadas.v }).exec();
 
@@ -86,9 +89,11 @@ async function estaComprada(coordenadas, idPartida) {
 async function findCasilla(coordenadas) {
     w.logger.info("BUSCAR CASILLA");
 
+    await mongoose.connect(config.db.uri, config.db.dbOptions);
+    w.logger.debug("Connected to MongoDB Atlas");
+
+    
     try {
-        await mongoose.connect(config.db.uri, config.db.dbOptions);
-        w.logger.debug("Connected to MongoDB Atlas");
 
         w.logger.verbose(`COORDENADAS FIN C ${JSON.stringify(coordenadas)}`);
         const casillaEncontrada = await modeloCasilla.findOne({ "coordenadas.h": coordenadas.h, "coordenadas.v": coordenadas.v }).exec();
@@ -120,9 +125,11 @@ async function findCasilla(coordenadas) {
 async function isAsignatura(coordenadas) {
     w.logger.info("CASILLA ES ASIGNATURA");
 
+    await mongoose.connect(config.db.uri, config.db.dbOptions);
+    w.logger.debug("Connected to MongoDB Atlas");
+
+
     try {
-        await mongoose.connect(config.db.uri, config.db.dbOptions);
-        w.logger.debug("Connected to MongoDB Atlas");
 
         const casillaEncontrada = await modeloAsignatura.findOne({ "coordenadas.h": coordenadas.h, "coordenadas.v": coordenadas.v }).exec();
 
@@ -151,9 +158,10 @@ async function isAsignatura(coordenadas) {
 async function isFestividad(coordenadas) {
     w.logger.info("CASILLA ES FESTIVIDAD");
 
+    await mongoose.connect(config.db.uri, config.db.dbOptions);
+    w.logger.debug("Connected to MongoDB Atlas");
+
     try {
-        await mongoose.connect(config.db.uri, config.db.dbOptions);
-        w.logger.debug("Connected to MongoDB Atlas");
 
         const casillaEncontrada = await modeloFestividad.findOne({ "coordenadas.h": coordenadas.h, "coordenadas.v": coordenadas.v }).exec();
 
@@ -180,10 +188,11 @@ async function isFestividad(coordenadas) {
  */
 async function isImpuesto(coordenadas) {
     w.logger.info("CASILLA ES IMPUESTO");
-    try {
-        await mongoose.connect(config.db.uri, config.db.dbOptions);
-        w.logger.debug("Connected to MongoDB Atlas");
 
+    await mongoose.connect(config.db.uri, config.db.dbOptions);
+    w.logger.debug("Connected to MongoDB Atlas");
+    
+    try {
         const casillaEncontrada = await modeloImpuesto.findOne({ "coordenadas.h": coordenadas.h, "coordenadas.v": coordenadas.v }).exec();
 
         if (casillaEncontrada) {
@@ -212,9 +221,10 @@ async function isImpuesto(coordenadas) {
 async function findAsignaturasCompradas(username, idPartida) {
     w.logger.info("BUSCAR ASIGNATURAS COMPRADAS POR UN JUGADOR");
 
+    await mongoose.connect(config.db.uri, config.db.dbOptions);
+    w.logger.debug("Connected to MongoDB Atlas")
+
     try {
-        await mongoose.connect(config.db.uri, config.db.dbOptions);
-        w.logger.debug("Connected to MongoDB Atlas")
 
         const casillas = await modeloAsignaturasComprada.find({ "partida": idPartida, "jugador": username }).exec();
         w.logger.verbose(`Casillas: ${JSON.stringify(casillas)}`);
