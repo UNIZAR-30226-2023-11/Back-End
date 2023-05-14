@@ -564,6 +564,7 @@ io.on('connection', (socket) => {
   // ==============================================
 
   socket.on('infoAsignatura', async (data, ack) => {
+    w.logger.verbose('Pre info asignatura');
     if (data.socketId != null && data.coordenadas != null) {
       w.logger.verbose('Info Asignatura');
       var coordenadas = data.coordenadas;
