@@ -801,14 +801,14 @@ io.on('connection', (socket) => {
 
   // Escucha el evento 'disconnect'
   socket.on('disconnect', () => {
-    w.logger.verbose('Usuario desconectado');
-    w.logger.verbose('Se ha desconectado el usuario: ' + clientes[socket.id].socket.id + ' ' + clientes[socket.id].username);
+    // w.logger.verbose('Usuario desconectado');
+    // w.logger.verbose('Se ha desconectado el usuario: ' + clientes[socket.id].socket.id + ' ' + clientes[socket.id].username);
 
     // Elimina la conexión del objeto connections
     socket.leave(clientes[socket.id].partidaActiva);
     delete clientes[socket.id];
     num--;
-    w.logger.verbose('Numero de usuarios conectados ' + num);
+    // w.logger.verbose('Numero de usuarios conectados ' + num);
 
   });
 
