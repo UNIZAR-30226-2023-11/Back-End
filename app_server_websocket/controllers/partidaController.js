@@ -554,7 +554,7 @@ async function bancarrota(idPartida, username) {
 
     } catch (error) {
         w.logger.error(`Error: ${JSON.stringify(error)}`);
-        w.logger.error(`Error al actualizar la partida al declararse en bancarrota: ${JSON.stringify(partida.id)}`);
+        w.logger.error(`Error al actualizar la partida al declararse en bancarrota: ${JSON.stringify(idPartida)}`);
         return 2;
     } finally {
          await mongoose.disconnect();
