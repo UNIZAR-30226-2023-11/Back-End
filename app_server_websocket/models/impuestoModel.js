@@ -24,6 +24,10 @@ const esquema = new schema({
   matricula: {
     type: Number,
     required: true
+  },
+  imagen: {
+    type: String,
+    required: true
   }
 }, { collection: 'info_asignaturas' });
 

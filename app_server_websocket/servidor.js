@@ -198,7 +198,7 @@ io.on('connection', (socket) => {
     var usuario = await usersController.infoUsuario(clientes[socketId].username);
 
     // var imagen = await usersController.devolverImagenPerfil(clientes[socketId].username);
-
+    usuario.contraseña = "";
     var msg;
     if (usuario != 1 && usuario != 2) {
       w.logger.verbose('Usuario obtenido:' + usuario);

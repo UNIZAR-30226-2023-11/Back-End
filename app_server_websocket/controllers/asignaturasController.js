@@ -400,6 +400,9 @@ async function infoAsignatura(coordenadas) {
             casillaInfo.imagen = image;
         } else if (casilla.tipo == "I") {
             casillaInfo = await isImpuesto(coordenadas);
+            const image = await modeloImagen.findOne({nombre: casillaInfo.imagen}).exec();
+        
+            casillaInfo.imagen = image;
         }
         if (casillaInfo != null) {
             return casillaInfo;
