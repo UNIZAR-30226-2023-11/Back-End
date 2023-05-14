@@ -313,6 +313,7 @@ io.on('connection', (socket) => {
               username: elemento.username
             }
             var sock = elemento.socket;
+            w.logger.verbose("SOCKET DEL USER" + partUser.username + " " + sock.toString());
             io.to(sock.toString()).emit('comenzarPartida', partUser);
             // w.logger.debug(elemento.socket.id);
             w.logger.debug(elemento.socket);
@@ -587,7 +588,7 @@ io.on('connection', (socket) => {
     var s = clientes[socketId].partidaActiva;
     io.to(s.toString()).emit('infoPartida', partida);
     if(partida.nombreJugadores.length <= 1){
-      
+        
     }
     var msg = "";
     var m = {
