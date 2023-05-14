@@ -290,7 +290,7 @@ async function tarjetaAleatoria(tipo, username, idPartida, coordenadas) {
             { $sample: { size: 1 } }
         ]).exec();
 
-        idPartida = 1;
+        // idPartida = 1;
         await accionCarta(idPartida, username, resultado[0], coordenadas);
 
 

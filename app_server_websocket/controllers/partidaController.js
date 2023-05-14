@@ -307,9 +307,9 @@ async function lanzardados(idPartida, username) {
 
                 if ((await estaJulio(username, partida)).carcel) {
                     w.logger.verbose("Estoy en JULIO")
-                    if (partida.dados.dobles === 1) {
+                    if (partida.dados.dobles === 3) {
                         partida.carcel[posicion] = false;
-                        partida.dados.dobles = 1;
+                        partida.dados.dobles = 0;
 
                         const resultado = await modeloPartida.updateOne({ id: idPartida }, { $set: { "dados.dobles": partida.dados.dobles, carcel: partida.carcel } })
 
