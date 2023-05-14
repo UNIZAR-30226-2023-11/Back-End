@@ -52,7 +52,7 @@ async function crearPartida(username, dineroInicial, nJugadores, normas) {
         return p;
 
     } catch (error) {
-        w.logger.error(`Error: ${JSON.stringify(error)}`);
+        console.log(error)
         return 2;
     } finally {
         await mongoose.disconnect();

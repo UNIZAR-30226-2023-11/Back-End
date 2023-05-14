@@ -32,7 +32,7 @@ async function cartaJulio(partida, username) {
         else { return false; }
 
     } catch (error) {
-        w.logger.error(`Error: ${JSON.stringify(error)}`);
+        console.log(error)
         w.logger.verbose("Error al obtener las cartas del jugador");
         return false;
     } finally {
@@ -63,7 +63,7 @@ async function usarCartaJulio(partida, username) {
         // res.status(200).send("Carta usada con éxito");
 
     } catch (error) {
-        w.logger.error(`Error: ${JSON.stringify(error)}`);
+        console.log(error)
         w.logger.error("Error al obtener las cartas del jugador");
         return 2;
     } finally {
@@ -91,7 +91,7 @@ async function anadirCartaJulio(username, partida) {
         // res.status(200).send("Carta agnadida con éxito");
 
     } catch (error) {
-        w.logger.error(`Error: ${JSON.stringify(error)}`);
+        console.log(error)
         w.logger.debug("Error al obtener las cartas del jugador");
         return 2;
     } finally {
@@ -122,7 +122,7 @@ async function findCarta(nombre) {
         }
     }
     catch (error) {
-        w.logger.error(`Error: ${JSON.stringify(error)}`);
+        console.log(error)
         w.logger.error('Error al encontrar carta');
         return null;
 
@@ -210,7 +210,7 @@ async function accionCarta(partida, username, carta, coordenadas) {
             }
             else if (carta.nombre == "¡Ya queda poco!") { h = 10; v = 9; partida.posicionJugadores[posicion] = { "h": h, "v": v }; }
             else if (carta.nombre == "¡Qué suerte!") {
-                w.logger.verbose("AQUI");
+                w.logger.verbose("Coordenadas: ", coordenadas);
                 h = 9; v = 0;
                 if (tablero.pasaPorSalida(coordenadas, { "h": h, "v": v })) {
                     dinero = 200;
