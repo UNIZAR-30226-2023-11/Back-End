@@ -18,7 +18,7 @@ const modeloTarjetasEnMano = require('../models/tarjetasEnMano');
  * @param {*}  
  */
 async function cartaJulio(partida, username) {
-    w.logger.verbose("***METHOD Tiene carta salir de julio");
+    w.logger.info("***METHOD Tiene carta salir de julio");
 
     // const partida = await partidaController.findPartida(idPartida);
     const jugador = username;
@@ -49,7 +49,7 @@ async function cartaJulio(partida, username) {
  */
 //TODO: HACER EL SOCKET ON DEL SERVIDOR
 async function usarCartaJulio(partida, username) {
-    w.logger.verbose("***METHOD Usar carta salir de julio");
+    w.logger.info("***METHOD Usar carta salir de julio");
 
     const jugador = username;
 
@@ -73,7 +73,7 @@ async function usarCartaJulio(partida, username) {
 
 
 async function anadirCartaJulio(username, partida) {
-    w.logger.verbose("***METHOD Añadir carta salir de julio a un jugador");
+    w.logger.info("***METHOD Añadir carta salir de julio a un jugador");
 
     await mongoose.connect(config.db.uri, config.db.dbOptions);
     w.logger.debug("Connected to MongoDB Atlas");
@@ -101,7 +101,7 @@ async function anadirCartaJulio(username, partida) {
 
 
 async function findCarta(nombre) {
-    w.logger.verbose("*** METHOD Find carta");
+    w.logger.info("*** METHOD Find carta");
 
     await mongoose.connect(config.db.uri, config.db.dbOptions);
     w.logger.debug("Connected to MongoDB Atlas");
@@ -142,7 +142,7 @@ async function findCarta(nombre) {
  */
 //TODO: HACER EL SOCKET ON DEL SERVIDOR
 async function accionCarta(partida, username, tarjeta, coordenadas) {
-    w.logger.verbose("***METHOD Devuelve lo que tiene que hacer un jugador segun la carta que le ha salido");
+    w.logger.info("***METHOD Devuelve lo que tiene que hacer un jugador segun la carta que le ha salido");
 
     const carta = await findCarta(tarjeta.nombre);
     const jugador = username
@@ -276,7 +276,7 @@ async function accionCarta(partida, username, tarjeta, coordenadas) {
 //TODO: guardar que tarjeta le sale a cada usuario
 
 async function tarjetaAleatoria(tipo, username, idPartida, coordenadas) {
-    w.logger.verbose("***METHOD Para obtener tarjeta aleatoria ");
+    w.logger.info("***METHOD Para obtener tarjeta aleatoria ");
     
     await mongoose.connect(config.db.uri, config.db.dbOptions);
     w.logger.debug("Connected to MongoDB Atlas")
@@ -291,7 +291,7 @@ async function tarjetaAleatoria(tipo, username, idPartida, coordenadas) {
         //     { $sample: { size: 1 } }
         // ]).exec();
 
-        const resultado = await modeloTarjetas.findOne({ nombre: "¡Vas a la cafetería!"});
+        const resultado = await modeloTarjetas.findOne({ nombre: "¡Vas a la cafetería!"}).exec();
 
         // idPartida = 1;
         await accionCarta(idPartida, username, resultado[0], coordenadas);
