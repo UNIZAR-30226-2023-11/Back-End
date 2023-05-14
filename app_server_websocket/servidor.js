@@ -295,7 +295,7 @@ io.on('connection', (socket) => {
         "\tCliente partida: " + clientes[socketId].partidaActiva + "\n");
 
       if (data.jugar) {
-        var p = await partidaController.findPartida(clientes[JSON.stringify(socketId)].partidaActiva);
+        var p = await partidaController.findPartida(clientes[socketId].partidaActiva);
 
         // Object.values(clientes).forEach(elemento => {
         //   if (elemento.partidaActiva === p.id) {
@@ -365,7 +365,7 @@ io.on('connection', (socket) => {
         }
       });
 
-      w.logger.verbose("\n\tCliente socket: " + clientes[JSON.stringify(socketId)].socket + "\n" +
+      w.logger.verbose("\n\tCliente socket: " + clientes[socketId].socket + "\n" +
         "\tCliente nombre: " + clientes[socketId].username + "\n" +
         "\tCliente partida: " + clientes[socketId].partidaActiva + "\n");
 
