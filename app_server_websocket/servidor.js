@@ -737,6 +737,27 @@ io.on('connection', (socket) => {
     }
   });
 
+  socket.on('disminuirCreditos', async(data, ack) => {
+    if (data.socketId != null && data.coordenadas != null) {
+      w.logger.verbose('Aumetar creditos de asignaturas');
+      const socketId = data.socketId;
+      var coordenadas = data.coordenadas;
+      // clientes[socketId].partidaActiva = 36;
+
+      var aumentada = await asignaturasController.disminuirCreditos(clientes[socketId].partidaActiva, clientes[socketId].username, coordenadas);
+      var msg = "";
+      var m = {
+        cod: aumentada,
+        msg: g.generarMsg(aumentada, msg)
+      }
+      w.logger.verbose(m);
+      ack(m);
+
+    } else {
+      w.logger.info("ALGUN DATO ES UNDEFINED");
+    }
+  });
+
   socket.on('infoPartida', async (data, ack) => {
     if (data.socketId != null) {
       w.logger.verbose('Devolver info partida');

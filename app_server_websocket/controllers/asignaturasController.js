@@ -827,4 +827,4 @@ async function vender(idPartida, username, coordenadas) {
 //     }
 //     }
 // }
-module.exports = { checkCasilla, comprarCasilla, infoAsignatura, listaAsignaturasC, aumentarCreditos, vender };
+module.exports = { checkCasilla, comprarCasilla, infoAsignatura, listaAsignaturasC, aumentarCreditos, vender, disminuirCreditos };
