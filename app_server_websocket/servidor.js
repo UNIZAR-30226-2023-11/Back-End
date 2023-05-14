@@ -846,6 +846,15 @@ io.on('connection', (socket) => {
       var partida = await partidaController.findPartida(clientes[socketId].partidaActiva);
       var tarjeta = await cartasController.tarjetaAleatoria('boletin', clientes[socketId].username, partida );
       var msg = "";
+
+      // var doc = {
+      //   nombre: ,
+      //   descripcion: ,
+      //   cobrarPagarNada: ,
+      //   dinero:,
+      //   tipo: 
+      // }
+
       if (tarjeta != 2) {
         msg = tarjeta;
         msg.julio = false;
@@ -953,7 +962,8 @@ io.on('connection', (socket) => {
       w.logger.verbose('estaJulio');
       const socketId = data.socketId;
       var msg;
-      var esta = await partidaController.estaJulio(clientes[socketId].username, clientes[socketId].partidaActiva);
+      var partida = partidaController.findPartida(clientes[socketId].partidaActiva);
+      var esta = await partidaController.estaJulio(clientes[socketId].username,partida );
       msg = esta;
       esta = 0;
       var m = {
