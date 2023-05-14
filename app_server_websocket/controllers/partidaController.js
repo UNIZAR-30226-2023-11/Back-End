@@ -875,7 +875,7 @@ async function beca(username, partida) {
 
     var posicion = partida.nombreJugadores.indexOf(username);
 
-    partida.dineroJugadores[posicion] = partida.beca;
+    partida.dineroJugadores[posicion] = partida.dineroJugadores[posicion]+ partida.beca;
     var dineroB = partida.beca;
     partida.beca = 0;
 
