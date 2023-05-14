@@ -770,7 +770,7 @@ io.on('connection', (socket) => {
       var msg = "";
       
       if (pago != 1 && pago != 2) {
-        msg = pago.dinero;
+        msg = pago.dinero.toString();
         pago = 0;
       }
       var m = {
