@@ -967,11 +967,19 @@ io.on('connection', (socket) => {
     if (data.socketId != null) {
       w.logger.verbose('estaJulio');
       const socketId = data.socketId;
-      var msg;
+      var msg = "";
+      var esta;
       var partida = partidaController.findPartida(clientes[socketId].partidaActiva);
-      var esta = await partidaController.estaJulio(clientes[socketId].username,partida );
-      msg = esta;
-      esta = 0;
+      if(partida){
+        esta = await partidaController.estaJulio(clientes[socketId].username,partida );
+        msg = partida;
+        esta = 0;
+      }else{
+        esta = 1
+      }
+  
+      // msg = partida;
+      // esta = 0;
       var m = {
         cod: esta,
         msg: g.generarMsg(esta, msg)
