@@ -834,7 +834,7 @@ async function pagoImpuestos(username, partida) {
     w.logger.debug("Connected to MongoDB Atlas");
 
     try {
-        result = await modeloPartida.updateOne({ id: partida.id }, { $set: { dineroJugadores: partida.dineroJugadores, beca: partida.beca } });
+        var result = await modeloPartida.updateOne({ id: partida.id }, { $set: { dineroJugadores: partida.dineroJugadores, beca: partida.beca } });
         if(result.modifiedCount>0){
             w.logger.debug("ENTRO AQUI Y TODO CORRECTO");
             return { cod: 0, dinero: dinero};

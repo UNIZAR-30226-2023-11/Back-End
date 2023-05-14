@@ -381,7 +381,7 @@ io.on('connection', (socket) => {
               w.logger.debug(elemento.socket);
             }
           });
-          p.nJugadores = p.nombreJugadores.length
+          p.nJugadores = p.nombreJugadores.length;
           var partida = await partidaController.actualizarPartida(clientes[socketId].partidaActiva, p.nJugadores, data.dineroInicial);
       
           // var s = clientes[socketId].partidaActiva;
