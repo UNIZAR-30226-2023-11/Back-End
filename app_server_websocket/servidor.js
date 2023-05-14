@@ -68,9 +68,11 @@ io.on('connection', (socket) => {
 
   socket.on('nombreInvitado', async (data, ack) => {
     const socketId = data.socketId;
-    w.logger.verbose('Invitado: ' ,  socketId);
+    w.logger.verbose('Invitado: ' ,  JSON.stringify(socketId));
+    w.logger.verbose(`nombre: ${data.username}`)
 
-    clientes[socketId].username = data.username;
+    clientes[socketId] = {socket: socketId, username: data.username, partidaActiva: 0}
+    // clientes[socketId].username = data.username;
     var m = {
       cod: 0,
       msg: g.generarMsg(0, "")
