@@ -406,8 +406,7 @@ io.on('connection', (socket) => {
         w.logger.verbose('Se ha unido correctamente el jugador');
         //io.emit('mensaje', correo);
         //ack('0 Ok' + correo)
-        msg = partida;
-        partida = 0;
+        
         clientes[socketId].partidaActiva = data.idPartida;
 
         // socketToGroupMap.set(socket.id, data.idPartida); // Registrar el ID del socket y el nombre del grupo en el mapa
@@ -444,7 +443,9 @@ io.on('connection', (socket) => {
           "\tCliente nombre: " + clientes[socketId].username + "\n" +
           "\tCliente partida: " + clientes[socketId].partidaActiva + "\n");
 
-        // partida = 0;
+        //partida = 0;
+        msg = partida;
+        partida = 0;
       }
       //w.logger.verbose(imagen);
       var m = {
@@ -742,6 +743,53 @@ io.on('connection', (socket) => {
     }
   });
 
+  socket.on('pagoImpuestos', async (data, ack) => {
+    w.logger.verbose('Pago de impuestos');
+    if (data.socketId != null) {
+      const socketId = data.socketId;
+      const partida = await partidaController.findPartida(clientes[socketId].partidaActiva);
+      var pago = await partidaController.pagoImpuestos(clientes[socketId].username, partida);
+
+      var msg;
+      if (pago != 1 && pago != 2) {
+        msg = pago;
+        pago = 0;
+      }
+      var m = {
+        cod: pago,
+        msg: g.generarMsg(pago, msg)
+      }
+      ack(m);
+      
+    } else {
+      w.logger.info("ALGUN DATO ES UNDEFINED");
+    }
+
+  });
+
+  socket.on('beca', async (data, ack) => {
+    w.logger.verbose('Pago de impuestos');
+    if (data.socketId != null) {
+      const socketId = data.socketId;
+      const partida = await partidaController.findPartida(clientes[socketId].partidaActiva);
+      var beca = await partidaController.beca(clientes[socketId].username, partida);
+
+      var msg;
+      if (beca != 1 && beca != 2) {
+        msg = beca;
+        beca = 0;
+      }
+      var m = {
+        cod: beca,
+        msg: g.generarMsg(beca, msg)
+      }
+      ack(m);
+
+    } else {
+      w.logger.info("ALGUN DATO ES UNDEFINED");
+    }
+
+  });
   // ==============================================
   // FUNCIONES DE CARTAS
   // ==============================================

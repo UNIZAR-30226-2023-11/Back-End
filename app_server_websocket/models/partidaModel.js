@@ -62,6 +62,11 @@ const esquema = new schema({
     finalizada: {
       type: Boolean,
       required: true
+    },
+    beca: {
+      type: Number,
+      required: true,
+      default: 0
     }
   }, { collection: 'partida' });
   
