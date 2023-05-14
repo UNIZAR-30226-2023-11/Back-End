@@ -588,7 +588,7 @@ io.on('connection', (socket) => {
     var s = clientes[socketId].partidaActiva;
     io.to(s.toString()).emit('infoPartida', partida);
     if(partida.nombreJugadores.length <= 1){
-        
+      io.to(s.toString()).emit('finPartida', partida.nombreJugadores[0]);
     }
     var msg = "";
     var m = {
