@@ -42,6 +42,10 @@ const esquema = new schema({
   tipo:{
     type: String,
     required: true
+  },
+  imagen:{
+    type: String,
+    required: true
   }
 }, { collection: 'info_asignaturas' });
 
