@@ -267,9 +267,10 @@ io.on('connection', (socket) => {
 
       // socketToGroupMap.set(socket.id, data.idPartida); // Registrar el ID del socket y el nombre del grupo en el mapa
       w.logger.debug("ROOM: " + partida.id);
-      socket.join(partida.id.toString()); // Unir el socket al grupo utilizando el nombre del grupo
+      var idP = partida.id;
+      socket.join(idP.toString()); // Unir el socket al grupo utilizando el nombre del grupo
 
-      partida = 0;
+      // partida = 0;
       w.logger.verbose("\n\tCliente socket: " + (clientes[socketId].socket) + "\n" +
         "\tCliente nombre: " + clientes[socketId].username + "\n" +
         "\tCliente partida: " + clientes[socketId].partidaActiva + "\n");
@@ -341,7 +342,8 @@ io.on('connection', (socket) => {
       clientes[socketId].partidaActiva = data.idPartida;
 
       // socketToGroupMap.set(socket.id, data.idPartida); // Registrar el ID del socket y el nombre del grupo en el mapa
-      socket.join(data.idPartida.toString()); // Unir el socket al grupo utilizando el nombre del grupo
+      var idP = partida.id;
+      socket.join(idP.toString()); // Unir el socket al grupo utilizando el nombre del grupo
           
       var partida = await partidaController.infoPartida(data.idPartida);
 
@@ -372,7 +374,7 @@ io.on('connection', (socket) => {
         "\tCliente nombre: " + clientes[socketId].username + "\n" +
         "\tCliente partida: " + clientes[socketId].partidaActiva + "\n");
 
-      partida = 0;
+      // partida = 0;
     }
     //w.logger.verbose(imagen);
     var m = {
@@ -610,7 +612,7 @@ io.on('connection', (socket) => {
     if (partida != 1 && partida != 2) {
       w.logger.verbose('Partida obtenida:' + partida.toString());
       msg = partida;
-      partida = 0;
+      // partida = 0;
     }
     var m = {
       cod: partida,
