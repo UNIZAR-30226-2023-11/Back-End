@@ -807,4 +807,12 @@ async function vender(idPartida, username, coordenadas) {
     }
 }
 
+// async function comprarPujada(username, coordenadas, idPartida, dinero){
+//     w.logger.info("Comprar la signatura pujada");
+//     var partida = await ctrlPartida.findPartida(idPartida);
+//     if(partida){
+        
+//     }
+//     }
+// }
 module.exports = { checkCasilla, comprarCasilla, infoAsignatura, listaAsignaturasC, aumentarCreditos, vender };

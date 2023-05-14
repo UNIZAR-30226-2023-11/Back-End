@@ -55,6 +55,11 @@ io.on('connection', (socket) => {
         //io.to(socketId).emit('mensaje', 'Usuario ha iniciado sesion correctamente');
 
         clientes[socketId] = {socket: socketId, username: data.username, partidaActiva: 0}
+
+        w.logger.verbose("\n\tCliente socket: " + (clientes[socketId].socket) + "\n" +
+          "\tCliente nombre: " + clientes[socketId].username + "\n" +
+          "\tCliente partida: " + clientes[socketId].partidaActiva + "\n");
+      
         // clientes[socketId].username = data.username;
         // clientes[socketId].socket = JSON.stringify(socketId);
         //ack('0 Ok');
@@ -969,9 +974,11 @@ io.on('connection', (socket) => {
       const socketId = data.socketId;
       var msg = "";
       var esta;
-      var partida = partidaController.findPartida(clientes[socketId].partidaActiva);
-      if(partida){
-        esta = await partidaController.estaJulio(clientes[socketId].username,partida );
+      var partida = await partidaController.findPartida(clientes[socketId].partidaActiva);
+      
+      if(partida != null){
+
+        esta = await partidaController.estaJulio(clientes[socketId].username, partida );
         msg = partida;
         esta = 0;
       }else{
@@ -1043,7 +1050,7 @@ io.on('connection', (socket) => {
           var s = clientes[socketId].partidaActiva;
           io.to(s.toString()).emit('actualizarPuja', pujado);
 
-          //TODO: - HECHO COMPRARLAAAAAA!!!!
+          
         }
       }
 
@@ -1054,6 +1061,8 @@ io.on('connection', (socket) => {
         // sacar la info de la partida y mandarla en terminarPuja
         var s = clientes[socketId].partidaActiva;
         io.to(s.toString()).emit('terminarPuja', 'ok');
+        //TODO: - HECHO COMPRARLAAAAAA!!!!
+        
 
       }, 15000); // Tiempo de espera en milisegundos
 

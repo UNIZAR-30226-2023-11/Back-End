@@ -749,9 +749,10 @@ async function estaJulio(username, partida) {
     w.logger.info("Comprabar si usuario está en julio")
 
     // const partida = await findPartida(idPartida);
+    
     const posicion = partida.nombreJugadores.indexOf(username);
 
-
+    
     const carta = cartasController.cartaJulio(username, partida);
 
     var puedePagar = false;
