@@ -209,8 +209,10 @@ async function unirJugador(idPartida, username) {
                 //Añadimos jugador a dineroJugadores, en este caso con el dinero inicial
                 partidaEncontrada.dineroJugadores[tam] = partidaEncontrada.dineroJugadores[0];
                 //carcel
-                partidaEncontrada.carcel[tam] = false;
-                partidaEncontrada.bancarrota[tam] = false;
+                // partidaEncontrada.carcel[tam] = false;
+                // partidaEncontrada.bancarrota[tam] = false;
+                partidaEncontrada.carcel = Array(tam).fill(false);
+                partidaEncontrada.bancarrota = Array(tam).fill(false);
                 // Accede a los atributos de la partida utilizando la sintaxis objeto.atributo
                 w.logger.debug(`PARTIDA ENCONTRADA ${JSON.stringify(partidaEncontrada)}`);
 
