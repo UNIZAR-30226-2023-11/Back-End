@@ -970,6 +970,7 @@ io.on('connection', (socket) => {
       var msg = "";
       var esta;
       var partida = partidaController.findPartida(clientes[socketId].partidaActiva);
+      w.logger.verbose(JSON.stringify(partida));
       if(partida){
         esta = await partidaController.estaJulio(clientes[socketId].username,partida );
         msg = partida;
