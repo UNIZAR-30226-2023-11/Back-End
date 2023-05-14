@@ -148,7 +148,7 @@ async function accionCarta(partida, username, carta, coordenadas) {
     // const carta = await findCarta(tarjeta.nombre);
     const jugador = username
     const posicion = partida.nombreJugadores.indexOf(jugador);
-
+    w.logger.verbose(carta);
 
     if (carta != null) {
         if (carta.cobrarPagarNada == "pagar") { // pagar
