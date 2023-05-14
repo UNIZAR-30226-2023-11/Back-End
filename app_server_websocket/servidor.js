@@ -768,8 +768,9 @@ io.on('connection', (socket) => {
       var pago = await partidaController.pagoImpuestos(clientes[socketId].username, partida);
 
       var msg;
+      
       if (pago != 1 && pago != 2) {
-        msg = pago;
+        msg = pago.dinero;
         pago = 0;
       }
       var m = {

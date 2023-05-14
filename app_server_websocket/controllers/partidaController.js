@@ -817,14 +817,16 @@ async function pagoImpuestos(username, partida) {
     w.logger.info("Pagar los impuestos");
 
     var posicion = partida.nombreJugadores.indexOf(username);
-
+    var dinero = 0;
     if (partida.posicionJugadores[posicion].h === 10 && partida.posicionJugadores[posicion].v === 8){ // Seguro escolar
-        partida.beca = partida.beca + 133;
-        partida.dineroJugadores[posicion] = partida.dineroJugadores[posicion] - 133;
+        dinero = 133;
+        partida.beca = partida.beca + dinero;
+        partida.dineroJugadores[posicion] = partida.dineroJugadores[posicion] - dinero;
     }
     if (partida.posicionJugadores[posicion].h === 6 && partida.posicionJugadores[posicion].v === 10){ // Expediente
-        partida.beca = partida.beca + 267;
-        partida.dineroJugadores[posicion] = partida.dineroJugadores[posicion] - 267;
+        dinero = 267;
+        partida.beca = partida.beca + dinero;
+        partida.dineroJugadores[posicion] = partida.dineroJugadores[posicion] - dinero;
     }
 
     await mongoose.connect(config.db.uri, config.dbOptions);
@@ -833,7 +835,7 @@ async function pagoImpuestos(username, partida) {
     try {
         result = await modeloPartida.updateOne({ id: partida.id }, { $set: { dineroJugadores: partida.dineroJugadores, beca: partida.beca } });
         if(result.modifiedCount>0){
-            return 0;
+            return { cod: 0, dinero: dinero};
         }else{
             return 1;
         } 
