@@ -667,7 +667,7 @@ io.on('connection', (socket) => {
       w.logger.verbose('Vender asignatura');
       const socketId = data.socketId;
       var coordenadas = data.coordenadas;
-      clientes[socketId].partidaActiva = 32;
+      // clientes[socketId].partidaActiva = 32;
 
       //TODO: ACTUALIZAR LOS DINEROS DE TODOS LOS JUGADORES EMIT
       var vendida = await asignaturasController.vender(clientes[socketId].partidaActiva, clientes[socketId].username, coordenadas);
@@ -695,7 +695,7 @@ io.on('connection', (socket) => {
       w.logger.verbose('Me declaro en bancarrota y me voy');
       const socketId = data.socketId;
       var coordenadas = data.coordenadas;
-      clientes[socketId].partidaActiva = 32;
+      // clientes[socketId].partidaActiva = 32;
       var bancarrota = await partidaController.bancarrota(clientes[socketId].partidaActiva, clientes[socketId].username)
       const partida = await partidaController.infoPartida(clientes[socketId].partidaActiva);
       w.logger.debug ("partida:" + JSON.stringify(partida));
