@@ -52,7 +52,7 @@ io.on('connection', (socket) => {
       w.logger.verbose('Usuario ha iniciado sesion correctamente\n', data.username);
       //io.to(socketId).emit('mensaje', 'Usuario ha iniciado sesion correctamente');
       clientes[socketId].username = data.username;
-      clientes[socketId].socket = socketId;
+      clientes[socketId].socket = JSON.stringify(socketId);
       //ack('0 Ok');
     }
     var m = {
@@ -85,7 +85,7 @@ io.on('connection', (socket) => {
       w.logger.verbose('Usuario se ha registrado correctamente');
       io.to(socketId).emit('mensaje', 'Usuario se ha registrado correctamente');
       clientes[socketId].username = data.username;
-      clientes[socketId].socket = socketId;
+      clientes[socketId].socket = JSON.stringify(socketId);
     }
     var m = {
       cod: reg,
@@ -255,7 +255,8 @@ io.on('connection', (socket) => {
       w.logger.verbose("idPartida: "+ partida.id);
       msg = partida;
       w.logger.verbose("SocketId usuario que crea la partida: "+ JSON.stringify(socketId));
-      clientes[JSON.stringify(socketId)].partidaActiva = partida.id;
+      var sock = JSON.stringify(socketId);
+      clientes[sock].partidaActiva = partida.id;
 
       // socketToGroupMap.set(socket.id, data.idPartida); // Registrar el ID del socket y el nombre del grupo en el mapa
       w.logger.debug("ROOM: " + partida.id);
@@ -289,7 +290,7 @@ io.on('connection', (socket) => {
         "\tCliente partida: " + clientes[socketId].partidaActiva + "\n");
 
       if (data.jugar) {
-        var p = await partidaController.findPartida(clientes[socketId].partidaActiva);
+        var p = await partidaController.findPartida(clientes[JSON.stringify(socketId)].partidaActiva);
 
         // Object.values(clientes).forEach(elemento => {
         //   if (elemento.partidaActiva === p.id) {
@@ -329,7 +330,7 @@ io.on('connection', (socket) => {
       //ack('0 Ok' + correo)
       // msg = partida;
       // partida = 0;
-      clientes[socketId].partidaActiva = data.idPartida;
+      clientes[JSON.stringify(socketId)].partidaActiva = data.idPartida;
 
       // socketToGroupMap.set(socket.id, data.idPartida); // Registrar el ID del socket y el nombre del grupo en el mapa
       socket.join(data.idPartida); // Unir el socket al grupo utilizando el nombre del grupo
@@ -359,7 +360,7 @@ io.on('connection', (socket) => {
         }
       });
 
-      w.logger.verbose("\n\tCliente socket: " + clientes[socketId].socket + "\n" +
+      w.logger.verbose("\n\tCliente socket: " + clientes[JSON.stringify(socketId)].socket + "\n" +
         "\tCliente nombre: " + clientes[socketId].username + "\n" +
         "\tCliente partida: " + clientes[socketId].partidaActiva + "\n");
 
