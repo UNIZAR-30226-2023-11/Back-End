@@ -556,7 +556,8 @@ async function aumentarCreditos(idPartida, username, coordenadas) {
         await mongoose.connect(config.db.uri, config.db.dbOptions);
         w.logger.debug("Connected to MongoDB Atlas");
         try {
-            const result = await modeloAsignaturasComprada.updateOne({ "coordenadas.h": coordenadas.h, "coordenadas.v": coordenadas.v }, { $set: { precio: casillasFiltradas[pos].precio } })
+            const result = await modeloAsignaturasComprada.updateOne({ "coordenadas.h": coordenadas.h, "coordenadas.v": coordenadas.v, partida: idPartida }, 
+                        { $set: { precio: casillasFiltradas[pos].precio } })
             if (result.modifiedCount == 1) {
                 w.logger.verbose(`Result: ${JSON.stringify(result)}`);
                 w.logger.debug("Se ha actualizado la asignatura comprada correctamente");
@@ -572,6 +573,7 @@ async function aumentarCreditos(idPartida, username, coordenadas) {
             return 2;
 
         } finally {
+            
              await mongoose.disconnect();
             w.logger.verbose("DisConnected to MongoDB Atlas")
         }
