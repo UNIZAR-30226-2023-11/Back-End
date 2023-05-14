@@ -44,7 +44,7 @@ io.on('connection', (socket) => {
   // w.logger.verbose('Se ha conectado el usuario: ' + clientes[socket.id].socket.id + ' ' + clientes[socket.id].username);
 
   socket.on('login', async (data, ack) => {
-    if (data.socketId != null && data.username != null && data.password != null && clientes[socketId].username != null) {
+    if (data.socketId != null && data.username != null && data.password != null) {
       const socketId = data.socketId;
       w.logger.verbose('INICIO DE SESION ' , socketId);
       w.logger.debug('socketId: ' + socketId);
@@ -72,7 +72,7 @@ io.on('connection', (socket) => {
   });
 
   socket.on('nombreInvitado', async (data, ack) => {
-    if (data.socketId != null && data.username != null && clientes[socketId].username != null){
+    if (data.socketId != null && data.username != null){
       const socketId = data.socketId;
       w.logger.verbose('Invitado: ' ,  JSON.stringify(socketId));
       w.logger.verbose(`nombre: ${data.username}`)
@@ -92,7 +92,7 @@ io.on('connection', (socket) => {
   });
 
   socket.on('register', async (data, ack) => {
-    if (data.socketId != null && data.username != null && data.password != null && data.confirm_password != null && data.email != null && clientes[socketId].username != null) {
+    if (data.socketId != null && data.username != null && data.password != null && data.confirm_password != null && data.email != null) {
       w.logger.verbose('REGISTRO DE USUARIO');
       const socketId = data.socketId;
       var reg = await usersController.registerUser(data.username, data.password, data.confirm_password, data.email);
@@ -118,7 +118,7 @@ io.on('connection', (socket) => {
   });
 
   socket.on('deleteUser', async (data, ack) => {
-    if (data.socketId != null && clientes[socketId].username != null) {
+    if (data.socketId != null) {
       w.logger.verbose('Eliminacion de usuario');
       const socketId = data.socketId;
       var del = await usersController.deleteUser(clientes[socketId].username);
@@ -140,7 +140,7 @@ io.on('connection', (socket) => {
   });
 
   socket.on('updateCorreo', async (data, ack) => {
-    if (data.socketId != null && data.email != null && clientes[socketId].username != null) {
+    if (data.socketId != null && data.email != null) {
       w.logger.verbose('Actualización del correo');
       const socketId = data.socketId;
       var up = await usersController.updateCorreo(clientes[socketId].username, data.email);
@@ -161,7 +161,7 @@ io.on('connection', (socket) => {
   });
 
   socket.on('updatePassword', async (data, ack) => {
-    if (data.socketId != null && data.password != null && data.confirm_password != null && clientes[socketId].username != null){
+    if (data.socketId != null && data.password != null && data.confirm_password != null){
       w.logger.verbose('Actualización de contraseña');
       const socketId = data.socketId;
       var up = await usersController.updatePassword(clientes[socketId].username, data.password, data.confirm_password);
@@ -184,7 +184,7 @@ io.on('connection', (socket) => {
 
   //CORRECTA
   socket.on('updateUsername', async (data, ack) => {
-    if (data.socketId != null && data.newusername != null && clientes[socketId].username != null) {
+    if (data.socketId != null && data.newusername != null) {
       w.logger.verbose('Actualización del nombre de usuario');
       const socketId = data.socketId;
       var up = await usersController.updateUsername(clientes[socketId].username, data.newusername);
@@ -207,7 +207,7 @@ io.on('connection', (socket) => {
   });
 
   socket.on('updateImagenPerfil', async (data, ack) => {
-    if (data.socketId != null && data.imagen != null && clientes[socketId].username != null) {
+    if (data.socketId != null && data.imagen != null) {
       w.logger.verbose('Actualización de la imagen de perfil de usuario');
       const socketId = data.socketId;
       var up = await usersController.updateImagenPerfil(clientes[socketId].username, data.imagen);
@@ -295,7 +295,7 @@ io.on('connection', (socket) => {
   });
 
   socket.on('crearPartida', async (data, ack) => {
-    if (data.socketId != null && clientes[socketId].username != null) {
+    if (data.socketId != null) {
       w.logger.verbose('Creación de una partida');
       const socketId = data.socketId;
       //var correo =   await usersController.devolverCorreo(data.username);
@@ -340,7 +340,7 @@ io.on('connection', (socket) => {
 
 
   socket.on('actualizarPartida', async (data, ack) => {
-    if (data.socketId != null && data.nJugadores != null && data.dineroInicial != null && clientes[socketId].username != null) {
+    if (data.socketId != null && data.nJugadores != null && data.dineroInicial != null) {
       w.logger.verbose('Creación de una partida');
       const socketId = data.socketId;
       w.logger.verbose(`partidaActiva: ${clientes[socketId]}`);
@@ -393,7 +393,7 @@ io.on('connection', (socket) => {
   });
 
   socket.on('unirJugador', async (data, ack) => {
-    if (data.socketId != null && data.idPartida != null && clientes[socketId].username != null) {
+    if (data.socketId != null && data.idPartida != null) {
       w.logger.verbose('Se une un jugador a una partida');
       const socketId = data.socketId;
       var partida = await partidaController.unirJugador(data.idPartida, clientes[socketId].username);
@@ -462,7 +462,7 @@ io.on('connection', (socket) => {
 
 
   socket.on('lanzarDados', async (data, ack) => {
-    if (data.socketId != null && clientes[socketId].username != null) {
+    if (data.socketId != null) {
       w.logger.verbose('Lanzamiento de dados');
       const socketId = data.socketId;
       // clientes[socketId].partidaActiva,
@@ -490,7 +490,7 @@ io.on('connection', (socket) => {
   });
 
   socket.on('siguienteTurno', async (data, ack) => {
-    if (data.socketId != null && clientes[socketId].username != null) {
+    if (data.socketId != null) {
       w.logger.verbose('Siguiente turno');
       const socketId = data.socketId;
       /**/
@@ -542,7 +542,7 @@ io.on('connection', (socket) => {
   // ==============================================
 
   socket.on('infoAsignatura', async (data, ack) => {
-    if (data.socketId != null && data.coordenadas != null && clientes[socketId].username != null) {
+    if (data.socketId != null && data.coordenadas != null) {
       w.logger.verbose('Info Asignatura');
       var coordenadas = data.coordenadas;
       var asignatura = await asignaturasController.infoAsignatura(coordenadas);
@@ -568,7 +568,7 @@ io.on('connection', (socket) => {
   });
 
   socket.on('casilla', async (data, ack) => {
-    if (data.socketId != null && data.coordenadas && clientes[socketId].username != null) {
+    if (data.socketId != null && data.coordenadas) {
       w.logger.verbose('Casilla');
       const socketId = data.socketId;
       var coordenadas = data.coordenadas;
@@ -593,7 +593,7 @@ io.on('connection', (socket) => {
   });
 
   socket.on('comprarCasilla', async (data, ack) => {
-    if (data.socketId != null && data.coordenadas != null && clientes[socketId].username != null) {
+    if (data.socketId != null && data.coordenadas != null) {
       w.logger.verbose('Metodo de comprar casilla');
       const socketId = data.socketId;
       const coordenadas = data.coordenadas;
@@ -617,7 +617,7 @@ io.on('connection', (socket) => {
   });
 
   socket.on('listaAsignaturasC', async (data, ack) => {
-    if (data.socketId != null && clientes[socketId].username != null) {
+    if (data.socketId != null) {
       w.logger.verbose('Lista de asignaturas compradas');
       const socketId = data.socketId;
       // clientes[socketId].partidaActiva = 32;
@@ -640,7 +640,7 @@ io.on('connection', (socket) => {
   });
 
   socket.on('vender', async (data, ack) => {
-    if (data.socketId != null && data.coordenadas != null && clientes[socketId].username != null) {
+    if (data.socketId != null && data.coordenadas != null) {
       w.logger.verbose('Vender asignatura');
       const socketId = data.socketId;
       var coordenadas = data.coordenadas;
@@ -668,7 +668,7 @@ io.on('connection', (socket) => {
   });
 
   socket.on('bancarrota', async (data, ack) => {
-    if (data.socketId != null && data.coordenadas != null && clientes[socketId].username != null) {
+    if (data.socketId != null && data.coordenadas != null) {
       w.logger.verbose('Me declaro en bancarrota y me voy');
       const socketId = data.socketId;
       var coordenadas = data.coordenadas;
@@ -696,7 +696,7 @@ io.on('connection', (socket) => {
   });
 
   socket.on('aumentarCreditos', async(data, ack) => {
-    if (data.socketId != null && data.coordenadas != null && clientes[socketId].username != null) {
+    if (data.socketId != null && data.coordenadas != null) {
       w.logger.verbose('Aumetar creditos de asignaturas');
       const socketId = data.socketId;
       var coordenadas = data.coordenadas;
@@ -717,7 +717,7 @@ io.on('connection', (socket) => {
   });
 
   socket.on('infoPartida', async (data, ack) => {
-    if (data.socketId != null && clientes[socketId].username != null) {
+    if (data.socketId != null) {
       w.logger.verbose('Devolver info partida');
       const socketId = data.socketId;
       clientes[socketId].partidaActiva = 32;
@@ -743,7 +743,7 @@ io.on('connection', (socket) => {
   // FUNCIONES DE CARTAS
   // ==============================================
   socket.on('suerte', async (data, ack) => {
-    if (data.socketId != null && clientes[socketId].username != null) {
+    if (data.socketId != null) {
       w.logger.verbose('Tarjeta aleatoria de suerte');
       const socketId = data.socketId;
       var partida = await partidaController.findPartida(clientes[socketId].partidaActiva);
@@ -773,7 +773,7 @@ io.on('connection', (socket) => {
   });
 
   socket.on('boletin', async (data, ack) => {
-    if (data.socketId != null && clientes[socketId].username != null) {
+    if (data.socketId != null) {
       w.logger.verbose('Tarjeta aleatoria de suerte');
       const socketId = data.socketId;
       // clientes[socketId].partidaActiva = 1;
@@ -807,7 +807,7 @@ io.on('connection', (socket) => {
   // FUNCIONES DE TIENDA
   // ==============================================
   socket.on('tienda', async (data, ack) => {
-    if (data.socketId != null && clientes[socketId].username != null) {
+    if (data.socketId != null) {
       w.logger.verbose('Tienda');
       const socketId = data.socketId;
       var tienda = await tiendaController.devolverTienda(clientes[socketId].username);
@@ -832,7 +832,7 @@ io.on('connection', (socket) => {
   });
 
   socket.on('comprarTienda', async (data, ack) => {
-    if (data.socketId != null && data.producto != null && clientes[socketId].username != null) {
+    if (data.socketId != null && data.producto != null) {
       w.logger.verbose('Tienda');
       const socketId = data.socketId;
       const producto = data.producto;
@@ -858,7 +858,7 @@ io.on('connection', (socket) => {
   });
 
   socket.on('pagarJulio', async (data, ack) => {
-    if (data.socketId != null && clientes[socketId].username != null) {
+    if (data.socketId != null) {
       w.logger.verbose('voyAJulio');
       const socketId = data.socketId;
 
@@ -877,7 +877,7 @@ io.on('connection', (socket) => {
 
 
   socket.on('estaJulio', async (data, ack) => {
-    if (data.socketId != null && clientes[socketId].username != null) {
+    if (data.socketId != null) {
       w.logger.verbose('estaJulio');
       const socketId = data.socketId;
       var msg;
@@ -897,7 +897,7 @@ io.on('connection', (socket) => {
 
 
   socket.on('empezarPuja', async (data, ack) => {
-    if (data.socketId != null && data.coordenadas != null && clientes[socketId].username != null) {
+    if (data.socketId != null && data.coordenadas != null) {
       w.logger.verbose('empezarPuja');
       const socketId = data.socketId;
       const coordenadas = data.coordenadas;
@@ -925,7 +925,7 @@ io.on('connection', (socket) => {
 
   let timer;
   socket.on('pujar', async (data, ack) => {
-    if (data.socketId != null && data.cantidad != null && clientes[socketId].username != null) {
+    if (data.socketId != null && data.cantidad != null) {
       w.logger.verbose('pujar');
       const socketId = data.socketId;
       const cantidad = data.cantidad;
