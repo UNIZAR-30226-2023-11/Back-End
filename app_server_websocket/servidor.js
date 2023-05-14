@@ -353,7 +353,8 @@ io.on('connection', (socket) => {
 
       w.logger.debug("Sockets del jugador que se ha unido: " , socket.id);
       w.logger.debug(`ROOM: ${clientes[socketId].partidaActiva}`);
-      io.to(clientes[socketId].partidaActiva).emit('esperaJugadores', partida.nombreJugadores);
+      var idP = clientes[socketId].partidaActiva;
+      io.to(idP.toString()).emit('esperaJugadores', partida.nombreJugadores);
 
       const socketsGrupo = io.sockets.in(data.idPartida).sockets;
       w.logger.debug(`IDs de los sockets en el grupo ${data.idPartida}:`);
