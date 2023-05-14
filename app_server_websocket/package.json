@@ -5,7 +5,7 @@
   "main": "servidor.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node ./app_server_websocket/servidor.js"
+    "start": "node ./servidor.js"
   },
   "repository": {
     "type": "git",
