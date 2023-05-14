@@ -743,7 +743,7 @@ async function dar200(username, idPartida) {
 /**
  * 
  * @param {*} username Jugador que ha pasado por la casilla de salida
- * @param {*} idPartida Identificador del número de la partida 
+ * @param {*} partida Partida que esta jugando el username 
  */
 async function estaJulio(username, partida) {
     w.logger.info("Comprabar si usuario está en julio")

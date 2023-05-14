@@ -28,12 +28,12 @@ async function cartaJulio(partida, username) {
     try {
         const cartaEncontrada = await modeloTarjetasEnMano.findOne({ nombre: "¡Qué suerte, te libras!", partida: partida.id, jugador: jugador }).exec();
         // res.status(200).json(cartaEncontrada);
-        return 0;
+        return true;
 
     } catch (error) {
         w.logger.error(`Error: ${JSON.stringify(error)}`);
         w.logger.verbose("Error al obtener las cartas del jugador");
-        return 2;
+        return false;
     } finally {
          await mongoose.disconnect();
         w.logger.debug("Disconnected to MongoDB Atlas")
