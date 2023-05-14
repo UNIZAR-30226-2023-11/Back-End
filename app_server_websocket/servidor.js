@@ -23,7 +23,7 @@ io.on('connection', (socket) => {
   w.logger.verbose('Usuario conectado');
   
   var long = clientes.legth;
-  w.logger.verbose("NUMERO DE USUARIOS CONECTADOS: ", long);
+  // w.logger.verbose("NUMERO DE USUARIOS CONECTADOS: ", long);
   
   num++;
   // w.logger.verbose('Numero de usuarios conectados ' + num);
@@ -315,8 +315,8 @@ io.on('connection', (socket) => {
         //     w.logger.debug(elemento.socket);
         //   }
         // });
-
-        io.to(clientes[socketId].partidaActiva).emit('comenzarPartida', {username: clientes[socketId].username, partida: p});
+        var s = clientes[socketId].partidaActiva;
+        io.to(s.toString()).emit('comenzarPartida', {username: clientes[socketId].username, partida: p});
       }
     }
     //w.logger.verbose(imagen);
@@ -822,7 +822,7 @@ io.on('connection', (socket) => {
   // Escucha el evento 'disconnect'
   socket.on('disconnect', () => {
     w.logger.verbose('Usuario desconectado');
-    w.logger.verbose('Se ha desconectado el usuario: ' + clientes[socket.id].socket.id + ' ' + clientes[socket.id].username);
+    w.logger.verbose('Se ha desconectado el usuario: ' + clientes[socket.id].socket + ' ' + clientes[socket.id].username);
 
     // Elimina la conexión del objeto connections
     // socket.leave(clientes[socket.id].partidaActiva);
