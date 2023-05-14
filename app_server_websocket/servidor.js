@@ -512,7 +512,7 @@ io.on('connection', (socket) => {
       // clientes[socketId].partidaActiva = 1;
       var turno = await partidaController.siguienteTurno(clientes[socketId].partidaActiva);
       var partida = await partidaController.findPartida(clientes[socketId].partidaActiva);
-      if(turno === 0 && partida.finalizada === true){
+      if(turno == 0 && partida.finalizada == true){
         w.logger.verbose("LA PARTIDA HA FINALIZADO");
         turno = usersController.darMonedas(partida.nombreJugadores[0]);
         var s = clientes[socketId].partidaActiva;
@@ -520,7 +520,7 @@ io.on('connection', (socket) => {
       }
       
       var msg = "";
-      if (turno != 1 && turno != 2 && partida.finalizada === false) {
+      if (turno != 1 && turno != 2 && partida.finalizada == false) {
         w.logger.verbose('Se ha realizado siguiente turno correctamente');
 
         msg = turno;
@@ -980,10 +980,11 @@ io.on('connection', (socket) => {
       var partida = await partidaController.findPartida(clientes[socketId].partidaActiva);
       
       if(partida){
-
+        w.logger.verbose("LA PARTIDA EXISTE")
         esta = await partidaController.estaJulio(clientes[socketId].username, partida );
         msg = esta;
         esta = 0;
+
       }else{
         esta = 1
       }
