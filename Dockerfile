@@ -1,6 +1,6 @@
 FROM node:18
 # RUN useradd -ms /bin/bash usuario
-WORKDIR /home/usuario/app
+WORKDIR /home/usuario/app/app_server_websocket
 # COPY ./app_server_websocket/package*.json ./
 COPY ./app_server_websocket .
 # RUN rm -rf ./node_modules
