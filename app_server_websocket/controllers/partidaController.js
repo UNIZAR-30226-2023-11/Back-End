@@ -400,7 +400,7 @@ async function lanzardados(idPartida, username) {
             return 1;
         }
     } catch (error) {
-        console.log(error)(`Error: ${JSON.stringify(error)}`);
+        console.log(error);
         w.logger.error('Error al lanzar los dados en la partida');
         return 2;
         // res.status(500).json({ error: 'Error al lanzar los dados en la partida' });
@@ -839,7 +839,7 @@ async function pagoImpuestos(username, partida) {
         } 
     }
     catch (error) {
-        w.logger.error(`Error: ${JSON.stringify(error)}`);
+        console.log(error);
         w.logger.error("Error al pagar a la banca");
         return 2;
     } finally {
@@ -874,7 +874,7 @@ async function beca(username, partida) {
         } 
     }
     catch (error) {
-        w.logger.error(`Error: ${JSON.stringify(error)}`);
+        console.log(error);
         w.logger.error("Error al pagar a la banca");
         return 2;
     } finally {
@@ -911,13 +911,13 @@ async function subasta(username, idPartida, cantidad, coordenadas) {
             w.logger.debug("Se ha actualizado la subasta de la partida");
             return 0;
         } else {
-            w.logger.error(`Error: ${JSON.stringify(error)}`);
+            console.log(error);
 
             return 2;
         }
     }
     catch (error) {
-        w.logger.error(`Error: ${JSON.stringify(error)}`);
+        console.log(error);
         w.logger.error("Error al iniciar la subasta");
         return 2;
     } finally {

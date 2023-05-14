@@ -44,7 +44,7 @@ async function devolverTienda(username) {
         return tienda;
 
     } catch (error) {
-        w.logger.error(`Error: ${JSON.stringify(error)}`);
+        console.log(error)
         return 2;
 
     } finally {
@@ -84,7 +84,7 @@ async function comprarTienda (producto, username) {
         }
 
     } catch (error) {
-        w.logger.error(`Error: ${JSON.stringify(error)}`);
+        console.log(error)
         return 2;
 
     } finally {

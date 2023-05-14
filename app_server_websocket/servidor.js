@@ -814,8 +814,11 @@ io.on('connection', (socket) => {
     if (data.socketId != null) {
       w.logger.verbose('Tarjeta aleatoria de suerte');
       const socketId = data.socketId;
+  
       var partida = await partidaController.findPartida(clientes[socketId].partidaActiva);
-      var tarjeta = await cartasController.tarjetaAleatoria('suerte', clientes[socketId].username, partida);
+      var posicion = partina.nombreJugadores.indexOf(clientes[socketId].username);
+      var coordenadas = partida.posicionJugadores[posicion];
+      var tarjeta = await cartasController.tarjetaAleatoria('suerte', clientes[socketId].username, partida, coordenadas );
       
       var doc = {
         nombre: tarjeta.nombre,

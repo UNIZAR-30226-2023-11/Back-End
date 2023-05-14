@@ -45,7 +45,7 @@ async function registerUser(username, password, confirm_password, email) {
         }
     }
     catch (error) {
-        w.logger.error(`Error: ${JSON.stringify(error)}`);
+        console.log(error)
         return 2;
         //res.status(500).json({error: 'Error al crear usuario', nombreuser: req.body.username, correo: req.body.email, contraseña: req.body.password});
     } finally {
@@ -80,7 +80,7 @@ async function loginUser(username, password) {
             //res.status(500).json({ error: 'Error usuario o contraseña incorrectos',  nombreUser: req.body.username, contraseña: req.body.password });
         }
     } catch (error) {
-        w.logger.error(`Error: ${JSON.stringify(error)}`);
+        console.log(error)
 
         return 2;
         //res.status(500).json({ error: 'Error al buscar el usuario', nombreUser: req.body.username });
@@ -112,7 +112,7 @@ async function deleteUser(username) {
         }
         //}
     } catch (error) {
-        w.logger.error(`Error: ${JSON.stringify(error)}`);
+        console.log(error)
         return 2;
         //res.status(500).json({ error: 'Error al eliminar el usuario', nombreuser: req.body.username });
     } finally {
@@ -154,7 +154,7 @@ async function updatePassword(username, password, confirm_password) {
         }
 
     } catch (error) {
-        w.logger.error(`Error: ${JSON.stringify(error)}`);       
+        console.log(error)       
         return 2;
         // res.status(500).json({ error: 'Error al actualizar la contraseña', nombreUser: req.body.username, res: result  });
     }
@@ -193,7 +193,7 @@ async function updateCorreo(username, email) {
         }
 
     } catch (error) {
-        w.logger.error(`Error: ${JSON.stringify(error)}`);
+        console.log(error)
 
         return 2;
         //res.status(500).json({ error: 'Error al actualizar el correo', nombreUser: req.body.username });
@@ -234,7 +234,7 @@ async function updateUsername(username, newusername) {
         }
 
     } catch (error) {
-        w.logger.error(`Error: ${JSON.stringify(error)}`);
+        console.log(error)
         return 2;
         //res.status(500).json({ error: 'Error al actualizar el nombre de usuario', nombreUser: req.body.username });
     } finally {
@@ -308,7 +308,7 @@ async function devolverImagenPerfil(username) {
             //res.status(500).json({ error: 'Error al buscar el usuario',  nombreUser: req.body.username });
         }
     } catch (error) {
-        w.logger.error(`Error: ${JSON.stringify(error)}`);
+        console.log(error)
         return 2;
         // return null;
         //res.status(500).json({ error: 'Error al buscar el usuario', nombreUser: req.body.username });
@@ -344,7 +344,7 @@ async function updateImagenPerfil(username, imagen) {
         }
 
     } catch (error) {
-        w.logger.error(`Error: ${JSON.stringify(error)}`);
+        console.log(error)
         return 2;
 
     } finally {
@@ -373,7 +373,7 @@ async function darMonedas(username){
         }
         
     } catch (error) {
-        w.logger.error(`Error: ${JSON.stringify(error)}`);
+        console.log(error)
         return 2;
 
     } finally {

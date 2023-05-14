@@ -39,7 +39,7 @@ async function actualizarPosicion(idPartida, coordenadas, jugador) {
         }
 
     } catch (error) {
-        w.logger.error(`Error: ${JSON.stringify(error)}`);
+        console.log(error)
     } finally {
          await mongoose.disconnect();
         w.logger.debug("Disconnected to MongoDB Atlas")
@@ -69,7 +69,7 @@ async function estaComprada(coordenadas, idPartida) {
         }
 
     } catch (error) {
-        w.logger.error(`Error: ${JSON.stringify(error)}`);
+        console.log(error)
         w.logger.error('Error al saber si la casilla esta comprada o no');
 
     } finally {
@@ -103,7 +103,7 @@ async function findCasilla(coordenadas) {
 
     }
     catch (error) {
-        w.logger.error(`Error: ${JSON.stringify(error)}`);
+        console.log(error)
         w.logger.error('Error al encontrar la casilla');
         return null;
     } finally {
@@ -134,7 +134,7 @@ async function isAsignatura(coordenadas) {
         }
     }
     catch (error) {
-        w.logger.error(`Error: ${JSON.stringify(error)}`);
+        console.log(error)
         w.logger.error('Error al encontrar la casilla asignatura');
         return null;
     } finally {
@@ -164,7 +164,7 @@ async function isFestividad(coordenadas) {
             return null;
         }
     } catch (error) {
-        w.logger.error(`Error: ${JSON.stringify(error)}`);
+        console.log(error)
         w.logger.error('Error al encontrar la casilla asignatura');
         return null;
     } finally {
@@ -193,7 +193,7 @@ async function isImpuesto(coordenadas) {
             return null;
         }
     } catch (error) {
-        w.logger.error(`Error: ${JSON.stringify(error)}`);
+        console.log(error)
         w.logger.error('Error al encontrar la casilla impuesto');
         return null;
 
@@ -229,7 +229,7 @@ async function findAsignaturasCompradas(username, idPartida) {
 
     }
     catch (error) {
-        w.logger.error(`Error: ${JSON.stringify(error)}`);
+        console.log(error)
         w.logger.error('Error al encontrar la casilla');
         return null;
     } finally {
@@ -307,7 +307,7 @@ async function comprarCasilla(username, coordenadas, idPartida) {
                     return 7;
 
                 } catch (error) {
-                    w.logger.error(`Error: ${JSON.stringify(error)}`);
+                    console.log(error)
                     if (pagado) {
                         await ctrlPartida.cobrar(partida, casilla.precioCompra, username);
                     }
@@ -322,7 +322,7 @@ async function comprarCasilla(username, coordenadas, idPartida) {
             }
 
         } else {
-            w.logger.error(`Error: ${JSON.stringify(error)}`);
+            console.log(error)
             return 1;
         }
 
@@ -368,7 +368,7 @@ async function checkCasilla(username, coordenadas, idPartida) {
             }
 
         } else {
-            w.logger.error(`Error: ${JSON.stringify(error)}`);
+            console.log(error)
             w.logger.error('Error al actualizar la partida  al pagar la matricula');
             return 2;
         }
@@ -557,7 +557,7 @@ async function aumentarCreditos(idPartida, username, coordenadas) {
             }
 
         } catch (error) {
-            w.logger.error(`Error: ${JSON.stringify(error)}`);
+            console.log(error)
             w.logger.error('Error al aumentar creditos asignatura');
             return 2;
 
@@ -588,7 +588,7 @@ async function disminuirCreditos(idPartida, username, coordenadas) {
         asignatura_comprada = await modeloAsignaturaComprada.findOne({ coordenadas: coordenadas });
 
     } catch (error) {
-        w.logger.error(`Error: ${JSON.stringify(error)}`);
+        console.log(error)
         w.logger.error('Error al disminuir creditos asignatura');
         return 2;
 
@@ -648,7 +648,7 @@ async function disminuirCreditos(idPartida, username, coordenadas) {
         }
 
     } catch (error) {
-        w.logger.error(`Error: ${JSON.stringify(error)}`);
+        console.log(error)
         w.logger.error('Error al disminuir creditos asignatura');
         return 2;
 
@@ -729,7 +729,7 @@ async function devolverDinero(partida, dinero, jugador) {
         return true;
 
     } catch (error) {
-        w.logger.error(`Error: ${JSON.stringify(error)}`);
+        console.log(error)
         w.logger.error(`Error al actualizar la partida al pagar: ${JSON.stringify(partida.id)}`);
         return false;
 
@@ -793,7 +793,7 @@ async function vender(idPartida, username, coordenadas) {
 
 
         } catch (error) {
-            w.logger.error(`Error: ${JSON.stringify(error)}`);
+            console.log(error)
             w.logger.error('Error al aumentar creditos asignatura');
             return 2;
 
