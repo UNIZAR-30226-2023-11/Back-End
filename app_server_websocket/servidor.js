@@ -186,6 +186,7 @@ io.on('connection', (socket) => {
   socket.on('infoUsuario', async (data, ack) => {
     //FIXME: no devolver contraseña
     w.logger.verbose('Obtener el correo de un usuario');
+    w.logger.verbose(`SocketId: ${JSON.stringify(data.socketId)} `);
     const socketId = data.socketId;
     var usuario = await usersController.infoUsuario(clientes[socketId].username);
 
