@@ -185,7 +185,7 @@ io.on('connection', (socket) => {
   //CORRECTA
   socket.on('infoUsuario', async (data, ack) => {
     //FIXME: no devolver contraseña
-    w.logger.verbose('Obtener el correo de un usuario');
+    w.logger.verbose('Obtener la info de un usuario');
     w.logger.verbose(`SocketId: ${JSON.stringify(data.socketId)} `);
     const socketId = data.socketId;
     var usuario = await usersController.infoUsuario(clientes[socketId].username);
@@ -254,7 +254,8 @@ io.on('connection', (socket) => {
       //ack('0 Ok' + correo)
       w.logger.verbose("idPartida: "+ partida.id);
       msg = partida;
-      clientes[socketId].partidaActiva = partida.id;
+      w.logger.verbose("SocketId usuario que crea la partida: "+ JSON.stringify(socketId));
+      clientes[JSON.stringify(socketId)].partidaActiva = partida.id;
 
       // socketToGroupMap.set(socket.id, data.idPartida); // Registrar el ID del socket y el nombre del grupo en el mapa
       w.logger.debug("ROOM: " + partida.id);
