@@ -344,7 +344,7 @@ io.on('connection', (socket) => {
       clientes[socketId].partidaActiva = data.idPartida;
 
       // socketToGroupMap.set(socket.id, data.idPartida); // Registrar el ID del socket y el nombre del grupo en el mapa
-      var idP = partida.id;
+      var idP =  data.idPartida;
       socket.join(idP.toString()); // Unir el socket al grupo utilizando el nombre del grupo
           
       var partida = await partidaController.infoPartida(data.idPartida);
@@ -614,7 +614,7 @@ io.on('connection', (socket) => {
     if (partida != 1 && partida != 2) {
       w.logger.verbose('Partida obtenida:' + partida.toString());
       msg = partida;
-      // partida = 0;
+      partida = 0;
     }
     var m = {
       cod: partida,
