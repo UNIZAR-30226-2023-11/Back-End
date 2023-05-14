@@ -394,6 +394,9 @@ async function infoAsignatura(coordenadas) {
             casillaInfo = await isAsignatura(coordenadas);
         } else if (casilla.tipo == "F") {
             casillaInfo = await isFestividad(coordenadas);
+            const image = await modeloImagen.findOne({nombre: casillaInfo.imagen}).exec();
+        
+            casillaInfo.imagen = image;
         } else if (casilla.tipo == "I") {
             casillaInfo = await isImpuesto(coordenadas);
         }
