@@ -824,26 +824,30 @@ async function pagoImpuestos(username, partida) {
     console.log(partida.posicionJugadores[posicion]);
     var dinero = 0;
     if (partida.posicionJugadores[posicion].h === 10 && partida.posicionJugadores[posicion].v === 8){ // Seguro escolar
+        w.logger.verbose("Seguro escolar")
         dinero = 133;
         partida.beca = partida.beca + dinero;
         partida.dineroJugadores[posicion] = partida.dineroJugadores[posicion] - dinero;
     }
-    if (partida.posicionJugadores[posicion].h === 6 && partida.posicionJugadores[posicion].v === 10){ // Expediente
+    else if (partida.posicionJugadores[posicion].h === 6 && partida.posicionJugadores[posicion].v === 10){ // Expediente
+        w.logger.verbose("Expediente")
         dinero = 267;
         partida.beca = partida.beca + dinero;
         partida.dineroJugadores[posicion] = partida.dineroJugadores[posicion] - dinero;
     }
+
+    w.logger.verbose(partida.beca);
 
     await mongoose.connect(config.db.uri, config.dbOptions);
     w.logger.debug("Connected to MongoDB Atlas");
 
     try {
         var result = await modeloPartida.updateOne({ id: partida.id }, { $set: { dineroJugadores: partida.dineroJugadores, beca: partida.beca } });
-        if(result.modifiedCount>0){
+        if(result.modifiedCount>0 || result.matchedCount == 1 ){
             w.logger.debug("ENTRO AQUI Y TODO CORRECTO");
             return { cod: 0, dinero: dinero};
+            
         }else{
-
             w.logger.debug("ESTO VA REGULIN");
             return 1;
         } 
