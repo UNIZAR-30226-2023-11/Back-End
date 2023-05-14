@@ -977,7 +977,7 @@ io.on('connection', (socket) => {
       const socketId = data.socketId;
       var msg = "";
       var esta;
-      w.logger.debug("ID PARTIDA" , clientes[socketId].partidaActiva);
+      w.logger.debug("ID PARTIDA" + clientes[socketId].partidaActiva);
       var partida = await partidaController.findPartida(clientes[socketId].partidaActiva);
       
       if(partida){
