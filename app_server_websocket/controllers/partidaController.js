@@ -817,6 +817,7 @@ async function pagoImpuestos(username, partida) {
     w.logger.info("Pagar los impuestos");
 
     var posicion = partida.nombreJugadores.indexOf(username);
+    console.log(partida.posicionJugadores[posicion]);
     var dinero = 0;
     if (partida.posicionJugadores[posicion].h === 10 && partida.posicionJugadores[posicion].v === 8){ // Seguro escolar
         dinero = 133;
@@ -835,8 +836,11 @@ async function pagoImpuestos(username, partida) {
     try {
         result = await modeloPartida.updateOne({ id: partida.id }, { $set: { dineroJugadores: partida.dineroJugadores, beca: partida.beca } });
         if(result.modifiedCount>0){
+            w.logger.debug("ENTRO AQUI Y TODO CORRECTO");
             return { cod: 0, dinero: dinero};
         }else{
+
+            w.logger.debug("ESTO VA REGULIN");
             return 1;
         } 
     }

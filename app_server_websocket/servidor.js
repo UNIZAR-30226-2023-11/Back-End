@@ -767,7 +767,7 @@ io.on('connection', (socket) => {
       const partida = await partidaController.findPartida(clientes[socketId].partidaActiva);
       var pago = await partidaController.pagoImpuestos(clientes[socketId].username, partida);
 
-      var msg;
+      var msg = "";
       
       if (pago != 1 && pago != 2) {
         msg = pago.dinero;
