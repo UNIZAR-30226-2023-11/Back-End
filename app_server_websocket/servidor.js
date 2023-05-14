@@ -253,7 +253,9 @@ io.on('connection', (socket) => {
     w.logger.verbose('Creación de una partida');
     const socketId = data.socketId;
     //var correo =   await usersController.devolverCorreo(data.username);
-    var partida = await partidaController.crearPartida(clientes[socketId].username, 0, 2, false)
+
+    w.logger.verbose("USUARIO QUE QUIERE CREAR PARTIDA: "+  clientes[socketId].username);
+    var partida = await partidaController.crearPartida( clientes[socketId].username, 0, 2, false)
     var msg = "";
     if (partida != 1 && partida != 2) {
       w.logger.verbose('Partida creada correctamente');
@@ -310,7 +312,8 @@ io.on('connection', (socket) => {
               partida: p,
               username: elemento.username
             }
-            io.to(elemento.socket).emit('comenzarPartida', partUser);
+            var sock = elemento.socket;
+            io.to(sock.toString()).emit('comenzarPartida', partUser);
             // w.logger.debug(elemento.socket.id);
             w.logger.debug(elemento.socket);
           }
