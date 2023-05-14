@@ -147,7 +147,7 @@ async function actualizarPartida(idPartida, nJugadores, dineroInicial, normas) {
                 return 0;
             } else {
                 //console.error(error);
-                console.log(error)
+                // console.log(error)
                 if(result.matchedCount > 0){
                     return 0;
                 }
