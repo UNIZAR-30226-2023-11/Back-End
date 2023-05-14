@@ -234,11 +234,11 @@ io.on('connection', (socket) => {
   // ==============================================
 
   io.of("/").adapter.on("create-room", (room) => {
-    w.logger.debug(`room ${room} was created`);
+    // w.logger.debug(`room ${room} was created`);
   });
   
   io.of("/").adapter.on("join-room", (room, id) => {
-    w.logger.debug(`socket ${id} has joined room ${room}`);
+    // w.logger.debug(`socket ${id} has joined room ${room}`);
   });
 
   socket.on('crearPartida', async (data, ack) => {
