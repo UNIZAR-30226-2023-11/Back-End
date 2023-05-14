@@ -430,7 +430,8 @@ io.on('connection', (socket) => {
       msg = turno;
       w.logger.debug('Turno: ' + JSON.stringify(turno));
 
-      io.to(clientes[socketId].partidaActiva).emit('turnoActual', turno);
+      var s = clientes[socketId].partidaActiva;
+      io.to(s.toString()).emit('turnoActual', turno);
       
       turno = 0;
     }
@@ -518,7 +519,8 @@ io.on('connection', (socket) => {
     const partida = await partidaController.infoPartida(clientes[socketId].partidaActiva)
     w.logger.debug ("partida:" + JSON.stringify(partida));
 
-    io.to(clientes[socketId].partidaActiva).emit('infoPartida', partida);
+    var s = clientes[socketId].partidaActiva;
+    io.to(s.toString()).emit('infoPartida', partida);
     var m = {
       cod: comprada,
       msg: g.generarMsg(comprada, msg)
@@ -558,7 +560,8 @@ io.on('connection', (socket) => {
     const partida = await partidaController.infoPartida(clientes[socketId].partidaActiva)
     w.logger('debug', "partida:" + JSON.stringify(partida));
 
-    io.to(clientes[socketId].partidaActiva).emit('infoPartida', partida);
+    var s = clientes[socketId].partidaActiva; 
+    io.to(s.toString()).emit('infoPartida', partida);
     var m = {
       cod: vendida,
       msg: g.generarMsg(vendida, msg)
@@ -577,7 +580,8 @@ io.on('connection', (socket) => {
     const partida = await partidaController.infoPartida(clientes[socketId].partidaActiva);
     w.logger.debug ("partida:" + JSON.stringify(partida));
 
-    io.to(clientes[socketId].partidaActiva).emit('infoPartida', partida);
+    var s = clientes[socketId].partidaActiva;
+    io.to(s.toString()).emit('infoPartida', partida);
     var msg = "";
     var m = {
       cod: bancarrota,
@@ -641,7 +645,8 @@ io.on('connection', (socket) => {
       const partida = await partidaController.infoPartida(clientes[socketId].partidaActiva)
       w.logger.debug ("partida:" + JSON.stringify(partida));
 
-      io.to(clientes[socketId].partidaActiva).emit('infoPartida', partida);
+      var s = clientes[socketId].partidaActiva;
+      io.to(s.toString()).emit('infoPartida', partida);
     }
     var m = {
       cod: tarjeta,
@@ -666,7 +671,8 @@ io.on('connection', (socket) => {
       const partida = await partidaController.infoPartida(clientes[socketId].partidaActiva)
       w.logger.debug ("partida:" + JSON.stringify(partida));
 
-      io.to(clientes[socketId].partidaActiva).emit('infoPartida', partida);
+      var s = clientes[socketId].partidaActiva;
+      io.to(s.toString()).emit('infoPartida', partida);
     }
     var m = {
       cod: tarjeta,
@@ -760,7 +766,8 @@ io.on('connection', (socket) => {
     if(iniciar != 2 && iniciar != 1){
       var asignatura = await asignaturasController.infoAsignatura(coordenadas);
       if(asignatura != 1){
-        io.to(clientes[socketId].partidaActiva).emit('hayPuja', asignatura);
+        var s = clientes[socketId].partidaActiva;
+        io.to(s.toString()).emit('hayPuja', asignatura);
       }
     }
     var msg = ""
@@ -792,7 +799,8 @@ io.on('connection', (socket) => {
     if(subasta != 2 && subasta != 1){
 
       if(asignatura != 1){
-        io.to(clientes[socketId].partidaActiva).emit('actualizarPuja', pujado);
+        var s = clientes[socketId].partidaActiva;
+        io.to(s.toString()).emit('actualizarPuja', pujado);
 
         //TODO: COMPRARLAAAAAA!!!!
       }
@@ -803,11 +811,8 @@ io.on('connection', (socket) => {
       // ...
       //comprar asignatura
       // sacar la info de la partida y mandarla en terminarPuja
-      io.to(clientes[socketId].partidaActiva).emit('terminarPuja', 'ok');
-
-
-      
-
+      var s = clientes[socketId].partidaActiva;
+      io.to(s.toString()).emit('terminarPuja', 'ok');
 
     }, 15000); // Tiempo de espera en milisegundos
 
