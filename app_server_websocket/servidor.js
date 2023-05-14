@@ -339,8 +339,8 @@ io.on('connection', (socket) => {
       w.logger.verbose('Se ha unido correctamente el jugador');
       //io.emit('mensaje', correo);
       //ack('0 Ok' + correo)
-      // msg = partida;
-      // partida = 0;
+      msg = partida;
+      partida = 0;
       clientes[socketId].partidaActiva = data.idPartida;
 
       // socketToGroupMap.set(socket.id, data.idPartida); // Registrar el ID del socket y el nombre del grupo en el mapa
