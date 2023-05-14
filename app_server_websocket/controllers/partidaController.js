@@ -210,11 +210,13 @@ async function unirJugador(idPartida, username) {
                 //Añadimos jugador a dineroJugadores, en este caso con el dinero inicial
                 partidaEncontrada.dineroJugadores[tam] = partidaEncontrada.dineroJugadores[0];
                 //carcel
+                partidaEncontrada.carcel.push(false);
+                partidaEncontrada.bancarrota.push(false);
                 // partidaEncontrada.carcel[tam] = false;
                 // partidaEncontrada.bancarrota[tam] = false;
-                partidaEncontrada.carcel = Array(tam+1).fill(false);
-                partidaEncontrada.bancarrota = Array(tam+1).fill(false);
-                // Accede a los atributos de la partida utilizando la sintaxis objeto.atributo
+                // partidaEncontrada.carcel = Array(tam+1).fill(false);
+                // partidaEncontrada.bancarrota = Array(tam+1).fill(false);
+                // // Accede a los atributos de la partida utilizando la sintaxis objeto.atributo
                 w.logger.debug(`PARTIDA ENCONTRADA ${JSON.stringify(partidaEncontrada)}`);
 
                 //Actualizamos la partida
@@ -454,8 +456,6 @@ async function siguienteTurno(idPartida) {
     const partida = await findPartida(idPartida);
     if (partida != null) {
         if(partida.nombreJugadores.length <= 1){ // Fin de la partida
-            var s = partida.idPartida;
-            io.to(s.toString()).emit('finPartida', partida.nombreJugadores[0]);
             partida.finalizada = true;
             return 0
         } else{
