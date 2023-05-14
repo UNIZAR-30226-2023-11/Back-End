@@ -187,7 +187,7 @@ async function accionCarta(partida, username, tarjeta, coordenadas) {
             var dinero = 0;
             if (carta.nombre == "Vaya, tienes que ir a Segunda Convocatoria") { h = 0; v = 10; }
             else if (carta.nombre == "¡Qué suerte!, a la salida") { h = 10; v = 10; }
-            else if (carta.nombre == "¡Qué suerte, te libras!") { await anadirCartaJulio(jugador, partida.idPartida); }
+            else if (carta.nombre == "¡Qué suerte, te libras!") { await anadirCartaJulio(jugador, partida); }
             else if (carta.nombre == "¡FIESTA!") {
                 h = 5; v = 0;
                 if (tablero.pasaPorSalida(req.body.coordenadas, { h: h, v: v })) {
