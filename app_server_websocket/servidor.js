@@ -40,7 +40,7 @@ io.on('connection', (socket) => {
     partidaActiva: 0 // aquí puedes inicializar el nombre de usuario con null
     //otherData: '...'
   };
-  w.logger.verbose('Se ha conectado el usuario: ' + clientes[socket.id].socket.id + ' ' + clientes[socket.id].username);
+  // w.logger.verbose('Se ha conectado el usuario: ' + clientes[socket.id].socket.id + ' ' + clientes[socket.id].username);
 
   socket.on('login', async (data, ack) => {
     const socketId = data.socketId;
