@@ -267,7 +267,7 @@ io.on('connection', (socket) => {
 
       // socketToGroupMap.set(socket.id, data.idPartida); // Registrar el ID del socket y el nombre del grupo en el mapa
       w.logger.debug("ROOM: " + partida.id);
-      socket.join(partida.id); // Unir el socket al grupo utilizando el nombre del grupo
+      socket.join(partida.id.toString()); // Unir el socket al grupo utilizando el nombre del grupo
 
       partida = 0;
       w.logger.verbose("\n\tCliente socket: " + (clientes[socketId].socket) + "\n" +
@@ -287,6 +287,7 @@ io.on('connection', (socket) => {
   socket.on('actualizarPartida', async (data, ack) => {
     w.logger.verbose('Creación de una partida');
     const socketId = data.socketId;
+    w.logger.verbose(`partidaActiva: ${clientes[socketId].partidaActiva}`);
     var partida = await partidaController.actualizarPartida(clientes[socketId].partidaActiva, data.nJugadores, data.dineroInicial);
     var msg = "";
     if (partida != 1 && partida != 2) {
@@ -340,7 +341,7 @@ io.on('connection', (socket) => {
       clientes[socketId].partidaActiva = data.idPartida;
 
       // socketToGroupMap.set(socket.id, data.idPartida); // Registrar el ID del socket y el nombre del grupo en el mapa
-      socket.join(data.idPartida); // Unir el socket al grupo utilizando el nombre del grupo
+      socket.join(data.idPartida.toString()); // Unir el socket al grupo utilizando el nombre del grupo
           
       var partida = await partidaController.infoPartida(data.idPartida);
 
