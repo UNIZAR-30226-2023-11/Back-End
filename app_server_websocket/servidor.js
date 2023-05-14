@@ -799,7 +799,7 @@ io.on('connection', (socket) => {
 
       var msg;
       if (beca != 1 && beca != 2) {
-        msg = beca.beca;
+        msg = beca.beca.toString();
         beca = 0;
 
         var s = clientes[socketId].partidaActiva;
