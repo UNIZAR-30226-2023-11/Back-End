@@ -290,7 +290,7 @@ io.on('connection', (socket) => {
   socket.on('actualizarPartida', async (data, ack) => {
     w.logger.verbose('Creación de una partida');
     const socketId = data.socketId;
-    w.logger.verbose(`partidaActiva: ${clientes[socketId].partidaActiva}`);
+    w.logger.verbose(`partidaActiva: ${clientes[socketId]}`);
     var partida = await partidaController.actualizarPartida(clientes[socketId].partidaActiva, data.nJugadores, data.dineroInicial);
     var msg = "";
     if (partida != 1 && partida != 2) {
