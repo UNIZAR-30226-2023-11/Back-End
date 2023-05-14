@@ -39,8 +39,8 @@ async function crearPartida(username, dineroInicial, nJugadores, normas) {
             dados: { dado1: 0, dado2: 0, jugador: "" },
             historicoJugadores: username,
             finalizada: false,
-            carcel: [false],
-            bancarrota: [false]
+            carcel: false,
+            bancarrota: false
             //normas:[]
         });
         await doc.save();
@@ -210,10 +210,10 @@ async function unirJugador(idPartida, username) {
                 //Añadimos jugador a dineroJugadores, en este caso con el dinero inicial
                 partidaEncontrada.dineroJugadores[tam] = partidaEncontrada.dineroJugadores[0];
                 //carcel
-                partidaEncontrada.carcel.push(false);
-                partidaEncontrada.bancarrota.push(false);
-                // partidaEncontrada.carcel[tam] = false;
-                // partidaEncontrada.bancarrota[tam] = false;
+                // partidaEncontrada.carcel.push(false);
+                // partidaEncontrada.bancarrota.push(false);
+                partidaEncontrada.carcel[tam] = false;
+                partidaEncontrada.bancarrota[tam] = false;
                 // partidaEncontrada.carcel = Array(tam+1).fill(false);
                 // partidaEncontrada.bancarrota = Array(tam+1).fill(false);
                 // // Accede a los atributos de la partida utilizando la sintaxis objeto.atributo
@@ -225,7 +225,9 @@ async function unirJugador(idPartida, username) {
                         nombreJugadores: partidaEncontrada.nombreJugadores,
                         posicionJugadores: partidaEncontrada.posicionJugadores,
                         dineroJugadores: partidaEncontrada.dineroJugadores,
-                        historicoJugadores: partidaEncontrada.historicoJugadores
+                        historicoJugadores: partidaEncontrada.historicoJugadores,
+                        carcel: partidaEncontrada.carcel,
+                        bancarrota: partidaEncontrada.bancarrota,
                     }
                 })
                 if (result.modifiedCount == 1) {
