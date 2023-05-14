@@ -231,11 +231,12 @@ io.on('connection', (socket) => {
 
   //CORRECTA
   socket.on('infoUsuario', async (data, ack) => {
+    const socketId = data.socketId;
     if (data.socketId != null && clientes[socketId].username != null) {
       //FIXME: HECHO  no devolver contraseña
       w.logger.verbose('Obtener la info de un usuario');
       w.logger.verbose(`SocketId: ${JSON.stringify(data.socketId)} `);
-      const socketId = data.socketId;
+      
       var usuario = await usersController.infoUsuario(clientes[socketId].username);
 
       // var imagen = await usersController.devolverImagenPerfil(clientes[socketId].username);
