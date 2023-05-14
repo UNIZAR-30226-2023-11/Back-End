@@ -270,7 +270,7 @@ async function accionCarta(partida, username, carta, coordenadas) {
             //     res.status(205).json({ error: 'Error al actualizar la partida ' }); // es 205 porque puede ser que un jugador no haga nada en su turno
             // }
         } catch (error) {
-            w.logger.error(`Error: ${JSON.stringify(error)}`);
+            console.log(error);
             w.logger.error("Error al obtener las cartas del jugador");
             return 2;
         } finally {
