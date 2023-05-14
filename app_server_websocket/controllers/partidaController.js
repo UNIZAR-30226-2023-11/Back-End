@@ -212,8 +212,8 @@ async function unirJugador(idPartida, username) {
                 //carcel
                 // partidaEncontrada.carcel[tam] = false;
                 // partidaEncontrada.bancarrota[tam] = false;
-                partidaEncontrada.carcel = Array(tam).fill(false);
-                partidaEncontrada.bancarrota = Array(tam).fill(false);
+                partidaEncontrada.carcel = Array(tam+1).fill(false);
+                partidaEncontrada.bancarrota = Array(tam+1).fill(false);
                 // Accede a los atributos de la partida utilizando la sintaxis objeto.atributo
                 w.logger.debug(`PARTIDA ENCONTRADA ${JSON.stringify(partidaEncontrada)}`);
 
