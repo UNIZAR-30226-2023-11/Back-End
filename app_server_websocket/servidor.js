@@ -14,7 +14,7 @@ var tiendaController = require('./controllers/tiendaController');
 var asignaturasController = require('./controllers/asignaturasController');
 var cartasController = require('./controllers/cartasController');
 // Declara un objeto para guardar las conexiones
-var clientes = [];
+var clientes = {};
 
 const socketToGroupMap = new Map(); // Mapa para mantener un registro de los sockets y los grupos a los que están unidos
 
@@ -35,12 +35,12 @@ io.on('connection', (socket) => {
   //clientes[socket.id] = socket;
 
   // // Guarda la conexión en el objeto clientes junto con el nombre de usuario
-  clientes[socket.id] = {
-    socket: socket,
-    username: "",
-    partidaActiva: 0 // aquí puedes inicializar el nombre de usuario con null
-    //otherData: '...'
-  };
+  // clientes[socket.id] = {
+  //   socket: socket,
+  //   username: "",
+  //   partidaActiva: 0 // aquí puedes inicializar el nombre de usuario con null
+  //   //otherData: '...'
+  // };
   // w.logger.verbose('Se ha conectado el usuario: ' + clientes[socket.id].socket.id + ' ' + clientes[socket.id].username);
 
   socket.on('login', async (data, ack) => {
@@ -52,8 +52,10 @@ io.on('connection', (socket) => {
     if (login != 1 && login != 2) {
       w.logger.verbose('Usuario ha iniciado sesion correctamente\n', data.username);
       //io.to(socketId).emit('mensaje', 'Usuario ha iniciado sesion correctamente');
-      clientes[socketId].username = data.username;
-      clientes[socketId].socket = JSON.stringify(socketId);
+
+      clientes[socketId] = {socket: socketId, username: data.username}
+      // clientes[socketId].username = data.username;
+      // clientes[socketId].socket = JSON.stringify(socketId);
       //ack('0 Ok');
     }
     var m = {
@@ -330,7 +332,7 @@ io.on('connection', (socket) => {
       //ack('0 Ok' + correo)
       // msg = partida;
       // partida = 0;
-      clientes[JSON.stringify(socketId)].partidaActiva = data.idPartida;
+      clientes[socketId].partidaActiva = data.idPartida;
 
       // socketToGroupMap.set(socket.id, data.idPartida); // Registrar el ID del socket y el nombre del grupo en el mapa
       socket.join(data.idPartida); // Unir el socket al grupo utilizando el nombre del grupo
