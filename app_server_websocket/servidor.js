@@ -976,10 +976,10 @@ io.on('connection', (socket) => {
       var esta;
       var partida = await partidaController.findPartida(clientes[socketId].partidaActiva);
       
-      if(partida != null){
+      if(partida){
 
         esta = await partidaController.estaJulio(clientes[socketId].username, partida );
-        msg = partida;
+        msg = esta;
         esta = 0;
       }else{
         esta = 1
