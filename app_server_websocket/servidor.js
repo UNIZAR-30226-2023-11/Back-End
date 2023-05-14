@@ -986,6 +986,7 @@ io.on('connection', (socket) => {
         esta = 0;
 
       }else{
+        w.logger.verbose("LA PARTIDA NOOOOOOOOOOOOOOO EXISTE")
         esta = 1
       }
   
