@@ -980,7 +980,7 @@ io.on('connection', (socket) => {
       w.logger.debug("ID PARTIDA " + clientes[socketId].partidaActiva);
       var partida = await partidaController.findPartida(clientes[socketId].partidaActiva);
       
-      if(partida){
+      if(partida != null){
         w.logger.verbose("LA PARTIDA EXISTE")
         esta = await partidaController.estaJulio(clientes[socketId].username, partida );
         msg = esta;
