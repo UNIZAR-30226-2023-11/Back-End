@@ -28,8 +28,11 @@ async function cartaJulio(partida, username) {
     try {
         const cartaEncontrada = await modeloTarjetasEnMano.findOne({ nombre: "¡Qué suerte, te libras!", partida: partida.id, jugador: jugador }).exec();
         // res.status(200).json(cartaEncontrada);
-        if (cartaEncontrada) { return true; }
-        else { return false; }
+        if (cartaEncontrada) { 
+            return true; 
+        }else { 
+            return false; 
+        }
 
     } catch (error) {
         console.log(error)

@@ -753,7 +753,7 @@ async function estaJulio(username, partida) {
     const posicion = partida.nombreJugadores.indexOf(username);
 
     
-    const carta = cartasController.cartaJulio(username, partida);
+    const carta = cartasController.cartaJulio(partida, username);
     w.logger.verbose (carta);
 
     var puedePagar = false;
