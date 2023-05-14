@@ -32,7 +32,7 @@ async function registerUser(username, password, confirm_password, email) {
             const docs = await modeloUser.find(filtro);
 
             if (docs.length > 0) {
-                w.logger.debug("Documento encontrado: ", docs);
+                w.logger.debug(`Documento encontrado: ${JSON.stringify(docs)}`);
                 return 3;
             } else {
                 w.logger.debug('No se encontró el documento');
@@ -45,7 +45,7 @@ async function registerUser(username, password, confirm_password, email) {
         }
     }
     catch (error) {
-        w.logger.error(`Error: ${error}`);
+        w.logger.error(`Error: ${JSON.stringify(error)}`);
         return 2;
         //res.status(500).json({error: 'Error al crear usuario', nombreuser: req.body.username, correo: req.body.email, contraseña: req.body.password});
     } finally {
@@ -71,7 +71,7 @@ async function loginUser(username, password) {
         const docs = await modeloUser.find(doc);
 
         if (docs.length > 0) {
-            w.logger.debug("Documento encontrado: " , docs);
+            w.logger.debug(`Documento encontrado: ${JSON.stringify(docs)}` );
             return 0;
             //res.status(200).send('El usuario ha iniciado sesión correctamente');
         } else {
@@ -80,7 +80,7 @@ async function loginUser(username, password) {
             //res.status(500).json({ error: 'Error usuario o contraseña incorrectos',  nombreUser: req.body.username, contraseña: req.body.password });
         }
     } catch (error) {
-        w.logger.error(`Error: ${error}`);
+        w.logger.error(`Error: ${JSON.stringify(error)}`);
 
         return 2;
         //res.status(500).json({ error: 'Error al buscar el usuario', nombreUser: req.body.username });
@@ -112,7 +112,7 @@ async function deleteUser(username) {
         }
         //}
     } catch (error) {
-        w.logger.error(`Error: ${error}`);
+        w.logger.error(`Error: ${JSON.stringify(error)}`);
         return 2;
         //res.status(500).json({ error: 'Error al eliminar el usuario', nombreuser: req.body.username });
     } finally {
@@ -154,7 +154,7 @@ async function updatePassword(username, password, confirm_password) {
         }
 
     } catch (error) {
-        w.logger.error(`Error: ${error}`);       
+        w.logger.error(`Error: ${JSON.stringify(error)}`);       
         return 2;
         // res.status(500).json({ error: 'Error al actualizar la contraseña', nombreUser: req.body.username, res: result  });
     }
@@ -186,14 +186,14 @@ async function updateCorreo(username, email) {
             //res.status(200).json("Se ha actualizado el correo correctamente"); 
         } else {
             //console.error(error);
-            w.logger.debug("Result: ", result);
+            w.logger.debug(`Result: ${result}`);
             return 1;
             //TODO:Probar que si se quita este lo coge el otro
             // res.status(500).json({ error: 'Error al actualizar el correo 3', nombreUser: req.body.username, res: result });
         }
 
     } catch (error) {
-        w.logger.error(`Error: ${error}`);
+        w.logger.error(`Error: ${JSON.stringify(error)}`);
 
         return 2;
         //res.status(500).json({ error: 'Error al actualizar el correo', nombreUser: req.body.username });
@@ -221,20 +221,20 @@ async function updateUsername(username, newusername) {
         //const docs = await modeloUser.find(doc);
         const result = await modeloUser.updateOne({ nombreUser: doc.nombreUser }, { $set: { nombreUser: doc.newnombreUser } })
         if (result.modifiedCount == 1) {
-            w.logger.debug("Result: ", result);
+            w.logger.debug(`Result: ${JSON.stringify(result)}`);
             w.logger.debug("Se ha actualizado el nombre de usuario correctamente");
             return 0;
             //res.status(200).json("Se ha actualizado el nombre de usuario correctamente"); 
         } else {
             //console.error(error);
-            w.logger.debug("Result: ", result);
+            w.logger.debug(`Result: ${JSON.stringify(result)}`);
             return 1;
             //TODO:Probar que si se quita este lo coge el otro
             //res.status(500).json({ error: 'Error al actualizar el nombre de usuario 3', nombreUser: req.body.username, res: result });
         }
 
     } catch (error) {
-        w.logger.error(`Error: ${error}`);
+        w.logger.error(`Error: ${JSON.stringify(error)}`);
         return 2;
         //res.status(500).json({ error: 'Error al actualizar el nombre de usuario', nombreUser: req.body.username });
     } finally {
@@ -245,7 +245,7 @@ async function updateUsername(username, newusername) {
 
 async function infoUsuario(username) {
     w.logger.info("***METHOD Devolver usuario");
-    w.logger.verbose("Username: ", username)
+    w.logger.verbose(`Username: ${JSON.stringify(username)}`)
     const doc = {
         nombreUser: username
     };
@@ -258,7 +258,7 @@ async function infoUsuario(username) {
         const docs = await modeloUser.find(doc);
 
         if (docs.length > 0) {
-            w.logger.debug("Documento encontrado: " , docs[0]);
+            w.logger.debug(`Documento encontrado: ${JSON.stringify(docs[0])}`);
             const image = await modeloImagen.findOne({nombre: docs[0].imagen}).exec();
             docs[0].imagen = image.imagen;
             return docs[0];
@@ -268,7 +268,7 @@ async function infoUsuario(username) {
             return 1;
         }
     } catch (error) {
-        w.logger.error(`Error: ${error}`);
+        w.logger.error(`Error: ${JSON.stringify(error)}`);
         return 2;
     } finally {
          await mongoose.disconnect();
@@ -276,10 +276,9 @@ async function infoUsuario(username) {
     }
 }
 
-
 async function devolverImagenPerfil(username) {
     w.logger.info("***Devolver imagen perfil");
-    w.logger.verbose("Username: ", username);
+    w.logger.verbose(`Username: ${JSON.stringify(username)}`);
     const doc = {
         nombreUser: username
     };
@@ -309,7 +308,7 @@ async function devolverImagenPerfil(username) {
             //res.status(500).json({ error: 'Error al buscar el usuario',  nombreUser: req.body.username });
         }
     } catch (error) {
-        w.logger.error(`Error: ${error}`);
+        w.logger.error(`Error: ${JSON.stringify(error)}`);
         return 2;
         // return null;
         //res.status(500).json({ error: 'Error al buscar el usuario', nombreUser: req.body.username });
@@ -334,18 +333,18 @@ async function updateImagenPerfil(username, imagen) {
 
         const result = await modeloUser.updateOne({ nombreUser: doc.nombreUser }, { $set: { imagen: doc.imagen } })
         if (result.modifiedCount == 1) {
-            w.logger.debug("Result: ", result);
+            w.logger.debug(`Result: ${JSON.stringify(result)}`);
             w.logger.debug("Se ha actualizado la imagen de perfil correctamente");
             return 0;
         } else {
-            w.logger.debug("Result: ", result);
+            w.logger.debug(`Result: ${JSON.stringify(result)}`);
             return 1;
             //TODO:Probar que si se quita este lo coge el otro
             // res.status(500).json({ error: 'Error al actualizar el correo 3', nombreUser: req.body.username, res: result });
         }
 
     } catch (error) {
-        w.logger.error(`Error: ${error}`);
+        w.logger.error(`Error: ${JSON.stringify(error)}`);
         return 2;
 
     } finally {

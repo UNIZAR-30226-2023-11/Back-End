@@ -38,7 +38,7 @@ async function actualizarPosicion(idPartida, coordenadas, jugador) {
         }
 
     } catch (error) {
-        w.logger.error(`Error: ${error}`);
+        w.logger.error(`Error: ${JSON.stringify(error)}`);
     } finally {
          await mongoose.disconnect();
         w.logger.debug("Disconnected to MongoDB Atlas")
@@ -68,7 +68,7 @@ async function estaComprada(coordenadas, idPartida) {
         }
 
     } catch (error) {
-        w.logger.error(`Error: ${error}`);
+        w.logger.error(`Error: ${JSON.stringify(error)}`);
         w.logger.error('Error al saber si la casilla esta comprada o no');
 
     } finally {
@@ -89,9 +89,9 @@ async function findCasilla(coordenadas) {
         await mongoose.connect(config.db.uri, config.db.dbOptions);
         w.logger.debug("Connected to MongoDB Atlas");
 
-        w.logger.verbose(`COORDENADAS FIN C ${coordenadas}`);
+        w.logger.verbose(`COORDENADAS FIN C ${JSON.stringify(coordenadas)}`);
         const casillaEncontrada = await modeloCasilla.findOne({ "coordenadas.h": coordenadas.h, "coordenadas.v": coordenadas.v }).exec();
-        w.logger.verbose("Coordenadas: ", coordenadas);
+        w.logger.verbose(`Coordenadas: ${JSON.stringify(coordenadas)}`);
 
         if (casillaEncontrada) {
             return casillaEncontrada;
@@ -102,7 +102,7 @@ async function findCasilla(coordenadas) {
 
     }
     catch (error) {
-        w.logger.error(`Error: ${error}`);
+        w.logger.error(`Error: ${JSON.stringify(error)}`);
         w.logger.error('Error al encontrar la casilla');
         return null;
     } finally {
@@ -133,7 +133,7 @@ async function isAsignatura(coordenadas) {
         }
     }
     catch (error) {
-        w.logger.error(`Error: ${error}`);
+        w.logger.error(`Error: ${JSON.stringify(error)}`);
         w.logger.error('Error al encontrar la casilla asignatura');
         return null;
     } finally {
@@ -163,7 +163,7 @@ async function isFestividad(coordenadas) {
             return null;
         }
     } catch (error) {
-        w.logger.error(`Error: ${error}`);
+        w.logger.error(`Error: ${JSON.stringify(error)}`);
         w.logger.error('Error al encontrar la casilla asignatura');
         return null;
     } finally {
@@ -192,7 +192,7 @@ async function isImpuesto(coordenadas) {
             return null;
         }
     } catch (error) {
-        w.logger.error(`Error: ${error}`);
+        w.logger.error(`Error: ${JSON.stringify(error)}`);
         w.logger.error('Error al encontrar la casilla impuesto');
         return null;
 
@@ -216,10 +216,10 @@ async function findAsignaturasCompradas(username, idPartida) {
         w.logger.debug("Connected to MongoDB Atlas")
 
         const casillas = await modeloAsignaturasComprada.find({ "partida": idPartida, "jugador": username }).exec();
-        w.logger.verbose(`Casillas: ${casillas}`);
+        w.logger.verbose(`Casillas: ${JSON.stringify(casillas)}`);
 
         if (casillas != null) {
-            w.logger.verbose(`Casillas: ${casillas}`);
+            w.logger.verbose(`Casillas: ${JSON.stringify(casillas)}`);
             return casillas;
         } else {
             w.logger.debug("El jugador no tiene casillas compradas");
@@ -228,7 +228,7 @@ async function findAsignaturasCompradas(username, idPartida) {
 
     }
     catch (error) {
-        w.logger.error(`Error: ${error}`);
+        w.logger.error(`Error: ${JSON.stringify(error)}`);
         w.logger.error('Error al encontrar la casilla');
         return null;
     } finally {
@@ -246,7 +246,7 @@ async function findAsignaturasCompradas(username, idPartida) {
 async function comprarCasilla(username, coordenadas, idPartida) {
     w.logger.info("CASILLA COMPRADA POR UN JUGADOR");
 
-    w.logger.verbose(`Coordenadas: ${coordenadas}`);
+    w.logger.verbose(`Coordenadas: ${JSON.stringify(coordenadas)}`);
     const casilla = await findCasilla(coordenadas);
     var pagado = false;
 
@@ -306,7 +306,7 @@ async function comprarCasilla(username, coordenadas, idPartida) {
                     return 7;
 
                 } catch (error) {
-                    w.logger.error(`Error: ${error}`);
+                    w.logger.error(`Error: ${JSON.stringify(error)}`);
                     if (pagado) {
                         await ctrlPartida.cobrar(partida, casilla.precioCompra, username);
                     }
@@ -321,7 +321,7 @@ async function comprarCasilla(username, coordenadas, idPartida) {
             }
 
         } else {
-            w.logger.error(`Error: ${error}`);
+            w.logger.error(`Error: ${JSON.stringify(error)}`);
             return 1;
         }
 
@@ -348,8 +348,8 @@ async function checkCasilla(username, coordenadas, idPartida) {
     if (comprada != null) {
         const partida = await ctrlPartida.findPartida(idPartida);
         if (partida != null) {
-            w.logger.verbose(`El jugador ${username} esta en la casilla comprada tiene que pagar`);
-            w.logger.verbose(`Comprada: ${comprada}`);
+            w.logger.verbose(`El jugador ${JSON.stringify(username)} esta en la casilla comprada tiene que pagar`);
+            w.logger.verbose(`Comprada: ${JSON.stringify(comprada)}`);
             //Si la casilla esta comprada habrá que quitarle dinero al jugador y añadirselo al propietario
             //hay que comprobar que no esta comprada por el propio jugador
             if (comprada.jugador != username) {
@@ -358,7 +358,7 @@ async function checkCasilla(username, coordenadas, idPartida) {
                 return 5;
 
             } else {
-                w.logger.verbose(`Esta casilla es mia: ${username}, ${coordenadas}`);
+                w.logger.verbose(`Esta casilla es mia: ${JSON.stringify(username)}, ${JSON.stringify(coordenadas)}`);
                 let aumentar = await puedoAumentaroDisminuir(coordenadas, idPartida, username);
                 if (aumentar) {
                     return 6;
@@ -367,14 +367,14 @@ async function checkCasilla(username, coordenadas, idPartida) {
             }
 
         } else {
-            w.logger.error(`Error: ${error}`);
+            w.logger.error(`Error: ${JSON.stringify(error)}`);
             w.logger.error('Error al actualizar la partida  al pagar la matricula');
             return 2;
         }
 
 
     } else {
-        w.logger.verbose(`El jugador: ${username}`);
+        w.logger.verbose(`El jugador: ${JSON.stringify(username)}`);
         return 8;
     }
 }
@@ -428,7 +428,7 @@ async function devolverCuatri(coordenadas) {
 
     var casillas = await findCasilla(coordenadas);
     if (casillas != null) {
-        w.logger.verbose(`Casillas: ${casillas}`);
+        w.logger.verbose(`Casillas: ${JSON.stringify(casillas)}`);
         return casillas.cuatrimestre;
     } else {
         w.logger.debug("El jugador no tiene casillas compradas");
@@ -470,11 +470,11 @@ async function asignaturaInfo(coordenadas) {
 async function aumentarCreditos(idPartida, username, coordenadas) {
     w.logger.info("AUMENTAR CREDITOS DE UNA ASIGNATURA");
 
-    w.logger.verbose(`COOORDENADAS: ${coordenadas}`);
+    w.logger.verbose(`COOORDENADAS: ${JSON.stringify(coordenadas)}`);
     const cuatri = await devolverCuatri(coordenadas);
-    w.logger.verbose(`CUATRI: ${cuatri}`);
+    w.logger.verbose(`CUATRI: ${JSON.stringify(cuatri)}`);
     let casillas = await findAsignaturasCompradas(username, idPartida);
-    w.logger.verbose(`CASILLAS: ${casillas}`);
+    w.logger.verbose(`CASILLAS: ${JSON.stringify(casillas)}`);
     let casillasFiltradas = [];
     for (let i = 0; i < casillas.length; i++) {
         if (casillas[i].cuatrimestre === cuatri) {
@@ -482,7 +482,7 @@ async function aumentarCreditos(idPartida, username, coordenadas) {
         }
     }
 
-    w.logger.verbose(`CASILLAS FILTRADAS: ${casillasFiltradas}`);
+    w.logger.verbose(`CASILLAS FILTRADAS: ${JSON.stringify(casillasFiltradas)}`);
     var todos = false;
     if ((cuatri == 1 || cuatri == 8) && (casillasFiltradas.length == 2)) {
         todos = true;
@@ -493,10 +493,10 @@ async function aumentarCreditos(idPartida, username, coordenadas) {
     }
 
     if (todos == true) {
-        w.logger.verbose(`COORDENADAS: ${coordenadas}`);
+        w.logger.verbose(`COORDENADAS: ${JSON.stringify(coordenadas)}`);
         const asignatura = await asignaturaInfo(coordenadas);
-        w.logger.verbose(`ASIGNATURA: ${asignatura}`);
-        w.logger.verbose(`ASIGNATURA 2: ${asignatura}`);
+        w.logger.verbose(`ASIGNATURA: ${JSON.stringify(asignatura)}`);
+        w.logger.verbose(`ASIGNATURA 2: ${JSON.stringify(asignatura)}`);
 
         var pos = casillasFiltradas.findIndex(function (casilla) {
             return casilla.coordenadas.h === coordenadas.h && casilla.coordenadas.v === coordenadas.v;
@@ -504,13 +504,13 @@ async function aumentarCreditos(idPartida, username, coordenadas) {
 
         let bancarrota = false;
 
-        w.logger.verbose(`CASILLA A AUMENTAR: ${casillasFiltradas[pos]}`);
-        w.logger.verbose(`CASILLA A AUMENTAR PRECIO: ${casillasFiltradas[pos].precio}`);
+        w.logger.verbose(`CASILLA A AUMENTAR: ${JSON.stringify(casillasFiltradas[pos])}`);
+        w.logger.verbose(`CASILLA A AUMENTAR PRECIO: ${JSON.stringify(casillasFiltradas[pos].precio)}`);
         const partida = await ctrlPartida.findPartida(idPartida);
         if (casillasFiltradas[pos].precio == asignatura.matricula) {
-            w.logger.verbose(`PRECIO: matricula-1C: ${asignatura.precio1C}`);
+            w.logger.verbose(`PRECIO: matricula-1C: ${JSON.stringify(asignatura.precio1C)}`);
             casillasFiltradas[pos].precio = asignatura.precio1C
-            w.logger.verbose(`PRECIO: matricula-1C: ${casillasFiltradas[pos].precio}`);
+            w.logger.verbose(`PRECIO: matricula-1C: ${JSON.stringify(casillasFiltradas[pos].precio)}`);
             await ctrlPartida.pagar(partida, asignatura.precioCompraCreditos, username, bancarrota);
         }
         else if (casillasFiltradas[pos].precio == asignatura.precio1C) {
@@ -534,23 +534,23 @@ async function aumentarCreditos(idPartida, username, coordenadas) {
             // sin cambios
         }
 
-        w.logger.verbose(`CasillasFiltradas: ${casillasFiltradas[pos]}`);
+        w.logger.verbose(`CasillasFiltradas: ${JSON.stringify(casillasFiltradas[pos])}`);
 
         await mongoose.connect(config.db.uri, config.db.dbOptions);
         w.logger.debug("Connected to MongoDB Atlas");
         try {
             const result = await modeloAsignaturasComprada.updateOne({ "coordenadas.h": coordenadas.h, "coordenadas.v": coordenadas.v }, { $set: { precio: casillasFiltradas[pos].precio } })
             if (result.modifiedCount == 1) {
-                w.logger.verbose(`Result: ${result}`);
+                w.logger.verbose(`Result: ${JSON.stringify(result)}`);
                 w.logger.debug("Se ha actualizado la asignatura comprada correctamente");
                 return 0;
             } else {
-                w.logger.verbose(`Result: ${result}`);
+                w.logger.verbose(`Result: ${JSON.stringify(result)}`);
                 return 1;
             }
 
         } catch (error) {
-            w.logger.error(`Error: ${error}`);
+            w.logger.error(`Error: ${JSON.stringify(error)}`);
             w.logger.error('Error al aumentar creditos asignatura');
             return 2;
 
@@ -581,7 +581,7 @@ async function disminuirCreditos(idPartida, username, coordenadas) {
         asignatura_comprada = await modeloAsignaturaComprada.findOne({ coordenadas: coordenadas });
 
     } catch (error) {
-        w.logger.error(`Error: ${error}`);
+        w.logger.error(`Error: ${JSON.stringify(error)}`);
         w.logger.error('Error al disminuir creditos asignatura');
         return 2;
 
@@ -592,11 +592,11 @@ async function disminuirCreditos(idPartida, username, coordenadas) {
 
     const asignatura_info = await asignaturaInfo(coordenadas);
 
-    w.logger.debug(`Asignatura comprada: ${asignatura_comprada}`);
-    w.logger.debug(`Asginatura info: ${asignatura_info}`);
+    w.logger.debug(`Asignatura comprada: ${JSON.stringify(asignatura_comprada)}`);
+    w.logger.debug(`Asginatura info: ${JSON.stringify(asignatura_info)}`);
 
     if (asignatura_comprada.precio == asignatura_info.matricula) {
-        w.logger.debug(`PRECIO: matricula-matricula ${asignatura_info.precio1C}`);
+        w.logger.debug(`PRECIO: matricula-matricula ${JSON.stringify(asignatura_info.precio1C)}`);
 
         // sin cambios
     }
@@ -632,16 +632,16 @@ async function disminuirCreditos(idPartida, username, coordenadas) {
 
         const result = await modeloAsignaturasComprada.updateOne({ "coordenadas.h": coordenadas.h, "coordenadas.v": coordenadas.v }, { $set: { precio: asignatura_comprada.precio } })
         if (result.modifiedCount == 1) {
-            w.logger.debug(`Result: ${result}`);
+            w.logger.debug(`Result: ${JSON.stringify(result)}`);
             w.logger.debug("Se ha actualizado la asignatura comprada correctamente");
             return 0;
         } else {
-            w.logger.debug(`Result: ${result}`);
+            w.logger.debug(`Result: ${JSON.stringify(result)}`);
             return 1;
         }
 
     } catch (error) {
-        w.logger.error(`Error: ${error}`);
+        w.logger.error(`Error: ${JSON.stringify(error)}`);
         w.logger.error('Error al disminuir creditos asignatura');
         return 2;
 
@@ -656,11 +656,11 @@ async function puedoAumentaroDisminuir(coordenadas, idPartida, username) {
     // Comprobar que tiene todos los del mismo cuatrimestre
     // Aumentar creditos + 1 (cambiar precio en asignaturas_partida --> Comparar precio actual en info_asignaturas)
     // Devolver ok
-    w.logger.verbose(`COOORDENADAS ${coordenadas}`);
+    w.logger.verbose(`COOORDENADAS ${JSON.stringify(coordenadas)}`);
     const cuatri = await devolverCuatri(coordenadas);
-    w.logger.verbose(`CUATRI: ${cuatri}`);
+    w.logger.verbose(`CUATRI: ${JSON.stringify(cuatri)}`);
     let casillas = await findAsignaturasCompradas(username, idPartida);
-    w.logger.verbose(`CASILLAS: ${casillas}`);
+    w.logger.verbose(`CASILLAS: ${JSON.stringify(casillas)}`);
     let casillasFiltradas = [];
     for (let i = 0; i < casillas.length; i++) {
         if (casillas[i].cuatrimestre === cuatri) {
@@ -668,7 +668,7 @@ async function puedoAumentaroDisminuir(coordenadas, idPartida, username) {
         }
     }
 
-    w.logger.verbose(`CASILLAS FILTRADAS: ${casillasFiltradas}`);
+    w.logger.verbose(`CASILLAS FILTRADAS: ${JSON.stringify(casillasFiltradas)}`);
     var todos = false;
     if ((cuatri == 1 || cuatri == 8) && (casillasFiltradas.length == 2)) {
         todos = true;
@@ -722,8 +722,8 @@ async function devolverDinero(partida, dinero, jugador) {
         return true;
 
     } catch (error) {
-        w.logger.error(`Error: ${error}`);
-        w.logger.error(`Error al actualizar la partida al pagar: ${partida.id}`);
+        w.logger.error(`Error: ${JSON.stringify(error)}`);
+        w.logger.error(`Error al actualizar la partida al pagar: ${JSON.stringify(partida.id)}`);
         return false;
 
     } finally {
@@ -744,7 +744,7 @@ async function vender(idPartida, username, coordenadas) {
 
     //mirar que tine la asignatura
     let casillas = await findAsignaturasCompradas(username, idPartida);
-    w.logger.verbose(`CASILLAS: ${casillas}`);
+    w.logger.verbose(`CASILLAS: ${JSON.stringify(casillas)}`);
     casillasFiltradas = [];
     for (let i = 0; i < casillas.length; i++) {
         if (casillas[i].coordenadas.h === coordenadas.h && casillas[i].coordenadas.v === coordenadas.v) {
@@ -762,7 +762,7 @@ async function vender(idPartida, username, coordenadas) {
                 partida: idPartida, jugador: username
             });
             if (result.deletedCount == 1) {
-                w.logger.verbose(`Result: ${result}`);
+                w.logger.verbose(`Result: ${JSON.stringify(result)}`);
                 w.logger.debug("Se ha vendido la asignatura correctamente ");
 
                 const casilla = await asignaturaInfo(coordenadas);
@@ -780,13 +780,13 @@ async function vender(idPartida, username, coordenadas) {
                 }
 
             } else {
-                w.logger.error(`Error: ${result}`);
+                w.logger.error(`Error: ${JSON.stringify(result)}`);
                 return 1;
             }
 
 
         } catch (error) {
-            w.logger.error(`Error: ${error}`);
+            w.logger.error(`Error: ${JSON.stringify(error)}`);
             w.logger.error('Error al aumentar creditos asignatura');
             return 2;
 

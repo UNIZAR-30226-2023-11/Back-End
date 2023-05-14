@@ -19,14 +19,14 @@ async function devolverTienda(username) {
         tienda = await modeloTienda.find({});
         if (tienda.length > 0) {
 
-            w.logger.verbose("Documento encontrado: " , tienda);
+            w.logger.verbose(`Documento encontrado: ${JSON.stringify(tienda)}`);
             usuario = await modeloUser.findOne({nombreUser: username}).exec();
-            w.logger.verbose("Documento encontrado: " , usuario);
+            w.logger.verbose(`Documento encontrado: ${JSON.stringify(usuario)}`);
 
             usuario.productosComprados.forEach(elemento => {
-                w.logger.verbose("Elemento: " , elemento);
+                w.logger.verbose(`Elemento: ${elemento}`);
                 const indice = tienda.findIndex(objeto => objeto.imagen === elemento);
-                w.logger.verbose("Indice: " , indice);
+                w.logger.verbose(`Indice: ${indice}`);
                 if (indice >= 0){
                     tienda[indice].comprado = true;
         
@@ -44,7 +44,7 @@ async function devolverTienda(username) {
         return tienda;
 
     } catch (error) {
-        w.logger.error(`Error: ${error}`);
+        w.logger.error(`Error: ${JSON.stringify(error)}`);
         return 2;
 
     } finally {
@@ -72,19 +72,19 @@ async function comprarTienda (producto, username) {
         });
 
         if (result.modifiedCount == 1) {
-            w.logger.debug("Result: ", result);
+            w.logger.debug(`Result: ${JSON.stringify(result)}`);
             w.logger.verbose("Se han actualizado los productos del usuario correctamente");
             return 0;
         } else {
             //console.error(error);
             w.logger.error("NO SE HAN MODIFICADO LOS PRODUCTOS DEL USUARIO")
         
-            w.logger.debug("Result: ", result);
+            w.logger.debug(`Result: ${JSON.stringify(result)}`);
             return 1;
         }
 
     } catch (error) {
-        w.logger.error(`Error: ${error}`);
+        w.logger.error(`Error: ${JSON.stringify(error)}`);
         return 2;
 
     } finally {
