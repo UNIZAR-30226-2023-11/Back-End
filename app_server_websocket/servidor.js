@@ -15,6 +15,7 @@ var asignaturasController = require('./controllers/asignaturasController');
 var cartasController = require('./controllers/cartasController');
 // Declara un objeto para guardar las conexiones
 var clientes = [];
+
 const socketToGroupMap = new Map(); // Mapa para mantener un registro de los sockets y los grupos a los que están unidos
 
 var num = 0;
@@ -255,8 +256,7 @@ io.on('connection', (socket) => {
       w.logger.verbose("idPartida: "+ partida.id);
       msg = partida;
       w.logger.verbose("SocketId usuario que crea la partida: "+ JSON.stringify(socketId));
-      var sock = JSON.stringify(socketId);
-      clientes[sock].partidaActiva = partida.id;
+      clientes[socketId].partidaActiva = partida.id;
 
       // socketToGroupMap.set(socket.id, data.idPartida); // Registrar el ID del socket y el nombre del grupo en el mapa
       w.logger.debug("ROOM: " + partida.id);
