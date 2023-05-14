@@ -61,7 +61,7 @@ async function crearPartida(username, dineroInicial, nJugadores, normas) {
  * @param {*} idPartida Identificador de la partida
  * @param {*} res 
  */
-//TODO: CAMBIAR A INFOPARTIDA
+//TODO: HECHO - CAMBIAR A INFOPARTIDA
 async function infoPartida(idPartida) {
     w.logger.info("***METHOD lista jugadores partida");
 
@@ -470,7 +470,7 @@ async function siguienteTurno(idPartida) {
                     return 2;
                 } finally {
                      await mongoose.disconnect();
-                    w.logg.debug("Disconnected to MongoDB Atlas")
+                    w.logger.debug("Disconnected to MongoDB Atlas")
                 }
 
                 // res.status(200).json({ jugador: partida.nombreJugadores[0], posicion: 0 });

@@ -191,7 +191,7 @@ io.on('connection', (socket) => {
 
   //CORRECTA
   socket.on('infoUsuario', async (data, ack) => {
-    //FIXME: no devolver contraseña
+    //FIXME: HECHO  no devolver contraseña
     w.logger.verbose('Obtener la info de un usuario');
     w.logger.verbose(`SocketId: ${JSON.stringify(data.socketId)} `);
     const socketId = data.socketId;
@@ -328,7 +328,7 @@ io.on('connection', (socket) => {
       }
     }
     //w.logger.verbose(imagen);
-    //TODO: cuando jugar es true no dejas que mas users se unan y enviar mensajes a los demas de empezar partida
+    //TODO: REVISAR - cuando jugar es true no dejas que mas users se unan y enviar mensajes a los demas de empezar partida
     var m = {
       cod: partida,
       msg: g.generarMsg(partida, msg)
@@ -814,7 +814,7 @@ io.on('connection', (socket) => {
         var s = clientes[socketId].partidaActiva;
         io.to(s.toString()).emit('actualizarPuja', pujado);
 
-        //TODO: COMPRARLAAAAAA!!!!
+        //TODO: - HECHO COMPRARLAAAAAA!!!!
       }
     }
 
@@ -853,7 +853,7 @@ io.on('connection', (socket) => {
 //puja10, puja50, puja100
 //actualizarPuja socket.on en front
 
-//TODO: CAMBIAR QUE BANCARROTA NO TE ELIMINE
+//TODO: HECHO - CAMBIAR QUE BANCARROTA NO TE ELIMINE
 server.listen(80, () => {   w.logger.info('Servidor escuchando en el puerto 80'); });
 
 // server.listen(3000, () => { w.logger.info('Servidor escuchando en el puerto 3000'); });
