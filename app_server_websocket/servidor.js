@@ -815,7 +815,7 @@ io.on('connection', (socket) => {
     // w.logger.verbose('Se ha desconectado el usuario: ' + clientes[socket.id].socket.id + ' ' + clientes[socket.id].username);
 
     // Elimina la conexión del objeto connections
-    socket.leave(clientes[socket.id].partidaActiva);
+    // socket.leave(clientes[socket.id].partidaActiva);
     delete clientes[socket.id];
     num--;
     // w.logger.verbose('Numero de usuarios conectados ' + num);
