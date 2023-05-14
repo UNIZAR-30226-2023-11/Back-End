@@ -691,10 +691,10 @@ io.on('connection', (socket) => {
   });
 
   socket.on('bancarrota', async (data, ack) => {
-    if (data.socketId != null && data.coordenadas != null) {
+    if (data.socketId != null) {
       w.logger.verbose('Me declaro en bancarrota y me voy');
       const socketId = data.socketId;
-      var coordenadas = data.coordenadas;
+      // var coordenadas = data.coordenadas;
       // clientes[socketId].partidaActiva = 32;
       var bancarrota = await partidaController.bancarrota(clientes[socketId].partidaActiva, clientes[socketId].username)
       const partida = await partidaController.infoPartida(clientes[socketId].partidaActiva);
