@@ -754,6 +754,7 @@ async function estaJulio(username, partida) {
 
     
     const carta = cartasController.cartaJulio(username, partida);
+    w.logger.verbose (carta);
 
     var puedePagar = false;
     if (partida.dineroJugadores[posicion] >= 50) {
