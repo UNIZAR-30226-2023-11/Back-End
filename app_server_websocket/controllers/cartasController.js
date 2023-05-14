@@ -150,7 +150,7 @@ async function accionCarta(partida, username, carta, coordenadas) {
     const posicion = partida.nombreJugadores.indexOf(jugador);
     w.logger.verbose(carta);
 
-    if (carta != null) {
+    // if (carta != null) {
         if (carta.cobrarPagarNada == "pagar") { // pagar
             var cantidad = carta.dinero;
             // if (carta.nombre == "¡Qué mala suerte!") { } // TODO:
@@ -273,7 +273,7 @@ async function accionCarta(partida, username, carta, coordenadas) {
              await mongoose.disconnect();
             w.logger.debug("DisConnected to MongoDB Atlas")
         }
-    }
+    // }
 }
 
 
@@ -304,7 +304,7 @@ async function tarjetaAleatoria(tipo, username, idPartida, coordenadas) {
         //     { $sample: { size: 1 } }
         // ]).exec();
 
-        const resultado = await modeloTarjetas.findOne({ nombre: "¡Qué suerte!"}).exec();
+        const resultado = await modeloTarjetas.findOne({ descripcion: "La universidad te va a devolver dinero por un error en los cobros. Recibe 1€."}).exec();
 
         // idPartida = 1; resultado[0]
         await accionCarta(idPartida, username, resultado, coordenadas);
