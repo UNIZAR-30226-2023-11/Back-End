@@ -5,7 +5,7 @@ const w = require('../winston')
 
 var tablero = require('../controllers/tableroController');
 const modeloTarjetas = require('../models/tarjetasModel');
-const usersController = require('../models/usersController');
+// const usersController = require('../models/usersController');
 const modeloTarjetasEnMano = require('../models/tarjetasEnMano');
 
 var cartasController = require('../controllers/cartasController');
