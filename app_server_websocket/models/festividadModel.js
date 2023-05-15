@@ -45,7 +45,7 @@ const esquema = new schema({
   },
   imagen:{
     type: String,
-    required: true
+    required: false
   }
 }, { collection: 'info_asignaturas' });
 

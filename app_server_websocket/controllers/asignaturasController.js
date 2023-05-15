@@ -480,9 +480,9 @@ async function infoAsignatura(coordenadas) {
         } else if (casilla.tipo == "F") {
             casillaInfo = await isFestividad(coordenadas);
             w.logger.debug("NOMBRE IMAGEN " + casillaInfo.imagen)
-            const image = await modeloImagen.findOne({ nombre: casillaInfo.imagen }).exec();
+            // const image = await modeloImagen.findOne({ nombre: casillaInfo.imagen }).exec();
 
-            casillaInfo.imagen = image;
+            // casillaInfo.imagen = image;
         } else if (casilla.tipo == "I") {
             casillaInfo = await isImpuesto(coordenadas);
             w.logger.debug("NOMBRE IMAGEN " + casillaInfo.imagen)
