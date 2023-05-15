@@ -360,6 +360,7 @@ async function checkCasilla(username, coordenadas, idPartida) {
             const ahorro = await modeloAsignaturaComprada.findOne({ nombre: "Ahorro energetico calefaccion" }).exec();
 
             if (ahorro != 1 && ahorro != 2) {
+                var dado1
                 comprada.precio = 
             }
         }
