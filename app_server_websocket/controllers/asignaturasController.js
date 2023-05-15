@@ -436,12 +436,18 @@ async function listaAsignaturasC(username, idPartida) {
 
     const casillas = await findAsignaturasCompradas(username, idPartida);
 
-    casillas.forEach(elemento => { 
-        var puedo = puedoAumentaroDisminuir(elemento.coordenadas, idPartida, username, "disminuir");
+    for(let i = 0; i < casillas.length; i++){
+        var puedo = puedoAumentaroDisminuir(casillas[i].coordenadas, idPartida, username, "disminuir");
         if (puedo) {
-            elemento.disminuir = true;
+            casillas[i].disminuir = true;
         }
-    })
+    }
+    // casillas.forEach(elemento => { 
+    //     var puedo = puedoAumentaroDisminuir(elemento.coordenadas, idPartida, username, "disminuir");
+    //     if (puedo) {
+    //         elemento.disminuir = true;
+    //     }
+    // })
     
     if (casillas != null) {
         return casillas;
