@@ -361,7 +361,7 @@ async function checkCasilla(username, coordenadas, idPartida) {
 
             if (ahorro != 1 && ahorro != 2) {
                 var dado1
-                comprada.precio = 
+                // comprada.precio = 1;
             }
         }
 
