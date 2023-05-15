@@ -433,7 +433,7 @@ io.on('connection', (socket) => {
         //ack('0 Ok' + correo)
         
         clientes[socketId].partidaActiva = data.idPartida;
-        await usersController.actualizarPartidaActiva(username, idPartida);
+        await usersController.actualizarPartidaActiva(clientes[socketId].username, clientes[socketId].partidaActiva);
 
         // socketToGroupMap.set(socket.id, data.idPartida); // Registrar el ID del socket y el nombre del grupo en el mapa
         var idP =  data.idPartida;
