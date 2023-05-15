@@ -317,7 +317,7 @@ async function tarjetaAleatoria(tipo, username, idPartida, coordenadas) {
         //     { $sample: { size: 1 } }
         // ]).exec();
 
-        const resultado = await modeloTarjetas.findOne({ nombre: "La universidad recompensa tu esfuerzo."}).exec();
+        const resultado = await modeloTarjetas.findOne({ nombre: "Esto no se hace"}).exec();
 
         // idPartida = 1; resultado[0]
         await accionCarta(idPartida, username, resultado, coordenadas);
@@ -331,7 +331,7 @@ async function tarjetaAleatoria(tipo, username, idPartida, coordenadas) {
         return 2;
         // res.status(500).json({ mensaje: 'Error al obtener tarjeta aleatoria' });
     } finally {
-         await mongoose.disconnect();
+        await mongoose.disconnect();
         w.logger.debug("DisConnected to MongoDB Atlas")
     }
 }
