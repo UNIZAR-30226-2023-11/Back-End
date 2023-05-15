@@ -369,6 +369,10 @@ async function darMonedas(username){
         if(usuario){
             usuario.victorias++;
             usuario.monedas = usuario.monedas + 10;
+            usuario.partidaActiva = 0;
+
+            const result = await modeloUser.updateOne({ nombreUser: username }, { $set: { victorias: usuario.victorias, monedas: usuario.monedas, partidaActiva: idPartida } })
+
             return 0;
         } else{
             w.logger.verbose("El ganador es un invitado");
@@ -386,4 +390,36 @@ async function darMonedas(username){
 }
 
 
-module.exports = { registerUser, loginUser, deleteUser, updatePassword, updateCorreo, updateUsername, infoUsuario, devolverImagenPerfil, updateImagenPerfil, darMonedas };
+async function actualizarPartidaActiva(username, idPartida) {
+    w.logger.info("***METHOD Actualizar el partida activa");
+
+
+    await mongoose.connect(config.db.uri, config.db.dbOptions);
+    w.logger.debug("Connected to MongoDB Atlas");
+
+    try {
+
+        const result = await modeloUser.updateOne({ nombreUser: username }, { $set: { partidaActiva: idPartida } })
+        if (result.modifiedCount == 1) {
+            w.logger.debug(`Result: ${JSON.stringify(result)}`);
+            w.logger.debug("Se ha actualizado la partida del usuario correctamente");
+            return 0;
+        } else {
+            w.logger.debug(`Result: ${JSON.stringify(result)}`);
+            return 1;
+            //TODO:Probar que si se quita este lo coge el otro
+            // res.status(500).json({ error: 'Error al actualizar el correo 3', nombreUser: req.body.username, res: result });
+        }
+
+    } catch (error) {
+        console.log(error)
+        return 2;
+
+    } finally {
+         await mongoose.disconnect();
+        w.logger.debug("DisConnected to MongoDB Atlas")
+    }
+}
+
+
+module.exports = { registerUser, loginUser, deleteUser, updatePassword, updateCorreo, updateUsername, infoUsuario, devolverImagenPerfil, updateImagenPerfil, darMonedas, actualizarPartidaActiva };

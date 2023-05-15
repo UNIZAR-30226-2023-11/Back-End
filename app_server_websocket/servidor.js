@@ -50,10 +50,15 @@ io.on('connection', (socket) => {
       w.logger.debug('socketId: ' + socketId);
       var login = await usersController.loginUser(data.username, data.password);
 
+      var msg = "Credenciales Incorrectas"
       if (login != 1 && login != 2) {
         w.logger.verbose('Usuario ha iniciado sesion correctamente\n', data.username);
         //io.to(socketId).emit('mensaje', 'Usuario ha iniciado sesion correctamente');
 
+        var usuario = await usersController.infoUsuario(data.username);
+        if(usuario.partidaActiva != 0){
+          msg = partidaActiva;
+        }
         clientes[socketId] = {socket: socketId, username: data.username, partidaActiva: 0}
 
         w.logger.verbose("\n\tCliente socket: " + (clientes[socketId].socket) + "\n" +
@@ -66,7 +71,7 @@ io.on('connection', (socket) => {
       }
       var m = {
         cod: login,
-        msg: g.generarMsg(login, "Credenciales incorrectas")
+        msg: g.generarMsg(login, msg)
       }
       //ack(login + msg);
       ack(m);
@@ -320,6 +325,7 @@ io.on('connection', (socket) => {
         w.logger.verbose("SocketId usuario que crea la partida: "+ JSON.stringify(socketId));
         
         clientes[socketId].partidaActiva = partida.id;
+        await usersController.actualizarPartidaActiva(username, idPartida);
 
         // socketToGroupMap.set(socket.id, data.idPartida); // Registrar el ID del socket y el nombre del grupo en el mapa
         w.logger.debug("ROOM: " + partida.id);
@@ -416,6 +422,7 @@ io.on('connection', (socket) => {
         //ack('0 Ok' + correo)
         
         clientes[socketId].partidaActiva = data.idPartida;
+        await usersController.actualizarPartidaActiva(username, idPartida);
 
         // socketToGroupMap.set(socket.id, data.idPartida); // Registrar el ID del socket y el nombre del grupo en el mapa
         var idP =  data.idPartida;
@@ -699,6 +706,8 @@ io.on('connection', (socket) => {
       var bancarrota = await partidaController.bancarrota(clientes[socketId].partidaActiva, clientes[socketId].username)
       const partida = await partidaController.infoPartida(clientes[socketId].partidaActiva);
       w.logger.debug ("partida:" + JSON.stringify(partida));
+
+      
 
       var s = clientes[socketId].partidaActiva;
       io.to(s.toString()).emit('infoPartida', partida);

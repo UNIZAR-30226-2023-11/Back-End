@@ -50,6 +50,11 @@ const esquema = new schema({
   token:{
     type: String,
     required: true
+  },
+  partidaActiva: {
+    type: Number,
+    required: true,
+    default: 0
   }
 
 }, { collection: 'usuarios' });
