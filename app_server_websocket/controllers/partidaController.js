@@ -288,11 +288,11 @@ async function lanzardados(idPartida, username) {
 
     w.logger.debug(`Partida: ${JSON.stringify(idPartida)}`);
     // Generate two random numbers between 1 and 6
-    // const dado1 = Math.floor(Math.random() * 6) + 1;
-    // const dado2 = Math.floor(Math.random() * 6) + 1;
+    const dado1 = Math.floor(Math.random() * 6) + 1;
+    const dado2 = Math.floor(Math.random() * 6) + 1;
 
-    const dado1 = 0;
-    const dado2 = 2;
+    // const dado1 = 0;
+    // const dado2 = 2;
 
     // Calculate the total
     const total = dado1 + dado2;
