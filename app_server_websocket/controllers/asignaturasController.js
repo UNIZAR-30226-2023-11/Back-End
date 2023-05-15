@@ -51,7 +51,7 @@ async function actualizarPosicion(idPartida, coordenadas, jugador) {
 /**
  * @param {*} coordenadas Coordenadas de la casilla donde ha caido el jugador 
  */
-async function estaComprada(coordenadas, idPartida) {
+    async function estaComprada(coordenadas, idPartida) {
     w.logger.info("CASILLA ESTA COMPRADA?");
 
     await mongoose.connect(config.db.uri, config.db.dbOptions);

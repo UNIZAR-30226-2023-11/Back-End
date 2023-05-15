@@ -56,7 +56,7 @@ io.on('connection', (socket) => {
         //io.to(socketId).emit('mensaje', 'Usuario ha iniciado sesion correctamente');
 
         var usuario = await usersController.infoUsuario(data.username);
-        if(usuario.partidaActiva > 0){
+        // if(usuario.partidaActiva > 0){
           var partida = partidaController.findPartida(usuario.partidaActiva);
           if (!partida.finalizada) {
             msg = {
@@ -68,10 +68,10 @@ io.on('connection', (socket) => {
             }
           }
           clientes[socketId] = {socket: socketId, username: data.username, partidaActiva: msg}
-        }else{
-          clientes[socketId] = {socket: socketId, username: data.username, partidaActiva: 0}
+        // }else{
+        //   clientes[socketId] = {socket: socketId, username: data.username, partidaActiva: 0}
 
-        }
+        // }
 
         w.logger.verbose("\n\tCliente socket: " + (clientes[socketId].socket) + "\n" +
           "\tCliente nombre: " + clientes[socketId].username + "\n" +
