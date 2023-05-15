@@ -312,12 +312,12 @@ async function tarjetaAleatoria(tipo, username, idPartida, coordenadas) {
         //console.log(tipoP);
         //const resultado = await modeloTarjetas.aggregate([{$sample: {size: 1}}]).exec();
 
-        // const resultado = await modeloTarjetas.aggregate([
-        //     { $match: { tipo: tipo } },
-        //     { $sample: { size: 1 } }
-        // ]).exec();
+        const resultado = await modeloTarjetas.aggregate([
+            { $match: { tipo: tipo } },
+            { $sample: { size: 1 } }
+        ]).exec();
 
-        const resultado = await modeloTarjetas.findOne({ nombre: "Esto no se hace"}).exec();
+        // const resultado = await modeloTarjetas.findOne({ nombre: "Esto no se hace"}).exec();
 
         // idPartida = 1; resultado[0]
         await accionCarta(idPartida, username, resultado, coordenadas);
