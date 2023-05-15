@@ -236,7 +236,6 @@ async function findAsignaturasCompradas(username, idPartida) {
             w.logger.debug("El jugador no tiene casillas compradas");
             return null;
         }
-
     }
     catch (error) {
         console.log(error)
@@ -309,7 +308,7 @@ async function comprarCasilla(username, coordenadas, idPartida) {
 
                     await doc.save();
                     w.logger.debug('Documento guardado correctamente');
-                    let aumentar = await puedoAumentaroDisminuir(coordenadas, idPartida, username);
+                    let aumentar = await puedoAumentaroDisminuir(coordenadas, idPartida, username, "aumentar");
 
                     if (aumentar) {
                         return 6;
@@ -370,7 +369,8 @@ async function checkCasilla(username, coordenadas, idPartida) {
 
             } else {
                 w.logger.verbose(`Esta casilla es mia: ${JSON.stringify(username)}, ${JSON.stringify(coordenadas)}`);
-                let aumentar = await puedoAumentaroDisminuir(coordenadas, idPartida, username);
+                let aumentar = await puedoAumentaroDisminuir(coordenadas, idPartida, username, "aumentar");
+
                 if (aumentar) {
                     return 6;
                 }
@@ -405,11 +405,13 @@ async function infoAsignatura(coordenadas) {
             casillaInfo = await isAsignatura(coordenadas);
         } else if (casilla.tipo == "F") {
             casillaInfo = await isFestividad(coordenadas);
+            w.logger.debug("NOMBRE IMAGEN " + casillaInfo.imagen)
             const image = await modeloImagen.findOne({ nombre: casillaInfo.imagen }).exec();
 
             casillaInfo.imagen = image;
         } else if (casilla.tipo == "I") {
             casillaInfo = await isImpuesto(coordenadas);
+            w.logger.debug("NOMBRE IMAGEN " + casillaInfo.imagen)
             const image = await modeloImagen.findOne({ nombre: casillaInfo.imagen }).exec();
 
             casillaInfo.imagen = image;
@@ -433,6 +435,14 @@ async function listaAsignaturasC(username, idPartida) {
     w.logger.info("DEVOLVER EL LISTADO DE ASIGNATURAS DE UN JUGADOR");
 
     const casillas = await findAsignaturasCompradas(username, idPartida);
+
+    casillas.forEach(elemento => { 
+        var puedo = puedoAumentaroDisminuir(elemento.coordenadas, idPartida, username, "disminuir");
+        if (puedo) {
+            elemento.disminuir = true;
+        }
+    })
+    
     if (casillas != null) {
         return casillas;
     } else {
@@ -687,31 +697,35 @@ async function puedoAumentaroDisminuir(coordenadas, idPartida, username, tipo) {
         }
     }
 
-    // for (let i = 0; i < casillas.length; i++) {
-    //     if (casillas[i].precio == casillas[i].hipotecada == false) {
-    //         casillasFiltradas.push(casillas[i]);
-    //     }
-    // }
+    var indice = 0;
+    for (let i = 0; i < casillasFiltradas.length; i++) {
+        if (casillasFiltradas[i].coordenadas.h == coordenadas.h && casillasFiltradas[i].coordenadas.v == coordenadas.v) {
+            indice = i;
+        }
+    }
 
-    if (tipo == "aumentar") {
+    var casillaC = await findCasilla(coordenadas);
+    if (tipo == "aumentar" && casillaC) {
         w.logger.verbose(`CASILLAS FILTRADAS: ${JSON.stringify(casillasFiltradas)}`);
         var todos = false;
-        if ((cuatri == 1 || cuatri == 8) && (casillasFiltradas.length == 2) && casillasFiltradas) {
+        if ((cuatri == 1 || cuatri == 8) && (casillasFiltradas.length == 2) && casillasFiltradas[indice].precio == casillaC.precio4C) {
             todos = true;
             w.logger.debug("HOLA 1");
-        } else if ((cuatri != 1 || cuatri != 8) && (casillasFiltradas.length == 3)) {
+        } else if ((cuatri != 1 || cuatri != 8) && (casillasFiltradas.length == 3) && casillasFiltradas[indice].precio == casillaC.precio4C) {
             todos = true;
             w.logger.debug("HOLA 2");
         }
-    }
-    w.logger.verbose(`CASILLAS FILTRADAS: ${JSON.stringify(casillasFiltradas)}`);
-    var todos = false;
-    if ((cuatri == 1 || cuatri == 8) && (casillasFiltradas.length == 2)) {
-        todos = true;
-        w.logger.debug("HOLA 1");
-    } else if ((cuatri != 1 || cuatri != 8) && (casillasFiltradas.length == 3)) {
-        todos = true;
-        w.logger.debug("HOLA 2");
+    } 
+    else if (tipo == "disminuir" && casillaC) {
+        w.logger.verbose(`CASILLAS FILTRADAS: ${JSON.stringify(casillasFiltradas)}`);
+        var todos = false;
+        if ((cuatri == 1 || cuatri == 8) && (casillasFiltradas.length == 2) && casillasFiltradas[indice].precio == casillaC.matricula) {
+            todos = true;
+            w.logger.debug("HOLA 1");
+        } else if ((cuatri != 1 || cuatri != 8) && (casillasFiltradas.length == 3) && casillasFiltradas[indice].precio == casillaC.matricula) {
+            todos = true;
+            w.logger.debug("HOLA 2");
+        }
     }
     return todos;
 }
@@ -805,7 +819,7 @@ async function vender(idPartida, username, coordenadas) {
                 if (casilla) {
                     const partida = await ctrlPartida.findPartida(idPartida);
                     if (partida) {
-                        await ctrlPartida.pagar(partida, casilla.devolucionMatricula, username);
+                        await ctrlPartida.cobrar(partida, casilla.devolucionMatricula, username);
                         return 0;
                     } else {
                         return 1;
