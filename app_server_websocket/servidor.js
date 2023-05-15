@@ -599,7 +599,7 @@ io.on('connection', (socket) => {
       var casilla = await asignaturasController.checkCasilla(clientes[socketId].username, coordenadas, clientes[socketId].partidaActiva)
       var msg = "";
 
-      if (casilla === 5) {
+      if (casilla == 5) {
         var partida = await partidaController.infoPartida(clientes[socketId].partidaActiva);
         msg = partida;
       }
@@ -674,7 +674,7 @@ io.on('connection', (socket) => {
       var msg = "";
 
       const partida = await partidaController.infoPartida(clientes[socketId].partidaActiva)
-      w.logger('debug', "partida:" + JSON.stringify(partida));
+      w.logger.debug("partida:" + JSON.stringify(partida));
 
       var s = clientes[socketId].partidaActiva; 
       io.to(s.toString()).emit('infoPartida', partida);
@@ -723,7 +723,7 @@ io.on('connection', (socket) => {
       var coordenadas = data.coordenadas;
       // clientes[socketId].partidaActiva = 36;
 
-      var aumentada = await asignaturasController.aumentarCreditos(clientes[socketId].partidaActiva, clientes[socketId].username, coordenadas);
+      var aumentada = await asignaturasController.aumentarCreditos(clientes[socketId].677artidaActiva, clientes[socketId].username, coordenadas);
       var msg = "";
       var m = {
         cod: aumentada,

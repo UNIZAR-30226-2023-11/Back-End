@@ -27,7 +27,7 @@ async function actualizarPosicion(idPartida, coordenadas, jugador) {
 
     await mongoose.connect(config.db.uri, config.db.dbOptions);
     w.logger.debug("Connected to MongoDB Atlas");
-    
+
     try {
         const posicion = partida.nombreJugadores.indexOf(jugador);
         partida.posicionJugadores[posicion].h = coordenadas.h;
@@ -43,7 +43,7 @@ async function actualizarPosicion(idPartida, coordenadas, jugador) {
     } catch (error) {
         console.log(error)
     } finally {
-         await mongoose.disconnect();
+        await mongoose.disconnect();
         w.logger.debug("Disconnected to MongoDB Atlas")
     }
 }
@@ -76,7 +76,7 @@ async function estaComprada(coordenadas, idPartida) {
         w.logger.error('Error al saber si la casilla esta comprada o no');
 
     } finally {
-         await mongoose.disconnect();
+        await mongoose.disconnect();
         w.logger.debug("DisConnected to MongoDB Atlas");
     }
 }
@@ -92,7 +92,7 @@ async function findCasilla(coordenadas) {
     await mongoose.connect(config.db.uri, config.db.dbOptions);
     w.logger.debug("Connected to MongoDB Atlas");
 
-    
+
     try {
 
         w.logger.verbose(`COORDENADAS FIN C ${JSON.stringify(coordenadas)}`);
@@ -112,7 +112,7 @@ async function findCasilla(coordenadas) {
         w.logger.error('Error al encontrar la casilla');
         return null;
     } finally {
-         await mongoose.disconnect();
+        await mongoose.disconnect();
         w.logger.debug("DisConnected to MongoDB Atlas")
     }
 }
@@ -145,7 +145,7 @@ async function isAsignatura(coordenadas) {
         w.logger.error('Error al encontrar la casilla asignatura');
         return null;
     } finally {
-         await mongoose.disconnect();
+        await mongoose.disconnect();
         w.logger.debug("DisConnected to MongoDB Atlas")
     }
 }
@@ -176,7 +176,7 @@ async function isFestividad(coordenadas) {
         w.logger.error('Error al encontrar la casilla asignatura');
         return null;
     } finally {
-         await mongoose.disconnect();
+        await mongoose.disconnect();
         w.logger.debug("DisConnected to MongoDB Atlas")
     }
 }
@@ -191,7 +191,7 @@ async function isImpuesto(coordenadas) {
 
     await mongoose.connect(config.db.uri, config.db.dbOptions);
     w.logger.debug("Connected to MongoDB Atlas");
-    
+
     try {
         const casillaEncontrada = await modeloImpuesto.findOne({ "coordenadas.h": coordenadas.h, "coordenadas.v": coordenadas.v }).exec();
 
@@ -207,7 +207,7 @@ async function isImpuesto(coordenadas) {
         return null;
 
     } finally {
-         await mongoose.disconnect();
+        await mongoose.disconnect();
         w.logger.debug("DisConnected to MongoDB Atlas")
     }
 }
@@ -243,7 +243,7 @@ async function findAsignaturasCompradas(username, idPartida) {
         w.logger.error('Error al encontrar la casilla');
         return null;
     } finally {
-         await mongoose.disconnect();
+        await mongoose.disconnect();
         w.logger.debug("DisConnected to MongoDB Atlas")
     }
 }
@@ -324,7 +324,7 @@ async function comprarCasilla(username, coordenadas, idPartida) {
                     return 2;
 
                 } finally {
-                     await mongoose.disconnect();
+                    await mongoose.disconnect();
                     w.logger.debug("DisConnected to MongoDB Atlas")
                 }
             } else {
@@ -405,13 +405,13 @@ async function infoAsignatura(coordenadas) {
             casillaInfo = await isAsignatura(coordenadas);
         } else if (casilla.tipo == "F") {
             casillaInfo = await isFestividad(coordenadas);
-            const image = await modeloImagen.findOne({nombre: casillaInfo.imagen}).exec();
-        
+            const image = await modeloImagen.findOne({ nombre: casillaInfo.imagen }).exec();
+
             casillaInfo.imagen = image;
         } else if (casilla.tipo == "I") {
             casillaInfo = await isImpuesto(coordenadas);
-            const image = await modeloImagen.findOne({nombre: casillaInfo.imagen}).exec();
-        
+            const image = await modeloImagen.findOne({ nombre: casillaInfo.imagen }).exec();
+
             casillaInfo.imagen = image;
         }
         if (casillaInfo != null) {
@@ -556,8 +556,8 @@ async function aumentarCreditos(idPartida, username, coordenadas) {
         await mongoose.connect(config.db.uri, config.db.dbOptions);
         w.logger.debug("Connected to MongoDB Atlas");
         try {
-            const result = await modeloAsignaturasComprada.updateOne({ "coordenadas.h": coordenadas.h, "coordenadas.v": coordenadas.v, partida: idPartida }, 
-                        { $set: { precio: casillasFiltradas[pos].precio } })
+            const result = await modeloAsignaturasComprada.updateOne({ "coordenadas.h": coordenadas.h, "coordenadas.v": coordenadas.v, partida: idPartida },
+                { $set: { precio: casillasFiltradas[pos].precio } })
             if (result.modifiedCount == 1) {
                 w.logger.verbose(`Result: ${JSON.stringify(result)}`);
                 w.logger.debug("Se ha actualizado la asignatura comprada correctamente");
@@ -573,8 +573,8 @@ async function aumentarCreditos(idPartida, username, coordenadas) {
             return 2;
 
         } finally {
-            
-             await mongoose.disconnect();
+
+            await mongoose.disconnect();
             w.logger.verbose("DisConnected to MongoDB Atlas")
         }
     }
@@ -605,7 +605,7 @@ async function disminuirCreditos(idPartida, username, coordenadas) {
         return 2;
 
     } finally {
-         await mongoose.disconnect();
+        await mongoose.disconnect();
         w.logger.debug("DisConnected to MongoDB Atlas")
     }
 
@@ -665,12 +665,12 @@ async function disminuirCreditos(idPartida, username, coordenadas) {
         return 2;
 
     } finally {
-         await mongoose.disconnect();
+        await mongoose.disconnect();
         w.logger.debug("DisConnected to MongoDB Atlas")
     }
 }
 
-async function puedoAumentaroDisminuir(coordenadas, idPartida, username) {
+async function puedoAumentaroDisminuir(coordenadas, idPartida, username, tipo) {
     w.logger.info("COMPROBAR SI SE PUEDE AUMENTAR O DISMINUIR LOS CREDITOS DE UNA ASIGNATURA");
     // Comprobar que tiene todos los del mismo cuatrimestre
     // Aumentar creditos + 1 (cambiar precio en asignaturas_partida --> Comparar precio actual en info_asignaturas)
@@ -687,6 +687,23 @@ async function puedoAumentaroDisminuir(coordenadas, idPartida, username) {
         }
     }
 
+    // for (let i = 0; i < casillas.length; i++) {
+    //     if (casillas[i].precio == casillas[i].hipotecada == false) {
+    //         casillasFiltradas.push(casillas[i]);
+    //     }
+    // }
+
+    if (tipo == "aumentar") {
+        w.logger.verbose(`CASILLAS FILTRADAS: ${JSON.stringify(casillasFiltradas)}`);
+        var todos = false;
+        if ((cuatri == 1 || cuatri == 8) && (casillasFiltradas.length == 2) && casillasFiltradas) {
+            todos = true;
+            w.logger.debug("HOLA 1");
+        } else if ((cuatri != 1 || cuatri != 8) && (casillasFiltradas.length == 3)) {
+            todos = true;
+            w.logger.debug("HOLA 2");
+        }
+    }
     w.logger.verbose(`CASILLAS FILTRADAS: ${JSON.stringify(casillasFiltradas)}`);
     var todos = false;
     if ((cuatri == 1 || cuatri == 8) && (casillasFiltradas.length == 2)) {
@@ -714,7 +731,7 @@ async function devolverDinero(partida, dinero, jugador) {
 
     await mongoose.connect(config.db.uri, config.db.dbOptions);
     w.logger.debug("Connected to MongoDB Atlas");
-    
+
     try {
         const result = await modeloPartida.updateOne({ id: partida.id }, { $set: { dineroJugadores: partida.dineroJugadores } });
 
@@ -746,7 +763,7 @@ async function devolverDinero(partida, dinero, jugador) {
         return false;
 
     } finally {
-         await mongoose.disconnect();
+        await mongoose.disconnect();
         w.logger.debug("Disconnected to MongoDB Atlas")
     }
 }
@@ -810,7 +827,7 @@ async function vender(idPartida, username, coordenadas) {
             return 2;
 
         } finally {
-             await mongoose.disconnect();
+            await mongoose.disconnect();
             w.logger.debug("DisConnected to MongoDB Atlas")
         }
 
@@ -823,7 +840,7 @@ async function vender(idPartida, username, coordenadas) {
 //     w.logger.info("Comprar la signatura pujada");
 //     var partida = await ctrlPartida.findPartida(idPartida);
 //     if(partida){
-        
+
 //     }
 //     }
 // }
