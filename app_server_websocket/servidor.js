@@ -50,7 +50,7 @@ io.on('connection', (socket) => {
       w.logger.debug('socketId: ' + socketId);
       var login = await usersController.loginUser(data.username, data.password);
 
-      var msg = "Credenciales Incorrectas"
+      var msg = "Credenciales Incorrectas";
       if (login != 1 && login != 2) {
         w.logger.verbose('Usuario ha iniciado sesion correctamente\n', data.username);
         //io.to(socketId).emit('mensaje', 'Usuario ha iniciado sesion correctamente');
@@ -59,9 +59,13 @@ io.on('connection', (socket) => {
         if(usuario.partidaActiva > 0){
           var partida = partidaController.findPartida(usuario.partidaActiva);
           if (!partida.finalizada) {
-            msg = usuario.partidaActiva;
+            msg = {
+              id: usuario.partidaActiva
+            }
           } else {
-            msg = 0;
+            msg = {
+              id: 0
+            }
           }
           clientes[socketId] = {socket: socketId, username: data.username, partidaActiva: msg}
         }else{
