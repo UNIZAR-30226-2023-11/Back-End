@@ -356,6 +356,12 @@ async function checkCasilla(username, coordenadas, idPartida) {
     //Miramos si esta comprada
     const comprada = await estaComprada(coordenadas, idPartida);
     if (comprada != null) {
+        if (comprada.nombre == "Ahorro energetico calefaccion") {
+            const ahorro = await modeloAsignaturaComprada.findOne({ nombre: "Ahorro energetico calefaccion" }).exec();
+
+            
+        }
+
         const partida = await ctrlPartida.findPartida(idPartida);
         if (partida != null) {
             w.logger.verbose(`El jugador ${JSON.stringify(username)} esta en la casilla comprada tiene que pagar`);
