@@ -57,9 +57,17 @@ io.on('connection', (socket) => {
 
         var usuario = await usersController.infoUsuario(data.username);
         if(usuario.partidaActiva > 0){
-          msg = usuario.partidaActiva;
+          var partida = partidaController.findPartida(usuario.partidaActiva);
+          if (!partida.finalizada) {
+            msg = usuario.partidaActiva;
+          } else {
+            msg = 0;
+          }
+          clientes[socketId] = {socket: socketId, username: data.username, partidaActiva: msg}
+        }else{
+          clientes[socketId] = {socket: socketId, username: data.username, partidaActiva: 0}
+
         }
-        clientes[socketId] = {socket: socketId, username: data.username, partidaActiva: 0}
 
         w.logger.verbose("\n\tCliente socket: " + (clientes[socketId].socket) + "\n" +
           "\tCliente nombre: " + clientes[socketId].username + "\n" +
