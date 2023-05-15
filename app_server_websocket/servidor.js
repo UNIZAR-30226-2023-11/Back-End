@@ -57,7 +57,7 @@ io.on('connection', (socket) => {
 
         var usuario = await usersController.infoUsuario(data.username);
         if(usuario.partidaActiva != 0){
-          msg = partidaActiva;
+          msg = usuario.partidaActiva;
         }
         clientes[socketId] = {socket: socketId, username: data.username, partidaActiva: 0}
 
@@ -707,7 +707,7 @@ io.on('connection', (socket) => {
       const partida = await partidaController.infoPartida(clientes[socketId].partidaActiva);
       w.logger.debug ("partida:" + JSON.stringify(partida));
 
-      
+      usersController.actualizarPartidaActiva(clientes[socketId].username, 0);
 
       var s = clientes[socketId].partidaActiva;
       io.to(s.toString()).emit('infoPartida', partida);

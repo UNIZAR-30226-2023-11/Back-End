@@ -390,7 +390,7 @@ async function darMonedas(username){
 }
 
 
-async function actualizarPartidaActiva(username, idPartida) {
+async function actualizarPartidaActiva(username, idPartida) { 
     w.logger.info("***METHOD Actualizar el partida activa");
 
 
@@ -407,8 +407,6 @@ async function actualizarPartidaActiva(username, idPartida) {
         } else {
             w.logger.debug(`Result: ${JSON.stringify(result)}`);
             return 1;
-            //TODO:Probar que si se quita este lo coge el otro
-            // res.status(500).json({ error: 'Error al actualizar el correo 3', nombreUser: req.body.username, res: result });
         }
 
     } catch (error) {

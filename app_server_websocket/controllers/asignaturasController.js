@@ -714,23 +714,27 @@ async function puedoAumentaroDisminuir(coordenadas, idPartida, username, tipo) {
     if (tipo == "aumentar" && casillaC) {
         w.logger.verbose(`CASILLAS FILTRADAS: ${JSON.stringify(casillasFiltradas)}`);
         var todos = false;
-        if ((cuatri == 1 || cuatri == 8) && (casillasFiltradas.length == 2) && casillasFiltradas[indice].precio == casillaC.precio4C) {
+        if ((cuatri == 1 || cuatri == 8) && (casillasFiltradas.length == 2) && casillasFiltradas[indice].precio != casillaC.precio4C) {
             todos = true;
             w.logger.debug("HOLA 1");
-        } else if ((cuatri != 1 || cuatri != 8) && (casillasFiltradas.length == 3) && casillasFiltradas[indice].precio == casillaC.precio4C) {
+        } else if ((cuatri != 1 || cuatri != 8) && (casillasFiltradas.length == 3) && casillasFiltradas[indice].precio != casillaC.precio4C) {
             todos = true;
             w.logger.debug("HOLA 2");
+        }else{
+            todos = false;
         }
     } 
     else if (tipo == "disminuir" && casillaC) {
         w.logger.verbose(`CASILLAS FILTRADAS: ${JSON.stringify(casillasFiltradas)}`);
         var todos = false;
-        if ((cuatri == 1 || cuatri == 8) && (casillasFiltradas.length == 2) && casillasFiltradas[indice].precio == casillaC.matricula) {
+        if ((cuatri == 1 || cuatri == 8) && (casillasFiltradas.length == 2) && casillasFiltradas[indice].precio != casillaC.matricula) {
             todos = true;
             w.logger.debug("HOLA 1");
-        } else if ((cuatri != 1 || cuatri != 8) && (casillasFiltradas.length == 3) && casillasFiltradas[indice].precio == casillaC.matricula) {
+        } else if ((cuatri != 1 || cuatri != 8) && (casillasFiltradas.length == 3) && casillasFiltradas[indice].precio != casillaC.matricula) {
             todos = true;
             w.logger.debug("HOLA 2");
+        } else{
+            todos = false;
         }
     }
     return todos;
