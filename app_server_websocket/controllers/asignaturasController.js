@@ -356,17 +356,82 @@ async function checkCasilla(username, coordenadas, idPartida) {
     //Miramos si esta comprada
     const comprada = await estaComprada(coordenadas, idPartida);
     if (comprada != null) {
-        if (comprada.nombre == "Ahorro energetico calefaccion") {
-            const ahorro = await modeloAsignaturaComprada.findOne({ nombre: "Ahorro energetico calefaccion" }).exec();
-
-            if (ahorro != 1 && ahorro != 2) {
-                var dado1
-                // comprada.precio = 1;
-            }
-        }
-
         const partida = await ctrlPartida.findPartida(idPartida);
         if (partida != null) {
+            if (comprada.nombre == "Ahorro energetico calefaccion") {
+                    var dado1 = partida.dados.dado1
+                    var dado2 = partida.dados.dado2
+                    var total = dado1 + dado2;
+                
+                    const ahorro = await modeloAsignaturaComprada.findOne({ nombre: "Ahorro energetico enchufes" }).exec();
+
+                    if (ahorro != 1 && ahorro != 2) {
+                        comprada.precio = total*10;
+                    } else {
+                        comprada.precio = total*4;
+                    }
+            }
+
+            if (comprada.nombre == "Ahorro energetico enchufes") {
+                    var dado1 = partida.dados.dado1
+                    var dado2 = partida.dados.dado2
+                    var total = dado1 + dado2;
+                
+                    const ahorro = await modeloAsignaturaComprada.findOne({ nombre: "Ahorro energetico calefaccion", jugador: username }).exec();
+
+                    if (ahorro != 1 && ahorro != 2) {
+                        comprada.precio = total*10;
+                    } else {
+                        comprada.precio = total*4;
+                    }
+            }
+
+            if (comprada.nombre == "San Pepe" || comprada.nombre == "San Braulio" || comprada.nombre == "Fin Carrera" || comprada.nombre == "Paso Ecuador") {
+                const fest = isFestividad(comprada.coordenadas);
+
+                if (comprada.nombre == "San Pepe") {
+                    comprada.precio = fest.matricula; 
+
+                    const f1 = await modeloAsignaturaComprada.findOne({ nombre: "San Braulio", jugador: username }).exec();
+                    if (f1 != null) { comprada.precio = fest.precio2M;}
+                    const f2 = await modeloAsignaturaComprada.findOne({ nombre: "Fin Carrera", jugador: username }).exec();
+                    if (f2 != null) { comprada.precio = fest.precio3M;}
+                    const f3 = await modeloAsignaturaComprada.findOne({ nombre: "Paso Ecuador", jugador: username }).exec();
+                    if (f3 != null) { comprada.precio = fest.precio4M;}
+                }
+                else if (comprada.nombre == "San Braulio") {
+                    comprada.precio = fest.matricula; 
+
+                    const f1 = await modeloAsignaturaComprada.findOne({ nombre: "San Pepe", jugador: username }).exec();
+                    if (f1 != null) { comprada.precio = fest.precio2M;}
+                    const f2 = await modeloAsignaturaComprada.findOne({ nombre: "Fin Carrera", jugador: username }).exec();
+                    if (f2 != null) { comprada.precio = fest.precio3M;}
+                    const f3 = await modeloAsignaturaComprada.findOne({ nombre: "Paso Ecuador", jugador: username }).exec();
+                    if (f3 != null) { comprada.precio = fest.precio4M;}
+                }
+                else if (comprada.nombre == "Fin Carrera") {
+                    comprada.precio = fest.matricula; 
+
+                    const f1 = await modeloAsignaturaComprada.findOne({ nombre: "San Pepe", jugador: username }).exec();
+                    if (f1 != null) { comprada.precio = fest.precio2M;}
+                    const f2 = await modeloAsignaturaComprada.findOne({ nombre: "San Braulio", jugador: username }).exec();
+                    if (f2 != null) { comprada.precio = fest.precio3M;}
+                    const f3 = await modeloAsignaturaComprada.findOne({ nombre: "Paso Ecuador", jugador: username }).exec();
+                    if (f3 != null) { comprada.precio = fest.precio4M;}
+                }
+                else if (comprada.nombre == "Paso Ecuador") {
+                    comprada.precio = fest.matricula; 
+
+                    const f1 = await modeloAsignaturaComprada.findOne({ nombre: "San Pepe", jugador: username }).exec();
+                    if (f1 != null) { comprada.precio = fest.precio2M;}
+                    const f2 = await modeloAsignaturaComprada.findOne({ nombre: "San Braulio", jugador: username }).exec();
+                    if (f2 != null) { comprada.precio = fest.precio3M;}
+                    const f3 = await modeloAsignaturaComprada.findOne({ nombre: "Fin Carrera", jugador: username }).exec();
+                    if (f3 != null) { comprada.precio = fest.precio4M;}
+                }
+            }
+        
+        
             w.logger.verbose(`El jugador ${JSON.stringify(username)} esta en la casilla comprada tiene que pagar`);
             w.logger.verbose(`Comprada: ${JSON.stringify(comprada)}`);
             //Si la casilla esta comprada habrá que quitarle dinero al jugador y añadirselo al propietario
