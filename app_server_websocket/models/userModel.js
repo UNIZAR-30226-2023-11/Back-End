@@ -38,10 +38,6 @@ const esquema = new schema({
     type: Number,
     required: true
   },
-  partidasEnJuego: {
-    type: Number,
-    required: true
-  },
   productosComprados: {
     type: [String],
     required: true,
