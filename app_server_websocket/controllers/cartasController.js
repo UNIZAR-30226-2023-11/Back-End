@@ -317,7 +317,7 @@ async function tarjetaAleatoria(tipo, username, idPartida, coordenadas) {
         //     { $sample: { size: 1 } }
         // ]).exec();
 
-        const resultado = await modeloTarjetas.findOne({ nombre: "¡Ay las entregas!"}).exec();
+        const resultado = await modeloTarjetas.findOne({ nombre: "Ganas de algo dulce"}).exec();
 
         // idPartida = 1; resultado[0]
         await accionCarta(idPartida, username, resultado, coordenadas);
