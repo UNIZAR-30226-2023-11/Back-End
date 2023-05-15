@@ -5,7 +5,7 @@ const w = require('../winston')
 
 var tablero = require('../controllers/tableroController');
 const modeloTarjetas = require('../models/tarjetasModel');
-// const usersController = require('../models/usersController');
+var usersController = require('./controllers/usersController');
 const modeloTarjetasEnMano = require('../models/tarjetasEnMano');
 
 var cartasController = require('../controllers/cartasController');
@@ -674,7 +674,7 @@ async function pagar(partida, dinero, jugador, bancarrota) {
                     }
                 });
 
-                await usersController.actualizarPartidaActiva(username, idPartida);
+                await usersController.actualizarPartidaActiva(username,0);
 
             }
 

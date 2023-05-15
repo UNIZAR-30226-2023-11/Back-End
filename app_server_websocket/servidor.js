@@ -56,7 +56,7 @@ io.on('connection', (socket) => {
         //io.to(socketId).emit('mensaje', 'Usuario ha iniciado sesion correctamente');
 
         var usuario = await usersController.infoUsuario(data.username);
-        if(usuario.partidaActiva != 0){
+        if(usuario.partidaActiva > 0){
           msg = usuario.partidaActiva;
         }
         clientes[socketId] = {socket: socketId, username: data.username, partidaActiva: 0}
