@@ -674,6 +674,8 @@ async function pagar(partida, dinero, jugador, bancarrota) {
                     }
                 });
 
+                await usersController.actualizarPartidaActiva(username, idPartida);
+
             }
 
         }
