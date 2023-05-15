@@ -359,7 +359,9 @@ async function checkCasilla(username, coordenadas, idPartida) {
         if (comprada.nombre == "Ahorro energetico calefaccion") {
             const ahorro = await modeloAsignaturaComprada.findOne({ nombre: "Ahorro energetico calefaccion" }).exec();
 
-            
+            if (ahorro != 1 && ahorro != 2) {
+                comprada.precio = 
+            }
         }
 
         const partida = await ctrlPartida.findPartida(idPartida);

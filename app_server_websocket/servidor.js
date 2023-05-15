@@ -337,8 +337,7 @@ io.on('connection', (socket) => {
         w.logger.verbose("SocketId usuario que crea la partida: "+ JSON.stringify(socketId));
         
         clientes[socketId].partidaActiva = partida.id;
-        await usersController.actualizarPartidaActiva(clientes[socketId].username, idPartida);
-
+        await usersController.actualizarPartidaActiva(clientes[socketId].username, clientes[socketId].partidaActiva);
         // socketToGroupMap.set(socket.id, data.idPartida); // Registrar el ID del socket y el nombre del grupo en el mapa
         w.logger.debug("ROOM: " + partida.id);
         var idP = partida.id;
