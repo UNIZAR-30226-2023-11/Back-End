@@ -567,10 +567,12 @@ async function bancarrota(idPartida, username) {
         partida.dineroJugadores.splice(posicion, 1);
         partida.nombreJugadores.splice(posicion, 1);
         partida.posicionJugadores.splice(posicion, 1);
+        partida.bancarrota[posicion] = true; 
         var result = await modeloPartida.updateOne({ id: partida.id }, { $set: { 
                             dineroJugadores: partida.dineroJugadores, 
                             nombreJugadores: partida.nombreJugadores, 
-                            posicionJugadores: partida.posicionJugadores} });
+                            posicionJugadores: partida.posicionJugadores,
+                            bancarrota: partida.bancarrota} });
         if( result.modifiedCount > 0 || result.matchedCount == 1){
             return 0
         }
