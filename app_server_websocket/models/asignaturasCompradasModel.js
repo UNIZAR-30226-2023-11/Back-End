@@ -33,6 +33,11 @@ const esquema = new schema({
     type: Boolean,
     required: true,
     default: false
+  },
+  disminuir: {
+    type: Boolean,
+    required: true,
+    default: false
   }
 }, { collection: 'asignaturas_partida' });
 
