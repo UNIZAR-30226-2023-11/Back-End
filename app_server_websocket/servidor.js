@@ -723,7 +723,7 @@ io.on('connection', (socket) => {
       var coordenadas = data.coordenadas;
       // clientes[socketId].partidaActiva = 36;
 
-      var aumentada = await asignaturasController.aumentarCreditos(clientes[socketId].677artidaActiva, clientes[socketId].username, coordenadas);
+      var aumentada = await asignaturasController.aumentarCreditos(clientes[socketId].partidaActiva, clientes[socketId].username, coordenadas);
       var msg = "";
       var m = {
         cod: aumentada,
